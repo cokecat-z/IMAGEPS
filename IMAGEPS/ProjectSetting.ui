@@ -1,0 +1,3544 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ProjectSetting</class>
+ <widget class="QDialog" name="ProjectSetting">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>707</width>
+    <height>824</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">*{font: 57 9pt &quot;Source Han Sans SC Medium&quot;;}
+
+/* QComboBox 圆角边框 */
+QComboBox {
+    border: 1px solid #d0d0d0;
+    border-radius: 4px;
+    padding: 3px 6px;
+    background: white;
+    min-width: 6em;
+}
+ 
+QComboBox:hover {
+    border-color: #00a99d;
+}
+
+QComboBox::drop-down {
+    subcontrol-origin: padding;
+    subcontrol-position: top right;
+    width: 15px;
+    border-left: 1px solid #d0d0d0;
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+    background: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 #f6f6f6, stop:1 #e0e0e0);
+} 
+
+QComboBox::down-arrow {
+    image: url(:/resource/menu/下拉箭头.png);  /* 自定义箭头图标 */
+    width: 10px;
+    height: 10px;
+}
+
+/* QLineEdit 圆角边框 */
+QLineEdit {
+    border: 1px solid #d0d0d0;
+    border-radius: 4px;
+    padding: 4px 6px;
+    background: white;
+    selection-background-color: #00a99d;
+    selection-color: white;
+}
+ 
+QLineEdit:hover {
+    border-color: #00a99d;
+}
+ 
+QLineEdit:focus {
+    border: 1px solid #00a99d;
+    outline: none;
+}
+
+/* QTimeEdit 圆角边框 */
+QTimeEdit {
+    border: 1px solid #d0d0d0;
+    border-radius: 4px;
+    padding: 4px 6px;
+    background: white;
+    selection-background-color: #00a99d;
+    selection-color: white;
+}
+ 
+QTimeEdit:hover {
+    border-color: #00a99d;
+}
+ 
+QTimeEdit:focus {
+    border: 1px solid #00a99d;
+    outline: none;
+}
+
+/* QDoubleSpinBox 圆角边框 */
+QDoubleSpinBox {
+    border: 1px solid #d0d0d0;
+    border-radius: 4px;
+    padding: 4px 6px;
+    background: white;
+    selection-background-color: #00a99d;
+    selection-color: white;
+}
+ 
+QDoubleSpinBox:hover {
+    border-color: #00a99d;
+}
+ 
+QDoubleSpinBox:focus {
+    border: 1px solid #00a99d;
+    outline: none;
+}</string>
+  </property>
+  <property name="modal">
+   <bool>true</bool>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="0" column="0">
+    <layout class="QVBoxLayout" name="verticalLayout" stretch="0,0">
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="1,0">
+       <item>
+        <widget class="QListWidget" name="funListWidget">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>200</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>200</width>
+           <height>16777215</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: #f2f2f2;</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QStackedWidget" name="stackedWidget">
+         <property name="toolTipDuration">
+          <number>0</number>
+         </property>
+         <property name="autoFillBackground">
+          <bool>false</bool>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(255, 255, 255);</string>
+         </property>
+         <property name="currentIndex">
+          <number>1</number>
+         </property>
+         <widget class="QWidget" name="page"/>
+         <widget class="QWidget" name="predefineCoordinate_Page">
+          <layout class="QGridLayout" name="gridLayout_9">
+           <item row="0" column="0">
+            <layout class="QHBoxLayout" name="horizontalLayout_22" stretch="3,3,1">
+             <item>
+              <layout class="QVBoxLayout" name="verticalLayout_2">
+               <item>
+                <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="1,4">
+                 <item>
+                  <widget class="QLabel" name="predefineCoordinate_projectTypeLabel">
+                   <property name="font">
+                    <font>
+                     <family>Source Han Sans SC Medium</family>
+                     <pointsize>9</pointsize>
+                     <weight>7</weight>
+                     <italic>false</italic>
+                     <bold>false</bold>
+                    </font>
+                   </property>
+                   <property name="text">
+                    <string>投影类型：</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QComboBox" name="predefineCoordinate_projectTypeBox">
+                   <property name="font">
+                    <font>
+                     <family>Source Han Sans SC Medium</family>
+                     <pointsize>9</pointsize>
+                     <weight>7</weight>
+                     <italic>false</italic>
+                     <bold>false</bold>
+                    </font>
+                   </property>
+                   <property name="autoFillBackground">
+                    <bool>false</bool>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">background-color: rgb(247, 247, 247);</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <layout class="QHBoxLayout" name="horizontalLayout_4">
+                 <item>
+                  <widget class="QLabel" name="predefineCoordinate_projectNameLabel">
+                   <property name="font">
+                    <font>
+                     <family>Source Han Sans SC Medium</family>
+                     <pointsize>9</pointsize>
+                     <weight>7</weight>
+                     <italic>false</italic>
+                     <bold>false</bold>
+                    </font>
+                   </property>
+                   <property name="text">
+                    <string>投影名称：</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QListWidget" name="predefineCoordinate_projectNameListWidget"/>
+                 </item>
+                </layout>
+               </item>
+              </layout>
+             </item>
+             <item>
+              <layout class="QVBoxLayout" name="verticalLayout_6">
+               <item>
+                <widget class="QGroupBox" name="groupBox">
+                 <property name="minimumSize">
+                  <size>
+                   <width>0</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>16777215</width>
+                   <height>16777215</height>
+                  </size>
+                 </property>
+                 <property name="font">
+                  <font>
+                   <family>Source Han Sans SC Medium</family>
+                   <pointsize>9</pointsize>
+                   <weight>7</weight>
+                   <italic>false</italic>
+                   <bold>false</bold>
+                  </font>
+                 </property>
+                 <property name="title">
+                  <string>基准</string>
+                 </property>
+                 <layout class="QGridLayout" name="gridLayout_2">
+                  <item row="0" column="0">
+                   <layout class="QVBoxLayout" name="verticalLayout_3">
+                    <item>
+                     <layout class="QHBoxLayout" name="horizontalLayout_5" stretch="1,2">
+                      <item>
+                       <widget class="QLabel" name="label">
+                        <property name="font">
+                         <font>
+                          <family>Source Han Sans SC Medium</family>
+                          <pointsize>9</pointsize>
+                          <weight>7</weight>
+                          <italic>false</italic>
+                          <bold>false</bold>
+                         </font>
+                        </property>
+                        <property name="text">
+                         <string>Datum</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QLineEdit" name="predefineCoordinate_DatumEdit">
+                        <property name="font">
+                         <font>
+                          <family>Source Han Sans SC Medium</family>
+                          <pointsize>9</pointsize>
+                          <weight>7</weight>
+                          <italic>false</italic>
+                          <bold>false</bold>
+                         </font>
+                        </property>
+                       </widget>
+                      </item>
+                     </layout>
+                    </item>
+                    <item>
+                     <layout class="QHBoxLayout" name="horizontalLayout_6" stretch="1,2">
+                      <item>
+                       <widget class="QLabel" name="label_2">
+                        <property name="font">
+                         <font>
+                          <family>Source Han Sans SC Medium</family>
+                          <pointsize>9</pointsize>
+                          <weight>7</weight>
+                          <italic>false</italic>
+                          <bold>false</bold>
+                         </font>
+                        </property>
+                        <property name="text">
+                         <string>SPHEROID</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QLineEdit" name="predefineCoordinate_SPHEROIDEdit">
+                        <property name="font">
+                         <font>
+                          <family>Source Han Sans SC Medium</family>
+                          <pointsize>9</pointsize>
+                          <weight>7</weight>
+                          <italic>false</italic>
+                          <bold>false</bold>
+                         </font>
+                        </property>
+                       </widget>
+                      </item>
+                     </layout>
+                    </item>
+                    <item>
+                     <layout class="QHBoxLayout" name="horizontalLayout_7" stretch="1,2">
+                      <item>
+                       <widget class="QLabel" name="predefineCoordinate_SPHEROIDEdit_2">
+                        <property name="font">
+                         <font>
+                          <family>Source Han Sans SC Medium</family>
+                          <pointsize>9</pointsize>
+                          <weight>7</weight>
+                          <italic>false</italic>
+                          <bold>false</bold>
+                         </font>
+                        </property>
+                        <property name="text">
+                         <string>SemiMajor</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QLineEdit" name="predefineCoordinate_SemiMajorEdit">
+                        <property name="font">
+                         <font>
+                          <family>Source Han Sans SC Medium</family>
+                          <pointsize>9</pointsize>
+                          <weight>7</weight>
+                          <italic>false</italic>
+                          <bold>false</bold>
+                         </font>
+                        </property>
+                       </widget>
+                      </item>
+                     </layout>
+                    </item>
+                    <item>
+                     <layout class="QHBoxLayout" name="horizontalLayout_8" stretch="1,2">
+                      <item>
+                       <widget class="QLabel" name="label_4">
+                        <property name="font">
+                         <font>
+                          <family>Source Han Sans SC Medium</family>
+                          <pointsize>9</pointsize>
+                          <weight>7</weight>
+                          <italic>false</italic>
+                          <bold>false</bold>
+                         </font>
+                        </property>
+                        <property name="text">
+                         <string>InvFlattening</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QLineEdit" name="predefineCoordinate_InvFlatteningEdit">
+                        <property name="font">
+                         <font>
+                          <family>Source Han Sans SC Medium</family>
+                          <pointsize>9</pointsize>
+                          <weight>7</weight>
+                          <italic>false</italic>
+                          <bold>false</bold>
+                         </font>
+                        </property>
+                       </widget>
+                      </item>
+                     </layout>
+                    </item>
+                    <item>
+                     <layout class="QHBoxLayout" name="horizontalLayout_9" stretch="1,2">
+                      <item>
+                       <widget class="QLabel" name="label_5">
+                        <property name="font">
+                         <font>
+                          <family>Source Han Sans SC Medium</family>
+                          <pointsize>9</pointsize>
+                          <weight>7</weight>
+                          <italic>false</italic>
+                          <bold>false</bold>
+                         </font>
+                        </property>
+                        <property name="text">
+                         <string>PrimerMeridian</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QLineEdit" name="predefineCoordinate_PrimerMeridianEdit">
+                        <property name="font">
+                         <font>
+                          <family>Source Han Sans SC Medium</family>
+                          <pointsize>9</pointsize>
+                          <weight>7</weight>
+                          <italic>false</italic>
+                          <bold>false</bold>
+                         </font>
+                        </property>
+                       </widget>
+                      </item>
+                     </layout>
+                    </item>
+                   </layout>
+                  </item>
+                 </layout>
+                </widget>
+               </item>
+               <item>
+                <widget class="QGroupBox" name="groupBox_2">
+                 <property name="font">
+                  <font>
+                   <family>Source Han Sans SC Medium</family>
+                   <pointsize>9</pointsize>
+                   <weight>7</weight>
+                   <italic>false</italic>
+                   <bold>false</bold>
+                  </font>
+                 </property>
+                 <property name="title">
+                  <string>TOWGS84七参数</string>
+                 </property>
+                 <layout class="QGridLayout" name="gridLayout_3">
+                  <item row="0" column="0">
+                   <layout class="QVBoxLayout" name="verticalLayout_4">
+                    <item>
+                     <layout class="QHBoxLayout" name="horizontalLayout_10" stretch="1,2">
+                      <item>
+                       <widget class="QLabel" name="label_6">
+                        <property name="font">
+                         <font>
+                          <family>Source Han Sans SC Medium</family>
+                          <pointsize>9</pointsize>
+                          <weight>7</weight>
+                          <italic>false</italic>
+                          <bold>false</bold>
+                         </font>
+                        </property>
+                        <property name="text">
+                         <string>x坐标平移</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QLineEdit" name="predefineCoordinate_XtranslationEdit">
+                        <property name="font">
+                         <font>
+                          <family>Source Han Sans SC Medium</family>
+                          <pointsize>9</pointsize>
+                          <weight>7</weight>
+                          <italic>false</italic>
+                          <bold>false</bold>
+                         </font>
+                        </property>
+                       </widget>
+                      </item>
+                     </layout>
+                    </item>
+                    <item>
+                     <layout class="QHBoxLayout" name="horizontalLayout_11" stretch="1,2">
+                      <item>
+                       <widget class="QLabel" name="label_7">
+                        <property name="font">
+                         <font>
+                          <family>Source Han Sans SC Medium</family>
+                          <pointsize>9</pointsize>
+                          <weight>7</weight>
+                          <italic>false</italic>
+                          <bold>false</bold>
+                         </font>
+                        </property>
+                        <property name="text">
+                         <string>y坐标平移</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QLineEdit" name="predefineCoordinate_YtranslationEdit">
+                        <property name="font">
+                         <font>
+                          <family>Source Han Sans SC Medium</family>
+                          <pointsize>9</pointsize>
+                          <weight>7</weight>
+                          <italic>false</italic>
+                          <bold>false</bold>
+                         </font>
+                        </property>
+                       </widget>
+                      </item>
+                     </layout>
+                    </item>
+                    <item>
+                     <layout class="QHBoxLayout" name="horizontalLayout_12" stretch="1,2">
+                      <item>
+                       <widget class="QLabel" name="label_8">
+                        <property name="font">
+                         <font>
+                          <family>Source Han Sans SC Medium</family>
+                          <pointsize>9</pointsize>
+                          <weight>7</weight>
+                          <italic>false</italic>
+                          <bold>false</bold>
+                         </font>
+                        </property>
+                        <property name="text">
+                         <string>z坐标平移</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QLineEdit" name="predefineCoordinate_ZtranslationEdit">
+                        <property name="font">
+                         <font>
+                          <family>Source Han Sans SC Medium</family>
+                          <pointsize>9</pointsize>
+                          <weight>7</weight>
+                          <italic>false</italic>
+                          <bold>false</bold>
+                         </font>
+                        </property>
+                       </widget>
+                      </item>
+                     </layout>
+                    </item>
+                    <item>
+                     <layout class="QHBoxLayout" name="horizontalLayout_13" stretch="1,2">
+                      <item>
+                       <widget class="QLabel" name="label_9">
+                        <property name="font">
+                         <font>
+                          <family>Source Han Sans SC Medium</family>
+                          <pointsize>9</pointsize>
+                          <weight>7</weight>
+                          <italic>false</italic>
+                          <bold>false</bold>
+                         </font>
+                        </property>
+                        <property name="text">
+                         <string>x轴旋转</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QLineEdit" name="predefineCoordinate_XRotateEdit">
+                        <property name="font">
+                         <font>
+                          <family>Source Han Sans SC Medium</family>
+                          <pointsize>9</pointsize>
+                          <weight>7</weight>
+                          <italic>false</italic>
+                          <bold>false</bold>
+                         </font>
+                        </property>
+                       </widget>
+                      </item>
+                     </layout>
+                    </item>
+                    <item>
+                     <layout class="QHBoxLayout" name="horizontalLayout_14" stretch="1,2">
+                      <item>
+                       <widget class="QLabel" name="label_10">
+                        <property name="font">
+                         <font>
+                          <family>Source Han Sans SC Medium</family>
+                          <pointsize>9</pointsize>
+                          <weight>7</weight>
+                          <italic>false</italic>
+                          <bold>false</bold>
+                         </font>
+                        </property>
+                        <property name="text">
+                         <string>y轴旋转</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QLineEdit" name="predefineCoordinate_YRotateEdit">
+                        <property name="font">
+                         <font>
+                          <family>Source Han Sans SC Medium</family>
+                          <pointsize>9</pointsize>
+                          <weight>7</weight>
+                          <italic>false</italic>
+                          <bold>false</bold>
+                         </font>
+                        </property>
+                       </widget>
+                      </item>
+                     </layout>
+                    </item>
+                    <item>
+                     <layout class="QHBoxLayout" name="horizontalLayout_15" stretch="1,2">
+                      <item>
+                       <widget class="QLabel" name="label_11">
+                        <property name="font">
+                         <font>
+                          <family>Source Han Sans SC Medium</family>
+                          <pointsize>9</pointsize>
+                          <weight>7</weight>
+                          <italic>false</italic>
+                          <bold>false</bold>
+                         </font>
+                        </property>
+                        <property name="text">
+                         <string>z轴旋转</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QLineEdit" name="predefineCoordinate_ZRotateEdit">
+                        <property name="font">
+                         <font>
+                          <family>Source Han Sans SC Medium</family>
+                          <pointsize>9</pointsize>
+                          <weight>7</weight>
+                          <italic>false</italic>
+                          <bold>false</bold>
+                         </font>
+                        </property>
+                       </widget>
+                      </item>
+                     </layout>
+                    </item>
+                    <item>
+                     <layout class="QHBoxLayout" name="horizontalLayout_16" stretch="1,2">
+                      <item>
+                       <widget class="QLabel" name="label_12">
+                        <property name="font">
+                         <font>
+                          <family>Source Han Sans SC Medium</family>
+                          <pointsize>9</pointsize>
+                          <weight>7</weight>
+                          <italic>false</italic>
+                          <bold>false</bold>
+                         </font>
+                        </property>
+                        <property name="text">
+                         <string>坐标尺</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QLineEdit" name="predefineCoordinate_ScaleEdit">
+                        <property name="font">
+                         <font>
+                          <family>Source Han Sans SC Medium</family>
+                          <pointsize>9</pointsize>
+                          <weight>7</weight>
+                          <italic>false</italic>
+                          <bold>false</bold>
+                         </font>
+                        </property>
+                       </widget>
+                      </item>
+                     </layout>
+                    </item>
+                   </layout>
+                  </item>
+                 </layout>
+                </widget>
+               </item>
+               <item>
+                <widget class="QGroupBox" name="groupBox_3">
+                 <property name="font">
+                  <font>
+                   <family>Source Han Sans SC Medium</family>
+                   <pointsize>9</pointsize>
+                   <weight>7</weight>
+                   <italic>false</italic>
+                   <bold>false</bold>
+                  </font>
+                 </property>
+                 <property name="title">
+                  <string>投影</string>
+                 </property>
+                 <layout class="QGridLayout" name="gridLayout_4">
+                  <item row="0" column="0">
+                   <layout class="QVBoxLayout" name="verticalLayout_5">
+                    <item>
+                     <layout class="QHBoxLayout" name="horizontalLayout_17" stretch="1,1">
+                      <item>
+                       <widget class="QLabel" name="label_13">
+                        <property name="font">
+                         <font>
+                          <family>Source Han Sans SC Medium</family>
+                          <pointsize>9</pointsize>
+                          <weight>7</weight>
+                          <italic>false</italic>
+                          <bold>false</bold>
+                         </font>
+                        </property>
+                        <property name="text">
+                         <string>latitude_of_origin</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QLineEdit" name="predefineCoordinate_LatitudeEdit">
+                        <property name="font">
+                         <font>
+                          <family>Source Han Sans SC Medium</family>
+                          <pointsize>9</pointsize>
+                          <weight>7</weight>
+                          <italic>false</italic>
+                          <bold>false</bold>
+                         </font>
+                        </property>
+                       </widget>
+                      </item>
+                     </layout>
+                    </item>
+                    <item>
+                     <layout class="QHBoxLayout" name="horizontalLayout_18" stretch="1,1">
+                      <item>
+                       <widget class="QLabel" name="label_14">
+                        <property name="font">
+                         <font>
+                          <family>Source Han Sans SC Medium</family>
+                          <pointsize>9</pointsize>
+                          <weight>7</weight>
+                          <italic>false</italic>
+                          <bold>false</bold>
+                         </font>
+                        </property>
+                        <property name="text">
+                         <string>central_meridian</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QLineEdit" name="predefineCoordinate_CentralEdit">
+                        <property name="font">
+                         <font>
+                          <family>Source Han Sans SC Medium</family>
+                          <pointsize>9</pointsize>
+                          <weight>7</weight>
+                          <italic>false</italic>
+                          <bold>false</bold>
+                         </font>
+                        </property>
+                       </widget>
+                      </item>
+                     </layout>
+                    </item>
+                    <item>
+                     <layout class="QHBoxLayout" name="horizontalLayout_19" stretch="1,1">
+                      <item>
+                       <widget class="QLabel" name="label_15">
+                        <property name="font">
+                         <font>
+                          <family>Source Han Sans SC Medium</family>
+                          <pointsize>9</pointsize>
+                          <weight>7</weight>
+                          <italic>false</italic>
+                          <bold>false</bold>
+                         </font>
+                        </property>
+                        <property name="text">
+                         <string>scale_factor</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QLineEdit" name="predefineCoordinate_ScaleFactorEdit">
+                        <property name="font">
+                         <font>
+                          <family>Source Han Sans SC Medium</family>
+                          <pointsize>9</pointsize>
+                          <weight>7</weight>
+                          <italic>false</italic>
+                          <bold>false</bold>
+                         </font>
+                        </property>
+                       </widget>
+                      </item>
+                     </layout>
+                    </item>
+                    <item>
+                     <layout class="QHBoxLayout" name="horizontalLayout_20" stretch="1,1">
+                      <item>
+                       <widget class="QLabel" name="label_16">
+                        <property name="font">
+                         <font>
+                          <family>Source Han Sans SC Medium</family>
+                          <pointsize>9</pointsize>
+                          <weight>7</weight>
+                          <italic>false</italic>
+                          <bold>false</bold>
+                         </font>
+                        </property>
+                        <property name="text">
+                         <string>false_easting</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QLineEdit" name="predefineCoordinate_FalseEastEdit">
+                        <property name="font">
+                         <font>
+                          <family>Source Han Sans SC Medium</family>
+                          <pointsize>9</pointsize>
+                          <weight>7</weight>
+                          <italic>false</italic>
+                          <bold>false</bold>
+                         </font>
+                        </property>
+                       </widget>
+                      </item>
+                     </layout>
+                    </item>
+                    <item>
+                     <layout class="QHBoxLayout" name="horizontalLayout_21" stretch="1,1">
+                      <item>
+                       <widget class="QLabel" name="label_17">
+                        <property name="font">
+                         <font>
+                          <family>Source Han Sans SC Medium</family>
+                          <pointsize>9</pointsize>
+                          <weight>7</weight>
+                          <italic>false</italic>
+                          <bold>false</bold>
+                         </font>
+                        </property>
+                        <property name="text">
+                         <string>false_northing</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QLineEdit" name="predefineCoordinate_FalseNorthEdit">
+                        <property name="font">
+                         <font>
+                          <family>Source Han Sans SC Medium</family>
+                          <pointsize>9</pointsize>
+                          <weight>7</weight>
+                          <italic>false</italic>
+                          <bold>false</bold>
+                         </font>
+                        </property>
+                       </widget>
+                      </item>
+                     </layout>
+                    </item>
+                   </layout>
+                  </item>
+                 </layout>
+                </widget>
+               </item>
+              </layout>
+             </item>
+             <item>
+              <widget class="QPushButton" name="predefineCoordinate_basicImageBut">
+               <property name="font">
+                <font>
+                 <family>Source Han Sans SC Medium</family>
+                 <pointsize>9</pointsize>
+                 <weight>7</weight>
+                 <italic>false</italic>
+                 <bold>false</bold>
+                </font>
+               </property>
+               <property name="text">
+                <string>基于影像</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+          </layout>
+         </widget>
+         <widget class="QWidget" name="customProject_Page">
+          <widget class="QWidget" name="layoutWidget">
+           <property name="geometry">
+            <rect>
+             <x>90</x>
+             <y>10</y>
+             <width>431</width>
+             <height>1172</height>
+            </rect>
+           </property>
+           <layout class="QVBoxLayout" name="verticalLayout_9">
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_24" stretch="1,3">
+              <item>
+               <widget class="QLabel" name="customProject_projectTypeLabel">
+                <property name="font">
+                 <font>
+                  <family>Source Han Sans SC Medium</family>
+                  <pointsize>9</pointsize>
+                  <weight>7</weight>
+                  <italic>false</italic>
+                  <bold>false</bold>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>投影类型：</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QComboBox" name="customProject_projectTypeBox">
+                <property name="font">
+                 <font>
+                  <family>Source Han Sans SC Medium</family>
+                  <pointsize>9</pointsize>
+                  <weight>7</weight>
+                  <italic>false</italic>
+                  <bold>false</bold>
+                 </font>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_25" stretch="1,3">
+              <item>
+               <widget class="QLabel" name="customProject_ellipsoidNameLabel">
+                <property name="font">
+                 <font>
+                  <family>Source Han Sans SC Medium</family>
+                  <pointsize>9</pointsize>
+                  <weight>7</weight>
+                  <italic>false</italic>
+                  <bold>false</bold>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>椭球名称：</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QComboBox" name="customProject_ellipsoidNameBox">
+                <property name="font">
+                 <font>
+                  <family>Source Han Sans SC Medium</family>
+                  <pointsize>9</pointsize>
+                  <weight>7</weight>
+                  <italic>false</italic>
+                  <bold>false</bold>
+                 </font>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <widget class="QGroupBox" name="groupBox_4">
+              <property name="font">
+               <font>
+                <family>Source Han Sans SC Medium</family>
+                <pointsize>9</pointsize>
+                <weight>7</weight>
+                <italic>false</italic>
+                <bold>false</bold>
+               </font>
+              </property>
+              <property name="title">
+               <string>TO_WGS84</string>
+              </property>
+              <layout class="QGridLayout" name="gridLayout_5">
+               <item row="0" column="0">
+                <layout class="QVBoxLayout" name="verticalLayout_7">
+                 <item>
+                  <layout class="QHBoxLayout" name="horizontalLayout_26" stretch="1,1">
+                   <item>
+                    <widget class="QLabel" name="label_20">
+                     <property name="font">
+                      <font>
+                       <family>Source Han Sans SC Medium</family>
+                       <pointsize>9</pointsize>
+                       <weight>7</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                     <property name="text">
+                      <string>x坐标平移</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QLineEdit" name="lineEdit_18">
+                     <property name="font">
+                      <font>
+                       <family>Source Han Sans SC Medium</family>
+                       <pointsize>9</pointsize>
+                       <weight>7</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                     <property name="text">
+                      <string>0.00000000</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                 <item>
+                  <layout class="QHBoxLayout" name="horizontalLayout_27" stretch="1,1">
+                   <item>
+                    <widget class="QLabel" name="label_21">
+                     <property name="font">
+                      <font>
+                       <family>Source Han Sans SC Medium</family>
+                       <pointsize>9</pointsize>
+                       <weight>7</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                     <property name="text">
+                      <string>y坐标平移</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QLineEdit" name="lineEdit_19">
+                     <property name="font">
+                      <font>
+                       <family>Source Han Sans SC Medium</family>
+                       <pointsize>9</pointsize>
+                       <weight>7</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                     <property name="text">
+                      <string>0.00000000</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                 <item>
+                  <layout class="QHBoxLayout" name="horizontalLayout_28" stretch="1,1">
+                   <item>
+                    <widget class="QLabel" name="label_22">
+                     <property name="font">
+                      <font>
+                       <family>Source Han Sans SC Medium</family>
+                       <pointsize>9</pointsize>
+                       <weight>7</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                     <property name="text">
+                      <string>z坐标平移</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QLineEdit" name="lineEdit_20">
+                     <property name="font">
+                      <font>
+                       <family>Source Han Sans SC Medium</family>
+                       <pointsize>9</pointsize>
+                       <weight>7</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                     <property name="text">
+                      <string>0.00000000</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                 <item>
+                  <layout class="QHBoxLayout" name="horizontalLayout_29" stretch="1,1">
+                   <item>
+                    <widget class="QLabel" name="label_23">
+                     <property name="font">
+                      <font>
+                       <family>Source Han Sans SC Medium</family>
+                       <pointsize>9</pointsize>
+                       <weight>7</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                     <property name="text">
+                      <string>x轴旋转</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QTimeEdit" name="timeEdit_5">
+                     <property name="font">
+                      <font>
+                       <family>Source Han Sans SC Medium</family>
+                       <pointsize>9</pointsize>
+                       <weight>7</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                     <property name="contextMenuPolicy">
+                      <enum>Qt::DefaultContextMenu</enum>
+                     </property>
+                     <property name="inputMethodHints">
+                      <set>Qt::ImhNone</set>
+                     </property>
+                     <property name="wrapping">
+                      <bool>false</bool>
+                     </property>
+                     <property name="frame">
+                      <bool>true</bool>
+                     </property>
+                     <property name="readOnly">
+                      <bool>false</bool>
+                     </property>
+                     <property name="buttonSymbols">
+                      <enum>QAbstractSpinBox::NoButtons</enum>
+                     </property>
+                     <property name="accelerated">
+                      <bool>false</bool>
+                     </property>
+                     <property name="keyboardTracking">
+                      <bool>true</bool>
+                     </property>
+                     <property name="showGroupSeparator" stdset="0">
+                      <bool>false</bool>
+                     </property>
+                     <property name="currentSection">
+                      <enum>QDateTimeEdit::HourSection</enum>
+                     </property>
+                     <property name="displayFormat">
+                      <string>HH:mm:ss</string>
+                     </property>
+                     <property name="timeSpec">
+                      <enum>Qt::LocalTime</enum>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                 <item>
+                  <layout class="QHBoxLayout" name="horizontalLayout_30" stretch="1,1">
+                   <item>
+                    <widget class="QLabel" name="label_24">
+                     <property name="font">
+                      <font>
+                       <family>Source Han Sans SC Medium</family>
+                       <pointsize>9</pointsize>
+                       <weight>7</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                     <property name="text">
+                      <string>y轴旋转</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QTimeEdit" name="timeEdit_6">
+                     <property name="font">
+                      <font>
+                       <family>Source Han Sans SC Medium</family>
+                       <pointsize>9</pointsize>
+                       <weight>7</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                     <property name="inputMethodHints">
+                      <set>Qt::ImhNone</set>
+                     </property>
+                     <property name="buttonSymbols">
+                      <enum>QAbstractSpinBox::NoButtons</enum>
+                     </property>
+                     <property name="displayFormat">
+                      <string>HH:mm:ss</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                 <item>
+                  <layout class="QHBoxLayout" name="horizontalLayout_31" stretch="1,1">
+                   <item>
+                    <widget class="QLabel" name="label_25">
+                     <property name="font">
+                      <font>
+                       <family>Source Han Sans SC Medium</family>
+                       <pointsize>9</pointsize>
+                       <weight>7</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                     <property name="text">
+                      <string>z轴旋转</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QTimeEdit" name="timeEdit_7">
+                     <property name="font">
+                      <font>
+                       <family>Source Han Sans SC Medium</family>
+                       <pointsize>9</pointsize>
+                       <weight>7</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                     <property name="inputMethodHints">
+                      <set>Qt::ImhNone</set>
+                     </property>
+                     <property name="buttonSymbols">
+                      <enum>QAbstractSpinBox::NoButtons</enum>
+                     </property>
+                     <property name="displayFormat">
+                      <string>HH:mm:ss</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                 <item>
+                  <layout class="QHBoxLayout" name="horizontalLayout_32" stretch="1,1">
+                   <item>
+                    <widget class="QLabel" name="label_26">
+                     <property name="font">
+                      <font>
+                       <family>Source Han Sans SC Medium</family>
+                       <pointsize>9</pointsize>
+                       <weight>7</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                     <property name="text">
+                      <string>坐标尺</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QLineEdit" name="lineEdit_24">
+                     <property name="font">
+                      <font>
+                       <family>Source Han Sans SC Medium</family>
+                       <pointsize>9</pointsize>
+                       <weight>7</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                     <property name="text">
+                      <string>0.00000000</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                </layout>
+               </item>
+              </layout>
+             </widget>
+            </item>
+            <item>
+             <widget class="QStackedWidget" name="stackedWidget_2">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>800</height>
+               </size>
+              </property>
+              <property name="currentIndex">
+               <number>8</number>
+              </property>
+              <widget class="QWidget" name="PTZZWW_Page">
+               <widget class="QWidget" name="layoutWidget_14">
+                <property name="geometry">
+                 <rect>
+                  <x>0</x>
+                  <y>10</y>
+                  <width>421</width>
+                  <height>271</height>
+                 </rect>
+                </property>
+                <layout class="QVBoxLayout" name="verticalLayout_10">
+                 <item>
+                  <layout class="QHBoxLayout" name="horizontalLayout_39" stretch="1,1">
+                   <item>
+                    <widget class="QLabel" name="PTZZWW_PMLabel">
+                     <property name="font">
+                      <font>
+                       <family>Source Han Sans SC Medium</family>
+                       <pointsize>9</pointsize>
+                       <weight>7</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                     <property name="text">
+                      <string>P M:</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QComboBox" name="PTZZWW_PMBox">
+                     <property name="font">
+                      <font>
+                       <family>Source Han Sans SC Medium</family>
+                       <pointsize>9</pointsize>
+                       <weight>7</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                 <item>
+                  <layout class="QHBoxLayout" name="horizontalLayout_40" stretch="1,1">
+                   <item>
+                    <widget class="QLabel" name="label_34">
+                     <property name="font">
+                      <font>
+                       <family>Source Han Sans SC Medium</family>
+                       <pointsize>9</pointsize>
+                       <weight>7</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                     <property name="text">
+                      <string>投影原点纬线：</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QTimeEdit" name="timeEdit_3">
+                     <property name="font">
+                      <font>
+                       <family>Source Han Sans SC Medium</family>
+                       <pointsize>9</pointsize>
+                       <weight>7</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                     <property name="inputMethodHints">
+                      <set>Qt::ImhNone</set>
+                     </property>
+                     <property name="displayFormat">
+                      <string>HH:mm:ss</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                 <item>
+                  <layout class="QHBoxLayout" name="horizontalLayout_41" stretch="1,1">
+                   <item>
+                    <widget class="QLabel" name="label_35">
+                     <property name="font">
+                      <font>
+                       <family>Source Han Sans SC Medium</family>
+                       <pointsize>9</pointsize>
+                       <weight>7</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                     <property name="text">
+                      <string>中央经线：</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QTimeEdit" name="timeEdit_4">
+                     <property name="font">
+                      <font>
+                       <family>Source Han Sans SC Medium</family>
+                       <pointsize>9</pointsize>
+                       <weight>7</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                     <property name="inputMethodHints">
+                      <set>Qt::ImhNone</set>
+                     </property>
+                     <property name="displayFormat">
+                      <string>HH:mm:ss</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                 <item>
+                  <layout class="QHBoxLayout" name="horizontalLayout_42" stretch="1,1">
+                   <item>
+                    <widget class="QLabel" name="label_36">
+                     <property name="font">
+                      <font>
+                       <family>Source Han Sans SC Medium</family>
+                       <pointsize>9</pointsize>
+                       <weight>7</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                     <property name="text">
+                      <string>中央子午线的比例：</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QDoubleSpinBox" name="doubleSpinBox_4">
+                     <property name="font">
+                      <font>
+                       <family>Source Han Sans SC Medium</family>
+                       <pointsize>9</pointsize>
+                       <weight>7</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                     <property name="value">
+                      <double>1.000000000000000</double>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                 <item>
+                  <layout class="QHBoxLayout" name="horizontalLayout_43" stretch="1,1">
+                   <item>
+                    <widget class="QLabel" name="label_37">
+                     <property name="font">
+                      <font>
+                       <family>Source Han Sans SC Medium</family>
+                       <pointsize>9</pointsize>
+                       <weight>7</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                     <property name="text">
+                      <string>伪东偏(米)：</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QDoubleSpinBox" name="doubleSpinBox_2">
+                     <property name="font">
+                      <font>
+                       <family>Source Han Sans SC Medium</family>
+                       <pointsize>9</pointsize>
+                       <weight>7</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                 <item>
+                  <layout class="QHBoxLayout" name="horizontalLayout_44" stretch="1,1">
+                   <item>
+                    <widget class="QLabel" name="label_38">
+                     <property name="font">
+                      <font>
+                       <family>Source Han Sans SC Medium</family>
+                       <pointsize>9</pointsize>
+                       <weight>7</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                     <property name="text">
+                      <string>伪北偏(米)：</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QDoubleSpinBox" name="doubleSpinBox_3">
+                     <property name="font">
+                      <font>
+                       <family>Source Han Sans SC Medium</family>
+                       <pointsize>9</pointsize>
+                       <weight>7</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                </layout>
+               </widget>
+              </widget>
+              <widget class="QWidget" name="PDN_Page">
+               <widget class="QWidget" name="layoutWidget">
+                <property name="geometry">
+                 <rect>
+                  <x>0</x>
+                  <y>10</y>
+                  <width>431</width>
+                  <height>121</height>
+                 </rect>
+                </property>
+                <layout class="QVBoxLayout" name="verticalLayout_8">
+                 <item>
+                  <layout class="QHBoxLayout" name="horizontalLayout_36" stretch="1,1">
+                   <item>
+                    <widget class="QLabel" name="PDN_PMLabel">
+                     <property name="font">
+                      <font>
+                       <family>Source Han Sans SC Medium</family>
+                       <pointsize>9</pointsize>
+                       <weight>7</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                     <property name="text">
+                      <string>P M:</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QComboBox" name="PDN_PMBox">
+                     <property name="font">
+                      <font>
+                       <family>Source Han Sans SC Medium</family>
+                       <pointsize>9</pointsize>
+                       <weight>7</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                 <item>
+                  <layout class="QHBoxLayout" name="horizontalLayout_35" stretch="1,1">
+                   <item>
+                    <widget class="QLabel" name="label_28">
+                     <property name="font">
+                      <font>
+                       <family>Source Han Sans SC Medium</family>
+                       <pointsize>9</pointsize>
+                       <weight>7</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                     <property name="text">
+                      <string>带号：</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QDoubleSpinBox" name="doubleSpinBox_5">
+                     <property name="font">
+                      <font>
+                       <family>Source Han Sans SC Medium</family>
+                       <pointsize>9</pointsize>
+                       <weight>7</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                     <property name="value">
+                      <double>1.000000000000000</double>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                 <item>
+                  <layout class="QHBoxLayout" name="horizontalLayout_23">
+                   <item>
+                    <widget class="QLabel" name="label_29">
+                     <property name="font">
+                      <font>
+                       <family>Source Han Sans SC Medium</family>
+                       <pointsize>9</pointsize>
+                       <weight>7</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                     <property name="text">
+                      <string>南北半球：</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QDoubleSpinBox" name="doubleSpinBox_6">
+                     <property name="font">
+                      <font>
+                       <family>Source Han Sans SC Medium</family>
+                       <pointsize>9</pointsize>
+                       <weight>7</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                     <property name="value">
+                      <double>1.000000000000000</double>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                </layout>
+               </widget>
+              </widget>
+              <widget class="QWidget" name="PTZDZWW_Page">
+               <widget class="QWidget" name="layoutWidget">
+                <property name="geometry">
+                 <rect>
+                  <x>-1</x>
+                  <y>9</y>
+                  <width>431</width>
+                  <height>331</height>
+                 </rect>
+                </property>
+                <layout class="QVBoxLayout" name="verticalLayout_13">
+                 <item>
+                  <layout class="QHBoxLayout" name="horizontalLayout_53" stretch="1,1">
+                   <item>
+                    <widget class="QLabel" name="PTZDZWW_PMLabel">
+                     <property name="font">
+                      <font>
+                       <family>Source Han Sans SC Medium</family>
+                       <pointsize>9</pointsize>
+                       <weight>7</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                     <property name="text">
+                      <string>P M:</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QComboBox" name="PTZDZWW_PMBox">
+                     <property name="font">
+                      <font>
+                       <family>Source Han Sans SC Medium</family>
+                       <pointsize>9</pointsize>
+                       <weight>7</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                 <item>
+                  <layout class="QHBoxLayout" name="horizontalLayout_54" stretch="1,1">
+                   <item>
+                    <widget class="QLabel" name="label_48">
+                     <property name="font">
+                      <font>
+                       <family>Source Han Sans SC Medium</family>
+                       <pointsize>9</pointsize>
+                       <weight>7</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                     <property name="text">
+                      <string>投影原点纬线：</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QTimeEdit" name="timeEdit_8">
+                     <property name="font">
+                      <font>
+                       <family>Source Han Sans SC Medium</family>
+                       <pointsize>9</pointsize>
+                       <weight>7</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                     <property name="inputMethodHints">
+                      <set>Qt::ImhNone</set>
+                     </property>
+                     <property name="displayFormat">
+                      <string>HH:mm:ss</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                 <item>
+                  <layout class="QHBoxLayout" name="horizontalLayout_55" stretch="1,1">
+                   <item>
+                    <widget class="QLabel" name="label_49">
+                     <property name="font">
+                      <font>
+                       <family>Source Han Sans SC Medium</family>
+                       <pointsize>9</pointsize>
+                       <weight>7</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                     <property name="text">
+                      <string>中央纬线：</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QTimeEdit" name="timeEdit_9">
+                     <property name="font">
+                      <font>
+                       <family>Source Han Sans SC Medium</family>
+                       <pointsize>9</pointsize>
+                       <weight>7</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                     <property name="inputMethodHints">
+                      <set>Qt::ImhNone</set>
+                     </property>
+                     <property name="displayFormat">
+                      <string>HH:mm:ss</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                 <item>
+                  <layout class="QHBoxLayout" name="horizontalLayout_59" stretch="1,1">
+                   <item>
+                    <widget class="QLabel" name="label_53">
+                     <property name="font">
+                      <font>
+                       <family>Source Han Sans SC Medium</family>
+                       <pointsize>9</pointsize>
+                       <weight>7</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                     <property name="text">
+                      <string>定位线的方位角：</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QTimeEdit" name="timeEdit_10">
+                     <property name="font">
+                      <font>
+                       <family>Source Han Sans SC Medium</family>
+                       <pointsize>9</pointsize>
+                       <weight>7</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                     <property name="inputMethodHints">
+                      <set>Qt::ImhNone</set>
+                     </property>
+                     <property name="displayFormat">
+                      <string>HH:mm:ss</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                 <item>
+                  <layout class="QHBoxLayout" name="horizontalLayout_56" stretch="1,1">
+                   <item>
+                    <widget class="QLabel" name="label_50">
+                     <property name="font">
+                      <font>
+                       <family>Source Han Sans SC Medium</family>
+                       <pointsize>9</pointsize>
+                       <weight>7</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                     <property name="text">
+                      <string>中央子午线的比例：</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QDoubleSpinBox" name="doubleSpinBox_7">
+                     <property name="font">
+                      <font>
+                       <family>Source Han Sans SC Medium</family>
+                       <pointsize>9</pointsize>
+                       <weight>7</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                     <property name="value">
+                      <double>1.000000000000000</double>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                 <item>
+                  <layout class="QHBoxLayout" name="horizontalLayout_57" stretch="1,1">
+                   <item>
+                    <widget class="QLabel" name="label_51">
+                     <property name="font">
+                      <font>
+                       <family>Source Han Sans SC Medium</family>
+                       <pointsize>9</pointsize>
+                       <weight>7</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                     <property name="text">
+                      <string>伪东偏(米)：</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QDoubleSpinBox" name="doubleSpinBox_8">
+                     <property name="font">
+                      <font>
+                       <family>Source Han Sans SC Medium</family>
+                       <pointsize>9</pointsize>
+                       <weight>7</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                 <item>
+                  <layout class="QHBoxLayout" name="horizontalLayout_58" stretch="1,1">
+                   <item>
+                    <widget class="QLabel" name="label_52">
+                     <property name="font">
+                      <font>
+                       <family>Source Han Sans SC Medium</family>
+                       <pointsize>9</pointsize>
+                       <weight>7</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                     <property name="text">
+                      <string>伪北偏(米)：</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QDoubleSpinBox" name="doubleSpinBox_9">
+                     <property name="font">
+                      <font>
+                       <family>Source Han Sans SC Medium</family>
+                       <pointsize>9</pointsize>
+                       <weight>7</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                </layout>
+               </widget>
+              </widget>
+              <widget class="QWidget" name="PTTWW_Page">
+               <widget class="QWidget" name="layoutWidget_2">
+                <property name="geometry">
+                 <rect>
+                  <x>0</x>
+                  <y>10</y>
+                  <width>431</width>
+                  <height>281</height>
+                 </rect>
+                </property>
+                <layout class="QVBoxLayout" name="verticalLayout_15">
+                 <item>
+                  <layout class="QHBoxLayout" name="horizontalLayout_63" stretch="1,1">
+                   <item>
+                    <widget class="QLabel" name="PTTWW_PMLabel">
+                     <property name="font">
+                      <font>
+                       <family>Source Han Sans SC Medium</family>
+                       <pointsize>9</pointsize>
+                       <weight>7</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                     <property name="text">
+                      <string>P M:</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QComboBox" name="PTTWW_PMBox">
+                     <property name="font">
+                      <font>
+                       <family>Source Han Sans SC Medium</family>
+                       <pointsize>9</pointsize>
+                       <weight>7</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                 <item>
+                  <layout class="QHBoxLayout" name="horizontalLayout_66" stretch="1,1">
+                   <item>
+                    <widget class="QLabel" name="label_60">
+                     <property name="font">
+                      <font>
+                       <family>Source Han Sans SC Medium</family>
+                       <pointsize>9</pointsize>
+                       <weight>7</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                     <property name="text">
+                      <string>投影中心纬度：</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QTimeEdit" name="timeEdit_13">
+                     <property name="font">
+                      <font>
+                       <family>Source Han Sans SC Medium</family>
+                       <pointsize>9</pointsize>
+                       <weight>7</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                     <property name="inputMethodHints">
+                      <set>Qt::ImhNone</set>
+                     </property>
+                     <property name="displayFormat">
+                      <string>HH:mm:ss</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                 <item>
+                  <layout class="QHBoxLayout" name="horizontalLayout_67" stretch="1,1">
+                   <item>
+                    <widget class="QLabel" name="label_61">
+                     <property name="font">
+                      <font>
+                       <family>Source Han Sans SC Medium</family>
+                       <pointsize>9</pointsize>
+                       <weight>7</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                     <property name="text">
+                      <string>投影中心经度：</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QTimeEdit" name="timeEdit_14">
+                     <property name="font">
+                      <font>
+                       <family>Source Han Sans SC Medium</family>
+                       <pointsize>9</pointsize>
+                       <weight>7</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                     <property name="inputMethodHints">
+                      <set>Qt::ImhNone</set>
+                     </property>
+                     <property name="displayFormat">
+                      <string>HH:mm:ss</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                 <item>
+                  <layout class="QHBoxLayout" name="horizontalLayout_92" stretch="1,1">
+                   <item>
+                    <widget class="QLabel" name="label_86">
+                     <property name="font">
+                      <font>
+                       <family>Source Han Sans SC Medium</family>
+                       <pointsize>9</pointsize>
+                       <weight>7</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                     <property name="text">
+                      <string>伪东偏(米)：</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QDoubleSpinBox" name="doubleSpinBox_14">
+                     <property name="font">
+                      <font>
+                       <family>Source Han Sans SC Medium</family>
+                       <pointsize>9</pointsize>
+                       <weight>7</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                 <item>
+                  <layout class="QHBoxLayout" name="horizontalLayout_93" stretch="1,1">
+                   <item>
+                    <widget class="QLabel" name="label_87">
+                     <property name="font">
+                      <font>
+                       <family>Source Han Sans SC Medium</family>
+                       <pointsize>9</pointsize>
+                       <weight>7</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                     <property name="text">
+                      <string>伪北偏(米)：</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QDoubleSpinBox" name="doubleSpinBox_21">
+                     <property name="font">
+                      <font>
+                       <family>Source Han Sans SC Medium</family>
+                       <pointsize>9</pointsize>
+                       <weight>7</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                </layout>
+               </widget>
+              </widget>
+              <widget class="QWidget" name="PTZWW_Page">
+               <widget class="QWidget" name="layoutWidget_17">
+                <property name="geometry">
+                 <rect>
+                  <x>0</x>
+                  <y>0</y>
+                  <width>431</width>
+                  <height>261</height>
+                 </rect>
+                </property>
+                <layout class="QVBoxLayout" name="verticalLayout_14" stretch="0,1,1,1,1">
+                 <item>
+                  <layout class="QHBoxLayout" name="horizontalLayout_60" stretch="1,1">
+                   <item>
+                    <widget class="QLabel" name="PTZWW_PMLabel">
+                     <property name="font">
+                      <font>
+                       <family>Source Han Sans SC Medium</family>
+                       <pointsize>9</pointsize>
+                       <weight>7</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                     <property name="text">
+                      <string>P M:</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QComboBox" name="PTZWW_PMBox">
+                     <property name="font">
+                      <font>
+                       <family>Source Han Sans SC Medium</family>
+                       <pointsize>9</pointsize>
+                       <weight>7</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                 <item>
+                  <layout class="QHBoxLayout" name="horizontalLayout_61" stretch="1,1">
+                   <item>
+                    <widget class="QLabel" name="label_55">
+                     <property name="font">
+                      <font>
+                       <family>Source Han Sans SC Medium</family>
+                       <pointsize>9</pointsize>
+                       <weight>7</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                     <property name="text">
+                      <string>投影原点纬线：</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QTimeEdit" name="timeEdit_11">
+                     <property name="font">
+                      <font>
+                       <family>Source Han Sans SC Medium</family>
+                       <pointsize>9</pointsize>
+                       <weight>7</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                     <property name="inputMethodHints">
+                      <set>Qt::ImhNone</set>
+                     </property>
+                     <property name="displayFormat">
+                      <string>HH:mm:ss</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                 <item>
+                  <layout class="QHBoxLayout" name="horizontalLayout_62" stretch="1,1">
+                   <item>
+                    <widget class="QLabel" name="label_56">
+                     <property name="font">
+                      <font>
+                       <family>Source Han Sans SC Medium</family>
+                       <pointsize>9</pointsize>
+                       <weight>7</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                     <property name="text">
+                      <string>中央经线：</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QTimeEdit" name="timeEdit_12">
+                     <property name="font">
+                      <font>
+                       <family>Source Han Sans SC Medium</family>
+                       <pointsize>9</pointsize>
+                       <weight>7</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                     <property name="inputMethodHints">
+                      <set>Qt::ImhNone</set>
+                     </property>
+                     <property name="displayFormat">
+                      <string>HH:mm:ss</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                 <item>
+                  <layout class="QHBoxLayout" name="horizontalLayout_64" stretch="1,1">
+                   <item>
+                    <widget class="QLabel" name="label_58">
+                     <property name="font">
+                      <font>
+                       <family>Source Han Sans SC Medium</family>
+                       <pointsize>9</pointsize>
+                       <weight>7</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                     <property name="text">
+                      <string>伪东偏(米)：</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QDoubleSpinBox" name="doubleSpinBox_11">
+                     <property name="font">
+                      <font>
+                       <family>Source Han Sans SC Medium</family>
+                       <pointsize>9</pointsize>
+                       <weight>7</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                 <item>
+                  <layout class="QHBoxLayout" name="horizontalLayout_65" stretch="1,1">
+                   <item>
+                    <widget class="QLabel" name="label_59">
+                     <property name="font">
+                      <font>
+                       <family>Source Han Sans SC Medium</family>
+                       <pointsize>9</pointsize>
+                       <weight>7</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                     <property name="text">
+                      <string>伪北偏(米)：</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QDoubleSpinBox" name="doubleSpinBox_12">
+                     <property name="font">
+                      <font>
+                       <family>Source Han Sans SC Medium</family>
+                       <pointsize>9</pointsize>
+                       <weight>7</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                </layout>
+               </widget>
+              </widget>
+              <widget class="QWidget" name="PZWW_Page">
+               <widget class="QWidget" name="layoutWidget_19">
+                <property name="geometry">
+                 <rect>
+                  <x>0</x>
+                  <y>-10</y>
+                  <width>431</width>
+                  <height>191</height>
+                 </rect>
+                </property>
+                <layout class="QVBoxLayout" name="verticalLayout_16" stretch="1,1,1,1">
+                 <item>
+                  <layout class="QHBoxLayout" name="horizontalLayout_70" stretch="1,1">
+                   <item>
+                    <widget class="QLabel" name="PZWW_PMLabel">
+                     <property name="font">
+                      <font>
+                       <family>Source Han Sans SC Medium</family>
+                       <pointsize>9</pointsize>
+                       <weight>7</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                     <property name="text">
+                      <string>P M:</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QComboBox" name="PZWW_PMBox">
+                     <property name="font">
+                      <font>
+                       <family>Source Han Sans SC Medium</family>
+                       <pointsize>9</pointsize>
+                       <weight>7</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                 <item>
+                  <layout class="QHBoxLayout" name="horizontalLayout_72" stretch="1,1">
+                   <item>
+                    <widget class="QLabel" name="label_66">
+                     <property name="font">
+                      <font>
+                       <family>Source Han Sans SC Medium</family>
+                       <pointsize>9</pointsize>
+                       <weight>7</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                     <property name="text">
+                      <string>中央经线：</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QTimeEdit" name="timeEdit_16">
+                     <property name="font">
+                      <font>
+                       <family>Source Han Sans SC Medium</family>
+                       <pointsize>9</pointsize>
+                       <weight>7</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                     <property name="inputMethodHints">
+                      <set>Qt::ImhNone</set>
+                     </property>
+                     <property name="displayFormat">
+                      <string>HH:mm:ss</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                 <item>
+                  <layout class="QHBoxLayout" name="horizontalLayout_73" stretch="1,1">
+                   <item>
+                    <widget class="QLabel" name="label_67">
+                     <property name="font">
+                      <font>
+                       <family>Source Han Sans SC Medium</family>
+                       <pointsize>9</pointsize>
+                       <weight>7</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                     <property name="text">
+                      <string>伪东偏(米)：</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QDoubleSpinBox" name="doubleSpinBox_15">
+                     <property name="font">
+                      <font>
+                       <family>Source Han Sans SC Medium</family>
+                       <pointsize>9</pointsize>
+                       <weight>7</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                 <item>
+                  <layout class="QHBoxLayout" name="horizontalLayout_74" stretch="1,1">
+                   <item>
+                    <widget class="QLabel" name="label_68">
+                     <property name="font">
+                      <font>
+                       <family>Source Han Sans SC Medium</family>
+                       <pointsize>9</pointsize>
+                       <weight>7</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                     <property name="text">
+                      <string>伪北偏(米)：</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QDoubleSpinBox" name="doubleSpinBox_16">
+                     <property name="font">
+                      <font>
+                       <family>Source Han Sans SC Medium</family>
+                       <pointsize>9</pointsize>
+                       <weight>7</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                </layout>
+               </widget>
+              </widget>
+              <widget class="QWidget" name="PZZWW_Page">
+               <widget class="QWidget" name="layoutWidget_20">
+                <property name="geometry">
+                 <rect>
+                  <x>0</x>
+                  <y>10</y>
+                  <width>431</width>
+                  <height>231</height>
+                 </rect>
+                </property>
+                <layout class="QVBoxLayout" name="verticalLayout_17" stretch="1,1,1,1,1">
+                 <item>
+                  <layout class="QHBoxLayout" name="horizontalLayout_71" stretch="1,1">
+                   <item>
+                    <widget class="QLabel" name="PZZWW_PMLabel">
+                     <property name="font">
+                      <font>
+                       <family>Source Han Sans SC Medium</family>
+                       <pointsize>9</pointsize>
+                       <weight>7</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                     <property name="text">
+                      <string>P M:</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QComboBox" name="PZZWW_PMBox">
+                     <property name="font">
+                      <font>
+                       <family>Source Han Sans SC Medium</family>
+                       <pointsize>9</pointsize>
+                       <weight>7</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                 <item>
+                  <layout class="QHBoxLayout" name="horizontalLayout_75" stretch="1,1">
+                   <item>
+                    <widget class="QLabel" name="label_69">
+                     <property name="font">
+                      <font>
+                       <family>Source Han Sans SC Medium</family>
+                       <pointsize>9</pointsize>
+                       <weight>7</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                     <property name="text">
+                      <string>中央纬线：</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QTimeEdit" name="timeEdit_15">
+                     <property name="font">
+                      <font>
+                       <family>Source Han Sans SC Medium</family>
+                       <pointsize>9</pointsize>
+                       <weight>7</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                     <property name="inputMethodHints">
+                      <set>Qt::ImhNone</set>
+                     </property>
+                     <property name="displayFormat">
+                      <string>HH:mm:ss</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                 <item>
+                  <layout class="QHBoxLayout" name="horizontalLayout_76" stretch="1,1">
+                   <item>
+                    <widget class="QLabel" name="label_70">
+                     <property name="font">
+                      <font>
+                       <family>Source Han Sans SC Medium</family>
+                       <pointsize>9</pointsize>
+                       <weight>7</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                     <property name="text">
+                      <string>中央经线：</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QTimeEdit" name="timeEdit_17">
+                     <property name="font">
+                      <font>
+                       <family>Source Han Sans SC Medium</family>
+                       <pointsize>9</pointsize>
+                       <weight>7</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                     <property name="inputMethodHints">
+                      <set>Qt::ImhNone</set>
+                     </property>
+                     <property name="displayFormat">
+                      <string>HH:mm:ss</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                 <item>
+                  <layout class="QHBoxLayout" name="horizontalLayout_77" stretch="1,1">
+                   <item>
+                    <widget class="QLabel" name="label_71">
+                     <property name="font">
+                      <font>
+                       <family>Source Han Sans SC Medium</family>
+                       <pointsize>9</pointsize>
+                       <weight>7</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                     <property name="text">
+                      <string>伪东偏(米)：</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QDoubleSpinBox" name="doubleSpinBox_17">
+                     <property name="font">
+                      <font>
+                       <family>Source Han Sans SC Medium</family>
+                       <pointsize>9</pointsize>
+                       <weight>7</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                 <item>
+                  <layout class="QHBoxLayout" name="horizontalLayout_78" stretch="1,1">
+                   <item>
+                    <widget class="QLabel" name="label_72">
+                     <property name="font">
+                      <font>
+                       <family>Source Han Sans SC Medium</family>
+                       <pointsize>9</pointsize>
+                       <weight>7</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                     <property name="text">
+                      <string>伪北偏(米)：</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QDoubleSpinBox" name="doubleSpinBox_18">
+                     <property name="font">
+                      <font>
+                       <family>Source Han Sans SC Medium</family>
+                       <pointsize>9</pointsize>
+                       <weight>7</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                </layout>
+               </widget>
+              </widget>
+              <widget class="QWidget" name="PBZWW_Page">
+               <widget class="QWidget" name="layoutWidget">
+                <property name="geometry">
+                 <rect>
+                  <x>-1</x>
+                  <y>9</y>
+                  <width>431</width>
+                  <height>221</height>
+                 </rect>
+                </property>
+                <layout class="QVBoxLayout" name="verticalLayout_30">
+                 <item>
+                  <layout class="QHBoxLayout" name="horizontalLayout_132" stretch="1,1">
+                   <item>
+                    <widget class="QLabel" name="PBZWW_PMLabel">
+                     <property name="font">
+                      <font>
+                       <family>Source Han Sans SC Medium</family>
+                       <pointsize>9</pointsize>
+                       <weight>7</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                     <property name="text">
+                      <string>P M:</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QComboBox" name="PBZWW_PMBox">
+                     <property name="font">
+                      <font>
+                       <family>Source Han Sans SC Medium</family>
+                       <pointsize>9</pointsize>
+                       <weight>7</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                 <item>
+                  <layout class="QHBoxLayout" name="horizontalLayout_133" stretch="1,1">
+                   <item>
+                    <widget class="QLabel" name="label_126">
+                     <property name="font">
+                      <font>
+                       <family>Source Han Sans SC Medium</family>
+                       <pointsize>9</pointsize>
+                       <weight>7</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                     <property name="text">
+                      <string>标准偏差：</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QTimeEdit" name="timeEdit_40">
+                     <property name="font">
+                      <font>
+                       <family>Source Han Sans SC Medium</family>
+                       <pointsize>9</pointsize>
+                       <weight>7</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                     <property name="inputMethodHints">
+                      <set>Qt::ImhNone</set>
+                     </property>
+                     <property name="displayFormat">
+                      <string>HH:mm:ss</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                 <item>
+                  <layout class="QHBoxLayout" name="horizontalLayout_138" stretch="1,1">
+                   <item>
+                    <widget class="QLabel" name="label_131">
+                     <property name="font">
+                      <font>
+                       <family>Source Han Sans SC Medium</family>
+                       <pointsize>9</pointsize>
+                       <weight>7</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                     <property name="text">
+                      <string>中央经线：</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QTimeEdit" name="timeEdit_41">
+                     <property name="font">
+                      <font>
+                       <family>Source Han Sans SC Medium</family>
+                       <pointsize>9</pointsize>
+                       <weight>7</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                     <property name="inputMethodHints">
+                      <set>Qt::ImhNone</set>
+                     </property>
+                     <property name="displayFormat">
+                      <string>HH:mm:ss</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                 <item>
+                  <layout class="QHBoxLayout" name="horizontalLayout_139" stretch="1,1">
+                   <item>
+                    <widget class="QLabel" name="label_132">
+                     <property name="font">
+                      <font>
+                       <family>Source Han Sans SC Medium</family>
+                       <pointsize>9</pointsize>
+                       <weight>7</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                     <property name="text">
+                      <string>伪东偏(米)：</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QDoubleSpinBox" name="doubleSpinBox_42">
+                     <property name="font">
+                      <font>
+                       <family>Source Han Sans SC Medium</family>
+                       <pointsize>9</pointsize>
+                       <weight>7</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                 <item>
+                  <layout class="QHBoxLayout" name="horizontalLayout_140" stretch="1,1">
+                   <item>
+                    <widget class="QLabel" name="label_133">
+                     <property name="font">
+                      <font>
+                       <family>Source Han Sans SC Medium</family>
+                       <pointsize>9</pointsize>
+                       <weight>7</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                     <property name="text">
+                      <string>伪北偏(米)：</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QDoubleSpinBox" name="doubleSpinBox_43">
+                     <property name="font">
+                      <font>
+                       <family>Source Han Sans SC Medium</family>
+                       <pointsize>9</pointsize>
+                       <weight>7</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                </layout>
+               </widget>
+              </widget>
+              <widget class="QWidget" name="PTTTWW_Page">
+               <widget class="QWidget" name="layoutWidget">
+                <property name="geometry">
+                 <rect>
+                  <x>-1</x>
+                  <y>9</y>
+                  <width>431</width>
+                  <height>261</height>
+                 </rect>
+                </property>
+                <layout class="QVBoxLayout" name="verticalLayout_18">
+                 <item>
+                  <layout class="QHBoxLayout" name="horizontalLayout_79" stretch="1,1">
+                   <item>
+                    <widget class="QLabel" name="PTTTWW_PMLabel">
+                     <property name="font">
+                      <font>
+                       <family>Source Han Sans SC Medium</family>
+                       <pointsize>9</pointsize>
+                       <weight>7</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                     <property name="text">
+                      <string>P M:</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QComboBox" name="PTTTWW_PMBox">
+                     <property name="font">
+                      <font>
+                       <family>Source Han Sans SC Medium</family>
+                       <pointsize>9</pointsize>
+                       <weight>7</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                 <item>
+                  <layout class="QHBoxLayout" name="horizontalLayout_80" stretch="1,1">
+                   <item>
+                    <widget class="QLabel" name="label_74">
+                     <property name="font">
+                      <font>
+                       <family>Source Han Sans SC Medium</family>
+                       <pointsize>9</pointsize>
+                       <weight>7</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                     <property name="text">
+                      <string>投影中心纬度：</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QTimeEdit" name="timeEdit_18">
+                     <property name="font">
+                      <font>
+                       <family>Source Han Sans SC Medium</family>
+                       <pointsize>9</pointsize>
+                       <weight>7</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                     <property name="inputMethodHints">
+                      <set>Qt::ImhNone</set>
+                     </property>
+                     <property name="displayFormat">
+                      <string>HH:mm:ss</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                 <item>
+                  <layout class="QHBoxLayout" name="horizontalLayout_81" stretch="1,1">
+                   <item>
+                    <widget class="QLabel" name="label_75">
+                     <property name="font">
+                      <font>
+                       <family>Source Han Sans SC Medium</family>
+                       <pointsize>9</pointsize>
+                       <weight>7</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                     <property name="text">
+                      <string>投影中心经度：</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QTimeEdit" name="timeEdit_19">
+                     <property name="font">
+                      <font>
+                       <family>Source Han Sans SC Medium</family>
+                       <pointsize>9</pointsize>
+                       <weight>7</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                     <property name="inputMethodHints">
+                      <set>Qt::ImhNone</set>
+                     </property>
+                     <property name="displayFormat">
+                      <string>HH:mm:ss</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                 <item>
+                  <layout class="QHBoxLayout" name="horizontalLayout_82" stretch="1,1">
+                   <item>
+                    <widget class="QLabel" name="label_76">
+                     <property name="font">
+                      <font>
+                       <family>Source Han Sans SC Medium</family>
+                       <pointsize>9</pointsize>
+                       <weight>7</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                     <property name="text">
+                      <string>投影中心比例系数：</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QDoubleSpinBox" name="doubleSpinBox_10">
+                     <property name="font">
+                      <font>
+                       <family>Source Han Sans SC Medium</family>
+                       <pointsize>9</pointsize>
+                       <weight>7</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                 <item>
+                  <layout class="QHBoxLayout" name="horizontalLayout_83" stretch="1,1">
+                   <item>
+                    <widget class="QLabel" name="label_77">
+                     <property name="font">
+                      <font>
+                       <family>Source Han Sans SC Medium</family>
+                       <pointsize>9</pointsize>
+                       <weight>7</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                     <property name="text">
+                      <string>伪东偏(米)：</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QDoubleSpinBox" name="doubleSpinBox_19">
+                     <property name="font">
+                      <font>
+                       <family>Source Han Sans SC Medium</family>
+                       <pointsize>9</pointsize>
+                       <weight>7</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                 <item>
+                  <layout class="QHBoxLayout" name="horizontalLayout_84" stretch="1,1">
+                   <item>
+                    <widget class="QLabel" name="label_78">
+                     <property name="font">
+                      <font>
+                       <family>Source Han Sans SC Medium</family>
+                       <pointsize>9</pointsize>
+                       <weight>7</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                     <property name="text">
+                      <string>伪北偏(米)：</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QDoubleSpinBox" name="doubleSpinBox_20">
+                     <property name="font">
+                      <font>
+                       <family>Source Han Sans SC Medium</family>
+                       <pointsize>9</pointsize>
+                       <weight>7</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                </layout>
+               </widget>
+              </widget>
+              <widget class="QWidget" name="PWWTTWW_Page">
+               <widget class="QWidget" name="layoutWidget">
+                <property name="geometry">
+                 <rect>
+                  <x>-1</x>
+                  <y>9</y>
+                  <width>431</width>
+                  <height>291</height>
+                 </rect>
+                </property>
+                <layout class="QVBoxLayout" name="verticalLayout_19">
+                 <item>
+                  <layout class="QHBoxLayout" name="horizontalLayout_85" stretch="1,1">
+                   <item>
+                    <widget class="QLabel" name="PWWTTWW_PMLabel">
+                     <property name="font">
+                      <font>
+                       <family>Source Han Sans SC Medium</family>
+                       <pointsize>9</pointsize>
+                       <weight>7</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                     <property name="text">
+                      <string>P M:</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QComboBox" name="PWWTTWW_PMBox">
+                     <property name="font">
+                      <font>
+                       <family>Source Han Sans SC Medium</family>
+                       <pointsize>9</pointsize>
+                       <weight>7</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                 <item>
+                  <layout class="QHBoxLayout" name="horizontalLayout_86" stretch="1,1">
+                   <item>
+                    <widget class="QLabel" name="label_80">
+                     <property name="font">
+                      <font>
+                       <family>Source Han Sans SC Medium</family>
+                       <pointsize>9</pointsize>
+                       <weight>7</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                     <property name="text">
+                      <string>纬度第一标准差：</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QTimeEdit" name="timeEdit_20">
+                     <property name="font">
+                      <font>
+                       <family>Source Han Sans SC Medium</family>
+                       <pointsize>9</pointsize>
+                       <weight>7</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                     <property name="inputMethodHints">
+                      <set>Qt::ImhNone</set>
+                     </property>
+                     <property name="displayFormat">
+                      <string>HH:mm:ss</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                 <item>
+                  <layout class="QHBoxLayout" name="horizontalLayout_87" stretch="1,1">
+                   <item>
+                    <widget class="QLabel" name="label_81">
+                     <property name="font">
+                      <font>
+                       <family>Source Han Sans SC Medium</family>
+                       <pointsize>9</pointsize>
+                       <weight>7</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                     <property name="text">
+                      <string>纬度第二标准差：</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QTimeEdit" name="timeEdit_21">
+                     <property name="font">
+                      <font>
+                       <family>Source Han Sans SC Medium</family>
+                       <pointsize>9</pointsize>
+                       <weight>7</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                     <property name="inputMethodHints">
+                      <set>Qt::ImhNone</set>
+                     </property>
+                     <property name="displayFormat">
+                      <string>HH:mm:ss</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                 <item>
+                  <layout class="QHBoxLayout" name="horizontalLayout_88" stretch="1,1">
+                   <item>
+                    <widget class="QLabel" name="label_82">
+                     <property name="font">
+                      <font>
+                       <family>Source Han Sans SC Medium</family>
+                       <pointsize>9</pointsize>
+                       <weight>7</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                     <property name="text">
+                      <string>投影中心纬度：</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QTimeEdit" name="timeEdit_22">
+                     <property name="font">
+                      <font>
+                       <family>Source Han Sans SC Medium</family>
+                       <pointsize>9</pointsize>
+                       <weight>7</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                     <property name="inputMethodHints">
+                      <set>Qt::ImhNone</set>
+                     </property>
+                     <property name="displayFormat">
+                      <string>HH:mm:ss</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                 <item>
+                  <layout class="QHBoxLayout" name="horizontalLayout_89" stretch="1,1">
+                   <item>
+                    <widget class="QLabel" name="label_83">
+                     <property name="font">
+                      <font>
+                       <family>Source Han Sans SC Medium</family>
+                       <pointsize>9</pointsize>
+                       <weight>7</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                     <property name="text">
+                      <string>投影中心经度：</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QTimeEdit" name="timeEdit_23">
+                     <property name="font">
+                      <font>
+                       <family>Source Han Sans SC Medium</family>
+                       <pointsize>9</pointsize>
+                       <weight>7</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                     <property name="inputMethodHints">
+                      <set>Qt::ImhNone</set>
+                     </property>
+                     <property name="displayFormat">
+                      <string>HH:mm:ss</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                 <item>
+                  <layout class="QHBoxLayout" name="horizontalLayout_90" stretch="1,1">
+                   <item>
+                    <widget class="QLabel" name="label_84">
+                     <property name="font">
+                      <font>
+                       <family>Source Han Sans SC Medium</family>
+                       <pointsize>9</pointsize>
+                       <weight>7</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                     <property name="text">
+                      <string>伪东偏(米)：</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QDoubleSpinBox" name="doubleSpinBox_22">
+                     <property name="font">
+                      <font>
+                       <family>Source Han Sans SC Medium</family>
+                       <pointsize>9</pointsize>
+                       <weight>7</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                 <item>
+                  <layout class="QHBoxLayout" name="horizontalLayout_91" stretch="1,1">
+                   <item>
+                    <widget class="QLabel" name="label_85">
+                     <property name="font">
+                      <font>
+                       <family>Source Han Sans SC Medium</family>
+                       <pointsize>9</pointsize>
+                       <weight>7</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                     <property name="text">
+                      <string>伪北偏(米)：</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QDoubleSpinBox" name="doubleSpinBox_23">
+                     <property name="font">
+                      <font>
+                       <family>Source Han Sans SC Medium</family>
+                       <pointsize>9</pointsize>
+                       <weight>7</weight>
+                       <italic>false</italic>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                </layout>
+               </widget>
+              </widget>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </widget>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <item>
+        <spacer name="horizontalSpacer">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QPushButton" name="okButton">
+         <property name="styleSheet">
+          <string notr="true">/* 通用按钮样式 - 圆角 */
+QPushButton {
+    background-color: #f0f0f0;     /* 默认背景色 */
+    color: #333;                   /* 文字颜色 */
+    border: 1px solid #ccc;        /* 边框 */
+    border-radius: 6px;            /* 圆角半径 */
+    padding: 6px 12px;             /* 内边距 */
+    min-width: 60px;               /* 最小宽度 */
+}
+ 
+/* 悬停效果 - 浅色过渡 */
+QPushButton:hover {
+    background-color: #c0f0ef;     /* 悬停背景色 */
+    border-color: #00a99d;         /* 边框变色 */
+    border-radius: 6px;            /* 保持圆角 */
+}
+ 
+/* 按下/选中效果 - 主色 */
+QPushButton:pressed,
+QPushButton:checked {
+    background-color: #00a99d;     /* 主背景色 */
+    color: white;                  /* 文字变白 */
+    border-color: #008080;         /* 深色边框 */
+    border-radius: 6px;            /* 保持圆角 */
+}
+ 
+/* 禁用状态 - 灰色 */
+QPushButton:disabled {
+    background-color: #f0f0f0;
+    color: #999;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+}
+ 
+/* 渐变增强效果（可选） */
+QPushButton:pressed {
+    background: qradialgradient(
+        cx: 0.5, cy: 0.5,
+        fx: 0.5, fy: 0.5,
+        radius: 1,
+        stop: 0 #00a99d,
+        stop: 1 #008080 
+    );
+}</string>
+         </property>
+         <property name="text">
+          <string>确定</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="cancelButton">
+         <property name="styleSheet">
+          <string notr="true">/* 通用按钮样式 - 圆角 */
+QPushButton {
+    background-color: #f0f0f0;     /* 默认背景色 */
+    color: #333;                   /* 文字颜色 */
+    border: 1px solid #ccc;        /* 边框 */
+    border-radius: 6px;            /* 圆角半径 */
+    padding: 6px 12px;             /* 内边距 */
+    min-width: 60px;               /* 最小宽度 */
+}
+ 
+/* 悬停效果 - 浅色过渡 */
+QPushButton:hover {
+    background-color: #c0f0ef;     /* 悬停背景色 */
+    border-color: #00a99d;         /* 边框变色 */
+    border-radius: 6px;            /* 保持圆角 */
+}
+ 
+/* 按下/选中效果 - 主色 */
+QPushButton:pressed,
+QPushButton:checked {
+    background-color: #00a99d;     /* 主背景色 */
+    color: white;                  /* 文字变白 */
+    border-color: #008080;         /* 深色边框 */
+    border-radius: 6px;            /* 保持圆角 */
+}
+ 
+/* 禁用状态 - 灰色 */
+QPushButton:disabled {
+    background-color: #f0f0f0;
+    color: #999;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+}
+ 
+/* 渐变增强效果（可选） */
+QPushButton:pressed {
+    background: qradialgradient(
+        cx: 0.5, cy: 0.5,
+        fx: 0.5, fy: 0.5,
+        radius: 1,
+        stop: 0 #00a99d,
+        stop: 1 #008080 
+    );
+}</string>
+         </property>
+         <property name="text">
+          <string>取消</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="okButton_2">
+         <property name="styleSheet">
+          <string notr="true">/* 通用按钮样式 - 圆角 */
+QPushButton {
+    background-color: #f0f0f0;     /* 默认背景色 */
+    color: #333;                   /* 文字颜色 */
+    border: 1px solid #ccc;        /* 边框 */
+    border-radius: 6px;            /* 圆角半径 */
+    padding: 6px 12px;             /* 内边距 */
+    min-width: 60px;               /* 最小宽度 */
+}
+ 
+/* 悬停效果 - 浅色过渡 */
+QPushButton:hover {
+    background-color: #c0f0ef;     /* 悬停背景色 */
+    border-color: #00a99d;         /* 边框变色 */
+    border-radius: 6px;            /* 保持圆角 */
+}
+ 
+/* 按下/选中效果 - 主色 */
+QPushButton:pressed,
+QPushButton:checked {
+    background-color: #00a99d;     /* 主背景色 */
+    color: white;                  /* 文字变白 */
+    border-color: #008080;         /* 深色边框 */
+    border-radius: 6px;            /* 保持圆角 */
+}
+ 
+/* 禁用状态 - 灰色 */
+QPushButton:disabled {
+    background-color: #f0f0f0;
+    color: #999;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+}
+ 
+/* 渐变增强效果（可选） */
+QPushButton:pressed {
+    background: qradialgradient(
+        cx: 0.5, cy: 0.5,
+        fx: 0.5, fy: 0.5,
+        radius: 1,
+        stop: 0 #00a99d,
+        stop: 1 #008080 
+    );
+}</string>
+         </property>
+         <property name="text">
+          <string>应用</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>okButton</sender>
+   <signal>clicked()</signal>
+   <receiver>ProjectSetting</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>351</x>
+     <y>38</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>233</x>
+     <y>29</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>cancelButton</sender>
+   <signal>clicked()</signal>
+   <receiver>ProjectSetting</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>330</x>
+     <y>66</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>197</x>
+     <y>125</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

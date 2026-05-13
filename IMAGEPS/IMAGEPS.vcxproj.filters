@@ -1,0 +1,226 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>qml;cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>qrc;rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Form Files">
+      <UniqueIdentifier>{99349809-55BA-4b9d-BF79-8FDBB0286EB3}</UniqueIdentifier>
+      <Extensions>ui</Extensions>
+    </Filter>
+    <Filter Include="Translation Files">
+      <UniqueIdentifier>{639EADAA-A684-42e4-A9AD-28FC9BCB8F7C}</UniqueIdentifier>
+      <Extensions>ts</Extensions>
+    </Filter>
+    <Filter Include="Form Files\SystemConfig">
+      <UniqueIdentifier>{8dd38c85-195f-49ba-8ae7-c5b3b20e998c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\SystemConfig">
+      <UniqueIdentifier>{7e199310-ecfc-4a57-8eb4-222d899e9a8c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\SystemConfig">
+      <UniqueIdentifier>{e30811e7-4033-4b4b-b802-b4ad9a8f6a44}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Form Files\Tools">
+      <UniqueIdentifier>{abb6c20e-09b4-42a4-a75a-9c989c6a5ae6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Tools">
+      <UniqueIdentifier>{b9159d50-d5fa-475a-8957-1bb3456a7b9e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Tools">
+      <UniqueIdentifier>{55813a38-53f6-4d4e-8891-2d9dff16337f}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="IMAGEPS.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <ClCompile Include="IMAGEPS.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <QtMoc Include="MeasurementareaShow.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="TabbedDockWidget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="SimpleToolS.h">
+      <Filter>Header Files\Tools</Filter>
+    </QtMoc>
+    <QtMoc Include="SatelliteViewer.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="SetOrthoInfo.h">
+      <Filter>Header Files\SystemConfig</Filter>
+    </QtMoc>
+    <QtMoc Include="ImageInfoShow.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="qcustomplot.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="NonEditableModel.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="IMAGEPS_InfoWindow.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="ImageCloudSnowProcessing.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="RPC2RPB.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="HeightAnomalyProcessing.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="InvalidValueHandling.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="ImageCropTool.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="ProjectSetting.cpp">
+      <Filter>Source Files\SystemConfig</Filter>
+    </ClCompile>
+    <ClCompile Include="SystemConfig.cpp">
+      <Filter>Source Files\SystemConfig</Filter>
+    </ClCompile>
+    <ClCompile Include="PublicFunctions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModelConfig.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MeasurementareaShow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GLDisplayWidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TabbedDockWidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SimpleToolS.cpp">
+      <Filter>Source Files\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="SatelliteViewer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SetOrthoInfo.cpp">
+      <Filter>Source Files\SystemConfig</Filter>
+    </ClCompile>
+    <ClCompile Include="ImageInfoShow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="qcustomplot.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="NonEditableModel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="IMAGEPS_InfoWindow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ImageCloudSnowProcessing.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Logger.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="RPC2RPB.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="HeightAnomalyProcessing.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ImageCropTool.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="InvalidValueHandling.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <QtUic Include="ProjectSetting.ui">
+      <Filter>Form Files\SystemConfig</Filter>
+    </QtUic>
+    <QtUic Include="SystemConfig.ui">
+      <Filter>Form Files\SystemConfig</Filter>
+    </QtUic>
+    <QtUic Include="IMAGEPS.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="DataModelConfig.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="SimpleToolS.ui">
+      <Filter>Form Files\Tools</Filter>
+    </QtUic>
+    <QtUic Include="SetOrthoInfo.ui">
+      <Filter>Form Files\SystemConfig</Filter>
+    </QtUic>
+    <QtUic Include="IMAGEPS_InfoWindow.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="ImageCloudSnowProcessing.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="RPC2RPB.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="HeightAnomalyProcessing.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="ImageCropTool.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="InvalidValueHandling.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="ProjectSetting.h">
+      <Filter>Header Files\SystemConfig</Filter>
+    </QtMoc>
+    <QtMoc Include="SystemConfig.h">
+      <Filter>Header Files\SystemConfig</Filter>
+    </QtMoc>
+    <QtMoc Include="DataModelConfig.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="GLDisplayWidget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="PublicFunctions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PublicStruct.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Logger.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <QtRcc Include="..\bin\resource\imageps.qrc">
+      <Filter>Resource Files</Filter>
+    </QtRcc>
+  </ItemGroup>
+</Project>

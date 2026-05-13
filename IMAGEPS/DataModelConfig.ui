@@ -1,0 +1,522 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>DataModelConfigClass</class>
+ <widget class="QDialog" name="DataModelConfigClass">
+  <property name="enabled">
+   <bool>true</bool>
+  </property>
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>812</width>
+    <height>564</height>
+   </rect>
+  </property>
+  <property name="font">
+   <font>
+    <family>Source Han Sans SC Medium</family>
+    <pointsize>9</pointsize>
+    <weight>7</weight>
+    <italic>false</italic>
+    <bold>false</bold>
+   </font>
+  </property>
+  <property name="windowTitle">
+   <string>DataModelConfig</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">*{font: 57 9pt &quot;Source Han Sans SC Medium&quot;;}
+QWidget {
+    background-color: white;
+}
+QCheckBox {
+    background-color: #f2f2f2;
+}
+ /* 保持原有的 QTableWidget 样式 */
+QTableWidget {
+    background-color: #f2f2f2;
+    border: none;
+    gridline-color: transparent;
+}
+ 
+/* 表头样式 - 带省略号效果 */
+QHeaderView {
+    border: none;
+    margin: 0;
+}
+ 
+QHeaderView::section {
+	background-color: #f2f2f2;
+    color: #333;
+    margin: 0;
+    text-align: center;
+    qproperty-alignment: AlignCenter;
+    
+    /* 省略号关键设置 */
+    text-overflow: ellipsis;
+    max-width: 50px;
+    min-width: 5px;
+
+    /* 添加阴影效果以增加立体感 */
+    border-radius: 2px;
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* 强制表头在 selected/focus/active 状态下也不改变外观 */
+QHeaderView::section:selected,
+QHeaderView::section:focus,
+QHeaderView::section:active {
+    background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 #585858, stop:1 #585858);
+    color: #333;
+    border: 1px solid #585858; /* 添加边框 */
+    outline: none;
+ 	box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+} 
+ 
+QHeaderView::section:hover {
+    background-color: #c0f0ef;
+    qproperty-toolTip: attr(text);
+}
+ 
+QHeaderView::section:pressed {
+    background-color: #00a99d;
+    color: white;
+}
+
+QHeaderView::section:!selected {
+    background-color: #f2f2f2;
+    color: #333;
+} 
+
+/* 单元格设置 */
+QTableWidget::item {
+    border: none;
+    margin: 0;
+}
+ 
+/* 选中单元格效果 */
+QTableWidget::item:selected {
+    background-color: #00a99d;
+    color: white;
+}
+ 
+/* 交替行颜色 */
+QTableWidget::item:alternate {
+    background-color: #fafafa;
+}
+
+ 
+/* 选中效果 */
+QTableWidget::item:selected {
+    background-color: #00a99d;    /* 选中单元格背景色 */
+    color: white;                 /* 选中单元格文字颜色 */
+}
+
+
+/* 通用按钮样式 - 圆角 */
+QPushButton {
+    background-color: #f0f0f0;     /* 默认背景色 */
+    color: #333;                   /* 文字颜色 */
+    border: 1px solid #ccc;        /* 边框 */
+    border-radius: 6px;            /* 圆角半径 */
+    padding: 6px 12px;             /* 内边距 */
+    min-width: 80px;               /* 最小宽度 */
+}
+ 
+/* 悬停效果 - 浅色过渡 */
+QPushButton:hover {
+    background-color: #c0f0ef;     /* 悬停背景色 */
+    border-color: #00a99d;         /* 边框变色 */
+    border-radius: 6px;            /* 保持圆角 */
+}
+ 
+/* 按下/选中效果 - 主色 */
+QPushButton:pressed,
+QPushButton:checked {
+    background-color: #00a99d;     /* 主背景色 */
+    color: white;                  /* 文字变白 */
+    border-color: #008080;         /* 深色边框 */
+    border-radius: 6px;            /* 保持圆角 */
+}
+ 
+/* 禁用状态 - 灰色 */
+QPushButton:disabled {
+    background-color: #f0f0f0;
+    color: #999;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+}
+ 
+/* 渐变增强效果（可选） */
+QPushButton:pressed {
+    background: qradialgradient(
+        cx: 0.5, cy: 0.5,
+        fx: 0.5, fy: 0.5,
+        radius: 1,
+        stop: 0 #00a99d,
+        stop: 1 #008080 
+    );
+}
+/* 强化版QCheckBox样式 */
+QCheckBox {
+    spacing: 5px;
+    font-family: &quot;Source Han Sans SC Medium&quot;, &quot;思源黑体 Medium&quot;, sans-serif;
+    color: #333; /* 非淡色文字 */
+}
+ 
+QCheckBox::indicator {
+    width: 16px;
+    height: 16px;
+    border-radius: 8px; /* 轻微圆角 */
+    border: 1px solid #999; /* 深灰色边框 */
+    background: white;
+}
+
+QCheckBox::indicator:checked {
+    image: url(:/resource/menu/圆形勾选.png);
+}
+ 
+QCheckBox::indicator:unchecked:hover {
+    border: 1px solid #00a99d; /* 悬停效果 */
+}
+ 
+/* 禁用状态样式 */
+QCheckBox::indicator:disabled {
+    border: 1px solid #ccc;
+    background: #f0f0f0;
+}
+
+/* QGroupBox 圆角边框样式 */
+QGroupBox { 
+	background-color: #f2f2f2;
+    border-radius: 8px;           /* 8像素圆角 */
+    margin-top: 1ex;              /* 留出标题空间 */
+    padding: 10px;                /* 内边距 */
+    font-weight: bold;            /* 标题加粗 */
+}
+ 
+/* QGroupBox 标题样式 */
+QGroupBox::title {
+    subcontrol-origin: margin;
+    left: 10px;                   /* 标题左边距 */
+    padding: 0 5px;               /* 标题内边距 */
+}</string>
+  </property>
+  <property name="modal">
+   <bool>true</bool>
+  </property>
+  <layout class="QGridLayout" name="gridLayout_5">
+   <item row="0" column="0">
+    <widget class="QWidget" name="widget" native="true">
+     <layout class="QGridLayout" name="gridLayout_3">
+      <item row="2" column="0">
+       <widget class="QGroupBox" name="groupBox">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="font">
+         <font>
+          <family>Source Han Sans SC Medium</family>
+          <pointsize>9</pointsize>
+          <weight>75</weight>
+          <italic>false</italic>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="title">
+         <string>卫星影像</string>
+        </property>
+        <layout class="QGridLayout" name="gridLayout">
+         <item row="0" column="0">
+          <widget class="QTableWidget" name="tableWidget">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="font">
+            <font>
+             <family>Source Han Sans SC Medium</family>
+             <pointsize>9</pointsize>
+             <weight>7</weight>
+             <italic>false</italic>
+             <bold>false</bold>
+            </font>
+           </property>
+           <column>
+            <property name="text">
+             <string>序号</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>卫星影像</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string/>
+            </property>
+           </column>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item row="3" column="0">
+       <widget class="QGroupBox" name="groupBox_2">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="font">
+         <font>
+          <family>Source Han Sans SC Medium</family>
+          <pointsize>9</pointsize>
+          <weight>75</weight>
+          <italic>false</italic>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="title">
+         <string>模型列表</string>
+        </property>
+        <layout class="QGridLayout" name="gridLayout_2">
+         <item row="0" column="0">
+          <widget class="QTableWidget" name="tableWidget_2">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="font">
+            <font>
+             <family>Source Han Sans SC Medium</family>
+             <pointsize>9</pointsize>
+             <weight>7</weight>
+             <italic>false</italic>
+             <bold>false</bold>
+            </font>
+           </property>
+           <column>
+            <property name="text">
+             <string>序号</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>模型号</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>基准</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>已匹配</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>前视</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>后视</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>多光谱</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string/>
+            </property>
+           </column>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <widget class="QPushButton" name="pushButton_2">
+        <property name="font">
+         <font>
+          <family>Source Han Sans SC Medium</family>
+          <pointsize>9</pointsize>
+          <weight>7</weight>
+          <italic>false</italic>
+          <bold>false</bold>
+         </font>
+        </property>
+        <property name="text">
+         <string>删除模型</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0">
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <item>
+         <widget class="QCheckBox" name="checkBox">
+          <property name="font">
+           <font>
+            <family>Source Han Sans SC Medium</family>
+            <pointsize>9</pointsize>
+            <weight>7</weight>
+            <italic>false</italic>
+            <bold>false</bold>
+           </font>
+          </property>
+          <property name="text">
+           <string>构建立体模型</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="checkBox_2">
+          <property name="font">
+           <font>
+            <family>Source Han Sans SC Medium</family>
+            <pointsize>9</pointsize>
+            <weight>7</weight>
+            <italic>false</italic>
+            <bold>false</bold>
+           </font>
+          </property>
+          <property name="text">
+           <string>多光谱影像作为独立模型</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="checkBox_3">
+          <property name="enabled">
+           <bool>true</bool>
+          </property>
+          <property name="font">
+           <font>
+            <family>Source Han Sans SC Medium</family>
+            <pointsize>9</pointsize>
+            <weight>7</weight>
+            <italic>false</italic>
+            <bold>false</bold>
+           </font>
+          </property>
+          <property name="text">
+           <string>不显示已配对影像</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item row="2" column="1">
+       <widget class="QPushButton" name="pushButton">
+        <property name="font">
+         <font>
+          <family>Source Han Sans SC Medium</family>
+          <pointsize>9</pointsize>
+          <weight>7</weight>
+          <italic>false</italic>
+          <bold>false</bold>
+         </font>
+        </property>
+        <property name="text">
+         <string>构建模型</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="0">
+       <layout class="QHBoxLayout" name="horizontalLayout_2">
+        <item>
+         <spacer name="horizontalSpacer">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeType">
+           <enum>QSizePolicy::Preferred</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <widget class="QPushButton" name="pushButton_3">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="font">
+           <font>
+            <family>Source Han Sans SC Medium</family>
+            <pointsize>9</pointsize>
+            <weight>7</weight>
+            <italic>false</italic>
+            <bold>false</bold>
+           </font>
+          </property>
+          <property name="text">
+           <string>确定</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer_2">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeType">
+           <enum>QSizePolicy::Preferred</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <resources/>
+ <connections/>
+</ui>
