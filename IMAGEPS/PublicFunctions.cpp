@@ -1,7 +1,7 @@
-#include "PublicFunctions.h"
+ï»¿#include "PublicFunctions.h"
 #include "IMAGEPS.h"
 
-// ½«OpenCVµÄMat×ª»»ÎªQImage
+// å°†OpenCVçš„Matè½¬æ¢ä¸ºQImage
 QImage PublicFunctions::cvMatToQImage(const cv::Mat &mat)
 {
 	// 8-bits unsigned, NO. OF CHANNELS = 1
@@ -28,7 +28,7 @@ QImage PublicFunctions::cvMatToQImage(const cv::Mat &mat)
 	}
 }
 
-//arg:ÎÄ¼şµØÖ· ÎÄ¼şÄÚÈİ·Ö¸î·û
+//arg:æ–‡ä»¶åœ°å€ æ–‡ä»¶å†…å®¹åˆ†å‰²ç¬¦
 QList<QStringList> PublicFunctions::loadFile(QString filePath, QString splitFlag)
 {
 	QList<QStringList> data;
@@ -112,23 +112,23 @@ QList<QPair<QString, QList<QStringList>>> PublicFunctions::loadConfigFileL(QStri
 
 		if (lineStr.contains('#'))
 		{
-			// ±£´æÉÏÒ»×éÊı¾İ£¨Èç¹ûÓĞ£©
+			// ä¿å­˜ä¸Šä¸€ç»„æ•°æ®ï¼ˆå¦‚æœæœ‰ï¼‰
 			if (!currentKey.isEmpty()) {
 				dataList.append(qMakePair(currentKey, currentValueList));
 				currentValueList.clear();
 			}
 
-			// ¿ªÊ¼ĞÂµÄÒ»×é 
+			// å¼€å§‹æ–°çš„ä¸€ç»„ 
 			currentKey = lineStr.remove('#');
 		}
 		else if (!currentKey.isEmpty() && !lineStr.isEmpty())
 		{
-			// Ìí¼Óµ±Ç°×éµÄÊı¾İÏî
+			// æ·»åŠ å½“å‰ç»„çš„æ•°æ®é¡¹
 			currentValueList.append(lineStr.split(","));
 		}
 	}
 
-	// Ìí¼Ó×îºóÒ»×éÊı¾İ
+	// æ·»åŠ æœ€åä¸€ç»„æ•°æ®
 	if (!currentKey.isEmpty()) {
 		dataList.append(qMakePair(currentKey, currentValueList));
 	}
@@ -141,7 +141,7 @@ QList<QPair<QString, QList<QStringList>>> PublicFunctions::loadConfigFileL(QStri
 //bool PublicFunctions::writeToCsv(const QString &filePath, const QList<QStringList> &records) {
 //	QSet<QPair<QString, QString>> existingEntries;
 //
-//	// ¶ÁÈ¡ÏÖÓĞÎÄ¼şÄÚÈİ
+//	// è¯»å–ç°æœ‰æ–‡ä»¶å†…å®¹
 //	if (QFile::exists(filePath)) {
 //		QFile readFile(filePath);
 //		if (!readFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
@@ -160,7 +160,7 @@ QList<QPair<QString, QList<QStringList>>> PublicFunctions::loadConfigFileL(QStri
 //		readFile.close();
 //	}
 //
-//	// ÊÕ¼¯ĞèÒªĞ´ÈëµÄĞÂ¼ÇÂ¼
+//	// æ”¶é›†éœ€è¦å†™å…¥çš„æ–°è®°å½•
 //	QList<QStringList> newRecords;
 //	for (const auto &sl : records) {
 //		if (sl.size() >= 2) {
@@ -168,16 +168,16 @@ QList<QPair<QString, QList<QStringList>>> PublicFunctions::loadConfigFileL(QStri
 //			QString second = sl[1].trimmed();
 //			if (!existingEntries.contains(qMakePair(first, second))) {
 //				newRecords.append({ first, second });
-//				existingEntries.insert(qMakePair(first, second)); // ·ÀÖ¹Í¬Ò»ÅúÖØ¸´
+//				existingEntries.insert(qMakePair(first, second)); // é˜²æ­¢åŒä¸€æ‰¹é‡å¤
 //			}
 //		}
 //	}
 //
 //	if (newRecords.isEmpty()) {
-//		return true; // ÎŞĞèĞ´Èë
+//		return true; // æ— éœ€å†™å…¥
 //	}
 //
-//	// ×·¼ÓĞ´ÈëĞÂ¼ÇÂ¼
+//	// è¿½åŠ å†™å…¥æ–°è®°å½•
 //	QFile writeFile(filePath);
 //	if (!writeFile.open(QIODevice::WriteOnly | QIODevice::Append | QIODevice::Text)) {
 //		return false;
@@ -212,11 +212,11 @@ QList<QPair<QString, QList<QStringList>>> PublicFunctions::loadConfigFileL(QStri
 //	return fileMap;
 //}
 
-// ÊµÏÖÎÄ¼ş 
+// å®ç°æ–‡ä»¶ 
 bool PublicFunctions::writeToCsv(const QString &filePath, const QList<QStringList> &records) {
 	QSet<QPair<QString, QString>> existingEntries;
 
-	// ¶ÁÈ¡ÏÖÓĞÎÄ¼şÄÚÈİ 
+	// è¯»å–ç°æœ‰æ–‡ä»¶å†…å®¹ 
 	if (QFile::exists(filePath)) {
 		QFile readFile(filePath);
 		if (!readFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
@@ -235,7 +235,7 @@ bool PublicFunctions::writeToCsv(const QString &filePath, const QList<QStringLis
 		readFile.close();
 	}
 
-	// ÊÕ¼¯ĞèÒªĞ´ÈëµÄĞÂ¼ÇÂ¼
+	// æ”¶é›†éœ€è¦å†™å…¥çš„æ–°è®°å½•
 	QList<QStringList> newRecords;
 	for (const auto &sl : records) {
 		if (sl.size() >= 2) {
@@ -252,7 +252,7 @@ bool PublicFunctions::writeToCsv(const QString &filePath, const QList<QStringLis
 		return true;
 	}
 
-	// ×·¼ÓĞ´ÈëĞÂ¼ÇÂ¼
+	// è¿½åŠ å†™å…¥æ–°è®°å½•
 	QFile writeFile(filePath);
 	if (!writeFile.open(QIODevice::WriteOnly | QIODevice::Append | QIODevice::Text)) {
 		return false;
@@ -301,27 +301,27 @@ QStringList PublicFunctions::parseCsvLine(const QString &line) {
 
 		if (ch == '\"') {
 			if (inQuotes && i + 1 < line.length() && line[i + 1] == '\"') {
-				// ×ªÒåµÄË«ÒıºÅ 
+				// è½¬ä¹‰çš„åŒå¼•å· 
 				currentField += '\"';
 				i++;
 			}
 			else {
-				// ÒıºÅ¿ªÊ¼/½áÊø 
+				// å¼•å·å¼€å§‹/ç»“æŸ 
 				inQuotes = !inQuotes;
 			}
 		}
 		else if (ch == ',' && !inQuotes) {
-			// ×Ö¶Î·Ö¸ô·û 
+			// å­—æ®µåˆ†éš”ç¬¦ 
 			result.append(currentField);
 			currentField.clear();
 		}
 		else {
-			// ÆÕÍ¨×Ö·û
+			// æ™®é€šå­—ç¬¦
 			currentField += ch;
 		}
 	}
 
-	// Ìí¼Ó×îºóÒ»¸ö×Ö¶Î
+	// æ·»åŠ æœ€åä¸€ä¸ªå­—æ®µ
 	if (!currentField.isEmpty() || line.endsWith(',')) {
 		result.append(currentField);
 	}
@@ -332,12 +332,12 @@ QStringList PublicFunctions::parseCsvLine(const QString &line) {
 QString PublicFunctions::escapeCsvField(const QString &field) {
 	QString trimmed = field.trimmed();
 
-	// Èç¹û×Ö¶ÎÎª¿Õ£¬Ö±½Ó·µ»Ø
+	// å¦‚æœå­—æ®µä¸ºç©ºï¼Œç›´æ¥è¿”å›
 	if (trimmed.isEmpty()) {
 		return trimmed;
 	}
 
-	// ¼ì²éÊÇ·ñĞèÒªÒıºÅ°üÎ§ 
+	// æ£€æŸ¥æ˜¯å¦éœ€è¦å¼•å·åŒ…å›´ 
 	bool needsQuotes = trimmed.contains(',') ||
 		trimmed.contains('\"') ||
 		trimmed.contains('\n') ||
@@ -349,11 +349,11 @@ QString PublicFunctions::escapeCsvField(const QString &field) {
 		return trimmed;
 	}
 
-	// ×ªÒå×Ö¶ÎÖĞµÄÒıºÅ
+	// è½¬ä¹‰å­—æ®µä¸­çš„å¼•å·
 	QString escaped = trimmed;
 	escaped.replace('\"', "\"\"");
 
-	// ÓÃÒıºÅ°üÎ§ 
+	// ç”¨å¼•å·åŒ…å›´ 
 	return '\"' + escaped + '\"';
 }
 
@@ -364,10 +364,10 @@ QString PublicFunctions::unescapeCsvField(const QString &field) {
 		return result;
 	}
 
-	// ÒÆ³ıÒıºÅ°üÎ§
+	// ç§»é™¤å¼•å·åŒ…å›´
 	if (result.startsWith('\"') && result.endsWith('\"')) {
 		result = result.mid(1, result.length() - 2);
-		// ´¦Àí×ªÒåµÄË«ÒıºÅ 
+		// å¤„ç†è½¬ä¹‰çš„åŒå¼•å· 
 		result.replace("\"\"", "\"");
 	}
 
@@ -376,7 +376,7 @@ QString PublicFunctions::unescapeCsvField(const QString &field) {
 
 QString PublicFunctions::findFileDir(const QHash<QString, QString> &fileMap,
 	const QString &filename) {
-	return fileMap.value(filename, "");  // ÕÒ²»µ½·µ»Ø¿Õ×Ö·û´®    
+	return fileMap.value(filename, "");  // æ‰¾ä¸åˆ°è¿”å›ç©ºå­—ç¬¦ä¸²    
 }
 
 QStringList PublicFunctions::getNewlyCreatedFiles(const QString& dirPath, const QDateTime & markerFileTime)
@@ -385,7 +385,7 @@ QStringList PublicFunctions::getNewlyCreatedFiles(const QString& dirPath, const 
 	//QFileInfo markerInfo(markerFile);
 	QStringList newFiles;
 
-	// »ñÈ¡±ê¼ÇÎÄ¼ş´´½¨Ê±¼äºóÉú³ÉµÄÎÄ¼ş 
+	// è·å–æ ‡è®°æ–‡ä»¶åˆ›å»ºæ—¶é—´åç”Ÿæˆçš„æ–‡ä»¶ 
 	foreach(const QFileInfo& fileInfo, dir.entryInfoList(QDir::Files)) {
 		//if (fileInfo.lastModified() >= markerInfo.created() &&
 		//	!fileInfo.fileName().startsWith("processing_") &&
@@ -404,13 +404,13 @@ QStringList PublicFunctions::getNewlyCreatedFiles(const QString& dirPath, const 
 }
 
 /**
- * @brief ½«ControlPoint.xml ÖĞµÄ¶ÔÓ¦ÄÚÈİ¸´ÖÆ»ØPSTimestamp.xml
- * @param projectFolder ÏîÄ¿ÎÄ¼ş¼ĞÂ·¾¶
- * @return ³É¹¦·µ»Øtrue£¬Ê§°Ü·µ»Øfalse
+ * @brief å°†ControlPoint.xml ä¸­çš„å¯¹åº”å†…å®¹å¤åˆ¶å›PSTimestamp.xml
+ * @param projectFolder é¡¹ç›®æ–‡ä»¶å¤¹è·¯å¾„
+ * @return æˆåŠŸè¿”å›trueï¼Œå¤±è´¥è¿”å›false
  */
 bool PublicFunctions::copyControlPointToPSTimestamp(const QString& projectDir)
 {
-	// 1. ¶ÁÈ¡ControlPoint.xml ÖĞµÄ±ê¼ÇÊı¾İ 
+	// 1. è¯»å–ControlPoint.xml ä¸­çš„æ ‡è®°æ•°æ® 
 	QDomDocument controlPointDoc;
 	QFile controlPointFile(projectDir + "ControlPoint.xml");
 	if (!controlPointFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
@@ -425,7 +425,7 @@ bool PublicFunctions::copyControlPointToPSTimestamp(const QString& projectDir)
 	}
 	controlPointFile.close();
 
-	// 2. »ñÈ¡±ê¼Ç½ÚµãÊı¾İ 
+	// 2. è·å–æ ‡è®°èŠ‚ç‚¹æ•°æ® 
 	QDomElement controlPointRoot = controlPointDoc.documentElement();
 	QString satTiePointTime, ctlPointTime, dataModelTime,
 		FNAModelmarkerTime, CTNModelmarkerTime,
@@ -466,7 +466,7 @@ bool PublicFunctions::copyControlPointToPSTimestamp(const QString& projectDir)
 		FUModelmarkerTime = FUModelmarkerElem.text();
 	}
 
-	// 3. ¶ÁÈ¡ÏÖÓĞµÄPSTimestamp.xml ÄÚÈİ£¨±£ÁôÆäËû½Úµã£©
+	// 3. è¯»å–ç°æœ‰çš„PSTimestamp.xml å†…å®¹ï¼ˆä¿ç•™å…¶ä»–èŠ‚ç‚¹ï¼‰
 	QDomDocument timestampDoc;
 	QFile timestampFile(projectDir + "PSTimestamp.xml");
 	if (!timestampFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
@@ -481,10 +481,10 @@ bool PublicFunctions::copyControlPointToPSTimestamp(const QString& projectDir)
 	}
 	timestampFile.close();
 
-	// 4. ¸üĞÂPSTimestamp.xml ÖĞµÄ¶ÔÓ¦½Úµã 
+	// 4. æ›´æ–°PSTimestamp.xml ä¸­çš„å¯¹åº”èŠ‚ç‚¹ 
 	QDomElement timestampRoot = timestampDoc.documentElement();
 
-	// ¸üĞÂ»ò´´½¨½Úµã 
+	// æ›´æ–°æˆ–åˆ›å»ºèŠ‚ç‚¹ 
 	updateOrCreateElement(timestampDoc, timestampRoot, "SatTiePointMatch", satTiePointTime);
 	updateOrCreateElement(timestampDoc, timestampRoot, "CtlPointMatch", ctlPointTime);
 	updateOrCreateElement(timestampDoc, timestampRoot, "DataModelmarker", dataModelTime);
@@ -493,7 +493,7 @@ bool PublicFunctions::copyControlPointToPSTimestamp(const QString& projectDir)
 	updateOrCreateElement(timestampDoc, timestampRoot, "INAModelmarker", INAModelmarkerTime);
 	updateOrCreateElement(timestampDoc, timestampRoot, "FUModelmarker", FUModelmarkerTime);
 
-	// 5. Ğ´»ØPSTimestamp.xml  
+	// 5. å†™å›PSTimestamp.xml  
 	if (!timestampFile.open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::Truncate)) {
 		qDebug() << "Failed to open PSTimestamp.xml  for writing";
 		return false;
@@ -508,28 +508,28 @@ bool PublicFunctions::copyControlPointToPSTimestamp(const QString& projectDir)
 }
 
 /**
- * @brief ¸¨Öúº¯Êı£º¸üĞÂ»ò´´½¨XMLÔªËØ
- * @param doc XMLÎÄµµ¶ÔÏó
- * @param parent ¸¸ÔªËØ
- * @param tagName ±êÇ©Ãû
- * @param text ÎÄ±¾ÄÚÈİ
+ * @brief è¾…åŠ©å‡½æ•°ï¼šæ›´æ–°æˆ–åˆ›å»ºXMLå…ƒç´ 
+ * @param doc XMLæ–‡æ¡£å¯¹è±¡
+ * @param parent çˆ¶å…ƒç´ 
+ * @param tagName æ ‡ç­¾å
+ * @param text æ–‡æœ¬å†…å®¹
  */
 void PublicFunctions::updateOrCreateElement(QDomDocument& doc, QDomElement& parent,
 	const QString& tagName, const QString& text)
 {
 	if (text.isEmpty()) {
-		return; // Èç¹ûÄÚÈİÎª¿ÕÔò²»¸üĞÂ 
+		return; // å¦‚æœå†…å®¹ä¸ºç©ºåˆ™ä¸æ›´æ–° 
 	}
 
 	QDomElement element = parent.firstChildElement(tagName);
 	if (element.isNull()) {
-		// ´´½¨ĞÂÔªËØ 
+		// åˆ›å»ºæ–°å…ƒç´  
 		element = doc.createElement(tagName);
 		element.appendChild(doc.createTextNode(text));
 		parent.appendChild(element);
 	}
 	else {
-		// ¸üĞÂÏÖÓĞÔªËØ 
+		// æ›´æ–°ç°æœ‰å…ƒç´  
 		if (element.firstChild().isText()) {
 			element.firstChild().setNodeValue(text);
 		}
@@ -539,7 +539,7 @@ void PublicFunctions::updateOrCreateElement(QDomDocument& doc, QDomElement& pare
 	}
 }
 
-// Ğ´ÈëPSTimestamp.xml
+// å†™å…¥PSTimestamp.xml
 bool PublicFunctions::writeTimestampToXml(const QString& nodeName, const QString& projectDir)
 {
 	QDateTime currentTime = QDateTime::currentDateTime();
@@ -548,7 +548,7 @@ bool PublicFunctions::writeTimestampToXml(const QString& nodeName, const QString
 	QString filePath = projectDir + "PSTimestamp.xml";
 	QFile file(filePath);
 
-	//// µÚÒ»´Î½øÈëÊ±Çå¿Õ²¢ÖØ¹¹ÎÄ¼ş 
+	//// ç¬¬ä¸€æ¬¡è¿›å…¥æ—¶æ¸…ç©ºå¹¶é‡æ„æ–‡ä»¶ 
 	//static bool firstRun = true;
 	//if (firstRun) {
 	//	firstRun = false;
@@ -586,13 +586,13 @@ bool PublicFunctions::writeTimestampToXml(const QString& nodeName, const QString
 		}
 	}
 
-	// ¶ÁÈ¡ÏÖÓĞXMLÄÚÈİ 
+	// è¯»å–ç°æœ‰XMLå†…å®¹ 
 	QDomDocument doc;
 	if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
 		if (!doc.setContent(&file)) {
 			qDebug() << "Failed to parse XML file, recreating...";
 			doc.clear();
-			// ÖØ½¨ÎÄµµ½á¹¹ 
+			// é‡å»ºæ–‡æ¡£ç»“æ„ 
 			doc.appendChild(doc.createProcessingInstruction("xml", "version=\"1.0\" encoding=\"UTF-8\""));
 			QDomElement root = doc.createElement("Timestamps");
 			doc.appendChild(root);
@@ -604,7 +604,7 @@ bool PublicFunctions::writeTimestampToXml(const QString& nodeName, const QString
 		return false;
 	}
 
-	// ´¦ÀíXMLÎÄµµ 
+	// å¤„ç†XMLæ–‡æ¡£ 
 	QDomElement root = doc.documentElement();
 	if (root.isNull() || root.tagName() != "Timestamps") {
 		doc.clear();
@@ -613,14 +613,14 @@ bool PublicFunctions::writeTimestampToXml(const QString& nodeName, const QString
 		doc.appendChild(root);
 	}
 
-	// ²éÕÒ»ò´´½¨½Úµã 
+	// æŸ¥æ‰¾æˆ–åˆ›å»ºèŠ‚ç‚¹ 
 	QDomElement node = root.firstChildElement(nodeName);
 	if (node.isNull()) {
 		node = doc.createElement(nodeName);
 		root.appendChild(node);
 	}
 
-	// ÉèÖÃ½ÚµãÎÄ±¾ÄÚÈİ 
+	// è®¾ç½®èŠ‚ç‚¹æ–‡æœ¬å†…å®¹ 
 	QDomText text = node.firstChild().toText();
 	if (text.isNull()) {
 		text = doc.createTextNode(timestampStr);
@@ -630,16 +630,16 @@ bool PublicFunctions::writeTimestampToXml(const QString& nodeName, const QString
 		text.setData(timestampStr);
 	}
 
-	// Ğ´Èë¸ñÊ½»¯ºóµÄXML 
+	// å†™å…¥æ ¼å¼åŒ–åçš„XML 
 	if (file.open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::Truncate)) {
 		QTextStream out(&file);
 		out.setCodec("UTF-8");
 
-		// ÉèÖÃËõ½ø¸ñÊ½ (4¸ö¿Õ¸ñ)
+		// è®¾ç½®ç¼©è¿›æ ¼å¼ (4ä¸ªç©ºæ ¼)
 		const int indentSize = 4;
 		QString xml = doc.toString(indentSize);
 
-		// ĞŞÕı¶àÓà»»ĞĞ 
+		// ä¿®æ­£å¤šä½™æ¢è¡Œ 
 		xml.replace("\n\n", "\n");
 		out << xml;
 
@@ -650,7 +650,7 @@ bool PublicFunctions::writeTimestampToXml(const QString& nodeName, const QString
 	return false;
 }
 
-// ¶ÁÈ¡PSTimestamp.xml
+// è¯»å–PSTimestamp.xml
 QDateTime PublicFunctions::readTimestampFromXml(const QString& nodeName, const QString& projectDir)
 {
 	QFile file(projectDir + "PSTimestamp.xml");
@@ -668,7 +668,7 @@ QDateTime PublicFunctions::readTimestampFromXml(const QString& nodeName, const Q
 		if (reader.isStartElement() && reader.name() == nodeName) {
 			reader.readNext();
 			if (reader.isCharacters()) {
-				// Ê¹ÓÃ×Ô¶¨Òå¸ñÊ½½âÎö£¬Æ¥Åä"yyyy-MM-dd  hh:mm:ss"
+				// ä½¿ç”¨è‡ªå®šä¹‰æ ¼å¼è§£æï¼ŒåŒ¹é…"yyyy-MM-dd  hh:mm:ss"
 				result = QDateTime::fromString(reader.text().toString(), "yyyy-MM-dd  hh:mm:ss");
 				break;
 			}
@@ -690,7 +690,7 @@ void PublicFunctions::restartApplication()
 	QCoreApplication::quit();
 }
 
-// ÑéÖ¤¹·Ğí¿ÉÖ¤µÄÍêÕûº¯Êı 
+// éªŒè¯ç‹—è®¸å¯è¯çš„å®Œæ•´å‡½æ•° 
 bool PublicFunctions::validateDogLicense()
 {
 	QString exePath = QCoreApplication::applicationDirPath();
@@ -712,20 +712,20 @@ bool PublicFunctions::validateDogLicense()
 	authCmd = exePath + QString::fromLocal8Bit("/Software/DsmMatch_64/PSAuthorizeInquiryCmd.exe");
 #endif 
 
-	// Ö´ĞĞÑéÖ¤³ÌĞò 
+	// æ‰§è¡ŒéªŒè¯ç¨‹åº 
 	process.start(authCmd, QStringList() << "15");
 
-	// ´¦Àí¸÷ÖÖÑéÖ¤Ê§°ÜÇé¿ö 
+	// å¤„ç†å„ç§éªŒè¯å¤±è´¥æƒ…å†µ 
 	auto handleError = [&](const QString& errorMsg) -> bool {
 		QMessageBox msgBox(QMessageBox::Critical,
-			u8"´íÎó",
+			u8"é”™è¯¯",
 			errorMsg,
 			QMessageBox::NoButton,
 			nullptr);
 		msgBox.setIcon(QMessageBox::Critical);
-		QPushButton *remoteUpgradeBtn = msgBox.addButton(u8"Ô¶³ÌĞí¿ÉÉı¼¶(hasp¹·)", QMessageBox::ActionRole);
-		QPushButton *restartBtn = msgBox.addButton(u8"ÖØĞÂÆô¶¯", QMessageBox::ActionRole);
-		QPushButton *cancelBtn = msgBox.addButton(u8"È¡Ïû", QMessageBox::RejectRole);
+		QPushButton *remoteUpgradeBtn = msgBox.addButton(u8"è¿œç¨‹è®¸å¯å‡çº§(haspç‹—)", QMessageBox::ActionRole);
+		QPushButton *restartBtn = msgBox.addButton(u8"é‡æ–°å¯åŠ¨", QMessageBox::ActionRole);
+		QPushButton *cancelBtn = msgBox.addButton(u8"å–æ¶ˆ", QMessageBox::RejectRole);
 		msgBox.setDefaultButton(restartBtn);
 
 		msgBox.exec();
@@ -733,7 +733,7 @@ bool PublicFunctions::validateDogLicense()
 		if (msgBox.clickedButton() == remoteUpgradeBtn) {
 			processDog.start(exePath + QString::fromLocal8Bit("/Software/RUS_HASP_IMAGEPS.exe"));
 			if (!processDog.waitForStarted(3000)) {
-				QMessageBox::critical(nullptr, u8"´íÎó", u8"ÎŞ·¨Æô¶¯Ô¶³ÌÉı¼¶³ÌĞò");
+				QMessageBox::critical(nullptr, u8"é”™è¯¯", u8"æ— æ³•å¯åŠ¨è¿œç¨‹å‡çº§ç¨‹åº");
 			}
 			processDog.waitForFinished();
 		}
@@ -743,23 +743,23 @@ bool PublicFunctions::validateDogLicense()
 		return false;
 	};
 
-	// µÈ´ı½ø³ÌÍê³É 
+	// ç­‰å¾…è¿›ç¨‹å®Œæˆ 
 	if (!process.waitForFinished(30000)) {
-		return handleError(u8"Ğí¿ÉÖ¤¼ì²é½ø³ÌÖ´ĞĞ³¬Ê±");
+		return handleError(u8"è®¸å¯è¯æ£€æŸ¥è¿›ç¨‹æ‰§è¡Œè¶…æ—¶");
 	}
 
-	// ¼ì²é½ø³ÌÍË³ö×´Ì¬ 
+	// æ£€æŸ¥è¿›ç¨‹é€€å‡ºçŠ¶æ€ 
 	if (process.exitStatus() != QProcess::NormalExit || process.exitCode() != 0) {
-		return handleError(u8"Ğí¿ÉÖ¤¼ì²é½ø³ÌÖ´ĞĞÊ§°Ü");
+		return handleError(u8"è®¸å¯è¯æ£€æŸ¥è¿›ç¨‹æ‰§è¡Œå¤±è´¥");
 	}
 
-	// ¼ì²éĞí¿ÉÖ¤ÎÄ¼ş 
+	// æ£€æŸ¥è®¸å¯è¯æ–‡ä»¶ 
 	QFile file(exePath + authCmddir + QString::fromLocal8Bit("/XQAuthorize.lic"));
 	if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-		return handleError(u8"ÎŞ·¨´ò¿ªĞí¿ÉÖ¤ÎÄ¼ş");
+		return handleError(u8"æ— æ³•æ‰“å¼€è®¸å¯è¯æ–‡ä»¶");
 	}
 
-	// ½âÎöĞí¿ÉÖ¤ÎÄ¼şÄÚÈİ 
+	// è§£æè®¸å¯è¯æ–‡ä»¶å†…å®¹ 
 	bool hasSuperDog = false, hasHaspDog = false;
 	int superDogValue = 0, haspDogValue = 0;
 	QTextStream in(&file);
@@ -789,13 +789,13 @@ bool PublicFunctions::validateDogLicense()
 	}
 	file.close();
 
-	// ÑéÖ¤Ğí¿ÉÖ¤ÄÚÈİ 
+	// éªŒè¯è®¸å¯è¯å†…å®¹ 
 	if (!hasSuperDog || !hasHaspDog) {
-		return handleError(u8"ÎŞĞ§µÄĞí¿ÉÖ¤¸ñÊ½");
+		return handleError(u8"æ— æ•ˆçš„è®¸å¯è¯æ ¼å¼");
 	}
 
 	if (!(superDogValue == 1 || haspDogValue == 1)) {
-		return handleError(u8"ÎŞĞ§µÄĞí¿ÉÖ¤¸ñÊ½");
+		return handleError(u8"æ— æ•ˆçš„è®¸å¯è¯æ ¼å¼");
 	}
 
 	return true;

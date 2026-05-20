@@ -1,4 +1,4 @@
-#ifndef TABBEDDOCKWIDGET_H 
+ï»¿#ifndef TABBEDDOCKWIDGET_H 
 #define TABBEDDOCKWIDGET_H
 
 #include <QDockWidget>
@@ -14,14 +14,14 @@
 class TabbedDockWidget : public QDockWidget {
 	Q_OBJECT
 public:
-	explicit TabbedDockWidget(QWidget* parent = nullptr); // Ä¬ÈÏ¹¹Ôì 
-	explicit TabbedDockWidget(const QString& title, QWidget* parent = nullptr); // ´ø±êÌâ¹¹Ôì
+	explicit TabbedDockWidget(QWidget* parent = nullptr); // é»˜è®¤æ„é€  
+	explicit TabbedDockWidget(const QString& title, QWidget* parent = nullptr); // å¸¦æ ‡é¢˜æ„é€ 
 
-	// »ñÈ¡µ±Ç°Ò³ÃæÊıÁ¿
+	// è·å–å½“å‰é¡µé¢æ•°é‡
 	int pageCount() const { return stackedWidget->count(); }
 
 signals:
-	void pageClosed(int index); // Ò³Ãæ¹Ø±ÕÊ±·¢³öĞÅºÅ 
+	void pageClosed(int index); // é¡µé¢å…³é—­æ—¶å‘å‡ºä¿¡å· 
 
 protected:
 	void closeEvent(QCloseEvent* event) override;
@@ -31,7 +31,7 @@ private slots:
 
 private:
 	QStackedWidget* stackedWidget;
-	QLabel* titleLabel; // ÏÔÊ¾µ±Ç°Ò³Ãæ±êÌâ
+	QLabel* titleLabel; // æ˜¾ç¤ºå½“å‰é¡µé¢æ ‡é¢˜
 };
 
 #endif // TABBEDDOCKWIDGET_H 

@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|x64">
@@ -13,35 +13,45 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{5F6F0A01-A08C-455D-943F-052D207D9A4A}</ProjectGuid>
     <Keyword>QtVS_v304</Keyword>
-    <WindowsTargetPlatformVersion Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">10.0.17763.0</WindowsTargetPlatformVersion>
-    <WindowsTargetPlatformVersion Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">10.0.17763.0</WindowsTargetPlatformVersion>
-    <QtMsBuild Condition="'$(QtMsBuild)'=='' OR !Exists('$(QtMsBuild)\qt.targets')">$(MSBuildProjectDirectory)\QtMsBuild</QtMsBuild>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <QtMsBuild Condition="'$(QtMsBuild)'=='' OR !Exists('$(QtMsBuild)\qt.targets')">C:\Users\mapcore-zkx\AppData\Local\Microsoft\VisualStudio\17.0_a57fa69c\Extensions\v15tzzdx.mlm\QtMSBuild</QtMsBuild>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt_defaults.props')">
     <Import Project="$(QtMsBuild)\qt_defaults.props" />
   </ImportGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'" Label="QtSettings">
-    <QtInstall>5.14.2_msvc2017_64</QtInstall>
-    <QtModules>core;xml;gui;widgets;printsupport;concurrent</QtModules>
+    <QtInstall>5.15.13_msvc2022_64</QtInstall>
+    <QtModules>core;xml;gui;widgets;printsupport;concurrent;network;svg</QtModules>
     <QtBuildConfig>release</QtBuildConfig>
-    <QtQMLDebugEnable>true</QtQMLDebugEnable>
+    <QtQMLDebugEnable>false</QtQMLDebugEnable>
+    <Qt5qmake>D:/test/OSGeo4W/apps/Qt5/bin/qmake.exe</Qt5qmake>
+    <QtEnvironment Condition="'$(QtEnvironment)' == ''">call "$(SolutionDir)set_env.bat"</QtEnvironment>
+    <QtInstallDir>D:/test/OSGeo4W/apps/Qt5</QtInstallDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="QtSettings">
-    <QtInstall>5.14.2_msvc2017_64</QtInstall>
-    <QtModules>core;xml;gui;widgets</QtModules>
-    <QtBuildConfig>debug</QtBuildConfig>
-    <QtQMLDebugEnable>true</QtQMLDebugEnable>
+    <QtInstall>5.15.13_msvc2022_64</QtInstall>
+    <QtModules>core;xml;gui;widgets;printsupport;concurrent;network;svg</QtModules>
+    <QtBuildConfig>release</QtBuildConfig>
+    <QtQMLDebugEnable>false</QtQMLDebugEnable>
+    <Qt5qmake>D:/test/OSGeo4W/apps/Qt5/bin/qmake.exe</Qt5qmake>
+    <QtEnvironment Condition="'$(QtEnvironment)' == ''">call "$(SolutionDir)set_env.bat"</QtEnvironment>
+    <QtInstallDir>D:/test/OSGeo4W/apps/Qt5</QtInstallDir>
   </PropertyGroup>
+  <Target Name="QtSetEnvironment" BeforeTargets="QtVars">
+    <SetEnv Name="PATH" Prefix="false" Value="D:\test\OSGeo4W\apps\Qt5\bin;D:\test\OSGeo4W\bin;D:\test\OSGeo4W\apps\qgis-ltr\bin" />
+    <SetEnv Name="QT_PLUGIN_PATH" Prefix="false" Value="D:\test\OSGeo4W\apps\Qt5\plugins" />
+    <SetEnv Name="OSGEO4W_ROOT" Prefix="false" Value="D:\test\OSGeo4W" />
+  </Target>
   <Target Name="QtMsBuildNotFound" BeforeTargets="CustomBuild;ClCompile" Condition="!Exists('$(QtMsBuild)\qt.targets') or !Exists('$(QtMsBuild)\qt.props')">
     <Message Importance="High" Text="QtMsBuild: could not locate qt.targets, qt.props; project may not build correctly." />
   </Target>
@@ -63,26 +73,32 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" />
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Link>
-      <AdditionalLibraryDirectories>$(SolutionDir)3thirdPar\opencv\lib;$(SolutionDir)3thirdPar\myGdal\lib;$(SolutionDir)3thirdPar\PROJ\lib;$(SolutionDir)3thirdPar\tiff\lib;D:\Qt5.14.2\5.14.2\msvc2017_64\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>opencv_world480.lib;gdal.lib;proj.lib;OpenGL32.Lib;tiff.lib;tiffxx.lib;Qt5PrintSupport.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)3thirdPar\opencv\lib;$(SolutionDir)3thirdPar\myGdal\lib;$(SolutionDir)3thirdPar\PROJ\lib;$(SolutionDir)3thirdPar\tiff\lib;D:\test\OSGeo4W\apps\Qt5\lib;D:\test\OSGeo4W\apps\qgis-ltr\lib;D:\test\OSGeo4W\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opencv_world480.lib;gdal.lib;proj.lib;OpenGL32.Lib;tiff.lib;tiffxx.lib;Qt5PrintSupport.lib;qgis_core.lib;qgis_gui.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalManifestDependencies>
       </AdditionalManifestDependencies>
     </Link>
     <ClCompile>
-      <AdditionalIncludeDirectories>$(SolutionDir)bin;$(SolutionDir)3thirdPar\opencv\include;$(SolutionDir)3thirdPar\opencv\include\opencv2;$(SolutionDir)3thirdPar\myGdal\include;$(SolutionDir)3thirdPar\PROJ\include;$(SolutionDir)3thirdPar\tiff\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)bin;$(SolutionDir)3thirdPar\opencv\include;$(SolutionDir)3thirdPar\opencv\include\opencv2;$(SolutionDir)3thirdPar\myGdal\include;$(SolutionDir)3thirdPar\PROJ\include;$(SolutionDir)3thirdPar\tiff\include;D:\test\OSGeo4W\apps\qgis-ltr\include;D:\test\OSGeo4W\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <SDLCheck>
       </SDLCheck>
     </ClCompile>
+    <Environment>
+      <EnvironmentVariables>PATH=%PATH%;D:\test\OSGeo4W\apps\Qt5\bin;D:\test\OSGeo4W\bin;D:\test\OSGeo4W\apps\qgis-ltr\bin</EnvironmentVariables>
+    </Environment>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Link>
-      <AdditionalLibraryDirectories>$(SolutionDir)3thirdPar\opencv\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>opencv_world480d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)3thirdPar\opencv\lib;D:\test\OSGeo4W\apps\qgis-ltr\lib;D:\test\OSGeo4W\lib;D:\test\OSGeo4W\apps\Qt5\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opencv_world480d.lib;qgis_core.lib;qgis_gui.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <ClCompile>
-      <AdditionalIncludeDirectories>$(SolutionDir)bin;$(SolutionDir)3thirdPar\opencv\include;$(SolutionDir)3thirdPar\opencv\include\opencv2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)bin;$(SolutionDir)3thirdPar\opencv\include;$(SolutionDir)3thirdPar\opencv\include\opencv2;D:\test\OSGeo4W\apps\qgis-ltr\include;D:\test\OSGeo4W\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
+    <Environment>
+      <EnvironmentVariables>PATH=%PATH%;D:\test\OSGeo4W\apps\Qt5\bin;D:\test\OSGeo4W\bin;D:\test\OSGeo4W\apps\qgis-ltr\bin</EnvironmentVariables>
+    </Environment>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'" Label="Configuration">
     <ClCompile>
@@ -90,6 +106,7 @@
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>_USE_MATH_DEFINES;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -102,6 +119,7 @@
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>_USE_MATH_DEFINES;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -111,9 +129,9 @@
   <ItemGroup>
     <ClCompile Include="DataModelConfig.cpp" />
     <ClCompile Include="GLDisplayWidget.cpp" />
+    <ClCompile Include="QgsMapCanvasWidget.cpp" />
     <ClCompile Include="HeightAnomalyProcessing.cpp" />
     <ClCompile Include="ImageCloudSnowProcessing.cpp" />
-    <ClCompile Include="ImageCropTool.cpp" />
     <ClCompile Include="ImageInfoShow.cpp" />
     <ClCompile Include="IMAGEPS_InfoWindow.cpp" />
     <ClCompile Include="InvalidValueHandling.cpp" />
@@ -123,9 +141,6 @@
     <ClCompile Include="ProjectSetting.cpp" />
     <ClCompile Include="PublicFunctions.cpp" />
     <ClCompile Include="qcustomplot.cpp" />
-    <ClCompile Include="RPC2RPB.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
-    </ClCompile>
     <ClCompile Include="SatelliteViewer.cpp" />
     <ClCompile Include="SetOrthoInfo.cpp" />
     <ClCompile Include="SimpleToolS.cpp" />
@@ -134,7 +149,6 @@
     <QtUic Include="DataModelConfig.ui" />
     <QtUic Include="HeightAnomalyProcessing.ui" />
     <QtUic Include="ImageCloudSnowProcessing.ui" />
-    <QtUic Include="ImageCropTool.ui" />
     <QtUic Include="IMAGEPS.ui" />
     <QtMoc Include="IMAGEPS.h" />
     <ClCompile Include="IMAGEPS.cpp" />
@@ -147,9 +161,6 @@
     <QtUic Include="IMAGEPS_InfoWindow.ui" />
     <QtUic Include="InvalidValueHandling.ui" />
     <QtUic Include="ProjectSetting.ui" />
-    <QtUic Include="RPC2RPB.ui">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
-    </QtUic>
     <QtUic Include="SetOrthoInfo.ui" />
     <QtUic Include="SimpleToolS.ui" />
     <QtUic Include="SystemConfig.ui" />
@@ -161,15 +172,11 @@
     <QtMoc Include="SystemConfig.h" />
   </ItemGroup>
   <ItemGroup>
-    <QtMoc Include="RPC2RPB.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
-    </QtMoc>
     <QtMoc Include="NonEditableModel.h" />
     <QtMoc Include="IMAGEPS_InfoWindow.h" />
     <QtMoc Include="ImageCloudSnowProcessing.h" />
     <QtMoc Include="HeightAnomalyProcessing.h" />
     <QtMoc Include="InvalidValueHandling.h" />
-    <QtMoc Include="ImageCropTool.h" />
     <ClInclude Include="Logger.h" />
     <ClInclude Include="PublicStruct.h" />
     <QtMoc Include="qcustomplot.h" />
@@ -180,6 +187,7 @@
     <QtMoc Include="MeasurementareaShow.h" />
     <QtMoc Include="DataModelConfig.h" />
     <QtMoc Include="GLDisplayWidget.h" />
+    <QtMoc Include="QgsMapCanvasWidget.h" />
     <QtMoc Include="ImageInfoShow.h" />
     <ClInclude Include="PublicFunctions.h" />
   </ItemGroup>

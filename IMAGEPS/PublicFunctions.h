@@ -1,4 +1,4 @@
-#ifndef PUBLICFUNCTIONS_H
+ï»¿#ifndef PUBLICFUNCTIONS_H
 #define PUBLICFUNCTIONS_H
 
 #include <opencv2/opencv.hpp>
@@ -20,25 +20,25 @@
 class PublicFunctions
 {
 public:
-	// ½«OpenCVµÄMat×ª»»ÎªQImage
+	// å°†OpenCVçš„Matè½¬æ¢ä¸ºQImage
 	static QImage cvMatToQImage(const cv::Mat &mat);
 
-	//¶ÁÈ¡ÎÄ¼ş
+	//è¯»å–æ–‡ä»¶
 	static QList<QStringList> loadFile(QString filePath, QString splitFlag);
 
-	//¶ÁÈ¡ÅäÖÃÎÄ¼ş
+	//è¯»å–é…ç½®æ–‡ä»¶
 	static QMap<QString, QList<QStringList>> loadConfigFile(QString filePath);
 
 	static QList<QPair<QString, QList<QStringList>>> loadConfigFileL(QString filePath);
 
-	//½«¹¤³ÌÃûºÍ¹¤³ÌÄ¿Â¼Ğ´Èë.csv
+	//å°†å·¥ç¨‹åå’Œå·¥ç¨‹ç›®å½•å†™å…¥.csv
 	static bool writeToCsv(const QString &filePath, const QList<QStringList> &records);
 
 	static QHash<QString, QString> loadFromCsv(const QString &filePath);
 
 	static QString findFileDir(const QHash<QString, QString> &fileMap, const QString &filename);
 
-	//ÎÄ¼ş±ê¼Ç¶ÁÈ¡
+	//æ–‡ä»¶æ ‡è®°è¯»å–
 	static QStringList getNewlyCreatedFiles(const QString& dirPath, const QDateTime & markerFileTime);
 
 	//static bool copyControlPointToPSTimestamp();

@@ -1,4 +1,4 @@
-#ifndef MEASUREMENTAREASHOW_H   
+ï»¿#ifndef MEASUREMENTAREASHOW_H   
 #define MEASUREMENTAREASHOW_H
 
 #include <QOpenGLWidget>   
@@ -28,9 +28,9 @@
 class IMAGEPS;
 
 struct GeoBoundary {
-	QVector<QPointF> corners;  // ´æ´¢ËÄ¸ö½Çµã×ø±ê
+	QVector<QPointF> corners;  // å­˜å‚¨å››ä¸ªè§’ç‚¹åæ ‡
 	QColor color;
-	QString filePath;  // Ìí¼ÓÎÄ¼şÂ·¾¶³ÉÔ±
+	QString filePath;  // æ·»åŠ æ–‡ä»¶è·¯å¾„æˆå‘˜
 };
 
 struct GeoImage {
@@ -69,8 +69,8 @@ public:
 	QStringList tmpfilepath;
 	QSet<QString> m_excludedReferences;
 
-	QSet<QString> m_visiblePointIds; // ´æ´¢ĞèÒªÏÔÊ¾µÄµãID 
-	bool m_onlyShowVisibleIds = false; // ÊÇ·ñÖ»ÏÔÊ¾m_visiblePointIdsÖĞµÄµã 
+	QSet<QString> m_visiblePointIds; // å­˜å‚¨éœ€è¦æ˜¾ç¤ºçš„ç‚¹ID 
+	bool m_onlyShowVisibleIds = false; // æ˜¯å¦åªæ˜¾ç¤ºm_visiblePointIdsä¸­çš„ç‚¹ 
 
 	void addGeoBoundary(const QString &filePath, const QColor &color = Qt::red);
 	bool parseXmlBoundary(const QString &xmlPath, GeoBoundary &boundary);
@@ -81,35 +81,35 @@ public:
 
 	void removeGeoBoundary(const QString &filePath); 
 
-	void loadPoints(const QStringList& filePathList, const QStringList filenames, const QString flag, const QList<QString> orderedPointIds);  // Ìí¼Ó¼ÓÔØÁ¬½Óµãº¯Êı 
+	void loadPoints(const QStringList& filePathList, const QStringList filenames, const QString flag, const QList<QString> orderedPointIds);  // æ·»åŠ åŠ è½½è¿æ¥ç‚¹å‡½æ•° 
 
-	void showPoints(bool show);  // ÉèÖÃÊÇ·ñÏÔÊ¾Á¬½Óµã
-	void removePointById(QString pointId, const QString flag); // ¸ù¾İpointIdÉ¾³ıµã 
+	void showPoints(bool show);  // è®¾ç½®æ˜¯å¦æ˜¾ç¤ºè¿æ¥ç‚¹
+	void removePointById(QString pointId, const QString flag); // æ ¹æ®pointIdåˆ é™¤ç‚¹ 
 	void removePointsByFilePath(const QString& filePath, const QString& flag);
-	void highlightPointById(QString pointId, const QString& flag,bool highlight = true); // ¸ù¾İpointId¸ßÁÁ
+	void highlightPointById(QString pointId, const QString& flag,bool highlight = true); // æ ¹æ®pointIdé«˜äº®
 	void highlightPointsById(const QSet<QString>& pointIds,
 		const QString& flag,
 		bool highlight);
-	void clearPointHighlights(); // Çå³ıËùÓĞµã¸ßÁÁ
+	void clearPointHighlights(); // æ¸…é™¤æ‰€æœ‰ç‚¹é«˜äº®
 
-	// Á¬½Óµã(con)ÏÔÊ¾/Òş²Øº¯Êı 
+	// è¿æ¥ç‚¹(con)æ˜¾ç¤º/éšè—å‡½æ•° 
 	void setConPointsVisible(bool visible, QString pointId = "-1");
 	bool isConPointVisible(QString pointId) const;
 	void showAllConPoints();
 	void hideAllConPoints();
 
-	// ¿ØÖÆµã(col)ÏÔÊ¾/Òş²Øº¯Êı
+	// æ§åˆ¶ç‚¹(col)æ˜¾ç¤º/éšè—å‡½æ•°
 	void setColPointsVisible(bool visible, QString pointId = "-1");
 	bool isColPointVisible(QString pointId) const;
 	void showAllColPoints();
 	void hideAllColPoints();
 
-	// Í³Ò»¹ÜÀíº¯Êı 
+	// ç»Ÿä¸€ç®¡ç†å‡½æ•° 
 	void setAllPointsVisible(bool visible);
 
 	QPointF pixelToWorld(const QPointF& pixelPos,  QString& imageName, const QStringList filenames);
 
-	// ×ø±êÏµ×ª»»º¯Êı 
+	// åæ ‡ç³»è½¬æ¢å‡½æ•° 
 	bool transformCoordinates(OGRSpatialReference* sourceSRS, OGRSpatialReference* targetSRS,
 		double& x, double& y);
 	void reprojectBoundary(GeoBoundary& boundary, OGRSpatialReference* targetSRS);
@@ -121,12 +121,12 @@ public:
 
 	QPointF screenToWorld(const QPoint &screenPos) const;
 
-	// ´æ´¢Ã¿ÕÅÍ¼ÏñµÄµØÀí±ä»»²ÎÊı 
+	// å­˜å‚¨æ¯å¼ å›¾åƒçš„åœ°ç†å˜æ¢å‚æ•° 
 	QMap<QString, double*> m_geoTransforms;
 	double m_worldMinX, m_worldMaxX, m_worldMinY, m_worldMaxY;
 
 
-	// ½»»¥¿ØÖÆº¯Êı
+	// äº¤äº’æ§åˆ¶å‡½æ•°
 	void zoomIn();
 	void zoomOut();
 	void zoomToFullExtent();
@@ -137,20 +137,20 @@ public:
 	void setSelectionMode(bool enabled);
 	void clearSelection();
 	const QSet<QString>& getSelectedFiles() const { return m_selectedFiles; }
-	void drawSelectionRect(); // »æÖÆÑ¡Ôñ¿ò
-	QSet<QString> m_selectedFiles; // µ±Ç°Ñ¡ÖĞµÄÎÄ¼ş
+	void drawSelectionRect(); // ç»˜åˆ¶é€‰æ‹©æ¡†
+	QSet<QString> m_selectedFiles; // å½“å‰é€‰ä¸­çš„æ–‡ä»¶
 
-		// ÉèÖÃµãÑ¡ÔñÄ£Ê½
+		// è®¾ç½®ç‚¹é€‰æ‹©æ¨¡å¼
 	void setPointSelectionMode(bool enabled);
 
-	// ÉèÖÃµãÀàĞÍ¹ıÂË 
+	// è®¾ç½®ç‚¹ç±»å‹è¿‡æ»¤ 
 	void setPointTypeFilter(const QString& type);
 
-	// »ñÈ¡Ñ¡ÖĞµÄµã 
+	// è·å–é€‰ä¸­çš„ç‚¹ 
 	const QSet<QString>& getSelectedConPoints() const { return m_selectedConPoints; }
 	const QSet<QString>& getSelectedColPoints() const { return m_selectedColPoints; }
 
-	// Çå³ıµãÑ¡Ôñ
+	// æ¸…é™¤ç‚¹é€‰æ‹©
 	void clearPointSelection();
 
 	QStringList getExcludedReferences() const;
@@ -167,7 +167,7 @@ protected:
 	void resizeGL(int w, int h) override;
 	
 
-	// Êó±êÊÂ¼ş´¦Àí
+	// é¼ æ ‡äº‹ä»¶å¤„ç†
 	void mousePressEvent(QMouseEvent *event) override;
 	void mouseMoveEvent(QMouseEvent *event) override;
 	void mouseReleaseEvent(QMouseEvent *event) override;
@@ -183,58 +183,58 @@ private:
 		bool isBlockProcessed = false;
 	};
 	GDALDataset *currentDataset;
-	// ÊÓÍ¼±ä»»²ÎÊı
+	// è§†å›¾å˜æ¢å‚æ•°
 	double m_viewCenterX, m_viewCenterY;
 	double m_viewScale;
 	bool m_isPanning;
 	QPoint m_lastPanPos;
 
-	// Ñ¡Ôñ¿òÏà¹Ø±äÁ¿
+	// é€‰æ‹©æ¡†ç›¸å…³å˜é‡
 	QRect m_selectionRect;
 	bool m_isSelecting = false;
 	QPoint m_selectionStart;
-	bool m_useMiddleButtonForPan = false; // ÊÇ·ñÊ¹ÓÃÖĞ¼üÆ½ÒÆ 
+	bool m_useMiddleButtonForPan = false; // æ˜¯å¦ä½¿ç”¨ä¸­é”®å¹³ç§» 
 
-	// Ó°ÏñÀàĞÍ¹ıÂË
-	QString m_currentImageTypeFilter; // µ±Ç°Ñ¡ÔñµÄÓ°ÏñÀàĞÍ(DOM/DEM/Ô­Ê¼Ó°Ïñ)
+	// å½±åƒç±»å‹è¿‡æ»¤
+	QString m_currentImageTypeFilter; // å½“å‰é€‰æ‹©çš„å½±åƒç±»å‹(DOM/DEM/åŸå§‹å½±åƒ)
 
-	// µãÏÔÊ¾×´Ì¬¹ÜÀí
+	// ç‚¹æ˜¾ç¤ºçŠ¶æ€ç®¡ç†
 	struct PointVisibility {
-		bool allVisible = true; // ÕûÌåÏÔÊ¾×´Ì¬
-		QSet<QString> hiddenIds;    // ±»Òş²ØµÄµ¥¸öµãID
+		bool allVisible = true; // æ•´ä½“æ˜¾ç¤ºçŠ¶æ€
+		QSet<QString> hiddenIds;    // è¢«éšè—çš„å•ä¸ªç‚¹ID
 	};
 
-	PointVisibility m_conVisibility; // Á¬½ÓµãÏÔÊ¾×´Ì¬
-	PointVisibility m_colVisibility; // ¿ØÖÆµãÏÔÊ¾×´Ì¬
+	PointVisibility m_conVisibility; // è¿æ¥ç‚¹æ˜¾ç¤ºçŠ¶æ€
+	PointVisibility m_colVisibility; // æ§åˆ¶ç‚¹æ˜¾ç¤ºçŠ¶æ€
 
-	QVector<Point> m_conPoints;  // ´æ´¢Á¬½ÓµãÊı¾İ
-	QVector<Point> m_colPoints;  // ´æ´¢¿ØÖÆµãÊı¾İ
-	bool m_showPoints = false;   // ÊÇ·ñÏÔÊ¾Á¬½Óµã±êÖ¾
-	QMap<QString, int> m_conpointIdToIndex; // ´æ´¢pointIdµ½Á¬½ÓµãÊı×éË÷ÒıµÄÓ³Éä 
-	QMap<int, QString> m_colpointIdToIndex; // ´æ´¢pointIdµ½¿ØÖÆµãÊı×éË÷ÒıµÄÓ³Éä 
-	QSet<QString> m_highlightedconPointIds; // ´æ´¢¸ßÁÁÁ¬½ÓµãµÄID
-	QSet<QString> m_highlightedcolPointIds; // ´æ´¢¸ßÁÁ¿ØÖÆµãµÄID
+	QVector<Point> m_conPoints;  // å­˜å‚¨è¿æ¥ç‚¹æ•°æ®
+	QVector<Point> m_colPoints;  // å­˜å‚¨æ§åˆ¶ç‚¹æ•°æ®
+	bool m_showPoints = false;   // æ˜¯å¦æ˜¾ç¤ºè¿æ¥ç‚¹æ ‡å¿—
+	QMap<QString, int> m_conpointIdToIndex; // å­˜å‚¨pointIdåˆ°è¿æ¥ç‚¹æ•°ç»„ç´¢å¼•çš„æ˜ å°„ 
+	QMap<int, QString> m_colpointIdToIndex; // å­˜å‚¨pointIdåˆ°æ§åˆ¶ç‚¹æ•°ç»„ç´¢å¼•çš„æ˜ å°„ 
+	QSet<QString> m_highlightedconPointIds; // å­˜å‚¨é«˜äº®è¿æ¥ç‚¹çš„ID
+	QSet<QString> m_highlightedcolPointIds; // å­˜å‚¨é«˜äº®æ§åˆ¶ç‚¹çš„ID
 	QVector<GeoImage> m_images;
 
-	QSet<QString> m_highlightedFiles; // ´æ´¢µ±Ç°¸ßÁÁµÄÎÄ¼şÂ·¾¶ 
-	float m_highlightWidth = 3.0f;    // ¸ßÁÁÏßÌõ¿í¶È
-	QColor m_highlightColor = Qt::yellow; // ¸ßÁÁÑÕÉ«
+	QSet<QString> m_highlightedFiles; // å­˜å‚¨å½“å‰é«˜äº®çš„æ–‡ä»¶è·¯å¾„ 
+	float m_highlightWidth = 3.0f;    // é«˜äº®çº¿æ¡å®½åº¦
+	QColor m_highlightColor = Qt::yellow; // é«˜äº®é¢œè‰²
 
-	// µãÑ¡ÔñÏà¹Ø±äÁ¿
-	bool m_isPointSelecting = false; // ÊÇ·ñ´¦ÓÚµãÑ¡ÔñÄ£Ê½
-	QSet<QString> m_selectedConPoints; // Ñ¡ÖĞµÄÁ¬½Óµã
-	QSet<QString> m_selectedColPoints; // Ñ¡ÖĞµÄ¿ØÖÆµã
-	QString m_currentPointTypeFilter = "all"; // µ±Ç°µãÀàĞÍ¹ıÂË("con"/"col"/"all")
+	// ç‚¹é€‰æ‹©ç›¸å…³å˜é‡
+	bool m_isPointSelecting = false; // æ˜¯å¦å¤„äºç‚¹é€‰æ‹©æ¨¡å¼
+	QSet<QString> m_selectedConPoints; // é€‰ä¸­çš„è¿æ¥ç‚¹
+	QSet<QString> m_selectedColPoints; // é€‰ä¸­çš„æ§åˆ¶ç‚¹
+	QString m_currentPointTypeFilter = "all"; // å½“å‰ç‚¹ç±»å‹è¿‡æ»¤("con"/"col"/"all")
 
-	void drawPoints();  // »æÖÆÁ¬½Óµãº¯Êı
+	void drawPoints();  // ç»˜åˆ¶è¿æ¥ç‚¹å‡½æ•°
 
 	void calculateWorldExtent();
 	void drawBoundary(const GeoBoundary &boundary);
 
-	// ×ø±ê×ª»»º¯Êı
+	// åæ ‡è½¬æ¢å‡½æ•°
 	QPoint worldToScreen(const QPointF &worldPos) const;
 
-	// ¸üĞÂÊÓÍ¼±ä»»
+	// æ›´æ–°è§†å›¾å˜æ¢
 	void updateViewTransform();
 
 	QString formatGeoCoordinate(double x, double y);

@@ -1,4 +1,4 @@
-#ifndef SATELLITEVIEWER_H 
+ï»¿#ifndef SATELLITEVIEWER_H 
 #define SATELLITEVIEWER_H 
 
 #include <QGraphicsView>
@@ -38,20 +38,20 @@ public:
 //	QVector<ImageData> m_images;
 //	QString m_currentImagePath;
 //
-//	// ÊÓÍ¼¿ØÖÆ 
+//	// è§†å›¾æ§åˆ¶ 
 //	QPointF m_viewCenter;
 //	float m_viewScale = 1.0f;
 //	QPoint m_lastDragPos;
 //	QPointF m_dragStartViewCenter;
 //
-//	// Êı¾İ´¦Àí·½·¨ 
+//	// æ•°æ®å¤„ç†æ–¹æ³• 
 //	QImage readOverview(int overviewLevel, const QRect& region = QRect());
 //	void updateImageForCurrentLevel();
 //	int calculateOverviewLevel(float viewScale) const;
 //	void clampViewCenter();
 //	void updateViewTransform();
 //
-//	// Í¼Ïñ´¦Àí·½·¨ 
+//	// å›¾åƒå¤„ç†æ–¹æ³• 
 //	QImage processMultispectralBlock(GDALDataset* dataset, int overviewLevel,
 //		int x, int y, int width, int height);
 //	QImage processPanchromaticBlock(GDALRasterBand* band,

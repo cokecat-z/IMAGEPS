@@ -1,4 +1,4 @@
-#include "GLDisplayWidget.h"
+ï»¿#include "GLDisplayWidget.h"
 #include "IMAGEPS.h"
 #include <QDebug>
 #include <QMouseEvent>
@@ -24,7 +24,7 @@ GLDisplayWidget::~GLDisplayWidget() {
 	doneCurrent();
 }
 
-// ÉèÖÃ IMAGEPS ÊµÀı 
+// è®¾ç½® IMAGEPS å®ä¾‹ 
 void GLDisplayWidget::setImagePS(IMAGEPS* imagePS)
 {
 	m_imagePS = imagePS;
@@ -40,7 +40,7 @@ void GLDisplayWidget::initializeGL() {
 void GLDisplayWidget::loadImage(const QString& path) {
 	makeCurrent();
 
-	// ÇåÀíÏÖÓĞ×ÊÔ´ 
+	// æ¸…ç†ç°æœ‰èµ„æº 
 	for (auto& img : m_images) {
 		if (img.texture) {
 			img.texture->destroy();
@@ -56,7 +56,7 @@ void GLDisplayWidget::loadImage(const QString& path) {
 		return;
 	}
 
-	// ³õÊ¼»¯Í¼ÏñÊı¾İ 
+	// åˆå§‹åŒ–å›¾åƒæ•°æ® 
 	ImageData newImage;
 	m_currentImagePath = path;
 	int bandCount = dataset->GetRasterCount();
@@ -92,25 +92,25 @@ void GLDisplayWidget::loadImage(const QString& path) {
 		newImage.maxY = dataset->GetRasterYSize();
 	}
 
-	// ´´½¨ÎÆÀí 
+	// åˆ›å»ºçº¹ç† 
 	newImage.texture = new QOpenGLTexture(QOpenGLTexture::Target2D);
 	newImage.texture->create();
 
-	// ¸ù¾İ²¨¶ÎÊıÉèÖÃÎÆÀí¸ñÊ½ 
+	// æ ¹æ®æ³¢æ®µæ•°è®¾ç½®çº¹ç†æ ¼å¼ 
 	if (bandCount == 1) {
-		// µ¥²¨¶Î´¦Àí 
+		// å•æ³¢æ®µå¤„ç† 
 		newImage.texture->setFormat(QOpenGLTexture::R16_UNorm);
 		newImage.texture->setSize(dataset->GetRasterXSize(), dataset->GetRasterYSize());
 		newImage.texture->allocateStorage(QOpenGLTexture::Red, QOpenGLTexture::UInt16);
 	}
 	else {
-		// ¶à²¨¶Î´¦Àí 
+		// å¤šæ³¢æ®µå¤„ç† 
 		newImage.texture->setFormat(QOpenGLTexture::RGBA8_UNorm);
 		newImage.texture->setSize(dataset->GetRasterXSize(), dataset->GetRasterYSize());
 		newImage.texture->allocateStorage(QOpenGLTexture::RGBA, QOpenGLTexture::UInt8);
 	}
 
-	// ÉèÖÃ³õÊ¼ÊÓÍ¼ 
+	// è®¾ç½®åˆå§‹è§†å›¾ 
 	m_viewCenter = QPointF((newImage.minX + newImage.maxX) / 2.0,
 		(newImage.minY + newImage.maxY) / 2.0);
 	float widthRatio = width() / (float)(newImage.maxX - newImage.minX);
@@ -120,7 +120,7 @@ void GLDisplayWidget::loadImage(const QString& path) {
 	m_images.append(newImage);
 	GDALClose(dataset);
 
-	// ¼ÓÔØ³õÊ¼Êı¾İ 
+	// åŠ è½½åˆå§‹æ•°æ® 
 	updateTextureForCurrentLevel();
 	doneCurrent();
 	update();
@@ -129,7 +129,7 @@ void GLDisplayWidget::loadImage(const QString& path) {
 void GLDisplayWidget::loadMultispectralImage(const QString& path) {
 	makeCurrent();
 
-	// ÇåÀíÏÖÓĞÎÆÀí 
+	// æ¸…ç†ç°æœ‰çº¹ç† 
 	for (auto& img : m_images) {
 		if (img.texture) {
 			img.texture->destroy();
@@ -145,7 +145,7 @@ void GLDisplayWidget::loadMultispectralImage(const QString& path) {
 		return;
 	}
 
-	// ³õÊ¼»¯Í¼ÏñÊı¾İ½á¹¹ 
+	// åˆå§‹åŒ–å›¾åƒæ•°æ®ç»“æ„ 
 	ImageData newImage;
 	m_currentImagePath = path;
 	newImage.dataType = dataset->GetRasterBand(1)->GetRasterDataType();
@@ -179,14 +179,14 @@ void GLDisplayWidget::loadMultispectralImage(const QString& path) {
 		newImage.maxY = dataset->GetRasterYSize();
 	}
 
-	// ´´½¨ÎÆÀí 
+	// åˆ›å»ºçº¹ç† 
 	newImage.texture = new QOpenGLTexture(QOpenGLTexture::Target2D);
 	newImage.texture->create();
 	newImage.texture->setFormat(QOpenGLTexture::RGBA8_UNorm);
 	newImage.texture->setSize(dataset->GetRasterXSize(), dataset->GetRasterYSize());
 	newImage.texture->allocateStorage(QOpenGLTexture::RGBA, QOpenGLTexture::UInt8);
 
-	// ³õÊ¼ÊÓÍ¼ÉèÖÃ 
+	// åˆå§‹è§†å›¾è®¾ç½® 
 	m_viewCenter = QPointF((newImage.minX + newImage.maxX) / 2,
 		(newImage.minY + newImage.maxY) / 2);
 	m_viewScale = qMin(width() / (newImage.maxX - newImage.minX),
@@ -195,7 +195,7 @@ void GLDisplayWidget::loadMultispectralImage(const QString& path) {
 	m_images.append(newImage);
 	GDALClose(dataset);
 
-	// ¼ÓÔØ³õÊ¼½ğ×ÖËş²ã¼¶ 
+	// åŠ è½½åˆå§‹é‡‘å­—å¡”å±‚çº§ 
 	updateTextureForCurrentLevel();
 	doneCurrent();
 }
@@ -203,7 +203,7 @@ void GLDisplayWidget::loadMultispectralImage(const QString& path) {
 void GLDisplayWidget::loadPanchromaticImage(const QString& path) {
 	makeCurrent();
 
-	// ÇåÀíÏÖÓĞÎÆÀí 
+	// æ¸…ç†ç°æœ‰çº¹ç† 
 	for (auto& img : m_images) {
 		if (img.texture) {
 			img.texture->destroy();
@@ -219,7 +219,7 @@ void GLDisplayWidget::loadPanchromaticImage(const QString& path) {
 		return;
 	}
 
-	// ³õÊ¼»¯Í¼ÏñÊı¾İ½á¹¹ 
+	// åˆå§‹åŒ–å›¾åƒæ•°æ®ç»“æ„ 
 	ImageData newImage;
 	m_currentImagePath = path;
 	newImage.dataType = dataset->GetRasterBand(1)->GetRasterDataType();
@@ -254,7 +254,7 @@ void GLDisplayWidget::loadPanchromaticImage(const QString& path) {
 
 	newImage.texture->allocateStorage(QOpenGLTexture::Red, QOpenGLTexture::UInt16);
 
-	// ³õÊ¼ÊÓÍ¼ÉèÖÃ 
+	// åˆå§‹è§†å›¾è®¾ç½® 
 	m_viewCenter = QPointF((newImage.minX + newImage.maxX) / 2,
 		(newImage.minY + newImage.maxY) / 2);
 	m_viewScale = qMin(width() / (newImage.maxX - newImage.minX),
@@ -263,7 +263,7 @@ void GLDisplayWidget::loadPanchromaticImage(const QString& path) {
 	m_images.append(newImage);
 	GDALClose(dataset);
 
-	// ¼ÓÔØ³õÊ¼½ğ×ÖËş²ã¼¶ 
+	// åŠ è½½åˆå§‹é‡‘å­—å¡”å±‚çº§ 
 	updateTextureForCurrentLevel();
 	doneCurrent();
 }
@@ -275,12 +275,12 @@ QImage GLDisplayWidget::readOverview(int overviewLevel, const QRect& region) {
 	const int bandCount = dataset->GetRasterCount();
 	GDALRasterBand* firstBand = dataset->GetRasterBand(1);
 
-	// ÑéÖ¤½ğ×ÖËş²ã¼¶ÓĞĞ§ĞÔ 
+	// éªŒè¯é‡‘å­—å¡”å±‚çº§æœ‰æ•ˆæ€§ 
 	const int maxOverview = firstBand->GetOverviewCount();
 	overviewLevel = qBound(0, overviewLevel, qMax(0, maxOverview - 1));
 
 	if (bandCount == 1) {
-		// µ¥²¨¶Î´¦Àí£¨Ê¹ÓÃĞŞ¸ÄºóµÄprocessPanchromaticBlock£©
+		// å•æ³¢æ®µå¤„ç†ï¼ˆä½¿ç”¨ä¿®æ”¹åçš„processPanchromaticBlockï¼‰
 		GDALRasterBand* band = firstBand->GetOverview(overviewLevel);
 		int width = band->GetXSize();
 		int height = band->GetYSize();
@@ -289,7 +289,7 @@ QImage GLDisplayWidget::readOverview(int overviewLevel, const QRect& region) {
 			readRegion.width(), readRegion.height());
 	}
 	else if (bandCount >= 3) {
-		// ²éÕÒRGB²¨¶Î£¨Ö§³Ö×Ô¶¯²¨¶ÎÊ¶±ğ£©
+		// æŸ¥æ‰¾RGBæ³¢æ®µï¼ˆæ”¯æŒè‡ªåŠ¨æ³¢æ®µè¯†åˆ«ï¼‰
 		int redBandIdx = 1, greenBandIdx = 2, blueBandIdx = 3;
 		for (int i = 1; i <= bandCount; i++) {
 			GDALColorInterp colorType = dataset->GetRasterBand(i)->GetColorInterpretation();
@@ -304,7 +304,7 @@ QImage GLDisplayWidget::readOverview(int overviewLevel, const QRect& region) {
 
 		QRect readRegion = region.isEmpty() ? QRect(0, 0, width, height) : region;
 
-		// ¶ÁÈ¡16Î»Êı¾İ 
+		// è¯»å–16ä½æ•°æ® 
 		uint16_t* redBuf = new uint16_t[readRegion.width() * readRegion.height()];
 		uint16_t* greenBuf = new uint16_t[readRegion.width() * readRegion.height()];
 		uint16_t* blueBuf = new uint16_t[readRegion.width() * readRegion.height()];
@@ -326,11 +326,11 @@ QImage GLDisplayWidget::readOverview(int overviewLevel, const QRect& region) {
 				blueBuf, readRegion.width(), readRegion.height(),
 				GDT_UInt16, 0, 0);
 
-		// ×ÔÊÊÓ¦À­ÉìºÍgammaĞ£Õı 
+		// è‡ªé€‚åº”æ‹‰ä¼¸å’Œgammaæ ¡æ­£ 
 		auto stretchValues = [](uint16_t* data, int size) {
 			uint16_t minVal = 65535, maxVal = 0;
 			for (int i = 0; i < size; i++) {
-				if (data[i] > 0) { // ºöÂÔ0Öµ 
+				if (data[i] > 0) { // å¿½ç•¥0å€¼ 
 					minVal = qMin(minVal, data[i]);
 					maxVal = qMax(maxVal, data[i]);
 				}
@@ -342,7 +342,7 @@ QImage GLDisplayWidget::readOverview(int overviewLevel, const QRect& region) {
 		auto gRange = stretchValues(greenBuf, readRegion.width()  * readRegion.height());
 		auto bRange = stretchValues(blueBuf, readRegion.width()  * readRegion.height());
 
-		// ×ª»»ÎªQImage£¨´ø×ÔÊÊÓ¦À­Éì£©
+		// è½¬æ¢ä¸ºQImageï¼ˆå¸¦è‡ªé€‚åº”æ‹‰ä¼¸ï¼‰
 		QImage img(readRegion.size(), QImage::Format_RGB888);
 		const float gamma = 0.6f;
 		for (int y = 0; y < readRegion.height(); ++y) {
@@ -370,7 +370,7 @@ QImage GLDisplayWidget::readOverview(int overviewLevel, const QRect& region) {
 		GDALClose(dataset);
 		return img;
 	}
-	// È«É«Ó°Ïñ´¦Àí£¨µ¥²¨¶Î16Î»£©
+	// å…¨è‰²å½±åƒå¤„ç†ï¼ˆå•æ³¢æ®µ16ä½ï¼‰
 	else {
 		GDALRasterBand* band = firstBand->GetOverview(overviewLevel);
 		int width = band->GetXSize();
@@ -378,14 +378,14 @@ QImage GLDisplayWidget::readOverview(int overviewLevel, const QRect& region) {
 
 		QRect readRegion = region.isEmpty() ? QRect(0, 0, width, height) : region;
 
-		// ¶ÁÈ¡16Î»Êı¾İ 
+		// è¯»å–16ä½æ•°æ® 
 		uint16_t* buffer = new uint16_t[readRegion.width() * readRegion.height()];
 		band->RasterIO(GF_Read, readRegion.x(), readRegion.y(),
 			readRegion.width(), readRegion.height(),
 			buffer, readRegion.width(), readRegion.height(),
 			GDT_UInt16, 0, 0);
 
-		// ¼ÆËãÍ³¼ÆÖµ£¨ºöÂÔ0Öµ£©
+		// è®¡ç®—ç»Ÿè®¡å€¼ï¼ˆå¿½ç•¥0å€¼ï¼‰
 		uint16_t minVal = 65535, maxVal = 0;
 		for (int i = 0; i < readRegion.width() * readRegion.height(); ++i) {
 			if (buffer[i] > 0) {
@@ -394,7 +394,7 @@ QImage GLDisplayWidget::readOverview(int overviewLevel, const QRect& region) {
 			}
 		}
 
-		// ×ª»»Îª16Î»»Ò¶ÈÍ¼ 
+		// è½¬æ¢ä¸º16ä½ç°åº¦å›¾ 
 		QImage img(readRegion.size(), QImage::Format_Grayscale16);
 		for (int y = 0; y < readRegion.height(); ++y) {
 			uint16_t* scanLine = reinterpret_cast<uint16_t*>(img.scanLine(y));
@@ -416,7 +416,7 @@ void GLDisplayWidget::updateTextureForCurrentLevel() {
 
 	makeCurrent();
 
-	// Ç¿ÖÆÊÍ·Å¾ÉÎÆÀí 
+	// å¼ºåˆ¶é‡Šæ”¾æ—§çº¹ç† 
 	if (m_images[0].texture) {
 		m_images[0].texture->destroy();
 		delete m_images[0].texture;
@@ -434,7 +434,7 @@ void GLDisplayWidget::updateTextureForCurrentLevel() {
 	QImage img;
 
 	if (bandCount == 1) {
-		// µ¥²¨¶Î´¦Àí 
+		// å•æ³¢æ®µå¤„ç† 
 		GDALRasterBand* band = dataset->GetRasterBand(1)->GetOverview(overviewLevel);
 		if (!band) {
 			GDALClose(dataset);
@@ -450,17 +450,17 @@ void GLDisplayWidget::updateTextureForCurrentLevel() {
 		}
 	}
 	else {
-		//// ¶à²¨¶Î´¦Àí - È·±£Ê¹ÓÃÕıÈ·µÄ²¨¶ÎË³Ğò 
+		//// å¤šæ³¢æ®µå¤„ç† - ç¡®ä¿ä½¿ç”¨æ­£ç¡®çš„æ³¢æ®µé¡ºåº 
 		//img = processMultiBand(dataset, overviewLevel,
 		//	QRect(0, 0,
 		//		dataset->GetRasterBand(1)->GetOverview(overviewLevel)->GetXSize(),
 		//		dataset->GetRasterBand(1)->GetOverview(overviewLevel)->GetYSize()));
 
-		// ¶à²¨¶Î´¦Àí - È·±£Ê¹ÓÃÕıÈ·µÄ²¨¶ÎË³Ğò 
+		// å¤šæ³¢æ®µå¤„ç† - ç¡®ä¿ä½¿ç”¨æ­£ç¡®çš„æ³¢æ®µé¡ºåº 
 		GDALRasterBand* band1 = dataset->GetRasterBand(1);
 		GDALRasterBand* overviewBand1 = band1->GetOverview(overviewLevel);
 		if (!overviewBand1) {
-			// Èç¹ûÃ»ÓĞ¸ÅÀÀ£¬Ê¹ÓÃÔ­Ê¼Ó°ÏñÊı¾İ 
+			// å¦‚æœæ²¡æœ‰æ¦‚è§ˆï¼Œä½¿ç”¨åŸå§‹å½±åƒæ•°æ® 
 			overviewBand1 = band1;
 		}
 
@@ -469,11 +469,11 @@ void GLDisplayWidget::updateTextureForCurrentLevel() {
 				overviewBand1->GetXSize(),
 				overviewBand1->GetYSize()));
 
-		// È·±£RGBË³ĞòÕıÈ· 
+		// ç¡®ä¿RGBé¡ºåºæ­£ç¡® 
 		img = ensureRGBOrder(img, dataset);
 	}
 
-	// ´´½¨ĞÂÎÆÀí 
+	// åˆ›å»ºæ–°çº¹ç† 
 	m_images[0].texture = new QOpenGLTexture(QOpenGLTexture::Target2D);
 	m_images[0].texture->create();
 
@@ -488,7 +488,7 @@ void GLDisplayWidget::updateTextureForCurrentLevel() {
 			GL_RED, GL_UNSIGNED_BYTE,
 			img.constBits());
 
-		// ÉèÖÃµ¥Í¨µÀÏÔÊ¾Îª»Ò¶È 
+		// è®¾ç½®å•é€šé“æ˜¾ç¤ºä¸ºç°åº¦ 
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_SWIZZLE_G, GL_RED);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_SWIZZLE_B, GL_RED);
 	}
@@ -505,7 +505,7 @@ void GLDisplayWidget::updateTextureForCurrentLevel() {
 			glImage.constBits());
 	}
 
-	// ¹«¹²ÎÆÀí²ÎÊı 
+	// å…¬å…±çº¹ç†å‚æ•° 
 	m_images[0].texture->setMinMagFilters(QOpenGLTexture::Linear, QOpenGLTexture::Linear);
 	m_images[0].texture->setWrapMode(QOpenGLTexture::ClampToEdge);
 
@@ -515,7 +515,7 @@ void GLDisplayWidget::updateTextureForCurrentLevel() {
 }
 
 QImage GLDisplayWidget::ensureRGBOrder(const QImage& inputImage, GDALDataset* dataset) {
-	// ×Ô¶¯Ê¶±ğRGB²¨¶Î 
+	// è‡ªåŠ¨è¯†åˆ«RGBæ³¢æ®µ 
 	int redBand = 1, greenBand = 2, blueBand = 3;
 
 	for (int i = 1; i <= dataset->GetRasterCount(); ++i) {
@@ -525,12 +525,12 @@ QImage GLDisplayWidget::ensureRGBOrder(const QImage& inputImage, GDALDataset* da
 		else if (colorType == GCI_BlueBand) blueBand = i;
 	}
 
-	// Èç¹ûÒÑ¾­ÊÇRGBË³ĞòÔòÖ±½Ó·µ»Ø 
+	// å¦‚æœå·²ç»æ˜¯RGBé¡ºåºåˆ™ç›´æ¥è¿”å› 
 	if (redBand == 1 && greenBand == 2 && blueBand == 3) {
 		return inputImage;
 	}
 
-	// ·ñÔòÖØĞÂÅÅÁĞ²¨¶Î 
+	// å¦åˆ™é‡æ–°æ’åˆ—æ³¢æ®µ 
 	QImage outputImage(inputImage.size(), QImage::Format_RGB888);
 	for (int y = 0; y < inputImage.height(); ++y) {
 		const uchar* inLine = inputImage.constScanLine(y);
@@ -554,7 +554,7 @@ void GLDisplayWidget::paintGL() {
 	const ImageData& img = m_images.first();
 	if (!img.texture || !img.texture->isCreated())  return;
 
-	// ÉèÖÃÍ¶Ó°¾ØÕó
+	// è®¾ç½®æŠ•å½±çŸ©é˜µ
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 
@@ -577,14 +577,14 @@ void GLDisplayWidget::paintGL() {
 	glOrtho(m_viewCenter.x() - halfW, m_viewCenter.x() + halfW,
 		m_viewCenter.y() + halfH, m_viewCenter.y() - halfH, -1, 1);
 
-	// »æÖÆÎÆÀí
+	// ç»˜åˆ¶çº¹ç†
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 
 	glEnable(GL_TEXTURE_2D);
 	img.texture->bind();
 
-	// »æÖÆ´øÓĞÕıÈ·ÎÆÀí×ø±êµÄÍ¼Ïñ 
+	// ç»˜åˆ¶å¸¦æœ‰æ­£ç¡®çº¹ç†åæ ‡çš„å›¾åƒ 
 	glBegin(GL_QUADS);
 	glTexCoord2f(0, 0); glVertex2f(img.minX, img.minY);
 	glTexCoord2f(1, 0); glVertex2f(img.maxX, img.minY);
@@ -626,9 +626,9 @@ void GLDisplayWidget::mouseMoveEvent(QMouseEvent* event) {
 		QPoint delta = event->pos() - m_lastDragPos;
 		m_lastDragPos = event->pos();
 
-		// ĞŞ¸Äºó£¨½öµ÷ÕûXÖá·½Ïò£©£º
-		m_viewCenter.rx() -= delta.x() / m_viewScale;  // XÖá±£³ÖÔ­Ñù 
-		m_viewCenter.ry() -= delta.y() / m_viewScale;  // YÖá¸ÄÎª+=
+		// ä¿®æ”¹åï¼ˆä»…è°ƒæ•´Xè½´æ–¹å‘ï¼‰ï¼š
+		m_viewCenter.rx() -= delta.x() / m_viewScale;  // Xè½´ä¿æŒåŸæ · 
+		m_viewCenter.ry() -= delta.y() / m_viewScale;  // Yè½´æ”¹ä¸º+=
 
 		clampViewCenter();
 		update();
@@ -655,24 +655,24 @@ void GLDisplayWidget::wheelEvent(QWheelEvent* event) {
 		return;
 	}
 
-	// ¼ÆËãËõ·ÅÖĞĞÄµÄÊÀ½ç×ø±ê 
+	// è®¡ç®—ç¼©æ”¾ä¸­å¿ƒçš„ä¸–ç•Œåæ ‡ 
 	QPointF mousePos = event->position();
 	QPointF oldWorldPos(
 		m_viewCenter.x() + (mousePos.x() - width() / 2.0f) / m_viewScale,
 		m_viewCenter.y() - (mousePos.y() - height() / 2.0f) / m_viewScale
 	);
 
-	// ¼ÆËãĞÂËõ·Å¼¶±ğ 
+	// è®¡ç®—æ–°ç¼©æ”¾çº§åˆ« 
 	float scaleFactor = pow(1.2, event->angleDelta().y() / 120.0f);
 	float newScale = qBound(0.01f, m_viewScale * scaleFactor, 100.0f);
 
-	// ¸üĞÂÊÓÍ¼ÖĞĞÄ 
+	// æ›´æ–°è§†å›¾ä¸­å¿ƒ 
 	m_viewCenter.rx() = oldWorldPos.x() - (mousePos.x() - width() / 2.0f) / newScale;
 	m_viewCenter.ry() = oldWorldPos.y() + (mousePos.y() - height() / 2.0f) / newScale;
 	m_viewScale = newScale;
 	clampViewCenter();
 
-	// Òì²½¸üĞÂÎÆÀí²ã¼¶ 
+	// å¼‚æ­¥æ›´æ–°çº¹ç†å±‚çº§ 
 	QMetaObject::invokeMethod(this, [this]() {
 		updateTextureForCurrentLevel();
 	}, Qt::QueuedConnection);
@@ -688,15 +688,15 @@ void GLDisplayWidget::clampViewCenter() {
 	float halfW = width() / (2.0f * m_viewScale);
 	float halfH = height() / (2.0f * m_viewScale);
 
-	// ĞŞ¸ÄÇ°£¨´íÎó£©£º
+	// ä¿®æ”¹å‰ï¼ˆé”™è¯¯ï¼‰ï¼š
 	// m_viewCenter.setX(qBound(img.minX  + halfW, m_viewCenter.x(), img.maxX  - halfW));
 	// m_viewCenter.setY(qBound(img.minY  + halfH, m_viewCenter.y(), img.maxY  - halfH));
 
-	// ĞŞ¸Äºó£¨ÕıÈ·£©£º
+	// ä¿®æ”¹åï¼ˆæ­£ç¡®ï¼‰ï¼š
 	m_viewCenter.setX(qBound(img.minX + halfW, m_viewCenter.x(), img.maxX - halfW));
 	m_viewCenter.setY(qBound(img.minY + halfH, m_viewCenter.y(), img.maxY - halfH));
 
-	// Ìí¼Ó±ß½çÇé¿ö´¦Àí 
+	// æ·»åŠ è¾¹ç•Œæƒ…å†µå¤„ç† 
 	if (halfW * 2 > (img.maxX - img.minX)) {
 		m_viewCenter.setX((img.minX + img.maxX) / 2.0f);
 	}
@@ -707,7 +707,7 @@ void GLDisplayWidget::clampViewCenter() {
 
 QImage GLDisplayWidget::processMultispectralBlock(GDALDataset* dataset, int overviewLevel,
 	int x, int y, int width, int height) {
-	// ²éÕÒRGB²¨¶Î£¨Ö§³Ö×Ô¶¯²¨¶ÎÊ¶±ğ£©
+	// æŸ¥æ‰¾RGBæ³¢æ®µï¼ˆæ”¯æŒè‡ªåŠ¨æ³¢æ®µè¯†åˆ«ï¼‰
 	int redBandIdx = 1, greenBandIdx = 2, blueBandIdx = 3;
 	for (int i = 1; i <= dataset->GetRasterCount(); i++) {
 		GDALColorInterp colorType = dataset->GetRasterBand(i)->GetColorInterpretation();
@@ -716,12 +716,12 @@ QImage GLDisplayWidget::processMultispectralBlock(GDALDataset* dataset, int over
 		else if (colorType == GCI_BlueBand) blueBandIdx = i;
 	}
 
-	// »ñÈ¡½ğ×ÖËş²ã¼¶²¨¶Î 
+	// è·å–é‡‘å­—å¡”å±‚çº§æ³¢æ®µ 
 	GDALRasterBand* redBand = dataset->GetRasterBand(redBandIdx)->GetOverview(overviewLevel);
 	GDALRasterBand* greenBand = dataset->GetRasterBand(greenBandIdx)->GetOverview(overviewLevel);
 	GDALRasterBand* blueBand = dataset->GetRasterBand(blueBandIdx)->GetOverview(overviewLevel);
 
-	// ¶ÁÈ¡16Î»Êı¾İ 
+	// è¯»å–16ä½æ•°æ® 
 	uint16_t* redBuf = new uint16_t[width * height];
 	uint16_t* greenBuf = new uint16_t[width * height];
 	uint16_t* blueBuf = new uint16_t[width * height];
@@ -733,11 +733,11 @@ QImage GLDisplayWidget::processMultispectralBlock(GDALDataset* dataset, int over
 	blueBand->RasterIO(GF_Read, x, y, width, height,
 		blueBuf, width, height, GDT_UInt16, 0, 0);
 
-	// ×ÔÊÊÓ¦À­ÉìºÍgammaĞ£Õı 
+	// è‡ªé€‚åº”æ‹‰ä¼¸å’Œgammaæ ¡æ­£ 
 	auto stretchValues = [](uint16_t* data, int size) {
 		uint16_t minVal = 65535, maxVal = 0;
 		for (int i = 0; i < size; i++) {
-			if (data[i] > 0) { // ºöÂÔ0Öµ 
+			if (data[i] > 0) { // å¿½ç•¥0å€¼ 
 				minVal = qMin(minVal, data[i]);
 				maxVal = qMax(maxVal, data[i]);
 			}
@@ -749,7 +749,7 @@ QImage GLDisplayWidget::processMultispectralBlock(GDALDataset* dataset, int over
 	auto gRange = stretchValues(greenBuf, width * height);
 	auto bRange = stretchValues(blueBuf, width * height);
 
-	// ×ª»»ÎªQImage 
+	// è½¬æ¢ä¸ºQImage 
 	QImage img(width, height, QImage::Format_RGB888);
 	const float gamma = 0.6f;
 	for (int y = 0; y < height; ++y) {
@@ -781,22 +781,22 @@ QImage GLDisplayWidget::processMultispectralBlock(GDALDataset* dataset, int over
 QImage GLDisplayWidget::processPanchromaticBlock(GDALRasterBand* band,
 	int x, int y,
 	int width, int height) {
-	// ¶ÁÈ¡16Î»Êı¾İ 
+	// è¯»å–16ä½æ•°æ® 
 	uint16_t* buffer = new uint16_t[width * height];
 	band->RasterIO(GF_Read, x, y, width, height,
 		buffer, width, height, GDT_UInt16, 0, 0);
 
-	// ĞŞ¸´ÎÊÌâ2£º¸Ä½øÍ³¼ÆÖµ¼ÆËã£¨ÅÅ³ı¼«¶ËÖµ£©
+	// ä¿®å¤é—®é¢˜2ï¼šæ”¹è¿›ç»Ÿè®¡å€¼è®¡ç®—ï¼ˆæ’é™¤æç«¯å€¼ï¼‰
 	uint16_t minVal = 65535, maxVal = 0;
-	const float percentile = 0.02f; // ÅÅ³ı2%µÄ¼«¶ËÖµ 
+	const float percentile = 0.02f; // æ’é™¤2%çš„æç«¯å€¼ 
 
-	// ¼ÆËãÖ±·½Í¼ 
+	// è®¡ç®—ç›´æ–¹å›¾ 
 	int hist[65536] = { 0 };
 	for (int i = 0; i < width * height; ++i) {
 		if (buffer[i] > 0) hist[buffer[i]]++;
 	}
 
-	// ¼ÆËã°Ù·Ö±ÈãĞÖµ 
+	// è®¡ç®—ç™¾åˆ†æ¯”é˜ˆå€¼ 
 	int totalPixels = width * height;
 	int count = 0;
 	int lowThreshold = 0, highThreshold = 65535;
@@ -818,13 +818,13 @@ QImage GLDisplayWidget::processPanchromaticBlock(GDALRasterBand* band,
 		}
 	}
 
-	// Ê¹ÓÃ¸Ä½øºóµÄ·¶Î§ 
+	// ä½¿ç”¨æ”¹è¿›åçš„èŒƒå›´ 
 	minVal = lowThreshold;
 	maxVal = highThreshold;
 
-	// ´´½¨Í¼Ïñ£¨Ê¹ÓÃgammaĞ£ÕıÌáÉıÁÁ¶È£©
+	// åˆ›å»ºå›¾åƒï¼ˆä½¿ç”¨gammaæ ¡æ­£æå‡äº®åº¦ï¼‰
 	QImage img(width, height, QImage::Format_Grayscale8);
-	const float gamma = 0.6f; // gammaÖµ¿Éµ÷Õû 
+	const float gamma = 0.6f; // gammaå€¼å¯è°ƒæ•´ 
 
 	for (int y = 0; y < height; ++y) {
 		uchar* scanLine = img.scanLine(y);
@@ -852,31 +852,31 @@ int GLDisplayWidget::calculateOverviewLevel(float viewScale) const {
 		return 0;
 	}
 
-	// »ñÈ¡»ù´¡ĞÅÏ¢ 
+	// è·å–åŸºç¡€ä¿¡æ¯ 
 	GDALRasterBand* firstBand = dataset->GetRasterBand(1);
 	int maxOverview = firstBand->GetOverviewCount();
 
-	//// Èç¹ûÃ»ÓĞ½ğ×ÖËşÔòÖ±½Ó·µ»Ø0¼¶£¨È«·Ö±æÂÊ£©
+	//// å¦‚æœæ²¡æœ‰é‡‘å­—å¡”åˆ™ç›´æ¥è¿”å›0çº§ï¼ˆå…¨åˆ†è¾¨ç‡ï¼‰
 	//if (maxOverview <= 0) {
 	//	GDALClose(dataset);
 	//	return 0;
 	//}
 
-		// Èç¹ûÃ»ÓĞ½ğ×ÖËşÔò´´½¨½ğ×ÖËş
+		// å¦‚æœæ²¡æœ‰é‡‘å­—å¡”åˆ™åˆ›å»ºé‡‘å­—å¡”
 	if (maxOverview <= 0) {
-		GDALClose(dataset); // ÏÈ¹Ø±Õµ±Ç°Êı¾İ¼¯ 
+		GDALClose(dataset); // å…ˆå…³é—­å½“å‰æ•°æ®é›† 
 
-		// µ÷ÓÃ½ğ×ÖËş´´½¨º¯Êı 
+		// è°ƒç”¨é‡‘å­—å¡”åˆ›å»ºå‡½æ•° 
 		//SystemConfig* sysConfig = IMAGEPS::instance->getSystemConfig();
 		SystemConfig* sysConfig = m_imagePS->getSystemConfig();
 		if (sysConfig) {
 			QStringList fileList;
 			fileList << m_currentImagePath;
 
-			// ´´½¨½ğ×ÖËş£¨×èÈû·½Ê½£©
-			sysConfig->acceptModule(QString::fromLocal8Bit("½ğ×ÖËş´´½¨"), fileList);
+			// åˆ›å»ºé‡‘å­—å¡”ï¼ˆé˜»å¡æ–¹å¼ï¼‰
+			sysConfig->acceptModule(QString::fromLocal8Bit("é‡‘å­—å¡”åˆ›å»º"), fileList);
 
-			// ÖØĞÂ´ò¿ªÊı¾İ¼¯¼ì²é½ğ×ÖËş
+			// é‡æ–°æ‰“å¼€æ•°æ®é›†æ£€æŸ¥é‡‘å­—å¡”
 			dataset = (GDALDataset*)GDALOpen(m_currentImagePath.toUtf8(), GA_ReadOnly);
 			if (dataset) {
 				firstBand = dataset->GetRasterBand(1);
@@ -884,14 +884,14 @@ int GLDisplayWidget::calculateOverviewLevel(float viewScale) const {
 			}
 		}
 
-		// Èç¹û»¹ÊÇÃ»ÓĞ½ğ×ÖËşÔò·µ»Ø0¼¶ 
+		// å¦‚æœè¿˜æ˜¯æ²¡æœ‰é‡‘å­—å¡”åˆ™è¿”å›0çº§ 
 		if (maxOverview <= 0) {
 			if (dataset) GDALClose(dataset);
 			return 0;
 		}
 	}
 
-	// ¼ÆËãÍ¼Ïñ·Ö±æÂÊ£¨µ¥Î»£ºÏñËØ/Ã×£©
+	// è®¡ç®—å›¾åƒåˆ†è¾¨ç‡ï¼ˆå•ä½ï¼šåƒç´ /ç±³ï¼‰
 	ImageGeoMetadata* metadata = m_imagePS->getImageMetadata(m_currentImagePath);
 
 	double geoTransform[6];
@@ -910,38 +910,38 @@ int GLDisplayWidget::calculateOverviewLevel(float viewScale) const {
 	}
 	float imageResolution = hasGeoTransform ? qAbs(geoTransform[1]) : 1.0f;
 
-	// ¼ÆËãÏÔÊ¾·Ö±æÂÊ£¨µ¥Î»£ºÏñËØ/Ã×£©
-	// viewScale±íÊ¾1¸öÊÀ½çµ¥Î»¶ÔÓ¦¶àÉÙÆÁÄ»ÏñËØ 
-	// devicePixelRatio¿¼ÂÇ¸ßDPIÆÁÄ» 
+	// è®¡ç®—æ˜¾ç¤ºåˆ†è¾¨ç‡ï¼ˆå•ä½ï¼šåƒç´ /ç±³ï¼‰
+	// viewScaleè¡¨ç¤º1ä¸ªä¸–ç•Œå•ä½å¯¹åº”å¤šå°‘å±å¹•åƒç´  
+	// devicePixelRatioè€ƒè™‘é«˜DPIå±å¹• 
 	float displayResolution = viewScale * devicePixelRatioF();
 
-	// ¼ÆËã·Ö±æÂÊ±ÈÂÊ£¨ÏÔÊ¾·Ö±æÂÊ / Í¼Ïñ·Ö±æÂÊ£©
-	// ±ÈÂÊ>1±íÊ¾ĞèÒªËõĞ¡ÏÔÊ¾£¨Ê¹ÓÃ½ğ×ÖËş£©
-	// ±ÈÂÊ<1±íÊ¾ĞèÒª·Å´óÏÔÊ¾£¨Ê¹ÓÃ¸ü¾«Ï¸µÄ½ğ×ÖËş²ã¼¶£©
+	// è®¡ç®—åˆ†è¾¨ç‡æ¯”ç‡ï¼ˆæ˜¾ç¤ºåˆ†è¾¨ç‡ / å›¾åƒåˆ†è¾¨ç‡ï¼‰
+	// æ¯”ç‡>1è¡¨ç¤ºéœ€è¦ç¼©å°æ˜¾ç¤ºï¼ˆä½¿ç”¨é‡‘å­—å¡”ï¼‰
+	// æ¯”ç‡<1è¡¨ç¤ºéœ€è¦æ”¾å¤§æ˜¾ç¤ºï¼ˆä½¿ç”¨æ›´ç²¾ç»†çš„é‡‘å­—å¡”å±‚çº§ï¼‰
 	float ratio = displayResolution / imageResolution;
 
-	// ¸ù¾İ±ÈÂÊÑ¡Ôñ×îÓÅ½ğ×ÖËş²ã¼¶ 
+	// æ ¹æ®æ¯”ç‡é€‰æ‹©æœ€ä¼˜é‡‘å­—å¡”å±‚çº§ 
 	int optimalLevel = 0;
 	if (maxOverview >= 4 && ratio <= 0.0625f) {  // 1:16 
 		optimalLevel = 4;
 	}
-	else if (ratio <= 0.125f && maxOverview >= 3) {  // 1:8ËõĞ¡ 
+	else if (ratio <= 0.125f && maxOverview >= 3) {  // 1:8ç¼©å° 
 		optimalLevel = 3;
 	}
-	else if (ratio <= 0.25f && maxOverview >= 2) {  // 1:4ËõĞ¡ 
+	else if (ratio <= 0.25f && maxOverview >= 2) {  // 1:4ç¼©å° 
 		optimalLevel = 2;
 	}
-	else if (ratio <= 0.5f && maxOverview >= 1) {  // 1:2ËõĞ¡ 
+	else if (ratio <= 0.5f && maxOverview >= 1) {  // 1:2ç¼©å° 
 		optimalLevel = 1;
 	}
-	else {  // È«·Ö±æÂÊ 
+	else {  // å…¨åˆ†è¾¨ç‡ 
 		optimalLevel = 0;
 	}
 
-	// ÑéÖ¤Ñ¡ÔñµÄ½ğ×ÖËş²ã¼¶ÊÇ·ñÓĞĞ§ 
+	// éªŒè¯é€‰æ‹©çš„é‡‘å­—å¡”å±‚çº§æ˜¯å¦æœ‰æ•ˆ 
 	optimalLevel = qBound(0, optimalLevel, maxOverview - 1);
 
-	//// µ÷ÊÔĞÅÏ¢ 
+	//// è°ƒè¯•ä¿¡æ¯ 
 	//qDebug() << "Overview selection:"
 	//	<< "ImageRes=" << imageResolution
 	//	<< "DisplayRes=" << displayResolution
@@ -956,10 +956,10 @@ int GLDisplayWidget::calculateOverviewLevel(float viewScale) const {
 QImage GLDisplayWidget::processFloat32Block(GDALRasterBand* band,
                                           int x, int y,
                                           int width, int height) {
-    // ·ÖÅä32Î»¸¡µã»º³åÇø 
+    // åˆ†é…32ä½æµ®ç‚¹ç¼“å†²åŒº 
     float* buffer = new float[width * height];
     
-    // ¶ÁÈ¡Êı¾İ 
+    // è¯»å–æ•°æ® 
     CPLErr err = band->RasterIO(GF_Read, x, y, width, height,
                               buffer, width, height, GDT_Float32, 0, 0);
     if (err != CE_None) {
@@ -968,7 +968,7 @@ QImage GLDisplayWidget::processFloat32Block(GDALRasterBand* band,
         return QImage();
     }
  
-    // ¼ÆËãÓĞĞ§Êı¾İ·¶Î§£¨ÅÅ³ıNaNºÍÎŞÇî´ó£©
+    // è®¡ç®—æœ‰æ•ˆæ•°æ®èŒƒå›´ï¼ˆæ’é™¤NaNå’Œæ— ç©·å¤§ï¼‰
     float minVal = std::numeric_limits<float>::max();
     float maxVal = -std::numeric_limits<float>::max();
     int validCount = 0;
@@ -981,13 +981,13 @@ QImage GLDisplayWidget::processFloat32Block(GDALRasterBand* band,
         }
     }
  
-    // ´¦ÀíÈ«ÎŞĞ§Êı¾İÇé¿ö 
+    // å¤„ç†å…¨æ— æ•ˆæ•°æ®æƒ…å†µ 
     if (validCount == 0 || minVal >= maxVal) {
         minVal = 0;
         maxVal = 1;
     }
  
-    // ´´½¨8Î»»Ò¶ÈÍ¼ 
+    // åˆ›å»º8ä½ç°åº¦å›¾ 
     QImage img(width, height, QImage::Format_Grayscale8);
     float range = maxVal - minVal;
     range = (range > 0) ? range : 1.0f;
@@ -1012,15 +1012,15 @@ QImage GLDisplayWidget::processFloat32Block(GDALRasterBand* band,
 QImage GLDisplayWidget::processSingleBand(GDALRasterBand* band,
 	int x, int y,
 	int width, int height) {
-	// ¶ÁÈ¡Êı¾İ 
+	// è¯»å–æ•°æ® 
 	uint8_t* buffer = new uint8_t[width * height];
 	band->RasterIO(GF_Read, x, y, width, height,
 		buffer, width, height, GDT_Byte, 0, 0);
 
-	// ´´½¨»Ò¶ÈÍ¼Ïñ 
+	// åˆ›å»ºç°åº¦å›¾åƒ 
 	QImage img(width, height, QImage::Format_Grayscale8);
 
-	// Ö±½Ó¸´ÖÆÊı¾İ£¨8Î»ÎŞĞèÀ­Éì£©
+	// ç›´æ¥å¤åˆ¶æ•°æ®ï¼ˆ8ä½æ— éœ€æ‹‰ä¼¸ï¼‰
 	for (int y = 0; y < height; ++y) {
 		uchar* scanLine = img.scanLine(y);
 		memcpy(scanLine, buffer + y * width, width);
@@ -1033,22 +1033,22 @@ QImage GLDisplayWidget::processSingleBand(GDALRasterBand* band,
 QImage GLDisplayWidget::processSingleBand16(GDALRasterBand* band,
 	int x, int y,
 	int width, int height) {
-	// ¶ÁÈ¡16Î»Êı¾İ 
+	// è¯»å–16ä½æ•°æ® 
 	uint16_t* buffer = new uint16_t[width * height];
 	band->RasterIO(GF_Read, x, y, width, height,
 		buffer, width, height, GDT_UInt16, 0, 0);
 
-	// ¸Ä½øµÄÍ³¼ÆÖµ¼ÆËã£¨ÅÅ³ı¼«¶ËÖµ£©
+	// æ”¹è¿›çš„ç»Ÿè®¡å€¼è®¡ç®—ï¼ˆæ’é™¤æç«¯å€¼ï¼‰
 	uint16_t minVal = 65535, maxVal = 0;
-	const float excludePercent = 0.02f; // ÅÅ³ı2%¼«¶ËÖµ 
+	const float excludePercent = 0.02f; // æ’é™¤2%æç«¯å€¼ 
 
-	// ¼ÆËãÖ±·½Í¼ 
+	// è®¡ç®—ç›´æ–¹å›¾ 
 	int hist[65536] = { 0 };
 	for (int i = 0; i < width * height; ++i) {
 		if (buffer[i] > 0) hist[buffer[i]]++;
 	}
 
-	// ¼ÆËã×îĞ¡ãĞÖµ 
+	// è®¡ç®—æœ€å°é˜ˆå€¼ 
 	int total = width * height;
 	int count = 0;
 	for (int i = 0; i < 65536; ++i) {
@@ -1059,7 +1059,7 @@ QImage GLDisplayWidget::processSingleBand16(GDALRasterBand* band,
 		}
 	}
 
-	// ¼ÆËã×î´óãĞÖµ 
+	// è®¡ç®—æœ€å¤§é˜ˆå€¼ 
 	count = 0;
 	for (int i = 65535; i >= 0; --i) {
 		count += hist[i];
@@ -1069,9 +1069,9 @@ QImage GLDisplayWidget::processSingleBand16(GDALRasterBand* band,
 		}
 	}
 
-	// ´´½¨Í¼Ïñ£¨´øgammaĞ£ÕıÌáÉıÁÁ¶È£©
+	// åˆ›å»ºå›¾åƒï¼ˆå¸¦gammaæ ¡æ­£æå‡äº®åº¦ï¼‰
 	QImage img(width, height, QImage::Format_Grayscale8);
-	const float gamma = 0.7f; // ¿Éµ÷ÕûµÄgammaÖµ 
+	const float gamma = 0.7f; // å¯è°ƒæ•´çš„gammaå€¼ 
 
 	for (int y = 0; y < height; ++y) {
 		uchar* scanLine = img.scanLine(y);
@@ -1091,12 +1091,12 @@ QImage GLDisplayWidget::process8BitMultiBand(GDALRasterBand* bands[3], const QRe
 	std::unique_ptr<uint8_t[]> buffers[3];
 
 	try {
-		// ·ÖÅäÄÚ´æ 
+		// åˆ†é…å†…å­˜ 
 		for (int i = 0; i < 3; ++i) {
 			buffers[i].reset(new uint8_t[region.width() * region.height()]);
 		}
 
-		// ¶ÁÈ¡Êı¾İ 
+		// è¯»å–æ•°æ® 
 		for (int i = 0; i < 3; ++i) {
 			CPLErr err = bands[i]->RasterIO(
 				GF_Read,
@@ -1113,7 +1113,7 @@ QImage GLDisplayWidget::process8BitMultiBand(GDALRasterBand* bands[3], const QRe
 			}
 		}
 
-		// ´´½¨Í¼Ïñ 
+		// åˆ›å»ºå›¾åƒ 
 		QImage img(region.size(), QImage::Format_RGB888);
 
 		for (int y = 0; y < region.height(); ++y) {
@@ -1138,13 +1138,13 @@ QImage GLDisplayWidget::process16BitMultiBand(GDALRasterBand* bands[3], const QR
 	std::unique_ptr<uint16_t[]> buffers[3];
 
 	try {
-		// ·ÖÅäÄÚ´æ 
+		// åˆ†é…å†…å­˜ 
 		const int pixelCount = region.width()  * region.height();
 		for (int i = 0; i < 3; ++i) {
 			buffers[i].reset(new uint16_t[pixelCount]);
 		}
 
-		// ¶ÁÈ¡Êı¾İ£¨Ê¹ÓÃ½ø¶ÈÌáÊ¾£©
+		// è¯»å–æ•°æ®ï¼ˆä½¿ç”¨è¿›åº¦æç¤ºï¼‰
 		//qDebug() << "Loading 16-bit multi-band data...";
 		QElapsedTimer timer;
 		timer.start();
@@ -1167,27 +1167,27 @@ QImage GLDisplayWidget::process16BitMultiBand(GDALRasterBand* bands[3], const QR
 
 		//qDebug() << "Data loaded in" << timer.elapsed() << "ms";
 
-		// ¸Ä½øµÄÍ³¼ÆÖµ¼ÆËã£¨ÅÅ³ı¼«¶ËÖµ£©
+		// æ”¹è¿›çš„ç»Ÿè®¡å€¼è®¡ç®—ï¼ˆæ’é™¤æç«¯å€¼ï¼‰
 		uint16_t minVals[3] = { 65535, 65535, 65535 };
 		uint16_t maxVals[3] = { 0, 0, 0 };
-		const float excludePercent = 0.01f; // ¸üÑÏ¸ñµÄÅÅ³ı±ÈÀı 
+		const float excludePercent = 0.01f; // æ›´ä¸¥æ ¼çš„æ’é™¤æ¯”ä¾‹ 
 
-		// ²¢ĞĞ¼ÆËãÍ³¼ÆÖµ£¨Ê¹ÓÃOpenMP£©
+		// å¹¶è¡Œè®¡ç®—ç»Ÿè®¡å€¼ï¼ˆä½¿ç”¨OpenMPï¼‰
 #pragma omp parallel for 
 		for (int i = 0; i < 3; ++i) {
-			// ¼ÆËãÖ±·½Í¼ 
+			// è®¡ç®—ç›´æ–¹å›¾ 
 			int hist[65536] = { 0 };
 			for (int j = 0; j < pixelCount; ++j) {
 				if (buffers[i][j] > 0) hist[buffers[i][j]]++;
 			}
 
-			// ¼ÆËãÓĞĞ§·¶Î§£¨¸Ä½øËã·¨£©
+			// è®¡ç®—æœ‰æ•ˆèŒƒå›´ï¼ˆæ”¹è¿›ç®—æ³•ï¼‰
 			int totalValid = 0;
 			for (int j = 0; j < 65536; ++j) {
 				totalValid += hist[j];
 			}
 
-			// ¼ÆËã×îĞ¡ãĞÖµ£¨ÅÅ³ı°µ²¿ÔëÉù£©
+			// è®¡ç®—æœ€å°é˜ˆå€¼ï¼ˆæ’é™¤æš—éƒ¨å™ªå£°ï¼‰
 			int count = 0;
 			int lowThreshold = 0;
 			for (int j = 0; j < 65536; ++j) {
@@ -1198,7 +1198,7 @@ QImage GLDisplayWidget::process16BitMultiBand(GDALRasterBand* bands[3], const QR
 				}
 			}
 
-			// ¼ÆËã×î´óãĞÖµ£¨ÅÅ³ı¸ß¹âÒç³ö£©
+			// è®¡ç®—æœ€å¤§é˜ˆå€¼ï¼ˆæ’é™¤é«˜å…‰æº¢å‡ºï¼‰
 			count = 0;
 			int highThreshold = 65535;
 			for (int j = 65535; j >= 0; --j) {
@@ -1215,10 +1215,10 @@ QImage GLDisplayWidget::process16BitMultiBand(GDALRasterBand* bands[3], const QR
 			//qDebug() << "Band" << i << "range:" << minVals[i] << "-" << maxVals[i];
 		}
 
-		// ´´½¨Í¼Ïñ£¨¸Ä½øµÄÉ«µ÷Ó³Éä£©
+		// åˆ›å»ºå›¾åƒï¼ˆæ”¹è¿›çš„è‰²è°ƒæ˜ å°„ï¼‰
 		QImage img(region.size(), QImage::Format_RGB888);
-		const float gamma = 0.8f; // µ÷ÕûgammaÖµ 
-		const float contrast = 1.2f; // ¶Ô±È¶ÈÔöÇ¿ 
+		const float gamma = 0.8f; // è°ƒæ•´gammaå€¼ 
+		const float contrast = 1.2f; // å¯¹æ¯”åº¦å¢å¼º 
 
 		for (int y = 0; y < region.height(); ++y) {
 			uchar* scanLine = img.scanLine(y);
@@ -1226,23 +1226,23 @@ QImage GLDisplayWidget::process16BitMultiBand(GDALRasterBand* bands[3], const QR
 				int idx = y * region.width() + x;
 
 				for (int i = 0; i < 3; ++i) {
-					// ¸Ä½øµÄÉ«µ÷Ó³ÉäËã·¨ 
+					// æ”¹è¿›çš„è‰²è°ƒæ˜ å°„ç®—æ³• 
 					float normalized = (buffers[i][idx] - minVals[i]) /
 						float(maxVals[i] - minVals[i]);
 					normalized = qBound(0.0f, normalized, 1.0f);
 
-					// ¶Ô±È¶ÈÔöÇ¿ 
+					// å¯¹æ¯”åº¦å¢å¼º 
 					normalized = (normalized - 0.5f) * contrast + 0.5f;
 					normalized = qBound(0.0f, normalized, 1.0f);
 
-					// GammaĞ£Õı 
+					// Gammaæ ¡æ­£ 
 					scanLine[x * 3 + i] = static_cast<uchar>(pow(normalized, gamma) * 255);
 				}
 			}
 		}
 
-		// Èñ»¯´¦Àí£¨¿ÉÑ¡£©
-		if (region.width() > 512) { // ¶Ô´óÍ¼Ïñ½øĞĞÈñ»¯ 
+		// é”åŒ–å¤„ç†ï¼ˆå¯é€‰ï¼‰
+		if (region.width() > 512) { // å¯¹å¤§å›¾åƒè¿›è¡Œé”åŒ– 
 			QImage sharpened = img;
 			QPainter painter(&sharpened);
 			painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
@@ -1262,25 +1262,25 @@ QImage GLDisplayWidget::process16BitMultiBand(GDALRasterBand* bands[3], const QR
 QImage GLDisplayWidget::processMultiBand(GDALDataset* dataset,
 	int overviewLevel,
 	const QRect& region) {
-	// ÊäÈëÑéÖ¤ 
+	// è¾“å…¥éªŒè¯ 
 	if (!dataset) {
 		qCritical() << "Null dataset pointer";
 		return QImage();
 	}
 
 	try {
-		// »ñÈ¡²¨¶ÎĞÅÏ¢ 
+		// è·å–æ³¢æ®µä¿¡æ¯ 
 		const int bandCount = dataset->GetRasterCount();
 		if (bandCount < 3) {
 			qWarning() << "Insufficient bands:" << bandCount;
 			return QImage();
 		}
 
-		// ×Ô¶¯Ê¶±ğRGB²¨¶Î£¨´ø±£»¤£©
-		int bands[3] = { 1, 2, 3 }; // Ä¬ÈÏRGBË³Ğò 
+		// è‡ªåŠ¨è¯†åˆ«RGBæ³¢æ®µï¼ˆå¸¦ä¿æŠ¤ï¼‰
+		int bands[3] = { 1, 2, 3 }; // é»˜è®¤RGBé¡ºåº 
 		bool hasColorInfo = false;
 
-		for (int i = 1; i <= qMin(bandCount, 10); i++) { // ÏŞÖÆ¼ì²éÇ°10¸ö²¨¶Î 
+		for (int i = 1; i <= qMin(bandCount, 10); i++) { // é™åˆ¶æ£€æŸ¥å‰10ä¸ªæ³¢æ®µ 
 			GDALRasterBand* band = dataset->GetRasterBand(i);
 			if (!band) continue;
 
@@ -1293,7 +1293,7 @@ QImage GLDisplayWidget::processMultiBand(GDALDataset* dataset,
 			}
 		}
 
-		// »ñÈ¡½ğ×ÖËş²ã¼¶£¨´ø·¶Î§¼ì²é£©
+		// è·å–é‡‘å­—å¡”å±‚çº§ï¼ˆå¸¦èŒƒå›´æ£€æŸ¥ï¼‰
 		GDALRasterBand* redBand = dataset->GetRasterBand(bands[0]);
 		if (!redBand) {
 			qCritical() << "Invalid red band";
@@ -1303,7 +1303,7 @@ QImage GLDisplayWidget::processMultiBand(GDALDataset* dataset,
 		const int overviewCount = redBand->GetOverviewCount();
 		overviewLevel = qBound(0, overviewLevel, qMax(0, overviewCount - 1));
 
-		// »ñÈ¡½ğ×ÖËş²¨¶Î£¨´ø¿ÕÖ¸Õë¼ì²é£©
+		// è·å–é‡‘å­—å¡”æ³¢æ®µï¼ˆå¸¦ç©ºæŒ‡é’ˆæ£€æŸ¥ï¼‰
 		GDALRasterBand* ovrBands[3] = {
 			redBand->GetOverview(overviewLevel),
 			dataset->GetRasterBand(bands[1])->GetOverview(overviewLevel),
@@ -1317,7 +1317,7 @@ QImage GLDisplayWidget::processMultiBand(GDALDataset* dataset,
 			}
 		}
 
-		// È·¶¨´¦ÀíÇøÓò 
+		// ç¡®å®šå¤„ç†åŒºåŸŸ 
 		const int width = ovrBands[0]->GetXSize();
 		const int height = ovrBands[0]->GetYSize();
 
@@ -1329,7 +1329,7 @@ QImage GLDisplayWidget::processMultiBand(GDALDataset* dataset,
 			return QImage();
 		}
 
-		// ¸ù¾İÊı¾İÀàĞÍ·ÖÅÉ´¦Àí 
+		// æ ¹æ®æ•°æ®ç±»å‹åˆ†æ´¾å¤„ç† 
 		const GDALDataType dataType = ovrBands[0]->GetRasterDataType();
 
 		if (dataType == GDT_Byte) {
@@ -1356,11 +1356,11 @@ QPointF GLDisplayWidget::screenToWorld(const QPoint& screenPos) const
 
 	const ImageData& img = m_images.first();
 
-	// ¼ÆËãÊÓ¿Ú·¶Î§ 
+	// è®¡ç®—è§†å£èŒƒå›´ 
 	float halfW = width() / (2.0f * m_viewScale);
 	float halfH = height() / (2.0f * m_viewScale);
 
-	// ×ª»»ÎªÊÀ½ç×ø±ê 
+	// è½¬æ¢ä¸ºä¸–ç•Œåæ ‡ 
 	double worldX = m_viewCenter.x() + (screenPos.x() - width() / 2.0) / m_viewScale;
 	double worldY = m_viewCenter.y() - (screenPos.y() - height() / 2.0) / m_viewScale;
 

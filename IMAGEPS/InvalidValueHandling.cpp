@@ -1,4 +1,4 @@
-#include "InvalidValueHandling.h"
+ï»¿#include "InvalidValueHandling.h"
 
 //InvalidValueHandling* InvalidValueHandling::instance = nullptr;
 
@@ -6,8 +6,8 @@ InvalidValueHandling::InvalidValueHandling(QWidget *parent)
 	: QDialog(parent)
 {
 	ui.setupUi(this);
-	setWindowTitle(QString::fromLocal8Bit("ÎŞĞ§Öµ´¦Àí"));
-	setWindowIcon(QIcon(u8":/resource/menu/¹¤¾ß/ÎŞĞ§Öµ´¦Àí.png"));
+	setWindowTitle(QString::fromLocal8Bit("æ— æ•ˆå€¼å¤„ç†"));
+	setWindowIcon(QIcon(u8":/resource/menu/å·¥å…·/æ— æ•ˆå€¼å¤„ç†.png"));
 
 	QString exeDir = QCoreApplication::applicationDirPath();
 	QDir dir(exeDir);
@@ -23,20 +23,20 @@ InvalidValueHandling::~InvalidValueHandling()
 void InvalidValueHandling::initWidget()
 {
 	//setWindowFlags(Qt::Dialog | Qt::MSWindowsFixedSizeDialogHint);
-	setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint); // ÒÆ³ı°ïÖú°´Å¥
+	setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint); // ç§»é™¤å¸®åŠ©æŒ‰é’®
 
 	buttonGroup_model = {
 		ui.Invalidvaluereplacement_btn, ui.ImageZeroValueProcessing_btn , ui.Invalidvaluelookup_btn
 	};
 
 	QStringList iconPaths = {
-		QString::fromLocal8Bit(":/resource/menu/¹¤¾ß/ÎŞĞ§ÖµÌæ»».png"),
-		QString::fromLocal8Bit(":/resource/menu/×Ó²Ëµ¥/Ó°ÏñÁãÖµ´¦Àí.png"),
-		/*QString::fromLocal8Bit(":/resource/menu/¹¤¾ß/Ó°ÏñÁãÖµ´¦Àí(°×µã)²¢ĞĞ°æ.png"),*/
-		QString::fromLocal8Bit(":/resource/menu/¹¤¾ß/ÎŞĞ§Öµ²éÕÒ.png")
+		QString::fromLocal8Bit(":/resource/menu/å·¥å…·/æ— æ•ˆå€¼æ›¿æ¢.png"),
+		QString::fromLocal8Bit(":/resource/menu/å­èœå•/å½±åƒé›¶å€¼å¤„ç†.png"),
+		/*QString::fromLocal8Bit(":/resource/menu/å·¥å…·/å½±åƒé›¶å€¼å¤„ç†(ç™½ç‚¹)å¹¶è¡Œç‰ˆ.png"),*/
+		QString::fromLocal8Bit(":/resource/menu/å·¥å…·/æ— æ•ˆå€¼æŸ¥æ‰¾.png")
 	};
 
-	// ÎªÃ¿¸ö°´Å¥ÉèÖÃÍ¼±ê
+	// ä¸ºæ¯ä¸ªæŒ‰é’®è®¾ç½®å›¾æ ‡
 	for (int i = 0; i < buttonGroup_model.size(); ++i) {
 		buttonGroup_model[i]->setIcon(QIcon(iconPaths[i]));
 		buttonGroup_model[i]->setIconSize(QSize(32, 32));
@@ -46,25 +46,25 @@ void InvalidValueHandling::initWidget()
 void InvalidValueHandling::connects() {
 
 	m_toolConnections = {
-		//ÎŞĞ§ÖµÌæ»»
+		//æ— æ•ˆå€¼æ›¿æ¢
 		{"PSImageValueRelaceTool.exe", {
 			ui.Invalidvaluereplacement_btn,
 			ui.Invalidvaluereplacement_btnf
 		}},
 
-		////Ó°ÏñÁãÖµ´¦Àí(°×µã)
+		////å½±åƒé›¶å€¼å¤„ç†(ç™½ç‚¹)
 		//{"PSWhiteDotEraseTool.exe", {
 		//	ui.ImageZeroValueProcessing_btn,
 		//	ui.ImageZeroValueProcessing_btnf
 		//}},
 
-		//////Ó°ÏñÁãÖµ´¦Àí(°×µã)²¢ĞĞ°æ
+		//////å½±åƒé›¶å€¼å¤„ç†(ç™½ç‚¹)å¹¶è¡Œç‰ˆ
 		////{"PSWhiteDotEraseTool2.exe", {
 		////	ui.ImageZerovalueProcessings_btn,
 		////	ui.ImageZerovalueProcessings_btnf
 		////}},
 
-		////ÎŞĞ§Öµ²éÕÒ
+		////æ— æ•ˆå€¼æŸ¥æ‰¾
 		//{"PSHoleCheckTool.exe", {
 		//	ui.Invalidvaluelookup_btn,
 		//	ui.Invalidvaluelookup_btnf
@@ -72,20 +72,20 @@ void InvalidValueHandling::connects() {
 	};
 
 	m_moduleConnections = {
-		//ÎŞĞ§Öµ²éÕÒ
+		//æ— æ•ˆå€¼æŸ¥æ‰¾
 		{"HoleCheckTool.exe", {
 			ui.Invalidvaluelookup_btn,
 			ui.Invalidvaluelookup_btnf
 		}},
 
-		//Ó°ÏñÁãÖµ´¦Àí(°×µã)
+		//å½±åƒé›¶å€¼å¤„ç†(ç™½ç‚¹)
 		{"PSWhiteDotEraseTool.exe", {
 			ui.ImageZeroValueProcessing_btn,
 			ui.ImageZeroValueProcessing_btnf
 		}}
 	};
 
-	// ÒÆ³ı¿ÕÖ¸Õë 
+	// ç§»é™¤ç©ºæŒ‡é’ˆ 
 	for (auto& toolList : m_toolConnections) {
 		toolList.erase(std::remove_if(toolList.begin(), toolList.end(),
 			[](QObject* obj) { return obj == nullptr; }), toolList.end());
@@ -107,7 +107,7 @@ void InvalidValueHandling::connects() {
 		}
 	}
 
-	// ÒÆ³ı¿ÕÖ¸Õë 
+	// ç§»é™¤ç©ºæŒ‡é’ˆ 
 	for (auto& toolList : m_moduleConnections) {
 		toolList.erase(std::remove_if(toolList.begin(), toolList.end(),
 			[](QObject* obj) { return obj == nullptr; }), toolList.end());
@@ -119,7 +119,7 @@ void InvalidValueHandling::connects() {
 			if (QAction* action = qobject_cast<QAction*>(uiElement)) {
 				if (action) {
 					connect(action, &QAction::triggered, this, [=]() {
-						// ÑéÖ¤Ğí¿ÉÖ¤
+						// éªŒè¯è®¸å¯è¯
 						if (!PublicFunctions::validateDogLicense()) {
 							return 0;
 						}
@@ -133,7 +133,7 @@ void InvalidValueHandling::connects() {
 			else if (QPushButton* button = qobject_cast<QPushButton*>(uiElement)) {
 				if (button) {
 					connect(button, &QPushButton::clicked, this, [=]() {
-						// ÑéÖ¤Ğí¿ÉÖ¤
+						// éªŒè¯è®¸å¯è¯
 						if (!PublicFunctions::validateDogLicense()) {
 							return 0;
 						}

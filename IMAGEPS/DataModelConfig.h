@@ -1,4 +1,4 @@
-#ifndef DATAMODELCONFIG_H
+ï»¿#ifndef DATAMODELCONFIG_H
 #define DATAMODELCONFIG_H
 
 #include <QDialog>
@@ -39,7 +39,7 @@ public:
 
 	QTextEdit * logEdit;
 	Ui::DataModelConfigClass ui;
-	QMap<QString, bool> DataModelfilenames; //Ä£ĞÍ´´½¨ÎÄ¼ş¼°×´Ì¬
+	QMap<QString, bool> DataModelfilenames; //æ¨¡å‹åˆ›å»ºæ–‡ä»¶åŠçŠ¶æ€
 
 
 private:
@@ -64,19 +64,19 @@ public slots:
 
 private:
 	IMAGEPS* m_imagePS;
-	QString projectdir;//¹¤³ÌÎÄ¼şÄ¿Â¼
-	QList<QStringList> funListConifg;//Êı¾İÄ£ĞÍÅäÖÃÁĞ±í
-	QMap<QString, QList<QStringList>> funModuleTemp;//Êı¾İÄ£ĞÍÅäÖÃ¹¦ÄÜÁÙÊ±ÁĞ±í
-	bool DataModelBool;//Ä£ĞÍ¹¹½¨¹¦ÄÜ¿ØÖÆ ±ÜÃâÖØ¸´µã»÷·´¸´¶ÁÈ¡
-	bool LoadDataModelBool;//Ä£ĞÍ¹¹½¨¹¦ÄÜ¿ØÖÆ ±ÜÃâÖØ¸´µã»÷·´¸´¶ÁÈ¡
+	QString projectdir;//å·¥ç¨‹æ–‡ä»¶ç›®å½•
+	QList<QStringList> funListConifg;//æ•°æ®æ¨¡å‹é…ç½®åˆ—è¡¨
+	QMap<QString, QList<QStringList>> funModuleTemp;//æ•°æ®æ¨¡å‹é…ç½®åŠŸèƒ½ä¸´æ—¶åˆ—è¡¨
+	bool DataModelBool;//æ¨¡å‹æ„å»ºåŠŸèƒ½æ§åˆ¶ é¿å…é‡å¤ç‚¹å‡»åå¤è¯»å–
+	bool LoadDataModelBool;//æ¨¡å‹æ„å»ºåŠŸèƒ½æ§åˆ¶ é¿å…é‡å¤ç‚¹å‡»åå¤è¯»å–
 
 	QMutex DataModeMutex;
 
-	// ¸¨Öúº¯Êı£¬ÓÃÓÚ¼ì²é²¢»ñÈ¡Ëø 
+	// è¾…åŠ©å‡½æ•°ï¼Œç”¨äºæ£€æŸ¥å¹¶è·å–é” 
 	bool tryLockFunction(QMutex& mutex, const QString& functionName) {
 		if (!mutex.tryLock()) {
 			//qDebug() << functionName << "is already running, aborting";
-			logEdit->append(functionName + QString::fromLocal8Bit("ÈÎÎñÔÚÖ´ĞĞ,ÇëÉÔºóÔÙÊÔ!!!"));
+			logEdit->append(functionName + QString::fromLocal8Bit("ä»»åŠ¡åœ¨æ‰§è¡Œ,è¯·ç¨åå†è¯•!!!"));
 			return false;
 		}
 		return true;

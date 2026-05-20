@@ -1,4 +1,4 @@
-#include "TabbedDockWidget.h"
+ï»¿#include "TabbedDockWidget.h"
 
 TabbedDockWidget::TabbedDockWidget(QWidget* parent)
 	: TabbedDockWidget("Untitled", parent) {}
@@ -6,25 +6,25 @@ TabbedDockWidget::TabbedDockWidget(QWidget* parent)
 TabbedDockWidget::TabbedDockWidget(const QString& title, QWidget* parent)
 	: QDockWidget(title, parent)
 {
-	// ³õÊ¼»¯ StackedWidget
+	// åˆå§‹åŒ– StackedWidget
 	stackedWidget = new QStackedWidget(this);
 	setWidget(stackedWidget);
 
-	// Ê¹ÓÃÄ¬ÈÏ±êÌâÀ¸£¬²»½øĞĞ×Ô¶¨Òå
-	// Ö»ĞèÒªÁ¬½ÓÄ¬ÈÏµÄ¹Ø±Õ°´Å¥ĞÅºÅ
+	// ä½¿ç”¨é»˜è®¤æ ‡é¢˜æ ï¼Œä¸è¿›è¡Œè‡ªå®šä¹‰
+	// åªéœ€è¦è¿æ¥é»˜è®¤çš„å…³é—­æŒ‰é’®ä¿¡å·
 	connect(this, &QDockWidget::topLevelChanged, [this](bool floating) {
 		//closeCurrentPage();
 	});
 
-	// Èç¹ûĞèÒªÀ¹½Ø¹Ø±ÕÊÂ¼ş£¬¿ÉÒÔÕâÑùÁ¬½Ó 
+	// å¦‚æœéœ€è¦æ‹¦æˆªå…³é—­äº‹ä»¶ï¼Œå¯ä»¥è¿™æ ·è¿æ¥ 
 	connect(toggleViewAction(), &QAction::triggered, this, [this]() {
-		closeCurrentPage();  // µ÷ÓÃ×Ô¶¨Òå¹Ø±ÕÂß¼­
+		closeCurrentPage();  // è°ƒç”¨è‡ªå®šä¹‰å…³é—­é€»è¾‘
 	});
 }
 
 void TabbedDockWidget::closeEvent(QCloseEvent* event) {
 	closeCurrentPage();
-	event->ignore(); // ×èÖ¹ DockWidget ¹Ø±Õ
+	event->ignore(); // é˜»æ­¢ DockWidget å…³é—­
 }
 
 void TabbedDockWidget::closeCurrentPage() {
@@ -58,10 +58,10 @@ void TabbedDockWidget::closeCurrentPage() {
 	}
 
 	if (allDisabled) {
-		hide(); // È«²¿½ûÓÃÔòÒş²ØDockWidget 
+		hide(); // å…¨éƒ¨ç¦ç”¨åˆ™éšè—DockWidget 
 	}
 	else {
-		// ²éÕÒ²¢ÇĞ»»µ½ÏÂÒ»¸ö¿ÉÓÃ±êÇ©Ò³
+		// æŸ¥æ‰¾å¹¶åˆ‡æ¢åˆ°ä¸‹ä¸€ä¸ªå¯ç”¨æ ‡ç­¾é¡µ
 		int nextIndex = -1;
 		for (int i = currentIndex + 1; i < tabWidget->count(); ++i) {
 			if (tabWidget->isTabEnabled(i)) {

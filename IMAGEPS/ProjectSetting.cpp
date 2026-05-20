@@ -1,4 +1,4 @@
-#include "ProjectSetting.h"
+ï»¿#include "ProjectSetting.h"
 #include "IMAGEPS.h"
 
 ProjectSetting::ProjectSetting(QDialog *parent, IMAGEPS* imagePSInstance)
@@ -6,7 +6,7 @@ ProjectSetting::ProjectSetting(QDialog *parent, IMAGEPS* imagePSInstance)
 	, m_imagePS(imagePSInstance)
 {
 	ui.setupUi(this);
-	this->setWindowTitle(QString::fromLocal8Bit("Í¶Ó°ÉèÖÃ"));
+	this->setWindowTitle(QString::fromLocal8Bit("æŠ•å½±è®¾ç½®"));
 	//this->resize(1500, 800);
 	//this->setMinimumSize(800, 600);
 
@@ -21,16 +21,16 @@ void ProjectSetting::loadConfig(QString funModule)
 {
 	funListConifg.clear();
 
-	if (funModule == QString::fromLocal8Bit("Í¶Ó°ÅäÖÃ¹¦ÄÜÁĞ±í"))
-		funListConifg = PublicFunctions::loadFile(QString::fromLocal8Bit("../bin/config/systemConfig/Í¶Ó°ÅäÖÃ¹¦ÄÜÁĞ±í.csv"), ",");
-	else if (funModule == QString::fromLocal8Bit("Ô¤¶¨Òå×ø±êÏµÍ³"))
+	if (funModule == QString::fromLocal8Bit("æŠ•å½±é…ç½®åŠŸèƒ½åˆ—è¡¨"))
+		funListConifg = PublicFunctions::loadFile(QString::fromLocal8Bit("../bin/config/systemConfig/æŠ•å½±é…ç½®åŠŸèƒ½åˆ—è¡¨.csv"), ",");
+	else if (funModule == QString::fromLocal8Bit("é¢„å®šä¹‰åæ ‡ç³»ç»Ÿ"))
 	{
-		QString filePath = QString::fromLocal8Bit("../bin/config/systemConfig/¹ú¼ÒÍ¶Ó°ĞÅÏ¢.txt");
+		QString filePath = QString::fromLocal8Bit("../bin/config/systemConfig/å›½å®¶æŠ•å½±ä¿¡æ¯.txt");
 		QFile* file = new QFile(filePath);
 
 		if (!file->open(QIODevice::ReadOnly | QIODevice::Text))
 		{
-			QMessageBox::critical(nullptr, u8"´íÎó", filePath + u8" ´ò¿ªÊ§°Ü");
+			QMessageBox::critical(nullptr, u8"é”™è¯¯", filePath + u8" æ‰“å¼€å¤±è´¥");
 			return ;
 		}
 
@@ -51,9 +51,9 @@ void ProjectSetting::loadConfig(QString funModule)
 				tempLines = lineStr.toInt();
 				for (int i = 0; i < tempLines; i++)
 				{
-					//ÌáÈ¡Í¶Ó°Ãû³ÆÒ»ĞĞÊı¾İ
+					//æå–æŠ•å½±åç§°ä¸€è¡Œæ•°æ®
 					QString projectName = stream->readLine().remove('\n');
-					//ÌáÈ¡ÏêÏ¸ĞÅÏ¢Ò»ĞĞÊı¾İ
+					//æå–è¯¦ç»†ä¿¡æ¯ä¸€è¡Œæ•°æ®
 					lineStr = stream->readLine().remove('\n');
 					
 					if (!projectName.isEmpty() && !lineStr.isEmpty())
@@ -62,7 +62,7 @@ void ProjectSetting::loadConfig(QString funModule)
 						if (lineStr.left(6) == QString::fromLocal8Bit("PROJCS") || lineStr.left(6) == QString::fromLocal8Bit("GEOGCS"))
 							tempPreData.PROJCS = lineStr;
 						
-						// µ¥¶ÀÆ¥Åä DAM[
+						// å•ç‹¬åŒ¹é… DAM[
 						QRegularExpression reDam(R"(DATUM\[\"([^\"]+)\")");
 						QRegularExpressionMatch matchDam = reDam.match(lineStr);
 						if (matchDam.hasMatch())
@@ -70,7 +70,7 @@ void ProjectSetting::loadConfig(QString funModule)
 							tempPreData.Datum = matchDam.captured(1);
 						}
 
-						// µ¥¶ÀÆ¥Åä SPID[
+						// å•ç‹¬åŒ¹é… SPID[
 						QRegularExpression reSpid(R"(SPHEROID\[\"([^\"]+)\",\s*([^,]+),\s*([^\]]+))");
 						QRegularExpressionMatch matchSpid = reSpid.match(lineStr);
 						if (matchSpid.hasMatch()) 
@@ -80,19 +80,19 @@ void ProjectSetting::loadConfig(QString funModule)
 							tempPreData.InFlattening = matchSpid.captured(3).trimmed().toDouble();
 						}
 
-						// µ¥¶ÀÆ¥Åä TOWGS84[
+						// å•ç‹¬åŒ¹é… TOWGS84[
 						QRegularExpression reTowgs84(R"(TOWGS84\[([^]]+)\])");
 						QRegularExpressionMatch matchTowgs84 = reTowgs84.match(lineStr);
 						if (matchTowgs84.hasMatch()) {
-							QString towgs84Content = matchTowgs84.captured(1); // »ñÈ¡ TOWGS84[ ºóµÄÄÚÈİ
-							QStringList numbers = towgs84Content.split(",");   // °´¶ººÅ·Ö¸îÊı×Ö
+							QString towgs84Content = matchTowgs84.captured(1); // è·å– TOWGS84[ åçš„å†…å®¹
+							QStringList numbers = towgs84Content.split(",");   // æŒ‰é€—å·åˆ†å‰²æ•°å­—
 
 							for (const QString& number : numbers) {
 								tempPreData.List_TOWGS84.push_back(number.trimmed().toInt());
 							}
 						}
 
-						// µ¥¶ÀÆ¥Åä PRIMEM[
+						// å•ç‹¬åŒ¹é… PRIMEM[
 						QRegularExpression rePrime(R"(PRIMEM\[\"([^\"]+)\",(\d+))");
 						QRegularExpressionMatch matchPrime = rePrime.match(lineStr);
 						if (matchPrime.hasMatch())
@@ -100,7 +100,7 @@ void ProjectSetting::loadConfig(QString funModule)
 							tempPreData.PrimeMeridian = matchPrime.captured(1) + "," + matchPrime.captured(2).trimmed();
 						}
 
-						// µ¥¶ÀÆ¥Åä PARAMETER[
+						// å•ç‹¬åŒ¹é… PARAMETER[
 						QRegularExpression reParam(R"(PARAMETER\[\"([^\"]+)\",\s*([^\]]+))");
 						QRegularExpressionMatchIterator itParam = reParam.globalMatch(lineStr);
 						int paramCount = 0;
@@ -121,7 +121,7 @@ void ProjectSetting::loadConfig(QString funModule)
 
 		file->close();
 	}
-	else if (funModule == QString::fromLocal8Bit("×Ô¶¨ÒåÍ¶Ó°×ø±êÏµ"))
+	else if (funModule == QString::fromLocal8Bit("è‡ªå®šä¹‰æŠ•å½±åæ ‡ç³»"))
 		funModuleTemp = PublicFunctions::loadConfigFile(QString::fromLocal8Bit("../bin/config/systemConfig/%1.csv").arg(funModule));
 }
 
@@ -137,22 +137,22 @@ void ProjectSetting::initWidget()
 			funModuleBool[data[0]] = false;
 		}
 	}
-	// ×ÛºÏÉèÖÃ£¨¼ä¾à+±ß¿ò+±³¾°£©
+	// ç»¼åˆè®¾ç½®ï¼ˆé—´è·+è¾¹æ¡†+èƒŒæ™¯ï¼‰
 	ui.funListWidget->setStyleSheet(
 		"QListWidget {"
 		"   background-color: #f2f2f2;"
-		"   border: none;"              // ÍêÈ«ÒÆ³ı¿Ø¼ş±ß¿ò
-		"   border-radius: 10px;"      // ÉèÖÃÔ²½Ç£¨¼´Ê¹ÎŞ±ß¿òÒ²Ğè±£Áô£¬Ó°Ïì±³¾°²Ã¼ô£©
+		"   border: none;"              // å®Œå…¨ç§»é™¤æ§ä»¶è¾¹æ¡†
+		"   border-radius: 10px;"      // è®¾ç½®åœ†è§’ï¼ˆå³ä½¿æ— è¾¹æ¡†ä¹Ÿéœ€ä¿ç•™ï¼Œå½±å“èƒŒæ™¯è£å‰ªï¼‰
 		"   outline: 0px;"
-		"   padding: 5px;"             // ±£³ÖÄÚ±ß¾à
+		"   padding: 5px;"             // ä¿æŒå†…è¾¹è·
 		"}"
 		"QListWidget::item {"
-		"   margin: 5px;"              // ¼õÉÙ±ß¾àÊ¹¸ü½ô´Õ
+		"   margin: 5px;"              // å‡å°‘è¾¹è·ä½¿æ›´ç´§å‡‘
 		"   padding: 5px;"
-		"   border: none;"             // ÒÆ³ıitem±ß¿ò
+		"   border: none;"             // ç§»é™¤itemè¾¹æ¡†
 		"   border-radius: 4px;"
 		"   color: black;"
-		"   background: transparent;"  // Í¸Ã÷±³¾°
+		"   background: transparent;"  // é€æ˜èƒŒæ™¯
 		"}"
 		"QListWidget::item:hover {"
 		"   background-color: #00a99d;"
@@ -177,13 +177,13 @@ void ProjectSetting::connects()
 
 	connect(ui.predefineCoordinate_basicImageBut, &QPushButton::clicked, this, [=]
 	{
-		QString imagePath = QFileDialog::getOpenFileName(this, QString::fromLocal8Bit("´ò¿ªÓ°Ïñ"), "./", tr("TIF Image(*.tif);;TIFF Image(*.tiff);;ERDAS Image(*.img);;BIL Image(*.bil);;JPG Image(*.jpg);;JPEG Image(*.jpeg);;BMP Image(*.bmp);;CoSAR(*.cos);;PCI(*.pix);;ArcInfo(*.adf);;Envi HDR(*.hdr);;HDF4 Image(*.hdf)"));
+		QString imagePath = QFileDialog::getOpenFileName(this, QString::fromLocal8Bit("æ‰“å¼€å½±åƒ"), "./", tr("TIF Image(*.tif);;TIFF Image(*.tiff);;ERDAS Image(*.img);;BIL Image(*.bil);;JPG Image(*.jpg);;JPEG Image(*.jpeg);;BMP Image(*.bmp);;CoSAR(*.cos);;PCI(*.pix);;ArcInfo(*.adf);;Envi HDR(*.hdr);;HDF4 Image(*.hdf)"));
 		QFile newProFile(imagePath);
 		if (imagePath.isEmpty())
 			return;
 		else if (!newProFile.open(QIODevice::ReadOnly | QIODevice::Text) || imagePath.isEmpty())
 		{
-			QMessageBox::critical(this, u8"´íÎó", QString::fromLocal8Bit("´ò¿ªÊ§°Ü"));
+			QMessageBox::critical(this, u8"é”™è¯¯", QString::fromLocal8Bit("æ‰“å¼€å¤±è´¥"));
 			return;
 		}
 		 
@@ -193,7 +193,7 @@ void ProjectSetting::connects()
 	
 	connect(ui.okButton, &QPushButton::clicked, this, &ProjectSetting::okButtonSlot);
 
-	// ¼àÌı listWidget1 µÄ±ä»¯
+	// ç›‘å¬ listWidget1 çš„å˜åŒ–
 	connect(ui.predefineCoordinate_projectNameListWidget, &QListWidget::itemChanged, this, &ProjectSetting::onListModified);
 	connect(ui.predefineCoordinate_projectNameListWidget->model(), &QAbstractItemModel::rowsInserted, this, &ProjectSetting::onListModified);
 	connect(ui.predefineCoordinate_projectNameListWidget->model(), &QAbstractItemModel::rowsRemoved, this, &ProjectSetting::onListModified);
@@ -201,13 +201,13 @@ void ProjectSetting::connects()
 		this, [this](QListWidgetItem *current, QListWidgetItem *previous) {
 		Q_UNUSED(previous);
 		if (current) {
-			this->onListModified();  // Ñ¡Ôñ±ä»¯ÊÓÎªĞŞ¸Ä
+			this->onListModified();  // é€‰æ‹©å˜åŒ–è§†ä¸ºä¿®æ”¹
 		}
 	});
 
-	// Ó¦ÓÃ°´Å¥µã»÷ºó»Ö¸´½ûÓÃ×´Ì¬
+	// åº”ç”¨æŒ‰é’®ç‚¹å‡»åæ¢å¤ç¦ç”¨çŠ¶æ€
 	connect(ui.okButton_2, &QPushButton::clicked, this, [this]() {
-		ui.okButton_2->setEnabled(false);  // ±£´æºó½ûÓÃ
+		ui.okButton_2->setEnabled(false);  // ä¿å­˜åç¦ç”¨
 		applyButtonSlot();
 
 	});
@@ -220,7 +220,7 @@ void ProjectSetting::connects()
 
 void ProjectSetting::funListWidgetItemSlot(QListWidgetItem* item)
 {
-	if (item->text() == QString::fromLocal8Bit("Ô¤¶¨Òå×ø±êÏµÍ³"))
+	if (item->text() == QString::fromLocal8Bit("é¢„å®šä¹‰åæ ‡ç³»ç»Ÿ"))
 	{
 		ui.stackedWidget->setCurrentWidget(ui.predefineCoordinate_Page);
 
@@ -237,7 +237,7 @@ void ProjectSetting::funListWidgetItemSlot(QListWidgetItem* item)
 		}
 		
 	}
-	else if (item->text() == QString::fromLocal8Bit("×Ô¶¨ÒåÍ¶Ó°×ø±êÏµ"))
+	else if (item->text() == QString::fromLocal8Bit("è‡ªå®šä¹‰æŠ•å½±åæ ‡ç³»"))
 	{
 		ui.stackedWidget->setCurrentWidget(ui.customProject_Page);
 
@@ -419,11 +419,11 @@ void ProjectSetting::okButtonSlot()
 	QListWidgetItem *selectedItem = ui.predefineCoordinate_projectNameListWidget->currentItem();
 	if (selectedItem) {
 		QString selectedText = ui.predefineCoordinate_projectTypeBox->currentText();
-		QString text = selectedItem->text(); // »ñÈ¡Ñ¡ÖĞÏîµÄÎÄ±¾
+		QString text = selectedItem->text(); // è·å–é€‰ä¸­é¡¹çš„æ–‡æœ¬
 
 		auto selectedit = tranData.find(selectedText);
 		if (selectedit != tranData.end()) {
-			auto it = selectedit.value().find(text);  // »ñÈ¡¶ÔÓ¦µÄ value
+			auto it = selectedit.value().find(text);  // è·å–å¯¹åº”çš„ value
 			if (it != selectedit.value().end())
 				emit PROJCStext(it.value().PROJCS);
 		}
@@ -439,11 +439,11 @@ void ProjectSetting::applyButtonSlot()
 	QListWidgetItem *selectedItem = ui.predefineCoordinate_projectNameListWidget->currentItem();
 	if (selectedItem) {
 		QString selectedText = ui.predefineCoordinate_projectTypeBox->currentText();
-		QString text = selectedItem->text(); // »ñÈ¡Ñ¡ÖĞÏîµÄÎÄ±¾
+		QString text = selectedItem->text(); // è·å–é€‰ä¸­é¡¹çš„æ–‡æœ¬
 
 		auto selectedit = tranData.find(selectedText);
 		if (selectedit != tranData.end()) {
-			auto it = selectedit.value().find(text);  // »ñÈ¡¶ÔÓ¦µÄ value
+			auto it = selectedit.value().find(text);  // è·å–å¯¹åº”çš„ value
 			if (it != selectedit.value().end())
 				emit PROJCStext(it.value().PROJCS);
 		}
@@ -454,7 +454,7 @@ void ProjectSetting::applyButtonSlot()
 }
 
 void ProjectSetting::onListModified() {
-	ui.okButton_2->setEnabled(true);  // Ö»ÒªÈÎÒ»ÁĞ±íĞŞ¸Ä£¬¾ÍÆôÓÃÓ¦ÓÃ°´Å¥
+	ui.okButton_2->setEnabled(true);  // åªè¦ä»»ä¸€åˆ—è¡¨ä¿®æ”¹ï¼Œå°±å¯ç”¨åº”ç”¨æŒ‰é’®
 }
 
 ProjectSetting::~ProjectSetting()

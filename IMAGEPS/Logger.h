@@ -1,4 +1,4 @@
-#ifndef LOGGER_H
+ï»¿#ifndef LOGGER_H
 #define LOGGER_H 
 
 #include <QString>
@@ -7,63 +7,63 @@
 #include <QTextStream>
 #include <QDateTime>
 
-// ÈÕÖ¾¼¶±ğ 
+// æ—¥å¿—çº§åˆ« 
 enum LogLevel {
 	DEBUG,
 	INFO,
 	WARNING,
-	PSERROR,  // ĞŞ¸ÄÕâÀï±ÜÃâÓëWindowsºê³åÍ» 
+	PSERROR,  // ä¿®æ”¹è¿™é‡Œé¿å…ä¸Windowså®å†²çª 
 	CRITICAL
 };
 
-// ÈÕÖ¾ÅäÖÃ
+// æ—¥å¿—é…ç½®
 struct LogConfig {
-	QString logDir;                  // ÈÕÖ¾Ä¿Â¼
-	QString logFilePrefix = "log";   // ÈÕÖ¾ÎÄ¼şÇ°×º
-	int maxSizeMB = 5;               // µ¥¸öÈÕÖ¾ÎÄ¼ş×î´ó´óĞ¡(MB)
-	int maxDays = 7;                 // ÈÕÖ¾±£ÁôÌìÊı 
-	bool consoleOutput = true;       // ÊÇ·ñÊä³öµ½¿ØÖÆÌ¨ 
-	bool useSystemLog = false;       // ÊÇ·ñÊ¹ÓÃÏµÍ³ÈÕÖ¾(Èçsyslog)
+	QString logDir;                  // æ—¥å¿—ç›®å½•
+	QString logFilePrefix = "log";   // æ—¥å¿—æ–‡ä»¶å‰ç¼€
+	int maxSizeMB = 5;               // å•ä¸ªæ—¥å¿—æ–‡ä»¶æœ€å¤§å¤§å°(MB)
+	int maxDays = 7;                 // æ—¥å¿—ä¿ç•™å¤©æ•° 
+	bool consoleOutput = true;       // æ˜¯å¦è¾“å‡ºåˆ°æ§åˆ¶å° 
+	bool useSystemLog = false;       // æ˜¯å¦ä½¿ç”¨ç³»ç»Ÿæ—¥å¿—(å¦‚syslog)
 };
 
 class Logger
 {
 public:
-	// ¹¹Ôìº¯Êı 
+	// æ„é€ å‡½æ•° 
 	explicit Logger();
 
-	// ¼ÇÂ¼ÈÕÖ¾
+	// è®°å½•æ—¥å¿—
 	void write(LogLevel level, const QString& message,
 		const char* file = nullptr, int line = 0);
 
-	// ÉèÖÃĞÂÅäÖÃ
+	// è®¾ç½®æ–°é…ç½®
 	void setConfig(const LogConfig& config);
 
-	// »ñÈ¡µ±Ç°ÅäÖÃ
+	// è·å–å½“å‰é…ç½®
 	LogConfig getConfig() const;
 
 private:
-	// ³õÊ¼»¯ÈÕÖ¾Ä¿Â¼ 
+	// åˆå§‹åŒ–æ—¥å¿—ç›®å½• 
 	void initLogDir();
 
-	// ÇåÀí¹ıÆÚÈÕÖ¾ 
+	// æ¸…ç†è¿‡æœŸæ—¥å¿— 
 	void cleanupOldLogs();
 
-	// »ñÈ¡µ±Ç°ÈÕÖ¾ÎÄ¼şÂ·¾¶
+	// è·å–å½“å‰æ—¥å¿—æ–‡ä»¶è·¯å¾„
 	QString getCurrentLogFilePath() const;
 
-	// Ğ´ÈëÈÕÖ¾µ½ÎÄ¼ş
+	// å†™å…¥æ—¥å¿—åˆ°æ–‡ä»¶
 	void writeToFile(const QString& message);
 
-	// Ğ´ÈëÏµÍ³ÈÕÖ¾ 
+	// å†™å…¥ç³»ç»Ÿæ—¥å¿— 
 	void writeToSystemLog(LogLevel level, const QString& message) const;
 
-	QString projectName_;    // ¹¤³ÌÃû³Æ(ÓÃÓÚÇø·Ö²»Í¬¹¤³Ì)
-	LogConfig config_;       // ÈÕÖ¾ÅäÖÃ
-	mutable QMutex mutex_;   // »¥³âËø(±£Ö¤Ïß³Ì°²È«)
+	QString projectName_;    // å·¥ç¨‹åç§°(ç”¨äºåŒºåˆ†ä¸åŒå·¥ç¨‹)
+	LogConfig config_;       // æ—¥å¿—é…ç½®
+	mutable QMutex mutex_;   // äº’æ–¥é”(ä¿è¯çº¿ç¨‹å®‰å…¨)
 };
 
-// ºê¶¨Òå¼ò»¯µ÷ÓÃ(Ã¿¸ö¹¤³ÌÓĞ×Ô¼ºµÄºê)
+// å®å®šä¹‰ç®€åŒ–è°ƒç”¨(æ¯ä¸ªå·¥ç¨‹æœ‰è‡ªå·±çš„å®)
 #define PROJECT_LOG_DEBUG(logger, msg)    logger.write(DEBUG, msg, __FILE__, __LINE__)
 #define PROJECT_LOG_INFO(logger, msg)     logger.write(INFO, msg, __FILE__, __LINE__)
 #define PROJECT_LOG_WARNING(logger, msg)  logger.write(WARNING, msg, __FILE__, __LINE__)

@@ -1,4 +1,4 @@
-#ifndef IMAGEPS_INFOWINDOW_H
+Ôªø#ifndef IMAGEPS_INFOWINDOW_H
 #define IMAGEPS_INFOWINDOW_H
 
 #include <QtWidgets/QMainWindow>
@@ -14,10 +14,8 @@
 
 #include "IMAGEPS.h"
 #include "ImageCloudSnowProcessing.h"
-#include "RPC2RPB.h"
 #include "InvalidValueHandling.h"
 #include "HeightAnomalyProcessing.h"
-#include "ImageCropTool.h"
 
 class IMAGEPS_InfoWindow : public QMainWindow
 {
@@ -38,7 +36,7 @@ signals:
 private:
     //Ui::IMAGEPS_InfoWindowClass ui;
 	QSettings* settings;
-	QMap<QString, QAction*> Map_mainToolBarAction;//÷˜≤Àµ•->≤Àµ•◊”œÓ
+	QMap<QString, QAction*> Map_mainToolBarAction;//‰∏ªËèúÂçï->ËèúÂçïÂ≠êÈ°π
 	
 	QMap<QString, QList<QObject*>> m_toolConnections;
 	QMap<QString, QList<QObject*>> m_moduleConnections;
@@ -46,8 +44,8 @@ private:
 	void initWidget();
 	void connects();
 
-	void newProActionSlot();//–¬Ω®π§≥Ã
-	void openProActionSlot();//¥Úø™π§≥Ã
+	void newProActionSlot();//Êñ∞Âª∫Â∑•Á®ã
+	void openProActionSlot();//ÊâìÂºÄÂ∑•Á®ã
 
 	void addRecentProjectItem();
 
@@ -72,10 +70,8 @@ private:
 	QVector<QPushButton*> buttonGroup_model;
 
 	ImageCloudSnowProcessing* ImageCloudSnowShow = nullptr;
-	ImageCropTool* ImageCrop = nullptr;
 	HeightAnomalyProcessing* HeightAnomaly = nullptr;
 	InvalidValueHandling* InvalidValueHandl = nullptr;
-	RPC2RPB* RPCTRPB = nullptr;
 };
 
 #endif

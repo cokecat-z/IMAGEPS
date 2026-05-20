@@ -1,4 +1,4 @@
-#include "ImageCloudSnowProcessing.h"
+ï»¿#include "ImageCloudSnowProcessing.h"
 
 //ImageCloudSnowProcessing* ImageCloudSnowProcessing::instance = nullptr;
 
@@ -6,8 +6,8 @@ ImageCloudSnowProcessing::ImageCloudSnowProcessing(QWidget *parent)
 	: QDialog(parent)
 {
 	ui.setupUi(this);
-	setWindowTitle(QString::fromLocal8Bit("Ó°Ïñ±à¼­´¦Àí"));
-	setWindowIcon(QIcon(u8":/resource/menu/¹¤¾ß/Ó°ÏñÔÆÑ©ºÍÀ­»¨±äĞÎÌæ»».png"));
+	setWindowTitle(QString::fromLocal8Bit("å½±åƒç¼–è¾‘å¤„ç†"));
+	setWindowIcon(QIcon(u8":/resource/menu/å·¥å…·/å½±åƒäº‘é›ªå’Œæ‹‰èŠ±å˜å½¢æ›¿æ¢.png"));
 	
 	QString exeDir = QCoreApplication::applicationDirPath();
 	QDir dir(exeDir);
@@ -23,19 +23,19 @@ ImageCloudSnowProcessing::~ImageCloudSnowProcessing()
 void ImageCloudSnowProcessing::initWidget()
 {
 	//setWindowFlags(Qt::Dialog | Qt::MSWindowsFixedSizeDialogHint);
-	setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint); // ÒÆ³ı°ïÖú°´Å¥
+	setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint); // ç§»é™¤å¸®åŠ©æŒ‰é’®
 
 	buttonGroup_model = {
 		/*ui.CloudReplaceTool2_btn ,*/ ui.CloudReplaceTool_btn, ui.AutoCloudReplaceTool_btn
 	};
 
 	QStringList iconPaths = {
-		/*QString::fromLocal8Bit(":/resource/menu/×Ó²Ëµ¥/Ó°ÏñÔÆÑ©×Ô¶¯Ìæ»»Èí¼ş(½»»¥Ê½).png"),*/
-		QString::fromLocal8Bit(":/resource/menu/×Ó²Ëµ¥/Ó°ÏñÔÆĞû×Ô¶¯Ìæ»»Èí¼ş(Åú´¦Àí).png"),
-		QString::fromLocal8Bit(":/resource/menu/×Ó²Ëµ¥/Ó°ÏñÔÆÑ©×Ô¶¯Ìæ»»Èí¼ş(È«×Ô¶¯).png")
+		/*QString::fromLocal8Bit(":/resource/menu/å­èœå•/å½±åƒäº‘é›ªè‡ªåŠ¨æ›¿æ¢è½¯ä»¶(äº¤äº’å¼).png"),*/
+		QString::fromLocal8Bit(":/resource/menu/å­èœå•/å½±åƒäº‘å®£è‡ªåŠ¨æ›¿æ¢è½¯ä»¶(æ‰¹å¤„ç†).png"),
+		QString::fromLocal8Bit(":/resource/menu/å­èœå•/å½±åƒäº‘é›ªè‡ªåŠ¨æ›¿æ¢è½¯ä»¶(å…¨è‡ªåŠ¨).png")
 	};
 
-	// ÎªÃ¿¸ö°´Å¥ÉèÖÃÍ¼±ê
+	// ä¸ºæ¯ä¸ªæŒ‰é’®è®¾ç½®å›¾æ ‡
 	for (int i = 0; i < buttonGroup_model.size(); ++i) {
 		buttonGroup_model[i]->setIcon(QIcon(iconPaths[i]));
 		buttonGroup_model[i]->setIconSize(QSize(32, 32));
@@ -48,25 +48,25 @@ void ImageCloudSnowProcessing::initWidget()
 void ImageCloudSnowProcessing::connects() {
 
 	m_toolConnections = {
-		//// Ó°ÏñÔÆÑ©×Ô¶¯Ìæ»»Èí¼ş£¨½»»¥Ê½£©
+		//// å½±åƒäº‘é›ªè‡ªåŠ¨æ›¿æ¢è½¯ä»¶ï¼ˆäº¤äº’å¼ï¼‰
 		//{"PSCloudReplaceTool2.exe",  {
 		//	ui.CloudReplaceTool2_btn,
 		//	ui.CloudReplaceTool2_btnf
 		//}},
 
-		// Ó°ÏñÔÆÑ©×Ô¶¯Ìæ»»Èí¼ş£¨Åú´¦Àí£©
+		// å½±åƒäº‘é›ªè‡ªåŠ¨æ›¿æ¢è½¯ä»¶ï¼ˆæ‰¹å¤„ç†ï¼‰
 		{"PSImageCloudandSnowProcessing.exe",  {
 			ui.CloudReplaceTool_btn,
 			ui.CloudReplaceTool_btnf
 		}},
 
-		// Ó°ÏñÔÆÑ©×Ô¶¯Ìæ»»Èí¼ş£¨È«×Ô¶¯£©
+		// å½±åƒäº‘é›ªè‡ªåŠ¨æ›¿æ¢è½¯ä»¶ï¼ˆå…¨è‡ªåŠ¨ï¼‰
 		{"PSAutoCloudReplace.exe",  {
 			ui.AutoCloudReplaceTool_btn,
 			ui.AutoCloudReplaceTool_btnf
 		}}
 	};
-	// ÒÆ³ı¿ÕÖ¸Õë 
+	// ç§»é™¤ç©ºæŒ‡é’ˆ 
 	for (auto& toolList : m_toolConnections) {
 		toolList.erase(std::remove_if(toolList.begin(), toolList.end(),
 			[](QObject* obj) { return obj == nullptr; }), toolList.end());

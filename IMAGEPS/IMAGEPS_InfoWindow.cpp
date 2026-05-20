@@ -1,4 +1,4 @@
-#include "IMAGEPS_InfoWindow.h"
+ï»¿#include "IMAGEPS_InfoWindow.h"
 
 IMAGEPS_InfoWindow* IMAGEPS_InfoWindow::instance = nullptr;
 
@@ -6,7 +6,7 @@ IMAGEPS_InfoWindow::IMAGEPS_InfoWindow(QWidget *parent)
     : QMainWindow(parent)
 {
     ui.setupUi(this);
-	setWindowTitle(u8"IMAGEPS DESKTOP¶àÔ´Ò£¸ĞÓ°ÏñÖÇÄÜ´¦ÀíÏµÍ³ 2026V2.6[*]");
+	setWindowTitle(u8"IMAGEPS DESKTOPå¤šæºé¥æ„Ÿå½±åƒæ™ºèƒ½å¤„ç†ç³»ç»Ÿ 2026V2.6[*]");
 
 	instance = this;
 	QString exeDir = QCoreApplication::applicationDirPath();
@@ -18,13 +18,6 @@ IMAGEPS_InfoWindow::IMAGEPS_InfoWindow(QWidget *parent)
 		ImageCloudSnowShow = new ImageCloudSnowProcessing;
 
         ImageCloudSnowShow->resize(400, 200);
-	}
-
-	if (!ImageCrop)
-	{
-		ImageCrop = new ImageCropTool;
-
-		ImageCrop->resize(500, 200);
 	}
 
 	if (!HeightAnomaly)
@@ -62,7 +55,7 @@ IMAGEPS_InfoWindow::~IMAGEPS_InfoWindow()
 void IMAGEPS_InfoWindow::initWidget()
 {
 	//this->showMaximized();
-	// ÑÓ³ÙÖ´ĞĞ×î´ó»¯²¢Ç¿ÖÆ²¼¾Ö¸üĞÂ
+	// å»¶è¿Ÿæ‰§è¡Œæœ€å¤§åŒ–å¹¶å¼ºåˆ¶å¸ƒå±€æ›´æ–°
 	QTimer::singleShot(0, this, [this]() {
 		this->showMaximized();
 		this->menuBar()->setMinimumWidth(this->width());
@@ -71,49 +64,49 @@ void IMAGEPS_InfoWindow::initWidget()
 	settings = new QSettings("../bin/config/mainToolBarConfig/mainToolBar_inpho.ini", QSettings::IniFormat);
 	settings->setIniCodec(QTextCodec::codecForName("UTF-8"));
 
-	QStringList List_menuBar;//Ò»¼¶²Ëµ¥
+	QStringList List_menuBar;//ä¸€çº§èœå•
 	List_menuBar << "Project_menu" << "Stand-Alines_menu" << "tool_menu" << "Window_menu" << "Options_menu"
 		<< "help_menu";
 
 	QMap<QString, QString> childMenuIconMap = {
-	{"imageCloudCheck_menu", QString::fromLocal8Bit(":/resource/menu/Êı¾İÔ¤´¦Àí/Ó°ÏñÔÆ¼ì²â.png")},
-	{"imageAbsPositPrecCheck_menu", QString::fromLocal8Bit(":/resource/menu/Êı¾İÔ¤´¦Àí/Ó°Ïñ¾ø¶Ô¶¨Î»¾«¶ÈÖÊ¼ì.png")},
-	{"connectPointsFile_menu", QString::fromLocal8Bit(":/resource/menu/¹¤¾ß/Á¬½ÓµãÎÄ¼ş.png")},
-	{"inputControlPoints_menu", QString::fromLocal8Bit(":/resource/menu/¹¤¾ß/µ¼Èë¿ØÖÆµã.png")},
-	{"ImageCloudandAndStripingDeformationReplacement_menu", QString::fromLocal8Bit(":/resource/menu/¹¤¾ß/Ó°ÏñÔÆÑ©ºÍÀ­»¨±äĞÎÌæ»».png")},
-	{"ImageCropTool_menu", QString::fromLocal8Bit(":/resource/menu/¹¤¾ß/Ó°Ïñ²ÃÇĞÈí¼ş.png")},
-	{"HeightAnomalyProcessing_menu", QString::fromLocal8Bit(":/resource/menu/¹¤¾ß/¸ß³ÌÒì³£´¦Àí.png")},
-	{"Softwaretools_menu", QString::fromLocal8Bit(":/resource/menu/¹¤¾ß/sxsz2.png")},
-	{"InvalidValueHandling_menu", QString::fromLocal8Bit(":/resource/menu/¹¤¾ß/ÎŞĞ§Öµ´¦Àí.png")},
+	{"imageCloudCheck_menu", QString::fromLocal8Bit(":/resource/menu/æ•°æ®é¢„å¤„ç†/å½±åƒäº‘æ£€æµ‹.png")},
+	{"imageAbsPositPrecCheck_menu", QString::fromLocal8Bit(":/resource/menu/æ•°æ®é¢„å¤„ç†/å½±åƒç»å¯¹å®šä½ç²¾åº¦è´¨æ£€.png")},
+	{"connectPointsFile_menu", QString::fromLocal8Bit(":/resource/menu/å·¥å…·/è¿æ¥ç‚¹æ–‡ä»¶.png")},
+	{"inputControlPoints_menu", QString::fromLocal8Bit(":/resource/menu/å·¥å…·/å¯¼å…¥æ§åˆ¶ç‚¹.png")},
+	{"ImageCloudandAndStripingDeformationReplacement_menu", QString::fromLocal8Bit(":/resource/menu/å·¥å…·/å½±åƒäº‘é›ªå’Œæ‹‰èŠ±å˜å½¢æ›¿æ¢.png")},
+	{"ImageCropTool_menu", QString::fromLocal8Bit(":/resource/menu/å·¥å…·/å½±åƒè£åˆ‡è½¯ä»¶.png")},
+	{"HeightAnomalyProcessing_menu", QString::fromLocal8Bit(":/resource/menu/å·¥å…·/é«˜ç¨‹å¼‚å¸¸å¤„ç†.png")},
+	{"Softwaretools_menu", QString::fromLocal8Bit(":/resource/menu/å·¥å…·/sxsz2.png")},
+	{"InvalidValueHandling_menu", QString::fromLocal8Bit(":/resource/menu/å·¥å…·/æ— æ•ˆå€¼å¤„ç†.png")},
 	{"satelliteDataPre_menu", QString::fromLocal8Bit(":/resource/menu/gszh-icon.png")}
 	};
 
 	QMap<QString, QString> childActionIconMap = {
-	{"genThumImageByDataPre_action", QString::fromLocal8Bit(":/resource/menu/×Ó²Ëµ¥/Éú³ÉËõÂÔÓ°Ïñ.png")},
+	{"genThumImageByDataPre_action", QString::fromLocal8Bit(":/resource/menu/å­èœå•/ç”Ÿæˆç¼©ç•¥å½±åƒ.png")},
 	{"cloudCheckBasicThumImage_action", QString::fromLocal8Bit(":/resource/menu/yxyjc-icon.png")},
-	{"cloudResultLook_action", QString::fromLocal8Bit(":/resource/menu/×Ó²Ëµ¥/ÔÆ¼ì½á¹û²é¿´.png")},
-	{"imageAbsPositPrecCheckBusDataOrg_action", QString::fromLocal8Bit(":/resource/menu/×Ó²Ëµ¥/Ó°Ïñ¾ø¶Ô¶¨Î»¾«¶ÈÖÊ¼ìÒµÎñÊı¾İ×éÖ¯.png")},
-	{"imageAbsPositPrecCheck_action", QString::fromLocal8Bit(":/resource/menu/×Ó²Ëµ¥/Ó°Ïñ¾ø¶Ô¶¨Î»¾«¶ÈÖÊ¼ì.png")},
-	{"exchangeFormatcontrolPoints_action", QString::fromLocal8Bit(":/resource/menu/×Ó²Ëµ¥/½»»»¸ñÊ½¿ØÖÆµã.png")},
-	{"inputConnectPointsFile_action", QString::fromLocal8Bit(":/resource/menu/×Ó²Ëµ¥/µ¼ÈëÁ¬½ÓµãÎÄ¼ş.png")},
-	{"outputConnectPointsFile_action", QString::fromLocal8Bit(":/resource/menu/×Ó²Ëµ¥/µ¼³öÁ¬½ÓµãÎÄ¼ş.png")},
-	{"ImageCloudandSnowReplacementInteractive_action", QString::fromLocal8Bit(":/resource/menu/×Ó²Ëµ¥/Ó°ÏñÔÆÑ©×Ô¶¯Ìæ»»Èí¼ş(½»»¥Ê½).png")},
-	{"ImageCloudandSnowReplacementBatchProcessing_action", QString::fromLocal8Bit(":/resource/menu/×Ó²Ëµ¥/Ó°ÏñÔÆĞû×Ô¶¯Ìæ»»Èí¼ş(Åú´¦Àí).png")},
-	{"ImageCloudandSnowReplacementFullyAutomatic_action", QString::fromLocal8Bit(":/resource/menu/×Ó²Ëµ¥/Ó°ÏñÔÆÑ©×Ô¶¯Ìæ»»Èí¼ş(È«×Ô¶¯).png")},
-	{"ImageCropTool_action", QString::fromLocal8Bit(":/resource/menu/×Ó²Ëµ¥/Ó°Ïñ³£¹æÕ½ÇĞ.png")},
-	{"ImageCutTool_action", QString::fromLocal8Bit(":/resource/menu/×Ó²Ëµ¥/Ó°Ïñ¶àÄ£Ê½²ÃÇĞ.png")},
-	//{"Threedimensionalmodelcutting_action", QString::fromLocal8Bit(":/resource/menu/¹¤¾ß/Á¢ÌåÄ£ĞÍ²ÃÇĞ.png")},
-	{"HeightAnomalyElimination_action", QString::fromLocal8Bit(":/resource/menu/×Ó²Ëµ¥/¸ß³ÌÒì³£Ïû³ı.png")},
-	{"HeightAnomalyDetection_action", QString::fromLocal8Bit(":/resource/menu/×Ó²Ëµ¥/¸ß³ÌÒì³£²éÕÒ.png")},
-	//{"DSMDEMLogicalConsistencyProcessing_action", QString::fromLocal8Bit(":/resource/menu/×Ó²Ëµ¥/DSM-DEMÂß¼­Ò»ÖÂĞÔ´¦Àí.png")},
-	//{"ParallelDSM-DEMLogicalConsistencyProcessing_action", QString::fromLocal8Bit(":/resource/menu/×Ó²Ëµ¥/DSM-DEMÂß¼­Ò»ÖÂĞÔ´¦Àí(²¢ĞĞ).png")},
-	//{"DSMDEMStandardizationCheck_action", QString::fromLocal8Bit(":/resource/menu/×Ó²Ëµ¥/DSM-DEM±ê×¼»¯¼ì²é.png")},
-	//{"DSMDEMEdgeMatchingCheck_action", QString::fromLocal8Bit(":/resource/menu/×Ó²Ëµ¥/DSM-DEM½Ó±ß¼ì²é.png")},
-	//{"DEMRelatedPropertyCheck_action", QString::fromLocal8Bit(":/resource/menu/×Ó²Ëµ¥/DEMÏà¹ØĞÔÖÊ¼ì¹¤¾ß.png")},
-	{"Invalidvaluereplacement_action", QString::fromLocal8Bit(":/resource/menu/¹¤¾ß/ÎŞĞ§ÖµÌæ»».png")},
-	{"ImageZeroValueProcessing_action", QString::fromLocal8Bit(":/resource/menu/×Ó²Ëµ¥/Ó°ÏñÁãÖµ´¦Àí.png")},
-	{"ImageZerovalueProcessings_action", QString::fromLocal8Bit(":/resource/menu/¹¤¾ß/Ó°ÏñÁãÖµ´¦Àí(°×µã)²¢ĞĞ°æ.png")},
-	{"Invalidvaluelookup_action", QString::fromLocal8Bit(":/resource/menu/¹¤¾ß/ÎŞĞ§Öµ²éÕÒ.png")},
+	{"cloudResultLook_action", QString::fromLocal8Bit(":/resource/menu/å­èœå•/äº‘æ£€ç»“æœæŸ¥çœ‹.png")},
+	{"imageAbsPositPrecCheckBusDataOrg_action", QString::fromLocal8Bit(":/resource/menu/å­èœå•/å½±åƒç»å¯¹å®šä½ç²¾åº¦è´¨æ£€ä¸šåŠ¡æ•°æ®ç»„ç»‡.png")},
+	{"imageAbsPositPrecCheck_action", QString::fromLocal8Bit(":/resource/menu/å­èœå•/å½±åƒç»å¯¹å®šä½ç²¾åº¦è´¨æ£€.png")},
+	{"exchangeFormatcontrolPoints_action", QString::fromLocal8Bit(":/resource/menu/å­èœå•/äº¤æ¢æ ¼å¼æ§åˆ¶ç‚¹.png")},
+	{"inputConnectPointsFile_action", QString::fromLocal8Bit(":/resource/menu/å­èœå•/å¯¼å…¥è¿æ¥ç‚¹æ–‡ä»¶.png")},
+	{"outputConnectPointsFile_action", QString::fromLocal8Bit(":/resource/menu/å­èœå•/å¯¼å‡ºè¿æ¥ç‚¹æ–‡ä»¶.png")},
+	{"ImageCloudandSnowReplacementInteractive_action", QString::fromLocal8Bit(":/resource/menu/å­èœå•/å½±åƒäº‘é›ªè‡ªåŠ¨æ›¿æ¢è½¯ä»¶(äº¤äº’å¼).png")},
+	{"ImageCloudandSnowReplacementBatchProcessing_action", QString::fromLocal8Bit(":/resource/menu/å­èœå•/å½±åƒäº‘å®£è‡ªåŠ¨æ›¿æ¢è½¯ä»¶(æ‰¹å¤„ç†).png")},
+	{"ImageCloudandSnowReplacementFullyAutomatic_action", QString::fromLocal8Bit(":/resource/menu/å­èœå•/å½±åƒäº‘é›ªè‡ªåŠ¨æ›¿æ¢è½¯ä»¶(å…¨è‡ªåŠ¨).png")},
+	{"ImageCropTool_action", QString::fromLocal8Bit(":/resource/menu/å­èœå•/å½±åƒå¸¸è§„æˆ˜åˆ‡.png")},
+	{"ImageCutTool_action", QString::fromLocal8Bit(":/resource/menu/å­èœå•/å½±åƒå¤šæ¨¡å¼è£åˆ‡.png")},
+	//{"Threedimensionalmodelcutting_action", QString::fromLocal8Bit(":/resource/menu/å·¥å…·/ç«‹ä½“æ¨¡å‹è£åˆ‡.png")},
+	{"HeightAnomalyElimination_action", QString::fromLocal8Bit(":/resource/menu/å­èœå•/é«˜ç¨‹å¼‚å¸¸æ¶ˆé™¤.png")},
+	{"HeightAnomalyDetection_action", QString::fromLocal8Bit(":/resource/menu/å­èœå•/é«˜ç¨‹å¼‚å¸¸æŸ¥æ‰¾.png")},
+	//{"DSMDEMLogicalConsistencyProcessing_action", QString::fromLocal8Bit(":/resource/menu/å­èœå•/DSM-DEMé€»è¾‘ä¸€è‡´æ€§å¤„ç†.png")},
+	//{"ParallelDSM-DEMLogicalConsistencyProcessing_action", QString::fromLocal8Bit(":/resource/menu/å­èœå•/DSM-DEMé€»è¾‘ä¸€è‡´æ€§å¤„ç†(å¹¶è¡Œ).png")},
+	//{"DSMDEMStandardizationCheck_action", QString::fromLocal8Bit(":/resource/menu/å­èœå•/DSM-DEMæ ‡å‡†åŒ–æ£€æŸ¥.png")},
+	//{"DSMDEMEdgeMatchingCheck_action", QString::fromLocal8Bit(":/resource/menu/å­èœå•/DSM-DEMæ¥è¾¹æ£€æŸ¥.png")},
+	//{"DEMRelatedPropertyCheck_action", QString::fromLocal8Bit(":/resource/menu/å­èœå•/DEMç›¸å…³æ€§è´¨æ£€å·¥å…·.png")},
+	{"Invalidvaluereplacement_action", QString::fromLocal8Bit(":/resource/menu/å·¥å…·/æ— æ•ˆå€¼æ›¿æ¢.png")},
+	{"ImageZeroValueProcessing_action", QString::fromLocal8Bit(":/resource/menu/å­èœå•/å½±åƒé›¶å€¼å¤„ç†.png")},
+	{"ImageZerovalueProcessings_action", QString::fromLocal8Bit(":/resource/menu/å·¥å…·/å½±åƒé›¶å€¼å¤„ç†(ç™½ç‚¹)å¹¶è¡Œç‰ˆ.png")},
+	{"Invalidvaluelookup_action", QString::fromLocal8Bit(":/resource/menu/å·¥å…·/æ— æ•ˆå€¼æŸ¥æ‰¾.png")},
 	};
 
 	for (auto iter : List_menuBar)
@@ -122,8 +115,8 @@ void IMAGEPS_InfoWindow::initWidget()
 		{
 			QMenu* tempMenu = ui.menuBar->addMenu(settings->value("mainToolBarSetting/" + iter + "Name").toString());
 
-			QStringList List_tempMenuActions;//Ò»¼¶²Ëµ¥ÏÂ°´Å¥
-			QMap<QString, QStringList> Map_tempChildMenus;//¶ş¼¶²Ëµ¥
+			QStringList List_tempMenuActions;//ä¸€çº§èœå•ä¸‹æŒ‰é’®
+			QMap<QString, QStringList> Map_tempChildMenus;//äºŒçº§èœå•
 			if (iter == "Project_menu")
 			{
 				List_tempMenuActions << "newPro_action" << "openPro_action" << "savePro_action" << "backupsPro_action" << "closePro_action"
@@ -215,7 +208,7 @@ void IMAGEPS_InfoWindow::initWidget()
 								);
 								Map_mainToolBarAction[childIter] = childAction;
 
-								// ÉèÖÃ×ÓÏîÍ¼±ê£¨Èç¹û´æÔÚ£©
+								// è®¾ç½®å­é¡¹å›¾æ ‡ï¼ˆå¦‚æœå­˜åœ¨ï¼‰
 								if (childActionIconMap.contains(childIter)) {
 									QPixmap childPixmap(childActionIconMap[childIter]);
 									if (!childPixmap.isNull()) {
@@ -234,30 +227,30 @@ void IMAGEPS_InfoWindow::initWidget()
 		}
 	}
 
-	//¹¤¾ß
-	Map_mainToolBarAction["DEMMosaic_action"]->setIcon(QIcon(QString::fromLocal8Bit(":/resource/menu/¹¤¾ß/DEMÏâÇ¶.png")));
-	Map_mainToolBarAction["Rpb2Rpc_action"]->setIcon(QIcon(QString::fromLocal8Bit(":/resource/menu/¹¤¾ß/RPB×ªRPC.png")));
-	//Map_mainToolBarAction["RpcToRpb_action"]->setIcon(QIcon(QString::fromLocal8Bit(":/resource/menu/¹¤¾ß/RPC×ªRPB.png")));
-	//Map_mainToolBarAction["GeoDataExtractorTool_action"]->setIcon(QIcon(QString::fromLocal8Bit(":/resource/menu/¹¤¾ß/²Î¿¼Êı¾İÌáÈ¡.png")));
-	Map_mainToolBarAction["formatChange_action"]->setIcon(QIcon(QString::fromLocal8Bit(":/resource/menu/¹¤¾ß/¸ñÊ½×ª»».png")));
-	Map_mainToolBarAction["NoDataAttribute_action"]->setIcon(QIcon(QString::fromLocal8Bit(":/resource/menu/¹¤¾ß/ÉèÖÃNoDataÊôĞÔ.png")));
-	Map_mainToolBarAction["projectChange_action"]->setIcon(QIcon(QString::fromLocal8Bit(":/resource/menu/¹¤¾ß/Í¶Ó°×ª»».png")));
-	Map_mainToolBarAction["ImageCoordinateProcessingTool_action"]->setIcon(QIcon(QString::fromLocal8Bit(":/resource/menu/¹¤¾ß/Ó°Ïñ×ø±êĞÅÏ¢´¦Àí¹¤¾ß.png")));
-	Map_mainToolBarAction["Orthorectification_action"]->setIcon(QIcon(QString::fromLocal8Bit(":/resource/menu/¹¤¾ß/ÕıÉä¾ÀÕıÈí¼ş.png")));
-	Map_mainToolBarAction["ImageFusionSoftware_action"]->setIcon(QIcon(QString::fromLocal8Bit(":/resource/menu/¹¤¾ß/Ó°ÏñÈÚºÏÈí¼ş.png")));
-	Map_mainToolBarAction["TrueColorConversionSoftware_action"]->setIcon(QIcon(QString::fromLocal8Bit(":/resource/menu/¹¤¾ß/Õæ²ÊÉ«×ª»»Èí¼ş.png")));
-	Map_mainToolBarAction["ImageColorCorrectionSoftware_action"]->setIcon(QIcon(QString::fromLocal8Bit(":/resource/menu/¹¤¾ß/Ó°ÏñÔÈÉ«Èí¼ş.png")));
-	Map_mainToolBarAction["ImageMosaicSoftware_action"]->setIcon(QIcon(QString::fromLocal8Bit(":/resource/menu/¹¤¾ß/Ó°Ïñ¶ÆÇ¶Èí¼ş.png")));
-	Map_mainToolBarAction["RemoteSensingImageDecompression_action"]->setIcon(QIcon(QString::fromLocal8Bit(":/resource/menu/¹¤¾ß/Ò£¸ĞÓ°Ïñ½âÑ¹Ëõ.png")));
-	Map_mainToolBarAction["Buildpyramid_action"]->setIcon(QIcon(QString::fromLocal8Bit(":/resource/menu/¹¤¾ß/´´½¨½ğ×ÖËş.png")));
-	Map_mainToolBarAction["ImageResampling_action"]->setIcon(QIcon(QString::fromLocal8Bit(":/resource/menu/¹¤¾ß/Ó°ÏñÖØ²ÉÑù.png")));
-	Map_mainToolBarAction["ImageRangeProduction_action"]->setIcon(QIcon(QString::fromLocal8Bit(":/resource/menu/¹¤¾ß/Ó°Ïñ·¶Î§Éú²ú.png")));
-	Map_mainToolBarAction["MapExtentGeneration_action"]->setIcon(QIcon(QString::fromLocal8Bit(":/resource/menu/¹¤¾ß/Í¼·ù·¶Î§Éú³É.png")));
+	//å·¥å…·
+	Map_mainToolBarAction["DEMMosaic_action"]->setIcon(QIcon(QString::fromLocal8Bit(":/resource/menu/å·¥å…·/DEMé•¶åµŒ.png")));
+	Map_mainToolBarAction["Rpb2Rpc_action"]->setIcon(QIcon(QString::fromLocal8Bit(":/resource/menu/å·¥å…·/RPBè½¬RPC.png")));
+	//Map_mainToolBarAction["RpcToRpb_action"]->setIcon(QIcon(QString::fromLocal8Bit(":/resource/menu/å·¥å…·/RPCè½¬RPB.png")));
+	//Map_mainToolBarAction["GeoDataExtractorTool_action"]->setIcon(QIcon(QString::fromLocal8Bit(":/resource/menu/å·¥å…·/å‚è€ƒæ•°æ®æå–.png")));
+	Map_mainToolBarAction["formatChange_action"]->setIcon(QIcon(QString::fromLocal8Bit(":/resource/menu/å·¥å…·/æ ¼å¼è½¬æ¢.png")));
+	Map_mainToolBarAction["NoDataAttribute_action"]->setIcon(QIcon(QString::fromLocal8Bit(":/resource/menu/å·¥å…·/è®¾ç½®NoDataå±æ€§.png")));
+	Map_mainToolBarAction["projectChange_action"]->setIcon(QIcon(QString::fromLocal8Bit(":/resource/menu/å·¥å…·/æŠ•å½±è½¬æ¢.png")));
+	Map_mainToolBarAction["ImageCoordinateProcessingTool_action"]->setIcon(QIcon(QString::fromLocal8Bit(":/resource/menu/å·¥å…·/å½±åƒåæ ‡ä¿¡æ¯å¤„ç†å·¥å…·.png")));
+	Map_mainToolBarAction["Orthorectification_action"]->setIcon(QIcon(QString::fromLocal8Bit(":/resource/menu/å·¥å…·/æ­£å°„çº æ­£è½¯ä»¶.png")));
+	Map_mainToolBarAction["ImageFusionSoftware_action"]->setIcon(QIcon(QString::fromLocal8Bit(":/resource/menu/å·¥å…·/å½±åƒèåˆè½¯ä»¶.png")));
+	Map_mainToolBarAction["TrueColorConversionSoftware_action"]->setIcon(QIcon(QString::fromLocal8Bit(":/resource/menu/å·¥å…·/çœŸå½©è‰²è½¬æ¢è½¯ä»¶.png")));
+	Map_mainToolBarAction["ImageColorCorrectionSoftware_action"]->setIcon(QIcon(QString::fromLocal8Bit(":/resource/menu/å·¥å…·/å½±åƒåŒ€è‰²è½¯ä»¶.png")));
+	Map_mainToolBarAction["ImageMosaicSoftware_action"]->setIcon(QIcon(QString::fromLocal8Bit(":/resource/menu/å·¥å…·/å½±åƒé•€åµŒè½¯ä»¶.png")));
+	Map_mainToolBarAction["RemoteSensingImageDecompression_action"]->setIcon(QIcon(QString::fromLocal8Bit(":/resource/menu/å·¥å…·/é¥æ„Ÿå½±åƒè§£å‹ç¼©.png")));
+	Map_mainToolBarAction["Buildpyramid_action"]->setIcon(QIcon(QString::fromLocal8Bit(":/resource/menu/å·¥å…·/åˆ›å»ºé‡‘å­—å¡”.png")));
+	Map_mainToolBarAction["ImageResampling_action"]->setIcon(QIcon(QString::fromLocal8Bit(":/resource/menu/å·¥å…·/å½±åƒé‡é‡‡æ ·.png")));
+	Map_mainToolBarAction["ImageRangeProduction_action"]->setIcon(QIcon(QString::fromLocal8Bit(":/resource/menu/å·¥å…·/å½±åƒèŒƒå›´ç”Ÿäº§.png")));
+	Map_mainToolBarAction["MapExtentGeneration_action"]->setIcon(QIcon(QString::fromLocal8Bit(":/resource/menu/å·¥å…·/å›¾å¹…èŒƒå›´ç”Ÿæˆ.png")));
 	//Map_mainToolBarAction["GeoRectifyPlatform_action"]->setIcon(QIcon(QString::fromLocal8Bit(":/resource/menu/ltmxgcjdzj-icon.png")));
-	Map_mainToolBarAction["BandSplitTool_action"]->setIcon(QIcon(QString::fromLocal8Bit(":/resource/menu/¹¤¾ß/²¨¶Î²ğ·ÖÈí¼ş.png")));
-	Map_mainToolBarAction["BandCompositeTool_action"]->setIcon(QIcon(QString::fromLocal8Bit(":/resource/menu/¹¤¾ß/²¨¶ÎºÏ³ÉÈí¼ş.png")));
-	Map_mainToolBarAction["BandMathXTool_action"]->setIcon(QIcon(QString::fromLocal8Bit(":/resource/menu/¹¤¾ß/²¨¶Î¼ÆËãÈí¼ş.png")));
-	Map_mainToolBarAction["BandOrganizeTool_action"]->setIcon(QIcon(QString::fromLocal8Bit(":/resource/menu/¹¤¾ß/²¨¶ÎÖØ×éÈí¼ş.png")));
+	Map_mainToolBarAction["BandSplitTool_action"]->setIcon(QIcon(QString::fromLocal8Bit(":/resource/menu/å·¥å…·/æ³¢æ®µæ‹†åˆ†è½¯ä»¶.png")));
+	Map_mainToolBarAction["BandCompositeTool_action"]->setIcon(QIcon(QString::fromLocal8Bit(":/resource/menu/å·¥å…·/æ³¢æ®µåˆæˆè½¯ä»¶.png")));
+	Map_mainToolBarAction["BandMathXTool_action"]->setIcon(QIcon(QString::fromLocal8Bit(":/resource/menu/å·¥å…·/æ³¢æ®µè®¡ç®—è½¯ä»¶.png")));
+	Map_mainToolBarAction["BandOrganizeTool_action"]->setIcon(QIcon(QString::fromLocal8Bit(":/resource/menu/å·¥å…·/æ³¢æ®µé‡ç»„è½¯ä»¶.png")));
 	Map_mainToolBarAction["ColorItoGray_action"]->setIcon(QIcon(QString::fromLocal8Bit(":/resource/menu/gszh-icon.png")));
 
 	//QList<QAbstractButton*> buttons = ui.buttonGroup->buttons();
@@ -274,46 +267,46 @@ void IMAGEPS_InfoWindow::initWidget()
 		ui.DSMImageProduction_btn, ui.QualityInspection_btn,ui.remotePermissionUpgradeHaspDog_btn , ui.useManual_btn
 	};
 
-	// ¶¨ÒåÍ¼Æ¬Â·¾¶ÁĞ±í£¨°´°´Å¥Ë³ĞòÆ¥Åä£©
+	// å®šä¹‰å›¾ç‰‡è·¯å¾„åˆ—è¡¨ï¼ˆæŒ‰æŒ‰é’®é¡ºåºåŒ¹é…ï¼‰
 	QStringList iconPaths = {
-		QString::fromLocal8Bit(":/resource/menu/¹¤¾ß/´´½¨½ğ×ÖËş.png"),
-		QString::fromLocal8Bit(":/resource/menu/¹¤¾ß/Í¶Ó°×ª»».png"),
-		QString::fromLocal8Bit(":/resource/menu/¹¤¾ß/¸ñÊ½×ª»».png"),
-		QString::fromLocal8Bit(":/resource/menu/¹¤¾ß/RPB×ªRPC.png"),
-		QString::fromLocal8Bit(":/resource/menu/¹¤¾ß/Ó°Ïñ·¶Î§Éú²ú.png"),
-		QString::fromLocal8Bit(":/resource/menu/¹¤¾ß/Í¼·ù·¶Î§Éú³É.png"),
-		QString::fromLocal8Bit(":/resource/menu/¹¤¾ß/Ó°Ïñ×ø±êĞÅÏ¢´¦Àí¹¤¾ß.png"),
-		QString::fromLocal8Bit(":/resource/menu/×Ó²Ëµ¥/¸ß³ÌÒì³£Ïû³ı.png"),
-		//QString::fromLocal8Bit(":/resource/menu/¹¤¾ß/²Î¿¼Êı¾İÌáÈ¡.png"),
-		QString::fromLocal8Bit(":/resource/menu/¹¤¾ß/ÎŞĞ§ÖµÌæ»».png"),
-		QString::fromLocal8Bit(":/resource/menu/¹¤¾ß/DEMÏâÇ¶.png"),
-		QString::fromLocal8Bit(":/resource/menu/¹¤¾ß/Ó°ÏñÖØ²ÉÑù.png"),
-		QString::fromLocal8Bit(":/resource/menu/Êı¾İÔ¤´¦Àí/Ó°Ïñ¸³Í¶Ó°.png"),
-		QString::fromLocal8Bit(":/resource/menu/¹¤¾ß/Ò£¸ĞÓ°Ïñ½âÑ¹Ëõ.png"),
-		QString::fromLocal8Bit(":/resource/menu/×Ó²Ëµ¥/Ó°Ïñ³£¹æÕ½ÇĞ.png"),
-		QString::fromLocal8Bit(":/resource/menu/¹¤¾ß/ÉèÖÃNoDataÊôĞÔ.png"),
+		QString::fromLocal8Bit(":/resource/menu/å·¥å…·/åˆ›å»ºé‡‘å­—å¡”.png"),
+		QString::fromLocal8Bit(":/resource/menu/å·¥å…·/æŠ•å½±è½¬æ¢.png"),
+		QString::fromLocal8Bit(":/resource/menu/å·¥å…·/æ ¼å¼è½¬æ¢.png"),
+		QString::fromLocal8Bit(":/resource/menu/å·¥å…·/RPBè½¬RPC.png"),
+		QString::fromLocal8Bit(":/resource/menu/å·¥å…·/å½±åƒèŒƒå›´ç”Ÿäº§.png"),
+		QString::fromLocal8Bit(":/resource/menu/å·¥å…·/å›¾å¹…èŒƒå›´ç”Ÿæˆ.png"),
+		QString::fromLocal8Bit(":/resource/menu/å·¥å…·/å½±åƒåæ ‡ä¿¡æ¯å¤„ç†å·¥å…·.png"),
+		QString::fromLocal8Bit(":/resource/menu/å­èœå•/é«˜ç¨‹å¼‚å¸¸æ¶ˆé™¤.png"),
+		//QString::fromLocal8Bit(":/resource/menu/å·¥å…·/å‚è€ƒæ•°æ®æå–.png"),
+		QString::fromLocal8Bit(":/resource/menu/å·¥å…·/æ— æ•ˆå€¼æ›¿æ¢.png"),
+		QString::fromLocal8Bit(":/resource/menu/å·¥å…·/DEMé•¶åµŒ.png"),
+		QString::fromLocal8Bit(":/resource/menu/å·¥å…·/å½±åƒé‡é‡‡æ ·.png"),
+		QString::fromLocal8Bit(":/resource/menu/æ•°æ®é¢„å¤„ç†/å½±åƒèµ‹æŠ•å½±.png"),
+		QString::fromLocal8Bit(":/resource/menu/å·¥å…·/é¥æ„Ÿå½±åƒè§£å‹ç¼©.png"),
+		QString::fromLocal8Bit(":/resource/menu/å­èœå•/å½±åƒå¸¸è§„æˆ˜åˆ‡.png"),
+		QString::fromLocal8Bit(":/resource/menu/å·¥å…·/è®¾ç½®NoDataå±æ€§.png"),
 		QString::fromLocal8Bit(":/resource/menu/ldyxdscl-icon.png"),
-		QString::fromLocal8Bit(":/resource/menu/¹¤¾ß/gctj2.png"),
-		QString::fromLocal8Bit(":/resource/menu/¹¤¾ß/ysxqsc.png")
+		QString::fromLocal8Bit(":/resource/menu/å·¥å…·/gctj2.png"),
+		QString::fromLocal8Bit(":/resource/menu/å·¥å…·/ysxqsc.png")
 	};
 
-	// ÎªÃ¿¸ö°´Å¥ÉèÖÃÍ¼±ê
+	// ä¸ºæ¯ä¸ªæŒ‰é’®è®¾ç½®å›¾æ ‡
 	for (int i = 0; i < buttonGroup.size(); ++i) {
         buttonGroup[i]->setIcon(QIcon(iconPaths[i]));
         buttonGroup[i]->setIconSize(QSize(32, 32));
 	}
 
 	QStringList iconPaths_model = {
-	QString::fromLocal8Bit(":/resource/menu/¹¤¾ß/ÕıÉä¾ÀÕıÈí¼ş.png"),
+	QString::fromLocal8Bit(":/resource/menu/å·¥å…·/æ­£å°„çº æ­£è½¯ä»¶.png"),
 	QString::fromLocal8Bit(":/resource/menu/drgj-icon.png"),
-	QString::fromLocal8Bit(":/resource/menu/¹¤¾ß/Ó°ÏñÔÆÑ©ºÍÀ­»¨±äĞÎÌæ»».png"),
-	QString::fromLocal8Bit(":/resource/menu/15DSM³É¹û¾«»¯.png"),
-	QString::fromLocal8Bit(":/resource/menu/¹¤¾ß/Ó°ÏñÔÈÉ«Èí¼ş.png"),
+	QString::fromLocal8Bit(":/resource/menu/å·¥å…·/å½±åƒäº‘é›ªå’Œæ‹‰èŠ±å˜å½¢æ›¿æ¢.png"),
+	QString::fromLocal8Bit(":/resource/menu/15DSMæˆæœç²¾åŒ–.png"),
+	QString::fromLocal8Bit(":/resource/menu/å·¥å…·/å½±åƒåŒ€è‰²è½¯ä»¶.png"),
 	QString::fromLocal8Bit(":/resource/menu/gjj2.png"),
-	QString::fromLocal8Bit(":/resource/menu/×Ó²Ëµ¥/Ê¹ÓÃÊÖ²á.png")
+	QString::fromLocal8Bit(":/resource/menu/å­èœå•/ä½¿ç”¨æ‰‹å†Œ.png")
 	};
 
-	// ÎªÃ¿¸ö°´Å¥ÉèÖÃÍ¼±ê
+	// ä¸ºæ¯ä¸ªæŒ‰é’®è®¾ç½®å›¾æ ‡
 	for (int i = 0; i < buttonGroup_model.size(); ++i) {
 		buttonGroup_model[i]->setIcon(QIcon(iconPaths_model[i]));
 		buttonGroup_model[i]->setIconSize(QSize(64, 64));
@@ -335,15 +328,14 @@ void IMAGEPS_InfoWindow::connects()
 			window->close();
 		}
 		ImageCloudSnowShow->close();
-		ImageCrop->close();
 		HeightAnomaly->close();
 		InvalidValueHandl->close();
 		//RPCTRPB->close();
 	});
 
-	// 3. Á¬½Óµã»÷ĞÅºÅ
+	// 3. è¿æ¥ç‚¹å‡»ä¿¡å·
 	connect(ui.listWidget, &QListWidget::itemClicked, [this](QListWidgetItem *item) {
-		// ÑéÖ¤Ğí¿ÉÖ¤
+		// éªŒè¯è®¸å¯è¯
 		if (!PublicFunctions::validateDogLicense()) {
 			return;
 		}
@@ -351,41 +343,41 @@ void IMAGEPS_InfoWindow::connects()
 		IMAGEPS* window = new IMAGEPS();
 		window->setAttribute(Qt::WA_DeleteOnClose);
 
-		// Á¬½Ó´°¿Ú¹Ø±ÕĞÅºÅµ½ÇåÀíº¯Êı
+		// è¿æ¥çª—å£å…³é—­ä¿¡å·åˆ°æ¸…ç†å‡½æ•°
 		connect(window, &QObject::destroyed, [this, window]() {
 			m_openWindows.removeAll(window);
 		});
 
-		// ³¢ÊÔ´ò¿ª¹¤³Ì
+		// å°è¯•æ‰“å¼€å·¥ç¨‹
 		if (!window->openRecentProject(path)) {
 			window->deleteLater();
-			//QMessageBox::critical(this, "´íÎó", "´ò¿ª¹¤³ÌÊ§°Ü");
+			//QMessageBox::critical(this, "é”™è¯¯", "æ‰“å¼€å·¥ç¨‹å¤±è´¥");
 			return;
 		}
 
 		addRecentProjectItem();
-		// ´ò¿ª³É¹¦£¬ÏÔÊ¾´°¿Ú²¢±£´æÒıÓÃ
+		// æ‰“å¼€æˆåŠŸï¼Œæ˜¾ç¤ºçª—å£å¹¶ä¿å­˜å¼•ç”¨
 		m_openWindows.append(window);
 		window->showMaximized();
 	});
 
-	// 4. Ö§³ÖÓÒ¼üÉ¾³ıµ¥Ïî 
+	// 4. æ”¯æŒå³é”®åˆ é™¤å•é¡¹ 
 	ui.listWidget->setContextMenuPolicy(Qt::CustomContextMenu);
 	connect(ui.listWidget, &QListWidget::customContextMenuRequested, [this](const QPoint &pos) {
 		//QMenu menu;
-		//QAction *deleteAction = menu.addAction(u8"É¾³ı");
+		//QAction *deleteAction = menu.addAction(u8"åˆ é™¤");
 		//if (deleteAction == menu.exec(ui.listWidget->mapToGlobal(pos))) {
 		//	delete ui.listWidget->takeItem(ui.listWidget->row(ui.listWidget->itemAt(pos)));
 		//}
 
 		QMenu menu;
-		QAction *deleteAction = menu.addAction(u8" É¾³ı");
+		QAction *deleteAction = menu.addAction(u8" åˆ é™¤");
 
 		if (deleteAction == menu.exec(ui.listWidget->mapToGlobal(pos))) {
 			QListWidgetItem *item = ui.listWidget->itemAt(pos);
 			if (!item) return;
 
-			// »ñÈ¡ÍêÕûÏîÄ¿ĞÅÏ¢£¨¼ÙÉèÄú´æ´¢ÁËÍêÕûÂ·¾¶ÔÚitemµÄdataÖĞ£©
+			// è·å–å®Œæ•´é¡¹ç›®ä¿¡æ¯ï¼ˆå‡è®¾æ‚¨å­˜å‚¨äº†å®Œæ•´è·¯å¾„åœ¨itemçš„dataä¸­ï¼‰
 			QString fullProjectPath = item->data(Qt::UserRole).toString();
 			QString projectId = item->text();
 
@@ -397,14 +389,14 @@ void IMAGEPS_InfoWindow::connects()
 	});
 
 	connect(ui.CloudReplaceTools_btn, &QPushButton::clicked, this, [this]() { 
-		// ÑéÖ¤Ğí¿ÉÖ¤
+		// éªŒè¯è®¸å¯è¯
 		if (!PublicFunctions::validateDogLicense()) {
 			return 0;
 		}
 		ImageCloudSnowShow->show();
 	});
 	connect(ui.CloudReplaceTools_btnf, &QPushButton::clicked, this, [this]() {
-		// ÑéÖ¤Ğí¿ÉÖ¤
+		// éªŒè¯è®¸å¯è¯
 		if (!PublicFunctions::validateDogLicense()) {
 			return 0;
 		}
@@ -412,14 +404,14 @@ void IMAGEPS_InfoWindow::connects()
 	});
 
 	connect(ui.HeightAnomalyDetection_btn, &QPushButton::clicked, this, [this]() {
-		// ÑéÖ¤Ğí¿ÉÖ¤
+		// éªŒè¯è®¸å¯è¯
 		if (!PublicFunctions::validateDogLicense()) {
 			return 0;
 		}
 		HeightAnomaly->show();
 	});
 	connect(ui.HeightAnomalyDetection_btnf, &QPushButton::clicked, this, [this]() {
-		// ÑéÖ¤Ğí¿ÉÖ¤
+		// éªŒè¯è®¸å¯è¯
 		if (!PublicFunctions::validateDogLicense()) {
 			return 0;
 		}
@@ -427,14 +419,14 @@ void IMAGEPS_InfoWindow::connects()
 	});
 
 	//connect(ui.ImageCropTool_btn, &QPushButton::clicked, this, [this]() {
-	//	// ÑéÖ¤Ğí¿ÉÖ¤
+	//	// éªŒè¯è®¸å¯è¯
 	//	if (!PublicFunctions::validateDogLicense()) {
 	//		return 0;
 	//	}
 	//	ImageCrop->show();
 	//});
 	//connect(ui.ImageCropTool_btnf, &QPushButton::clicked, this, [this]() {
-	//	// ÑéÖ¤Ğí¿ÉÖ¤
+	//	// éªŒè¯è®¸å¯è¯
 	//	if (!PublicFunctions::validateDogLicense()) {
 	//		return 0;
 	//	}
@@ -442,14 +434,14 @@ void IMAGEPS_InfoWindow::connects()
 	//});
 
 	connect(ui.Invalidvaluelookup_btn, &QPushButton::clicked, this, [this]() {
-		// ÑéÖ¤Ğí¿ÉÖ¤
+		// éªŒè¯è®¸å¯è¯
 		if (!PublicFunctions::validateDogLicense()) {
 			return 0;
 		}
 		InvalidValueHandl->show();
 	});
 	connect(ui.Invalidvaluelookup_btnf, &QPushButton::clicked, this, [this]() {
-		// ÑéÖ¤Ğí¿ÉÖ¤
+		// éªŒè¯è®¸å¯è¯
 		if (!PublicFunctions::validateDogLicense()) {
 			return 0;
 		}
@@ -457,14 +449,14 @@ void IMAGEPS_InfoWindow::connects()
 	});
 
 	//connect(ui.Rpb2Rpc_btn, &QPushButton::clicked, this, [this]() {
-	//	// ÑéÖ¤Ğí¿ÉÖ¤
+	//	// éªŒè¯è®¸å¯è¯
 	//	if (!PublicFunctions::validateDogLicense()) {
 	//		return 0;
 	//	}
 	//	RPCTRPB->show();
 	//});
 	//connect(ui.Rpb2Rpc_btnf, &QPushButton::clicked, this, [this]() {
-	//	// ÑéÖ¤Ğí¿ÉÖ¤
+	//	// éªŒè¯è®¸å¯è¯
 	//	if (!PublicFunctions::validateDogLicense()) {
 	//		return 0;
 	//	}
@@ -472,59 +464,59 @@ void IMAGEPS_InfoWindow::connects()
 	//});
 
 	connect(ui.Satellitedataprocessing_btn, &QPushButton::clicked, this, [this]() {
-		// ÑéÖ¤Ğí¿ÉÖ¤
+		// éªŒè¯è®¸å¯è¯
 		if (!PublicFunctions::validateDogLicense()) {
 			return;
 		}
 		IMAGEPS* window = new IMAGEPS();
 		window->setAttribute(Qt::WA_DeleteOnClose);
 
-		// Á¬½Ó´°¿Ú¹Ø±ÕĞÅºÅµ½ÇåÀíº¯Êı
+		// è¿æ¥çª—å£å…³é—­ä¿¡å·åˆ°æ¸…ç†å‡½æ•°
 		connect(window, &QObject::destroyed, [this, window]() {
 			m_openWindows.removeAll(window);
 		});
 
-		// ³¢ÊÔ´ò¿ª¹¤³Ì
+		// å°è¯•æ‰“å¼€å·¥ç¨‹
 		if (!window->newProActionSlot()) {
 			window->deleteLater();
 			return;
 		}
 		addRecentProjectItem();
-		// ´ò¿ª³É¹¦£¬ÏÔÊ¾´°¿Ú²¢±£´æÒıÓÃ
+		// æ‰“å¼€æˆåŠŸï¼Œæ˜¾ç¤ºçª—å£å¹¶ä¿å­˜å¼•ç”¨
 		m_openWindows.append(window);
 		window->showMaximized();
 	});
 	connect(ui.Satellitedataprocessing_btnf, &QPushButton::clicked, this, [this]() {
-		// ÑéÖ¤Ğí¿ÉÖ¤
+		// éªŒè¯è®¸å¯è¯
 		if (!PublicFunctions::validateDogLicense()) {
 			return;
 		}
 		IMAGEPS* window = new IMAGEPS();
 		window->setAttribute(Qt::WA_DeleteOnClose);
 
-		// Á¬½Ó´°¿Ú¹Ø±ÕĞÅºÅµ½ÇåÀíº¯Êı
+		// è¿æ¥çª—å£å…³é—­ä¿¡å·åˆ°æ¸…ç†å‡½æ•°
 		connect(window, &QObject::destroyed, [this, window]() {
 			m_openWindows.removeAll(window);
 		});
 
-		// ³¢ÊÔ´ò¿ª¹¤³Ì
+		// å°è¯•æ‰“å¼€å·¥ç¨‹
 		if (!window->newProActionSlot()) {
 			window->deleteLater();
 			return;
 		}
 		addRecentProjectItem();
-		// ´ò¿ª³É¹¦£¬ÏÔÊ¾´°¿Ú²¢±£´æÒıÓÃ
+		// æ‰“å¼€æˆåŠŸï¼Œæ˜¾ç¤ºçª—å£å¹¶ä¿å­˜å¼•ç”¨
 		m_openWindows.append(window);
 		window->showMaximized();
 	});
 
 	connect(ui.useManual_btn, &QPushButton::clicked, this, [this]() {
-		// ÑéÖ¤Ğí¿ÉÖ¤
+		// éªŒè¯è®¸å¯è¯
 		if (!PublicFunctions::validateDogLicense()) {
 			return 0;
 		}
 		QString filePath = IMAGEPS_InfoWindow::instance->appDirPath +
-			QString::fromLocal8Bit("/IMAGEPS_DESKTOPÓÃ»§ÊÖ²á.pdf");
+			QString::fromLocal8Bit("/IMAGEPS_DESKTOPç”¨æˆ·æ‰‹å†Œ.pdf");
 		QFileInfo fileInfo(filePath);
 		if (!fileInfo.exists()) {
 			qWarning() << "PDF file does not exist:" << filePath;
@@ -536,12 +528,12 @@ void IMAGEPS_InfoWindow::connects()
 		}
 	});
 	connect(ui.useManual_btnf, &QPushButton::clicked, this, [this]() {
-		// ÑéÖ¤Ğí¿ÉÖ¤
+		// éªŒè¯è®¸å¯è¯
 		if (!PublicFunctions::validateDogLicense()) {
 			return 0;
 		}
 		QString filePath = IMAGEPS_InfoWindow::instance->appDirPath +
-			QString::fromLocal8Bit("/IMAGEPS_DESKTOPÓÃ»§ÊÖ²á.pdf");
+			QString::fromLocal8Bit("/IMAGEPS_DESKTOPç”¨æˆ·æ‰‹å†Œ.pdf");
 		QFileInfo fileInfo(filePath);
 		if (!fileInfo.exists()) {
 			qWarning() << "PDF file does not exist:" << filePath;
@@ -554,12 +546,12 @@ void IMAGEPS_InfoWindow::connects()
 	});
 
 	connect(Map_mainToolBarAction.value("useManual_action"), &QAction::triggered, this, [this]() {
-		// ÑéÖ¤Ğí¿ÉÖ¤
+		// éªŒè¯è®¸å¯è¯
 		if (!PublicFunctions::validateDogLicense()) {
 			return 0;
 		}
 		QString filePath = IMAGEPS_InfoWindow::instance->appDirPath +
-			QString::fromLocal8Bit("/IMAGEPS_DESKTOPÓÃ»§ÊÖ²á.pdf");
+			QString::fromLocal8Bit("/IMAGEPS_DESKTOPç”¨æˆ·æ‰‹å†Œ.pdf");
 		QFileInfo fileInfo(filePath);
 		if (!fileInfo.exists()) {
 			qWarning() << "PDF file does not exist:" << filePath;
@@ -572,43 +564,43 @@ void IMAGEPS_InfoWindow::connects()
 	});
 
 	m_toolConnections = {
-		// Ó°ÏñÔÆÑ©×Ô¶¯Ìæ»»Èí¼ş£¨½»»¥Ê½£©
+		// å½±åƒäº‘é›ªè‡ªåŠ¨æ›¿æ¢è½¯ä»¶ï¼ˆäº¤äº’å¼ï¼‰
 		{"PSCloudReplaceTool2.exe",  {
 			Map_mainToolBarAction.value("ImageCloudandSnowReplacementInteractive_action",  nullptr),
 		}},
 
-		//// Ó°ÏñÔÆÑ©×Ô¶¯Ìæ»»Èí¼ş£¨Åú´¦Àí£©
+		//// å½±åƒäº‘é›ªè‡ªåŠ¨æ›¿æ¢è½¯ä»¶ï¼ˆæ‰¹å¤„ç†ï¼‰
 		//{"PSCloudReplaceTool.exe",  {
 		//	Map_mainToolBarAction.value("ImageCloudandSnowReplacementBatchProcessing_action",  nullptr),
 		//}},
 
-		//// Ó°ÏñÔÆÑ©×Ô¶¯Ìæ»»Èí¼ş£¨È«×Ô¶¯£©
+		//// å½±åƒäº‘é›ªè‡ªåŠ¨æ›¿æ¢è½¯ä»¶ï¼ˆå…¨è‡ªåŠ¨ï¼‰
 		//{"PSAutoCloudReplaceTool.exe",  {
 		//	Map_mainToolBarAction.value("ImageCloudandSnowReplacementFullyAutomatic_action",  nullptr),
 		//}},
 
-		////´´½¨½ğ×ÖËş
+		////åˆ›å»ºé‡‘å­—å¡”
 		//{"PSCreatePyramidApp.exe",  {
 		//	Map_mainToolBarAction.value("Buildpyramid_action",  nullptr),
 		//	ui.Buildpyramid_btn,
 		//	ui.Buildpyramid_btnf
 		//}},
 
-		////Í¶Ó°×ª»»
+		////æŠ•å½±è½¬æ¢
 		//{"PSImageReprojectTool.exe",  {
 		//	Map_mainToolBarAction.value("projectChange_action",  nullptr),
 		//	ui.projectChange_btn,
 		//	ui.projectChange_btnf
 		//}},
 
-		////¸ñÊ½×ª»»
+		////æ ¼å¼è½¬æ¢
 		//{"PSFormatTransTool2.exe",  {
 		//	Map_mainToolBarAction.value("formatChange_action",  nullptr),
 		//	ui.formatChange_btn,
 		//	ui.formatChange_btnf
 		//}},
 
-  //      //rpb×ªrpc
+  //      //rpbè½¬rpc
   //      {"PSRpb2Rpc.exe",  {
   //          Map_mainToolBarAction.value("Rpb2Rpc_action",  nullptr)
   //      }},
@@ -618,341 +610,341 @@ void IMAGEPS_InfoWindow::connects()
   //          Map_mainToolBarAction.value("RpcToRpb_action",  nullptr)
   //      }},
 
-  //      //Ó°Ïñ·¶Î§Éú³É
+  //      //å½±åƒèŒƒå›´ç”Ÿæˆ
   //      {"PSGenShpTool.exe",  {
   //          Map_mainToolBarAction.value("ImageRangeProduction_action",  nullptr),
   //          ui.ImageRangeProduction_btn,
   //          ui.ImageRangeProduction_btnf
   //      }},
 
-		////Í¼·ù·¶Î§Éú³É
+		////å›¾å¹…èŒƒå›´ç”Ÿæˆ
 		//{"PSMapGenTool.exe",  {
 		//	Map_mainToolBarAction.value("MapExtentGeneration_action",  nullptr),
 		//	ui.MapExtentGeneration_btn,
 		//	ui.MapExtentGeneration_btnf
 		//}},
 
-		////Ó°Ïñ×ø±êĞÅÏ¢´¦Àí¹¤¾ß
+		////å½±åƒåæ ‡ä¿¡æ¯å¤„ç†å·¥å…·
 		//{"PSGeoInfoRemoveTool.exe", {
 		//	Map_mainToolBarAction.value("ImageCoordinateProcessingTool_action",  nullptr),
 		//	ui.ImageCoordinateProcessing_btn,
 		//	ui.ImageCoordinateProcessing_btnf
 		//}},
 
-        ////¸ß³ÌÒì³£Ïû³ı
+        ////é«˜ç¨‹å¼‚å¸¸æ¶ˆé™¤
         //{"PSRemoveCorseValueTool.exe", {
         //    Map_mainToolBarAction.value("HeightAnomalyDetection_action",  nullptr)
         //}},
 
-        ////¸ß³ÌÒì³£²éÕÒ
+        ////é«˜ç¨‹å¼‚å¸¸æŸ¥æ‰¾
         //{"PSFindCorseValueTool.exe", {
         //    Map_mainToolBarAction.value("HeightAnomalyElimination_action",  nullptr)
         //}},
 
-        ////DSM-DEMÂß¼­Ò»ÖÂĞÔ´¦Àí
+        ////DSM-DEMé€»è¾‘ä¸€è‡´æ€§å¤„ç†
         //{"PSDsmDemCheckTool.exe", {
         //    Map_mainToolBarAction.value("DSMDEMLogicalConsistencyProcessing_action",  nullptr)
         //}},
 
-        ////DSM-DEMÂß¼­Ò»ÖÂĞÔ´¦Àí£¨²¢ĞĞ£©
+        ////DSM-DEMé€»è¾‘ä¸€è‡´æ€§å¤„ç†ï¼ˆå¹¶è¡Œï¼‰
         //{"PSDsmDemCheckTool2.exe", {
         //    Map_mainToolBarAction.value("ParallelDSM-DEMLogicalConsistencyProcessing_action",  nullptr)
         //}},
 
-        ////DSM-DEM±ê×¼»¯¼ì²é
+        ////DSM-DEMæ ‡å‡†åŒ–æ£€æŸ¥
         //{"PSDsmDemStandCheckTool.exe", {
         //    Map_mainToolBarAction.value("DSMDEMStandardizationCheck_action",  nullptr)
         //}},
 
-        ////DSM-DEM½Ó±ß¼ì²é
+        ////DSM-DEMæ¥è¾¹æ£€æŸ¥
         //{"PSDsmDemRelCheckTool.exe", {
         //    Map_mainToolBarAction.value("DSMDEMEdgeMatchingCheck_action",  nullptr)
         //}},
 
-        ////DEMÏà¹ØĞÔÖÊ¼ì¹¤¾ß
+        ////DEMç›¸å…³æ€§è´¨æ£€å·¥å…·
         //{"PSImageCorrelatonTool.exe", {
         //    Map_mainToolBarAction.value("DEMRelatedPropertyCheck_action",  nullptr)
         //}},
-		////ÉèÖÃNoDataÊôĞÔ
+		////è®¾ç½®NoDataå±æ€§
 		//{ "PSInvalidValueTool.exe", {
 		//	Map_mainToolBarAction.value("NoDataAttribute_action",  nullptr),
 		//	ui.NoDataAttribute_btn,
 		//	ui.NoDataAttribute_btnf
 		//} },
 
-		////²Î¿¼Êı¾İÌáÈ¡
+		////å‚è€ƒæ•°æ®æå–
 		//{"PSGeoDataExtractorTool.exe", {
 		//	Map_mainToolBarAction.value("GeoDataExtractorTool_action",  nullptr),
 		//	ui.GeoDataExtractorTool_btn,
 		//	ui.GeoDataExtractorTool_btnf
 		//}},
 
-        //ÎŞĞ§ÖµÌæ»»
+        //æ— æ•ˆå€¼æ›¿æ¢
         {"PSImageValueRelaceTool.exe", {
             Map_mainToolBarAction.value("Invalidvaluereplacement_action",  nullptr)
         }},
 
-        //Ó°ÏñÁãÖµ´¦Àí(°×µã)
+        //å½±åƒé›¶å€¼å¤„ç†(ç™½ç‚¹)
         {"PSWhiteDotEraseTool.exe", {
             Map_mainToolBarAction.value("ImageZeroValueProcessing_action",  nullptr)
         }},
 
-        //Ó°ÏñÁãÖµ´¦Àí(°×µã)²¢ĞĞ°æ
+        //å½±åƒé›¶å€¼å¤„ç†(ç™½ç‚¹)å¹¶è¡Œç‰ˆ
         {"PSWhiteDotEraseTool2.exe", {
             Map_mainToolBarAction.value("ImageZerovalueProcessings_action",  nullptr)
         }},
 
-        //ÎŞĞ§Öµ²éÕÒ
+        //æ— æ•ˆå€¼æŸ¥æ‰¾
         {"PSHoleCheckTool.exe", {
             Map_mainToolBarAction.value("Invalidvaluelookup_action",  nullptr)
         }},
 
-		////Ó°ÏñÖØ²ÉÑù
+		////å½±åƒé‡é‡‡æ ·
 		//{"PSImageResampleTool.exe", {
 		//	Map_mainToolBarAction.value("ImageResampling_action",  nullptr),
 		//	ui.ImageResampling_btn,
 		//	ui.ImageResampling_btnf
 		//}},
 		
-		//Ò£¸ĞÓ°Ïñ½âÑ¹Ëõ
+		//é¥æ„Ÿå½±åƒè§£å‹ç¼©
 		{"PSUnzipTool.exe", {
 			Map_mainToolBarAction.value("RemoteSensingImageDecompression_action",  nullptr),
 			ui.RemoteSensingImageDecompression_btn,
 			ui.RemoteSensingImageDecompression_btnf
 		}},
 
-   //     //Ó°Ïñ³£¹æ²ÃÇĞ
+   //     //å½±åƒå¸¸è§„è£åˆ‡
    //     {"PSImageCropTool.exe", {
    //         Map_mainToolBarAction.value("ImageCropTool_action",  nullptr),
 			//ui.ImageCropTool_btn,
 			//ui.ImageCropTool_btnf
    //     }},
 
-        ////Ó°Ïñ¶àÄ£Ê½²ÃÇĞ
+        ////å½±åƒå¤šæ¨¡å¼è£åˆ‡
         //{"PSImageCutTool.exe", {
         //    Map_mainToolBarAction.value("ImageCutTool_action",  nullptr)
         //}},
 
-        ////Á¢ÌåÄ£ĞÍ²ÃÇĞ
+        ////ç«‹ä½“æ¨¡å‹è£åˆ‡
         //{"PSImageCropTool_ZY.exe", {
         //    Map_mainToolBarAction.value("Threedimensionalmodelcutting_action",  nullptr)
         //}},
 
-		////R-DÄ£ĞÍÀ×´ïÊı¾İµ¼Èë
+		////R-Dæ¨¡å‹é›·è¾¾æ•°æ®å¯¼å…¥
 		//{"PSRd2RfmTool.exe", {
 		//	Map_mainToolBarAction.value("RDModelRadarDataIn_action",  nullptr),
 		//	ui.RDModelRadarDataIn_btn,
 		//	ui.RDModelRadarDataIn_btnf
 		//}},
 				
-		//Ô¶³ÌĞí¿ÉÉı¼¶(hasp¹·)
+		//è¿œç¨‹è®¸å¯å‡çº§(haspç‹—)
 		{"RUS_HASP_IMAGEPS.exe", {
 			Map_mainToolBarAction.value("remotePermissionUpgradeHaspDog_action",  nullptr),
 			ui.remotePermissionUpgradeHaspDog_btn,
 			ui.remotePermissionUpgradeHaspDog_btnf
 		}},
-		// ÕıÉä¾ÀÕıÈí¼ş
+		// æ­£å°„çº æ­£è½¯ä»¶
 		{"PSOrthoTool.exe",  {
 			Map_mainToolBarAction.value("Orthorectification_action",  nullptr),
 		}},
-		//// Ó°ÏñÈÚºÏÈí¼ş
+		//// å½±åƒèåˆè½¯ä»¶
 		//{"PSFusionTool2.exe",  {
 		//	Map_mainToolBarAction.value("ImageFusionSoftware_action",  nullptr),
 		//}},
-		//// Õæ²ÊÉ«×ª»»Èí¼ş
+		//// çœŸå½©è‰²è½¬æ¢è½¯ä»¶
 		//{"PSImageOutByteTool2.exe",  {
 		//	Map_mainToolBarAction.value("TrueColorConversionSoftware_action",  nullptr),
 		//}},
-		//// Ó°ÏñÔÈÉ«Èí¼ş
+		//// å½±åƒåŒ€è‰²è½¯ä»¶
 		//{"PSDodgingTool2.exe",  {
 		//	Map_mainToolBarAction.value("ImageColorCorrectionSoftware_action",  nullptr),
 		//}},
-		//// Ó°ÏñÏâÇ¶Èí¼ş
+		//// å½±åƒé•¶åµŒè½¯ä»¶
 		//{"PSMosaicTool2.exe",  {
 		//	Map_mainToolBarAction.value("ImageMosaicSoftware_action",  nullptr),
 		//}},
-		//// Åä×¼¾ÀÕıÈí¼ş
+		//// é…å‡†çº æ­£è½¯ä»¶
 		//{"PSGeoRectifyPlatform.exe", {
 		//	Map_mainToolBarAction.value("GeoRectifyPlatform_action",  nullptr),
 		//}}
 	};
 
 	m_moduleConnections = {
-		// Ó°ÏñÖÊ¼ìÈí¼ş
+		// å½±åƒè´¨æ£€è½¯ä»¶
 		{"QualityInspection.exe",  {
 			ui.QualityInspection_btn,
 			ui.QualityInspection_btnf
 		}},
 		
-		// DSM´¦Àí
+		// DSMå¤„ç†
 		{"DSMImageProduction.exe",  {
 			ui.DSMImageProduction_btn,
 			ui.DSMImageProduction_btnf
 		}},
 
-		// »Ò¶È×ª»»
+		// ç°åº¦è½¬æ¢
 		{"ColorItoGray.exe",  {
 			Map_mainToolBarAction.value("ColorItoGray_action",  nullptr),
 			ui.ColorItoGray_btn,
 			ui.ColorItoGray_btnf
 		}},
 
-		// Ó°ÏñÈÚºÏÈí¼ş
+		// å½±åƒèåˆè½¯ä»¶
 		{"PSImageInter.exe",  {
 			Map_mainToolBarAction.value("ImageFusionSoftware_action",  nullptr),
 		}},
 
-		// Õæ²ÊÉ«×ª»»Èí¼ş
+		// çœŸå½©è‰²è½¬æ¢è½¯ä»¶
 		{"TrueColorConversion.exe",  {
 			Map_mainToolBarAction.value("TrueColorConversionSoftware_action",  nullptr),
 		}},
 
-		// Ó°ÏñÔÈÉ«Èí¼ş
+		// å½±åƒåŒ€è‰²è½¯ä»¶
 		{"ImageColorCorrection.exe",  {
 			Map_mainToolBarAction.value("ImageColorCorrectionSoftware_action",  nullptr),
 		}},
-		// Ó°ÏñÏâÇ¶Èí¼ş
+		// å½±åƒé•¶åµŒè½¯ä»¶
 		{"ImageMosaic.exe",  {
 			Map_mainToolBarAction.value("ImageMosaicSoftware_action",  nullptr),
 		}},
 
-		// Ó°ÏñÔÆÑ©×Ô¶¯Ìæ»»Èí¼ş£¨Åú´¦Àí£©
+		// å½±åƒäº‘é›ªè‡ªåŠ¨æ›¿æ¢è½¯ä»¶ï¼ˆæ‰¹å¤„ç†ï¼‰
 		{"PSImageCloudandSnowProcessing.exe",  {
 			Map_mainToolBarAction.value("ImageCloudandSnowReplacementBatchProcessing_action",  nullptr),
 		}},
 
-		// Ó°ÏñÔÆÑ©×Ô¶¯Ìæ»»Èí¼ş£¨È«×Ô¶¯£©
+		// å½±åƒäº‘é›ªè‡ªåŠ¨æ›¿æ¢è½¯ä»¶ï¼ˆå…¨è‡ªåŠ¨ï¼‰
 		{"PSAutoCloudReplace.exe",  {
 			Map_mainToolBarAction.value("ImageCloudandSnowReplacementFullyAutomatic_action",  nullptr),
 		}},
 
-		//´´½¨½ğ×ÖËş
+		//åˆ›å»ºé‡‘å­—å¡”
 		{"PSCreatePyramid.exe",  {
 			Map_mainToolBarAction.value("Buildpyramid_action",  nullptr),
 			ui.Buildpyramid_btn,
 			ui.Buildpyramid_btnf
 		}},
 
-		//Í¶Ó°×ª»»
+		//æŠ•å½±è½¬æ¢
 		{"ProjectionTransformation.exe",  {
 			Map_mainToolBarAction.value("projectChange_action",  nullptr),
 			ui.projectChange_btn,
 			ui.projectChange_btnf
 		}},
 
-		//¸ñÊ½×ª»»
+		//æ ¼å¼è½¬æ¢
 		{"FormatConversion.exe",  {
 			Map_mainToolBarAction.value("formatChange_action",  nullptr),
 			ui.formatChange_btn,
 			ui.formatChange_btnf
 		}},
 
-		//rpb×ªrpc
+		//rpbè½¬rpc
 		{"PSRfmTrans.exe",  {
 			Map_mainToolBarAction.value("Rpb2Rpc_action",  nullptr),
 			ui.Rpb2Rpc_btn,
 			ui.Rpb2Rpc_btnf
 		}},
 
-		//Ó°Ïñ³£¹æ²ÃÇĞ
+		//å½±åƒå¸¸è§„è£åˆ‡
 		{"ImageCropTool.exe", {
 			Map_mainToolBarAction.value("ImageCropTool_action",  nullptr),
 			ui.ImageCropTool_btn,
 			ui.ImageCropTool_btnf
 		}},
 
-		//Ó°Ïñ·¶Î§Éú³É
+		//å½±åƒèŒƒå›´ç”Ÿæˆ
 		{"PSImageRange.exe",  {
 			Map_mainToolBarAction.value("ImageRangeProduction_action",  nullptr),
 			ui.ImageRangeProduction_btn,
 			ui.ImageRangeProduction_btnf
 		}},
 
-		//Í¼·ù·¶Î§Éú³É
+		//å›¾å¹…èŒƒå›´ç”Ÿæˆ
 		{"PSMapNumCal.exe",  {
 			Map_mainToolBarAction.value("MapExtentGeneration_action",  nullptr),
 			ui.MapExtentGeneration_btn,
 			ui.MapExtentGeneration_btnf
 		}},
 
-		//Ó°Ïñ×ø±êĞÅÏ¢´¦Àí¹¤¾ß
+		//å½±åƒåæ ‡ä¿¡æ¯å¤„ç†å·¥å…·
 		{"PSExportTfw.exe", {
 			Map_mainToolBarAction.value("ImageCoordinateProcessingTool_action",  nullptr),
 			ui.ImageCoordinateProcessing_btn,
 			ui.ImageCoordinateProcessing_btnf
 		}},
 
-		//ÉèÖÃNoDataÊôĞÔ
+		//è®¾ç½®NoDataå±æ€§
 		{ "PSSetNoData.exe", {
 			Map_mainToolBarAction.value("NoDataAttribute_action",  nullptr),
 			ui.NoDataAttribute_btn,
 			ui.NoDataAttribute_btnf
 		} },
 
-		//¸ß³ÌÒì³£Ïû³ı
+		//é«˜ç¨‹å¼‚å¸¸æ¶ˆé™¤
 		{"PSRemoveCorseValue.exe", {
 			Map_mainToolBarAction.value("HeightAnomalyDetection_action",  nullptr)
 		}},
 
-		//¸ß³ÌÒì³£²éÕÒ
+		//é«˜ç¨‹å¼‚å¸¸æŸ¥æ‰¾
 		{ "PSFindCorseValue.exe", {
 			Map_mainToolBarAction.value("HeightAnomalyElimination_action",  nullptr)
 		} },
 
-		//DEMÏâÇ¶
+		//DEMé•¶åµŒ
 		{"PSDemMosaic.exe", {
 			Map_mainToolBarAction.value("DEMMosaic_action",  nullptr),
 			ui.DEMMosaic_btn,
 			ui.DEMMosaic_btnf
 		}},
 
-		//Ó°ÏñÖØ²ÉÑù
+		//å½±åƒé‡é‡‡æ ·
 		{"ImageResampleTool.exe", {
 			Map_mainToolBarAction.value("ImageResampling_action",  nullptr),
 			ui.ImageResampling_btn,
 			ui.ImageResampling_btnf
 		}},
 
-		//Ó°Ïñ¸³Í¶Ó°
+		//å½±åƒèµ‹æŠ•å½±
 		{"Imageprojection.exe", {
 			Map_mainToolBarAction.value("imageEqualProject_action",  nullptr),
 			ui.imageEqualProject_btn,
 			ui.imageEqualProject_btnf
 		}},
 
-		// ²¨¶Î²ğ·ÖÈí¼ş
+		// æ³¢æ®µæ‹†åˆ†è½¯ä»¶
 		{"Bandsplitting.exe",  {
 			Map_mainToolBarAction.value("BandSplitTool_action",  nullptr),
 		}},
 
-		// ²¨¶ÎÖØ×éÈí¼ş
+		// æ³¢æ®µé‡ç»„è½¯ä»¶
 		{"PSBandOrganize.exe",  {
 			Map_mainToolBarAction.value("BandOrganizeTool_action",  nullptr),
 		}},
 
-		// ²¨¶ÎºÏ³ÉÈí¼ş
+		// æ³¢æ®µåˆæˆè½¯ä»¶
 		{"PSBandComposite.exe",  {
 			Map_mainToolBarAction.value("BandCompositeTool_action",  nullptr),
 		}},
 
-		// ²¨¶Î¼ÆËãÈí¼ş
+		// æ³¢æ®µè®¡ç®—è½¯ä»¶
 		{"PSBandMath.exe",  {
 			Map_mainToolBarAction.value("BandMathXTool_action",  nullptr),
 		}},
 
-		// Ó°ÏñÉıÎ»
+		// å½±åƒå‡ä½
 		{"PSConvert8to16.exe",  {
 			ui.Convert8to16_btn,
 			ui.Convert8to16_btnf
 		}},
 
-		// wkt¸ñÊ½Êä³ö
+		// wktæ ¼å¼è¾“å‡º
 		{"PSExportWKT.exe",  {
 			ui.ExportWKT_btn,
 			ui.ExportWKT_btnf
 		}},
 
-		//R-DÄ£ĞÍÀ×´ïÊı¾İµ¼Èë
+		//R-Dæ¨¡å‹é›·è¾¾æ•°æ®å¯¼å…¥
 		{ "PSSarModelCreate.exe", {
 			Map_mainToolBarAction.value("RDModelRadarDataIn_action",  nullptr),
 			ui.RDModelRadarDataIn_btn,
@@ -960,7 +952,7 @@ void IMAGEPS_InfoWindow::connects()
 		} },
 	};
 
-	// ÒÆ³ı¿ÕÖ¸Õë 
+	// ç§»é™¤ç©ºæŒ‡é’ˆ 
 	for (auto& toolList : m_toolConnections) {
 		toolList.erase(std::remove_if(toolList.begin(), toolList.end(),
 			[](QObject* obj) { return obj == nullptr; }), toolList.end());
@@ -970,7 +962,7 @@ void IMAGEPS_InfoWindow::connects()
 		connectMultipleUIToTool(it.key(), it.value());
 	}
 
-	// ÒÆ³ı¿ÕÖ¸Õë 
+	// ç§»é™¤ç©ºæŒ‡é’ˆ 
 	for (auto& toolList : m_moduleConnections) {
 		toolList.erase(std::remove_if(toolList.begin(), toolList.end(),
 			[](QObject* obj) { return obj == nullptr; }), toolList.end());
@@ -982,7 +974,7 @@ void IMAGEPS_InfoWindow::connects()
 			if (QAction* action = qobject_cast<QAction*>(uiElement)) {
 				if (action) {
 					connect(action, &QAction::triggered, this, [=]() {
-						// ÑéÖ¤Ğí¿ÉÖ¤
+						// éªŒè¯è®¸å¯è¯
 						if (!PublicFunctions::validateDogLicense()) {
 							return 0;
 						}
@@ -996,7 +988,7 @@ void IMAGEPS_InfoWindow::connects()
 			else if (QPushButton* button = qobject_cast<QPushButton*>(uiElement)) {
 				if (button) {
 					connect(button, &QPushButton::clicked, this, [=]() {
-						// ÑéÖ¤Ğí¿ÉÖ¤
+						// éªŒè¯è®¸å¯è¯
 						if (!PublicFunctions::validateDogLicense()) {
 							return 0;
 						}
@@ -1017,53 +1009,53 @@ void IMAGEPS_InfoWindow::connects()
 
 void IMAGEPS_InfoWindow::newProActionSlot()
 {
-	// ÑéÖ¤Ğí¿ÉÖ¤
+	// éªŒè¯è®¸å¯è¯
 	if (!PublicFunctions::validateDogLicense()) {
 		return;
 	}
 	IMAGEPS* window = new IMAGEPS();
 	window->setAttribute(Qt::WA_DeleteOnClose);
 
-	// Á¬½Ó´°¿Ú¹Ø±ÕĞÅºÅµ½ÇåÀíº¯Êı
+	// è¿æ¥çª—å£å…³é—­ä¿¡å·åˆ°æ¸…ç†å‡½æ•°
 	connect(window, &QObject::destroyed, [this, window]() {
 		m_openWindows.removeAll(window);
 	});
 
-	// ³¢ÊÔ´ò¿ª¹¤³Ì
+	// å°è¯•æ‰“å¼€å·¥ç¨‹
 	if (!window->newProActionSlot()) {
 		window->deleteLater();
 		return;
 	}
 	
 	addRecentProjectItem();
-	// ´ò¿ª³É¹¦£¬ÏÔÊ¾´°¿Ú²¢±£´æÒıÓÃ
+	// æ‰“å¼€æˆåŠŸï¼Œæ˜¾ç¤ºçª—å£å¹¶ä¿å­˜å¼•ç”¨
 	m_openWindows.append(window);
 	window->showMaximized();
 }
 
 void IMAGEPS_InfoWindow::openProActionSlot()
 {
-	// ÑéÖ¤Ğí¿ÉÖ¤
+	// éªŒè¯è®¸å¯è¯
 	if (!PublicFunctions::validateDogLicense()) {
 		return;
 	}
 	IMAGEPS* window = new IMAGEPS(); 
 	window->setAttribute(Qt::WA_DeleteOnClose); 
 
-	// Á¬½Ó´°¿Ú¹Ø±ÕĞÅºÅµ½ÇåÀíº¯Êı
+	// è¿æ¥çª—å£å…³é—­ä¿¡å·åˆ°æ¸…ç†å‡½æ•°
 	connect(window, &QObject::destroyed, [this, window]() {
 		m_openWindows.removeAll(window);  
 	});
 
-	// ³¢ÊÔ´ò¿ª¹¤³Ì
+	// å°è¯•æ‰“å¼€å·¥ç¨‹
 	if (!window->openProActionSlot()) { 
 		window->deleteLater(); 
-		//QMessageBox::critical(this, "´íÎó", "´ò¿ª¹¤³ÌÊ§°Ü");
+		//QMessageBox::critical(this, "é”™è¯¯", "æ‰“å¼€å·¥ç¨‹å¤±è´¥");
 		return;
 	}
 
 	addRecentProjectItem();
-	// ´ò¿ª³É¹¦£¬ÏÔÊ¾´°¿Ú²¢±£´æÒıÓÃ
+	// æ‰“å¼€æˆåŠŸï¼Œæ˜¾ç¤ºçª—å£å¹¶ä¿å­˜å¼•ç”¨
 	m_openWindows.append(window);
 	window->showMaximized();
 }
@@ -1081,10 +1073,10 @@ void IMAGEPS_InfoWindow::openProActionSlot()
 //		QString filePath = it.value();
 //		QFileInfo fileInfo(fileName);
 //		QListWidgetItem *item = new QListWidgetItem(
-//			QIcon(QString::fromLocal8Bit(":/resource/menu/RecentP/ÎÄ¼ş¼Ğ.png")),
+//			QIcon(QString::fromLocal8Bit(":/resource/menu/RecentP/æ–‡ä»¶å¤¹.png")),
 //			QString("%1\n%2").arg(fileInfo.completeBaseName()).arg(filePath)
 //		);
-//		item->setData(Qt::UserRole, fileName);  // ´æ´¢ÍêÕûÂ·¾¶
+//		item->setData(Qt::UserRole, fileName);  // å­˜å‚¨å®Œæ•´è·¯å¾„
 //
 //		ui.listWidget->addItem(item);
 //	}
@@ -1094,7 +1086,7 @@ void IMAGEPS_InfoWindow::addRecentProjectItem() {
 	ui.listWidget->clear();
 	QString filePath = "../bin/config/projectPathConfig/projectPath.csv";
 
-	// »ñÈ¡ÎÄ¼şÄÚÈİ²¢¸½´ø×îºóĞŞ¸ÄÊ±¼ä
+	// è·å–æ–‡ä»¶å†…å®¹å¹¶é™„å¸¦æœ€åä¿®æ”¹æ—¶é—´
 	QVector<QPair<QString, QDateTime>> projectsWithTime;
 
 	QFile file(filePath);
@@ -1104,7 +1096,7 @@ void IMAGEPS_InfoWindow::addRecentProjectItem() {
 			QString line = in.readLine().trimmed();
 			if (line.isEmpty()) continue;
 
-			// Ê¹ÓÃ°²È«µÄ CSV ½âÎö
+			// ä½¿ç”¨å®‰å…¨çš„ CSV è§£æ
 			QStringList parts = PublicFunctions::parseCsvLine(line);
 
 			if (parts.size() >= 2) {
@@ -1119,24 +1111,24 @@ void IMAGEPS_InfoWindow::addRecentProjectItem() {
 		}
 	}
 	else {
-		qDebug() << u8"ÎŞ·¨´ò¿ª×î½üÏîÄ¿ÎÄ¼ş:" << filePath;
+		qDebug() << u8"æ— æ³•æ‰“å¼€æœ€è¿‘é¡¹ç›®æ–‡ä»¶:" << filePath;
 		return;
 	}
 
-	// °´ĞŞ¸ÄÊ±¼ä½µĞòÅÅĞò
+	// æŒ‰ä¿®æ”¹æ—¶é—´é™åºæ’åº
 	std::sort(projectsWithTime.begin(), projectsWithTime.end(),
 		[](const QPair<QString, QDateTime> &a, const QPair<QString, QDateTime> &b) {
 		return a.second > b.second;
 	});
 
-	// Ìí¼ÓÇ°10¸ö×î½üÏîÄ¿
+	// æ·»åŠ å‰10ä¸ªæœ€è¿‘é¡¹ç›®
 	int count = 0;
 	const int maxRecentFiles = 10;
 
 	for (const auto &project : projectsWithTime) {
 		if (count++ >= maxRecentFiles) break;
 
-		// ½âÎö±£´æµÄCSVĞĞ
+		// è§£æä¿å­˜çš„CSVè¡Œ
 		QStringList parts = PublicFunctions::parseCsvLine(project.first);
 
 		if (parts.size() >= 2) {
@@ -1144,9 +1136,9 @@ void IMAGEPS_InfoWindow::addRecentProjectItem() {
 			QString filePath = PublicFunctions::unescapeCsvField(parts[1]);
 			QFileInfo fileInfo(fileName);
 
-			// ´´½¨ÁĞ±íÏî
+			// åˆ›å»ºåˆ—è¡¨é¡¹
 			QListWidgetItem *item = new QListWidgetItem(
-				QIcon(QString::fromLocal8Bit(":/resource/menu/RecentP/ÎÄ¼ş¼Ğ.png")),
+				QIcon(QString::fromLocal8Bit(":/resource/menu/RecentP/æ–‡ä»¶å¤¹.png")),
 				QString("%1\n%2").arg(fileInfo.completeBaseName()).arg(filePath)
 			);
 			item->setData(Qt::UserRole, fileName);
@@ -1157,11 +1149,11 @@ void IMAGEPS_InfoWindow::addRecentProjectItem() {
 
 void IMAGEPS_InfoWindow::startToolProcess(const QString& toolName)
 {
-	// ÑéÖ¤Ğí¿ÉÖ¤
+	// éªŒè¯è®¸å¯è¯
 	if (!PublicFunctions::validateDogLicense()) {
 		return;
 	}
-	// ¹¹½¨ÍêÕûµÄ¹¤¾ßÂ·¾¶ 
+	// æ„å»ºå®Œæ•´çš„å·¥å…·è·¯å¾„ 
 	QString toolPath = IMAGEPS_InfoWindow::instance->appDirPath +
 		QString::fromLocal8Bit("/Software/") + toolName;
 	QProcess* process = new QProcess(this);
@@ -1176,7 +1168,7 @@ void IMAGEPS_InfoWindow::connectUIToTool(const QString& toolName, T* uiElement)
 		return;
 	}
 
-	// ¸ù¾İUIÔªËØÀàĞÍ½øĞĞÁ¬½Ó 
+	// æ ¹æ®UIå…ƒç´ ç±»å‹è¿›è¡Œè¿æ¥ 
 	if (QAction* action = qobject_cast<QAction*>(uiElement)) {
 		connectActionToTool(toolName, action);
 	}
@@ -1202,7 +1194,7 @@ void IMAGEPS_InfoWindow::connectActionToTool(const QString& toolName, QAction* a
 {
 	if (action) {
 		connect(action, &QAction::triggered, this, [=]() {
-			// ÑéÖ¤Ğí¿ÉÖ¤
+			// éªŒè¯è®¸å¯è¯
 			if (!PublicFunctions::validateDogLicense()) {
 				return 0;
 			}
@@ -1218,7 +1210,7 @@ void IMAGEPS_InfoWindow::connectButtonToTool(const QString& toolName, QPushButto
 {
 	if (button) {
 		connect(button, &QPushButton::clicked, this, [=]() {
-			// ÑéÖ¤Ğí¿ÉÖ¤
+			// éªŒè¯è®¸å¯è¯
 			if (!PublicFunctions::validateDogLicense()) {
 				return 0;
 			}
@@ -1233,18 +1225,18 @@ void IMAGEPS_InfoWindow::connectButtonToTool(const QString& toolName, QPushButto
 void IMAGEPS_InfoWindow::connectLabelToTool(const QString& toolName, QLabel* label)
 {
 	if (label) {
-		// ÉèÖÃÎª¿Éµã»÷µÄ³¬Á´½ÓÑùÊ½ 
+		// è®¾ç½®ä¸ºå¯ç‚¹å‡»çš„è¶…é“¾æ¥æ ·å¼ 
 		label->setTextFormat(Qt::RichText);
 		label->setText(QString("<a href=\"%1\">%2</a>").arg(toolName).arg(label->text()));
 		label->setOpenExternalLinks(false);
 		label->setCursor(Qt::PointingHandCursor);
 
-		// Ö±½ÓÁ¬½ÓĞÅºÅ 
+		// ç›´æ¥è¿æ¥ä¿¡å· 
 		connect(label, &QLabel::linkActivated, this, &IMAGEPS_InfoWindow::startToolProcess);
 	}
 }
 
-// ÔÚ¹Ø±ÕÖ÷´°¿ÚÊ±·¢ÉäĞÅºÅ
+// åœ¨å…³é—­ä¸»çª—å£æ—¶å‘å°„ä¿¡å·
 void IMAGEPS_InfoWindow::closeEvent(QCloseEvent* event)
 {
 	emit aboutToClose_InfoWindow();
@@ -1252,7 +1244,7 @@ void IMAGEPS_InfoWindow::closeEvent(QCloseEvent* event)
 }
 
 /**
- * @brief É¾³ıÁĞ±íÖĞµÄ×î½ü´ò¿ª¹¤³Ì
+ * @brief åˆ é™¤åˆ—è¡¨ä¸­çš„æœ€è¿‘æ‰“å¼€å·¥ç¨‹
  */
 bool IMAGEPS_InfoWindow::removeLineFromCsv(const QString &filePath,
 	const QString &fullProjectPath,
@@ -1260,7 +1252,7 @@ bool IMAGEPS_InfoWindow::removeLineFromCsv(const QString &filePath,
 {
 	QFile file(filePath);
 	if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-		qDebug() << "ÎŞ·¨´ò¿ªÎÄ¼ş:" << filePath;
+		qDebug() << "æ— æ³•æ‰“å¼€æ–‡ä»¶:" << filePath;
 		return false;
 	}
 
@@ -1272,7 +1264,7 @@ bool IMAGEPS_InfoWindow::removeLineFromCsv(const QString &filePath,
 		QString line = in.readLine().trimmed();
 		if (line.isEmpty()) continue;
 
-		// ¼òµ¥¼ì²é£ºÈç¹ûĞĞÖĞ°üº¬ÍêÕûÏîÄ¿Â·¾¶£¬ÔòÉ¾³ı
+		// ç®€å•æ£€æŸ¥ï¼šå¦‚æœè¡Œä¸­åŒ…å«å®Œæ•´é¡¹ç›®è·¯å¾„ï¼Œåˆ™åˆ é™¤
 		bool shouldRemove = line.contains(fullProjectPath);
 
 		if (!shouldRemove) {
@@ -1281,9 +1273,9 @@ bool IMAGEPS_InfoWindow::removeLineFromCsv(const QString &filePath,
 	}
 	file.close();
 
-	// ÖØĞÂĞ´ÈëÎÄ¼ş
+	// é‡æ–°å†™å…¥æ–‡ä»¶
 	if (!file.open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::Truncate)) {
-		qDebug() << "ÎŞ·¨Ğ´ÈëÎÄ¼ş:" << filePath;
+		qDebug() << "æ— æ³•å†™å…¥æ–‡ä»¶:" << filePath;
 		return false;
 	}
 

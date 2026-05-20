@@ -1,4 +1,4 @@
-#include "DataModelConfig.h"
+ï»¿#include "DataModelConfig.h"
 #include "IMAGEPS.h"
 
 DataModelConfig::DataModelConfig(IMAGEPS* parentImagePS, QWidget* parent)
@@ -10,7 +10,7 @@ DataModelConfig::DataModelConfig(IMAGEPS* parentImagePS, QWidget* parent)
 	if (!m_imagePS && parent) {
 		m_imagePS = qobject_cast<IMAGEPS*>(parent);
 	}
-	this->setWindowTitle(QString::fromLocal8Bit("Ä£ĞÍ´´½¨"));
+	this->setWindowTitle(QString::fromLocal8Bit("æ¨¡å‹åˆ›å»º"));
 	//this->resize(1300, 1100);
 	//this->setMinimumSize(800, 600);
 
@@ -66,7 +66,7 @@ void DataModelConfig::loadFile(QStringList filenamelist)
 				QFileInfo fileInfo(data.key());
 				QString baseName = fileInfo.completeBaseName();
 
-				// ¼ì²éÊÇ·ñÒÑÔÚui.tableWidget ÖĞ´æÔÚ 
+				// æ£€æŸ¥æ˜¯å¦å·²åœ¨ui.tableWidget ä¸­å­˜åœ¨ 
 				bool existsInTable1 = false;
 				for (int i = 0; i < ui.tableWidget->rowCount(); i++)
 				{
@@ -82,14 +82,14 @@ void DataModelConfig::loadFile(QStringList filenamelist)
 					continue;
 				}
 
-				//¼ì²éui.tableWidget_2 µÄµÚ3ÁĞºÍµÚ7ÁĞ
+				//æ£€æŸ¥ui.tableWidget_2 çš„ç¬¬3åˆ—å’Œç¬¬7åˆ—
 				bool existsInTable2 = false;
 				for (int i = 0; i < ui.tableWidget_2->rowCount(); i++)
 				{
-					QTableWidgetItem* col3Item = ui.tableWidget_2->item(i, 2); // µÚ3ÁĞ(Ë÷Òı2)
-					QTableWidgetItem* col4Item = ui.tableWidget_2->item(i, 4); // µÚ3ÁĞ(Ë÷Òı4)
-					QTableWidgetItem* col5Item = ui.tableWidget_2->item(i, 5); // µÚ3ÁĞ(Ë÷Òı5)
-					QTableWidgetItem* col7Item = ui.tableWidget_2->item(i, 6); // µÚ7ÁĞ(Ë÷Òı6)
+					QTableWidgetItem* col3Item = ui.tableWidget_2->item(i, 2); // ç¬¬3åˆ—(ç´¢å¼•2)
+					QTableWidgetItem* col4Item = ui.tableWidget_2->item(i, 4); // ç¬¬3åˆ—(ç´¢å¼•4)
+					QTableWidgetItem* col5Item = ui.tableWidget_2->item(i, 5); // ç¬¬3åˆ—(ç´¢å¼•5)
+					QTableWidgetItem* col7Item = ui.tableWidget_2->item(i, 6); // ç¬¬7åˆ—(ç´¢å¼•6)
 
 					if ((col3Item && col3Item->text() == baseName) ||
 						(col4Item && col4Item->text() == baseName) ||
@@ -107,11 +107,11 @@ void DataModelConfig::loadFile(QStringList filenamelist)
 					continue;
 				}
 
-				// ²åÈëĞÂĞĞ
+				// æ’å…¥æ–°è¡Œ
 				int newRowIndex = ui.tableWidget->rowCount();
 				ui.tableWidget->insertRow(newRowIndex);
 
-				// È·±£ËùÓĞµ¥Ôª¸ñ¶¼ÓĞ QTableWidgetItem
+				// ç¡®ä¿æ‰€æœ‰å•å…ƒæ ¼éƒ½æœ‰ QTableWidgetItem
 				for (int col = 0; col < ui.tableWidget->columnCount(); col++)
 				{
 					if (!ui.tableWidget->item(newRowIndex, col))
@@ -121,10 +121,10 @@ void DataModelConfig::loadFile(QStringList filenamelist)
 						ui.tableWidget->setItem(newRowIndex, col, item);
 					}
 				}
-				// ÉèÖÃĞòºÅ£¨µ±Ç°ĞĞºÅ + 1£©
+				// è®¾ç½®åºå·ï¼ˆå½“å‰è¡Œå· + 1ï¼‰
 				ui.tableWidget->item(newRowIndex, 0)->setText(QString::number(newRowIndex + 1));
 
-				// ÉèÖÃÎÄ¼şÃû£¨È¥µôÀ©Õ¹Ãû£©
+				// è®¾ç½®æ–‡ä»¶åï¼ˆå»æ‰æ‰©å±•åï¼‰
 				ui.tableWidget->item(newRowIndex, 1)->setText(baseName);
 				data.value() = true;
 				ui.tableWidget->resizeColumnsToContents();
@@ -136,16 +136,16 @@ void DataModelConfig::loadFile(QStringList filenamelist)
 void DataModelConfig::initWidget()
 {
 	ui.checkBox_3->setEnabled(false);
-	ui.tableWidget->verticalHeader()->setVisible(false); // Òş²ØĞĞºÅ  
-	ui.tableWidget_2->verticalHeader()->setVisible(false); // Òş²ØĞĞºÅ  
+	ui.tableWidget->verticalHeader()->setVisible(false); // éšè—è¡Œå·  
+	ui.tableWidget_2->verticalHeader()->setVisible(false); // éšè—è¡Œå·  
 	ui.tableWidget->setSelectionBehavior(QAbstractItemView::SelectRows);
 	ui.tableWidget_2->setSelectionBehavior(QAbstractItemView::SelectRows);
 	ui.tableWidget->horizontalHeader()->setSectionResizeMode(1, QHeaderView::ResizeToContents);
-	ui.tableWidget_2->horizontalHeader()->setSectionResizeMode(2, QHeaderView::ResizeToContents); //ÍêÕûÏÔÊ¾
+	ui.tableWidget_2->horizontalHeader()->setSectionResizeMode(2, QHeaderView::ResizeToContents); //å®Œæ•´æ˜¾ç¤º
 	ui.tableWidget_2->horizontalHeader()->setSectionResizeMode(6, QHeaderView::ResizeToContents);
 	ui.tableWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);
 	ui.tableWidget_2->setEditTriggers(QAbstractItemView::NoEditTriggers);
-	//×îºóÒ»ÁĞÇ¿ÖÆÀ­Éì
+	//æœ€åä¸€åˆ—å¼ºåˆ¶æ‹‰ä¼¸
 	ui.tableWidget->horizontalHeader()->setStretchLastSection(true);
 	ui.tableWidget_2->horizontalHeader()->setStretchLastSection(true);
 	DataModelBool = true;
@@ -163,10 +163,10 @@ bool DataModelConfig::removeFileIfExists(const QString &filePath) {
 	if (fi.exists()) {
 		QFile file(filePath);
 		if (!file.remove()) {
-			PROJECT_LOG_WARNING(m_imagePS->CurrentConfig, QString::fromLocal8Bit("É¾³ıÎÄ¼şÊ§°Ü! ") + filePath);
+			PROJECT_LOG_WARNING(m_imagePS->CurrentConfig, QString::fromLocal8Bit("åˆ é™¤æ–‡ä»¶å¤±è´¥! ") + filePath);
 			return false;
 		}
-		PROJECT_LOG_WARNING(m_imagePS->CurrentConfig, QString::fromLocal8Bit("É¾³ıÎÄ¼ş³É¹¦! ") + filePath);
+		PROJECT_LOG_WARNING(m_imagePS->CurrentConfig, QString::fromLocal8Bit("åˆ é™¤æ–‡ä»¶æˆåŠŸ! ") + filePath);
 	}
 	return true;
 }
@@ -177,19 +177,19 @@ QString DataModelConfig::BuildSatModelMakerCmdXML(QStringList filenamelist, cons
 	bool threedimensionalModel = ui.checkBox->isChecked();
 	bool multispectralModel = ui.checkBox_2->isChecked();
 
-	// ´´½¨ QDomDocument
+	// åˆ›å»º QDomDocument
 	QDomDocument doc;
 
-	// Ìí¼Ó XML ÉùÃ÷
+	// æ·»åŠ  XML å£°æ˜
 	QDomProcessingInstruction instruction = doc.createProcessingInstruction("xml", "version=\"1.0\" encoding=\"UTF-8\"");
 	doc.appendChild(instruction);
 
-	// ´´½¨¸ù½Úµã <SatImages>
+	// åˆ›å»ºæ ¹èŠ‚ç‚¹ <SatImages>
 	QDomElement root = doc.createElement("XQSatImages");
 	//root.setAttribute("version", "1.0");
 	//doc.appendChild(root);
 
-	// ´´½¨ <InputFiles> ×Ó½Úµã
+	// åˆ›å»º <InputFiles> å­èŠ‚ç‚¹
 	QDomElement InputFiles = doc.createElement("InputFiles");
 
 	if (filenamelist.isEmpty())
@@ -205,7 +205,7 @@ QString DataModelConfig::BuildSatModelMakerCmdXML(QStringList filenamelist, cons
 
 	for (auto data : filenamelist)
 	{
-			// ´´½¨ <InputImageFilePath> ×Ó½Úµã
+			// åˆ›å»º <InputImageFilePath> å­èŠ‚ç‚¹
 			QDomElement InputFilesPath = doc.createElement("ImageFile");
 			//inputImagePath.setAttribute("type", "string");
 			QString tmp = data;
@@ -215,34 +215,34 @@ QString DataModelConfig::BuildSatModelMakerCmdXML(QStringList filenamelist, cons
 	}
 	root.appendChild(InputFiles);
 
-	// ´´½¨ <OutputFile> ×Ó½Úµã
+	// åˆ›å»º <OutputFile> å­èŠ‚ç‚¹
 	QDomElement Outputfile = doc.createElement("OutputFile");
 	QDomText OutputfileText = doc.createTextNode(projectdir + outdir + "/" + "SatModelMakerCmdout.xml");
 	Outputfile.appendChild(OutputfileText);
 	root.appendChild(Outputfile);
 
-	// ´´½¨ <Parameters> ×Ó½Úµã
+	// åˆ›å»º <Parameters> å­èŠ‚ç‚¹
 	QDomElement Parameters = doc.createElement("Parameters");
-	// ´´½¨ <StereoModel> ×Ó½Úµã
+	// åˆ›å»º <StereoModel> å­èŠ‚ç‚¹
 	QDomElement StereoModel = doc.createElement("StereoModel");
 	StereoModel.setAttribute("type", "int32");
 	QDomText StereoModelText = doc.createTextNode(QString::number(threedimensionalModel));
 	StereoModel.appendChild(StereoModelText);
 	Parameters.appendChild(StereoModel);
 
-	// Ìí¼ÓËµÃ÷×¢ÊÍ   
-	QDomComment comment1 = doc.createComment(QString::fromLocal8Bit("falseÎªµ¥Æ¬£¬trueÎªÁ¢Ìå"));
+	// æ·»åŠ è¯´æ˜æ³¨é‡Š   
+	QDomComment comment1 = doc.createComment(QString::fromLocal8Bit("falseä¸ºå•ç‰‡ï¼Œtrueä¸ºç«‹ä½“"));
 	Parameters.appendChild(comment1);
 
-	// ´´½¨ <MuxAsSingleModel> ×Ó½Úµã
+	// åˆ›å»º <MuxAsSingleModel> å­èŠ‚ç‚¹
 	QDomElement MuxAsSingleModel = doc.createElement("MuxAsSingleModel");
 	MuxAsSingleModel.setAttribute("type", "int32");
 	QDomText MuxAsSingleModelText = doc.createTextNode(QString::number(multispectralModel));
 	MuxAsSingleModel.appendChild(MuxAsSingleModelText);
 	Parameters.appendChild(MuxAsSingleModel);
 
-	// Ìí¼ÓËµÃ÷×¢ÊÍ   
-	QDomComment comment2 = doc.createComment(QString::fromLocal8Bit("¶à¹âÆ××÷Îª¶ÀÁ¢Ä£ĞÍ,Ò²¾ÍÊÇ²»ºÍÈ«É«Åä¶Ô"));
+	// æ·»åŠ è¯´æ˜æ³¨é‡Š   
+	QDomComment comment2 = doc.createComment(QString::fromLocal8Bit("å¤šå…‰è°±ä½œä¸ºç‹¬ç«‹æ¨¡å‹,ä¹Ÿå°±æ˜¯ä¸å’Œå…¨è‰²é…å¯¹"));
 	Parameters.appendChild(comment2);
 
 	QDomElement MakeModelByKeyWord = doc.createElement("MakeModelByKeyWord");
@@ -262,18 +262,18 @@ QString DataModelConfig::BuildSatModelMakerCmdXML(QStringList filenamelist, cons
 
 	doc.appendChild(root);
 
-	// Ğ´ÈëÎÄ¼ş
+	// å†™å…¥æ–‡ä»¶
 	QString xmlPath = projectdir + outdir + "/" + QString::fromLocal8Bit("SatModelMakerCmd.xml");
 
 	QFile file(xmlPath);
 	if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-		PROJECT_LOG_ERROR(m_imagePS->CurrentConfig, QString::fromLocal8Bit("´´½¨Ä£ĞÍÅä¶ÔÈÎÎñµ¥Ê§°Ü!"));
+		PROJECT_LOG_ERROR(m_imagePS->CurrentConfig, QString::fromLocal8Bit("åˆ›å»ºæ¨¡å‹é…å¯¹ä»»åŠ¡å•å¤±è´¥!"));
 		return "";
 	}
 
 	QTextStream out(&file);
 	out.setCodec("UTF-8");
-	out << doc.toString(4);  // 4 ±íÊ¾Ëõ½ø 4 ¸ö¿Õ¸ñ£¬Ê¹ XML ¿É¶ÁĞÔ¸üºÃ
+	out << doc.toString(4);  // 4 è¡¨ç¤ºç¼©è¿› 4 ä¸ªç©ºæ ¼ï¼Œä½¿ XML å¯è¯»æ€§æ›´å¥½
 	file.close();
 
 	return xmlPath;
@@ -283,7 +283,7 @@ void DataModelConfig::BuildmodelSlot()
 {
 	if (!DataModelBool)
 	{
-		if (!tryLockFunction(DataModeMutex, QString::fromLocal8Bit("ÒÑÓĞÄ£ĞÍ¹¹½¨"))) {
+		if (!tryLockFunction(DataModeMutex, QString::fromLocal8Bit("å·²æœ‰æ¨¡å‹æ„å»º"))) {
 			return;
 		}
 
@@ -304,9 +304,9 @@ void DataModelConfig::BuildmodelSlot()
 
 		if (!removeFileIfExists(RSatModelMakerCmdoutPath)) {
 			QMessageBox::critical(nullptr,
-				QString::fromLocal8Bit("´íÎó"),
-				QString::fromLocal8Bit("ÎŞ·¨ÇåÀíSatModelMakerCmdout.xml¾ÉÎÄ¼ş£¬ÇëÉ¾³ıÎÄ¼şºóÖØĞÂ²Ù×÷"));
-			PROJECT_LOG_ERROR(m_imagePS->CurrentConfig, QString::fromLocal8Bit("Ä£ĞÍ´´½¨½çÃæ ÎŞ·¨ÇåÀíSatModelMakerCmdout.xml¾ÉÎÄ¼ş£¬ÇëÉ¾³ıÎÄ¼şºóÖØĞÂ²Ù×÷"));
+				QString::fromLocal8Bit("é”™è¯¯"),
+				QString::fromLocal8Bit("æ— æ³•æ¸…ç†SatModelMakerCmdout.xmlæ—§æ–‡ä»¶ï¼Œè¯·åˆ é™¤æ–‡ä»¶åé‡æ–°æ“ä½œ"));
+			PROJECT_LOG_ERROR(m_imagePS->CurrentConfig, QString::fromLocal8Bit("æ¨¡å‹åˆ›å»ºç•Œé¢ æ— æ³•æ¸…ç†SatModelMakerCmdout.xmlæ—§æ–‡ä»¶ï¼Œè¯·åˆ é™¤æ–‡ä»¶åé‡æ–°æ“ä½œ"));
 			return;
 		}
 
@@ -315,7 +315,7 @@ void DataModelConfig::BuildmodelSlot()
 
 		PublicFunctions::writeTimestampToXml(QString::fromLocal8Bit("DataModelmarker"), m_imagePS->projectdir);
 
-		//´´½¨µ÷ÓÃ¿ÉÖ´ĞĞ³ÌĞòµÄÀà
+		//åˆ›å»ºè°ƒç”¨å¯æ‰§è¡Œç¨‹åºçš„ç±»
 		QProcess * process = new QProcess(this);
 		QString authCmd;
 #ifdef Q_OS_LINUX 
@@ -323,15 +323,15 @@ void DataModelConfig::BuildmodelSlot()
 #else
 		authCmd = QDir(m_imagePS->appDirPath).filePath(QString::fromLocal8Bit("Software/DsmMatch_64/PSSatModelMakerCmd.exe"));
 #endif
-		//Æô¶¯³ÌĞò£¬²¢ÊäÈë²ÎÊı
+		//å¯åŠ¨ç¨‹åºï¼Œå¹¶è¾“å…¥å‚æ•°
 		process->start(authCmd, QStringList() << xmlPath);
-		PROJECT_LOG_INFO(m_imagePS->CurrentConfig, QString::fromLocal8Bit("Ä£ĞÍ´´½¨½çÃæ Ä£ĞÍÅä¶ÔÈÎÎñ¿ªÊ¼Ö´ĞĞ!"));
+		PROJECT_LOG_INFO(m_imagePS->CurrentConfig, QString::fromLocal8Bit("æ¨¡å‹åˆ›å»ºç•Œé¢ æ¨¡å‹é…å¯¹ä»»åŠ¡å¼€å§‹æ‰§è¡Œ!"));
 
 		connect(process, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished),
 			[=](int exitCode, QProcess::ExitStatus status) {
 			
-			process->deleteLater(); // °²È«ÊÍ·ÅÄÚ´æ
-			PROJECT_LOG_INFO(m_imagePS->CurrentConfig, QString::fromLocal8Bit("Ä£ĞÍ´´½¨½çÃæ Ä£ĞÍÅä¶ÔÈÎÎñÖ´ĞĞ½áÊø!"));
+			process->deleteLater(); // å®‰å…¨é‡Šæ”¾å†…å­˜
+			PROJECT_LOG_INFO(m_imagePS->CurrentConfig, QString::fromLocal8Bit("æ¨¡å‹åˆ›å»ºç•Œé¢ æ¨¡å‹é…å¯¹ä»»åŠ¡æ‰§è¡Œç»“æŸ!"));
 			//QDateTime timestamp = PublicFunctions::readTimestampFromXml("DataModelmarker");
 			//if (!timestamp.isValid()) {
 			//	DataModeMutex.unlock();
@@ -350,8 +350,8 @@ void DataModelConfig::BuildmodelSlot()
 			}
 			if (SatModelMakerCmdoutPath == "")
 			{
-				QMessageBox::warning(this, u8"¾¯¸æ", QString::fromLocal8Bit("´ò¿ªSatModelMakerCmdout.xmlÎÄ¼şÊ§°Ü£¡"));
-				PROJECT_LOG_ERROR(m_imagePS->CurrentConfig, QString::fromLocal8Bit("Ä£ĞÍ´´½¨½çÃæ Ã»ÓĞ¶ÁÈ¡µ½SatModelMakerCmdout.xmlÎÄ¼ş"));
+				QMessageBox::warning(this, u8"è­¦å‘Š", QString::fromLocal8Bit("æ‰“å¼€SatModelMakerCmdout.xmlæ–‡ä»¶å¤±è´¥ï¼"));
+				PROJECT_LOG_ERROR(m_imagePS->CurrentConfig, QString::fromLocal8Bit("æ¨¡å‹åˆ›å»ºç•Œé¢ æ²¡æœ‰è¯»å–åˆ°SatModelMakerCmdout.xmlæ–‡ä»¶"));
 				DataModeMutex.unlock();
 				return;
 			}*/
@@ -359,15 +359,15 @@ void DataModelConfig::BuildmodelSlot()
 			DataModelBool = true;
 			QFile file(SatModelMakerCmdoutPath);
 			if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-				PROJECT_LOG_ERROR(m_imagePS->CurrentConfig, QString::fromLocal8Bit("´ò¿ªSatModelMakerCmdout.xmlÎÄ¼şÊ§°Ü"));
-				QMessageBox::critical(nullptr, u8"´íÎó", u8"´ò¿ªSatModelMakerCmdout.xmlÎÄ¼şÊ§°Ü " + file.errorString());
+				PROJECT_LOG_ERROR(m_imagePS->CurrentConfig, QString::fromLocal8Bit("æ‰“å¼€SatModelMakerCmdout.xmlæ–‡ä»¶å¤±è´¥"));
+				QMessageBox::critical(nullptr, u8"é”™è¯¯", u8"æ‰“å¼€SatModelMakerCmdout.xmlæ–‡ä»¶å¤±è´¥ " + file.errorString());
 				DataModeMutex.unlock();
 				DataModelBool = false;
 				return;
 			}
 
 			QXmlStreamReader xml(&file);
-			QRegularExpression modelRegex("^Model_\\d+$"); // Æ¥Åä Model_0, Model_1, ..., Model_N
+			QRegularExpression modelRegex("^Model_\\d+$"); // åŒ¹é… Model_0, Model_1, ..., Model_N
 
 			while (!xml.atEnd() && !xml.hasError()) {
 				QXmlStreamReader::TokenType token = xml.readNext();
@@ -375,11 +375,11 @@ void DataModelConfig::BuildmodelSlot()
 				if (token == QXmlStreamReader::StartElement) {
 					QString elementName = xml.name().toString();
 
-					// ¼ì²éÊÇ·ñÊÇ Model_X ½Úµã
+					// æ£€æŸ¥æ˜¯å¦æ˜¯ Model_X èŠ‚ç‚¹
 					if (modelRegex.match(elementName).hasMatch()) {
 						QMap<QString, QString> modelData;
 
-						// ½âÎöµ±Ç° Model_X µÄËùÓĞ×Ó½Úµã
+						// è§£æå½“å‰ Model_X çš„æ‰€æœ‰å­èŠ‚ç‚¹
 						while (!(xml.tokenType() == QXmlStreamReader::EndElement &&
 							xml.name() == elementName)) {
 							if (xml.tokenType() == QXmlStreamReader::StartElement) {
@@ -392,11 +392,11 @@ void DataModelConfig::BuildmodelSlot()
 							xml.readNext();
 						}
 
-						// ²åÈëĞÂĞĞ
+						// æ’å…¥æ–°è¡Œ
 						int newRowIndex = ui.tableWidget_2->rowCount();
 						ui.tableWidget_2->insertRow(newRowIndex);
 
-						// È·±£ËùÓĞµ¥Ôª¸ñ¶¼ÓĞ QTableWidgetItem
+						// ç¡®ä¿æ‰€æœ‰å•å…ƒæ ¼éƒ½æœ‰ QTableWidgetItem
 						for (int col = 0; col < ui.tableWidget_2->columnCount(); col++)
 						{
 							if (!ui.tableWidget_2->item(newRowIndex, col))
@@ -406,7 +406,7 @@ void DataModelConfig::BuildmodelSlot()
 								ui.tableWidget_2->setItem(newRowIndex, col, item);
 							}
 						}
-						// ÉèÖÃ»ù×¼Ó°ÏñºÍ¶à¹âÆ×Ó°ÏñÎÄ¼şÃû 
+						// è®¾ç½®åŸºå‡†å½±åƒå’Œå¤šå…‰è°±å½±åƒæ–‡ä»¶å 
 						QFileInfo fileInfoNadImageName(modelData[QString::fromLocal8Bit("NadImageName")]);
 						QString nadBaseName = fileInfoNadImageName.completeBaseName();
 						QFileInfo fileInfoMulImageName(modelData[QString::fromLocal8Bit("MulImageName")]);
@@ -416,7 +416,7 @@ void DataModelConfig::BuildmodelSlot()
 						QFileInfo fileInfobwdImageName(modelData[QString::fromLocal8Bit("BwdImageName")]);
 						QString bwdBaseName = fileInfobwdImageName.completeBaseName();
 
-						// ¼ì²éµÚ2ÁĞºÍµÚ6ÁĞÊÇ·ñÓĞÖØ¸´ 
+						// æ£€æŸ¥ç¬¬2åˆ—å’Œç¬¬6åˆ—æ˜¯å¦æœ‰é‡å¤ 
 						bool isDuplicate = false;
 						for (int row = 0; row < ui.tableWidget_2->rowCount(); ++row) {
 							QString existingNad = ui.tableWidget_2->item(row, 2) ? ui.tableWidget_2->item(row, 2)->text() : "";
@@ -430,23 +430,23 @@ void DataModelConfig::BuildmodelSlot()
 							}
 						}
 
-						// Ö»ÓĞ²»ÖØ¸´Ê±²ÅÌí¼ÓÊı¾İ 
+						// åªæœ‰ä¸é‡å¤æ—¶æ‰æ·»åŠ æ•°æ® 
 						if (!isDuplicate) {
-							// ÉèÖÃĞòºÅ£¨µ±Ç°ĞĞºÅ + 1£©
+							// è®¾ç½®åºå·ï¼ˆå½“å‰è¡Œå· + 1ï¼‰
 							ui.tableWidget_2->item(newRowIndex, 0)->setText(QString::number(newRowIndex + 1));
 
-							// ÉèÖÃÄ£ĞÍºÅ 
+							// è®¾ç½®æ¨¡å‹å· 
 							ui.tableWidget_2->item(newRowIndex, 1)->setText(modelData[QString::fromLocal8Bit("ModelID")]);
 
-							ui.tableWidget_2->item(newRowIndex, 3)->setText(QString::fromLocal8Bit("·ñ"));
+							ui.tableWidget_2->item(newRowIndex, 3)->setText(QString::fromLocal8Bit("å¦"));
 
-							// ÉèÖÃ»ù×¼Ó°ÏñºÍ¶à¹âÆ×Ó°ÏñÎÄ¼şÃû 
+							// è®¾ç½®åŸºå‡†å½±åƒå’Œå¤šå…‰è°±å½±åƒæ–‡ä»¶å 
 							ui.tableWidget_2->item(newRowIndex, 2)->setText(nadBaseName);
 							ui.tableWidget_2->item(newRowIndex, 6)->setText(mulBaseName);
 							ui.tableWidget_2->item(newRowIndex, 4)->setText(fwdBaseName);
 							ui.tableWidget_2->item(newRowIndex, 5)->setText(bwdBaseName);
 
-							// ²éÕÒÎÄ¼ş 
+							// æŸ¥æ‰¾æ–‡ä»¶ 
 							auto itnad = DataModelfilenames.find(modelData[QString::fromLocal8Bit("NadImageName")]);
 							if (itnad != DataModelfilenames.end()) {
 								itnad.value() = false;
@@ -467,7 +467,7 @@ void DataModelConfig::BuildmodelSlot()
 								itbwd.value() = false;
 							}
 
-							// ²éÕÒËùÓĞÆ¥ÅäµÄÏî²¢É¾³ı¶ÔÓ¦ĞĞ 
+							// æŸ¥æ‰¾æ‰€æœ‰åŒ¹é…çš„é¡¹å¹¶åˆ é™¤å¯¹åº”è¡Œ 
 							QList<QTableWidgetItem*> itemsNad = ui.tableWidget->findItems(nadBaseName, Qt::MatchExactly);
 							foreach(QTableWidgetItem* item, itemsNad) {
 								if (item->column() == 1) {
@@ -497,7 +497,7 @@ void DataModelConfig::BuildmodelSlot()
 							}
 						}
 						else {
-							// Èç¹ûÊÇÖØ¸´Êı¾İ£¬ÒÆ³ı¸ÕÌí¼ÓµÄĞĞ 
+							// å¦‚æœæ˜¯é‡å¤æ•°æ®ï¼Œç§»é™¤åˆšæ·»åŠ çš„è¡Œ 
 							ui.tableWidget_2->removeRow(newRowIndex);
 						}
 						ui.tableWidget_2->resizeColumnsToContents();
@@ -506,8 +506,8 @@ void DataModelConfig::BuildmodelSlot()
 			}
 
 			if (xml.hasError()) {
-				PROJECT_LOG_ERROR(m_imagePS->CurrentConfig, QString::fromLocal8Bit("SatModelMakerCmdout.xmlÎÄ¼ş¸ñÊ½ÓĞÎó!"));
-				QMessageBox::critical(nullptr, u8"SatModelMakerCmdout.xmlÎÄ¼ş¸ñÊ½ÓĞÎó!", xml.errorString());
+				PROJECT_LOG_ERROR(m_imagePS->CurrentConfig, QString::fromLocal8Bit("SatModelMakerCmdout.xmlæ–‡ä»¶æ ¼å¼æœ‰è¯¯!"));
+				QMessageBox::critical(nullptr, u8"SatModelMakerCmdout.xmlæ–‡ä»¶æ ¼å¼æœ‰è¯¯!", xml.errorString());
 			}
 
 			file.close();
@@ -521,7 +521,7 @@ void DataModelConfig::deletemodelSlot()
 {
 	QList<QTableWidgetItem*> selectedItems = ui.tableWidget_2->selectedItems();
 	if (selectedItems.isEmpty()) {
-		QMessageBox::warning(this, u8"¾¯¸æ", QString::fromLocal8Bit("Î´Ñ¡ÖĞÒªÉ¾³ıµÄÄ£ĞÍ!"));
+		QMessageBox::warning(this, u8"è­¦å‘Š", QString::fromLocal8Bit("æœªé€‰ä¸­è¦åˆ é™¤çš„æ¨¡å‹!"));
 		return;
 	}
 	QSet<int> rowsToProcess;
@@ -533,11 +533,11 @@ void DataModelConfig::deletemodelSlot()
 	for (int row : rows) {
 		QTableWidgetItem* thirdColumnItem = ui.tableWidget_2->item(row, 3);
 		if (!thirdColumnItem) {
-			continue; // Ìø¹ı¿Õµ¥Ôª¸ñ
+			continue; // è·³è¿‡ç©ºå•å…ƒæ ¼
 		}
 		DataModelBool = false;
 		QString value = thirdColumnItem->text().trimmed();
-		if (value == QString::fromLocal8Bit("·ñ")) {
+		if (value == QString::fromLocal8Bit("å¦")) {
 			for (auto data = DataModelfilenames.begin(); data != DataModelfilenames.end(); ++data)
 			{
 				QString tmpnad = ui.tableWidget_2->item(row, 2)->text().trimmed();
@@ -564,11 +564,11 @@ void DataModelConfig::deletemodelSlot()
 						state = true;
 						continue;
 					}
-					// ²åÈëĞÂĞĞ
+					// æ’å…¥æ–°è¡Œ
 					int newRowIndex = ui.tableWidget->rowCount();
 					ui.tableWidget->insertRow(newRowIndex);
 
-					// È·±£ËùÓĞµ¥Ôª¸ñ¶¼ÓĞ QTableWidgetItem
+					// ç¡®ä¿æ‰€æœ‰å•å…ƒæ ¼éƒ½æœ‰ QTableWidgetItem
 					for (int col = 0; col < ui.tableWidget->columnCount(); col++)
 					{
 						if (!ui.tableWidget->item(newRowIndex, col))
@@ -578,10 +578,10 @@ void DataModelConfig::deletemodelSlot()
 							ui.tableWidget->setItem(newRowIndex, col, item);
 						}
 					}
-					// ÉèÖÃĞòºÅ£¨µ±Ç°ĞĞºÅ + 1£©
+					// è®¾ç½®åºå·ï¼ˆå½“å‰è¡Œå· + 1ï¼‰
 					ui.tableWidget->item(newRowIndex, 0)->setText(QString::number(newRowIndex + 1));
 
-					// ÉèÖÃÎÄ¼şÃû£¨È¥µôÀ©Õ¹Ãû£©
+					// è®¾ç½®æ–‡ä»¶åï¼ˆå»æ‰æ‰©å±•åï¼‰
 					ui.tableWidget->item(newRowIndex, 1)->setText(fileInfo.completeBaseName());
 
 					data.value() = true;
@@ -592,8 +592,8 @@ void DataModelConfig::deletemodelSlot()
 			ui.tableWidget_2->removeRow(row);
 		}
 		else {
-			/*QString message = QString::fromLocal8Bit("µ±Ç°Ñ¡ÔñÄ£ĞÍ´æÔÚÒÑÆ¥Åä³É¹ûÊı¾İ£¬ÊÇ·ñÒÀÈ»É¾³ı£¿").arg(row + 1);
-			if (QMessageBox::question(this, QString::fromLocal8Bit("É¾³ıÄ£ĞÍ"), message,
+			/*QString message = QString::fromLocal8Bit("å½“å‰é€‰æ‹©æ¨¡å‹å­˜åœ¨å·²åŒ¹é…æˆæœæ•°æ®ï¼Œæ˜¯å¦ä¾ç„¶åˆ é™¤ï¼Ÿ").arg(row + 1);
+			if (QMessageBox::question(this, QString::fromLocal8Bit("åˆ é™¤æ¨¡å‹"), message,
 				QMessageBox::Yes | QMessageBox::No) == QMessageBox::Yes) {*/
 				for (auto data = DataModelfilenames.begin(); data != DataModelfilenames.end(); ++data)
 				{
@@ -621,11 +621,11 @@ void DataModelConfig::deletemodelSlot()
 							state = true;
 							continue;
 						}
-						// ²åÈëĞÂĞĞ
+						// æ’å…¥æ–°è¡Œ
 						int newRowIndex = ui.tableWidget->rowCount();
 						ui.tableWidget->insertRow(newRowIndex);
 
-						// È·±£ËùÓĞµ¥Ôª¸ñ¶¼ÓĞ QTableWidgetItem
+						// ç¡®ä¿æ‰€æœ‰å•å…ƒæ ¼éƒ½æœ‰ QTableWidgetItem
 						for (int col = 0; col < ui.tableWidget->columnCount(); col++)
 						{
 							if (!ui.tableWidget->item(newRowIndex, col))
@@ -635,10 +635,10 @@ void DataModelConfig::deletemodelSlot()
 								ui.tableWidget->setItem(newRowIndex, col, item);
 							}
 						}
-						// ÉèÖÃĞòºÅ£¨µ±Ç°ĞĞºÅ + 1£©
+						// è®¾ç½®åºå·ï¼ˆå½“å‰è¡Œå· + 1ï¼‰
 						ui.tableWidget->item(newRowIndex, 0)->setText(QString::number(newRowIndex + 1));
 
-						// ÉèÖÃÎÄ¼şÃû£¨È¥µôÀ©Õ¹Ãû£©
+						// è®¾ç½®æ–‡ä»¶åï¼ˆå»æ‰æ‰©å±•åï¼‰
 						ui.tableWidget->item(newRowIndex, 1)->setText(fileInfo.completeBaseName());
 
 						data.value() = true;
@@ -652,14 +652,14 @@ void DataModelConfig::deletemodelSlot()
 	}
 
 	for (int i = 0; i < ui.tableWidget_2->rowCount(); ++i) {
-		// È·±£µÚÒ»ÁĞ´æÔÚ QTableWidgetItem
+		// ç¡®ä¿ç¬¬ä¸€åˆ—å­˜åœ¨ QTableWidgetItem
 		QTableWidgetItem* item = ui.tableWidget_2->item(i, 0);
 		if (!item) {
 			item = new QTableWidgetItem();
 			item->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
 			ui.tableWidget_2->setItem(i, 0, item);
 		}
-		// ÉèÖÃĞòºÅÎªµ±Ç°ĞĞºÅ + 1
+		// è®¾ç½®åºå·ä¸ºå½“å‰è¡Œå· + 1
 		item->setText(QString::number(i + 1));
 	}
 }
@@ -670,17 +670,17 @@ void DataModelConfig::okmodelSlot()
 }
 
 /**
- * @brief ½«SatModelMakerCmdout.xml ÖĞµÄSatImageModels±êÇ©ÄÚÈİ¸´ÖÆµ½TPMatchModelsÖĞ
- *        ²¢Ìí¼ÓMatched¡¢MulMatchedºÍJoinMatch±êÇ©
- * @return bool ³É¹¦·µ»Øtrue£¬Ê§°Ü·µ»Øfalse
+ * @brief å°†SatModelMakerCmdout.xml ä¸­çš„SatImageModelsæ ‡ç­¾å†…å®¹å¤åˆ¶åˆ°TPMatchModelsä¸­
+ *        å¹¶æ·»åŠ Matchedã€MulMatchedå’ŒJoinMatchæ ‡ç­¾
+ * @return bool æˆåŠŸè¿”å›trueï¼Œå¤±è´¥è¿”å›false
  */
 bool DataModelConfig::writeMatchModelFromSatModelMakerCmdout()
 {
 	setProjectdir();
-	// 1. ¶ÁÈ¡SatModelMakerCmdout.xml  ÎÄ¼ş 
+	// 1. è¯»å–SatModelMakerCmdout.xml  æ–‡ä»¶ 
 	QFile satFile(projectdir + QString::fromLocal8Bit("SatTiePointMatch") + "/" + "SatModelMakerCmdout.xml");
 	if (!satFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
-		PROJECT_LOG_ERROR(m_imagePS->CurrentConfig, QString::fromLocal8Bit("´ò¿ªSatModelMakerCmdout.xmlÎÄ¼şÊ§°Ü"));
+		PROJECT_LOG_ERROR(m_imagePS->CurrentConfig, QString::fromLocal8Bit("æ‰“å¼€SatModelMakerCmdout.xmlæ–‡ä»¶å¤±è´¥"));
 
 		//qDebug() << "Failed to open SatModelMakerCmdout.xml";
 		return false;
@@ -689,18 +689,18 @@ bool DataModelConfig::writeMatchModelFromSatModelMakerCmdout()
 	QDomDocument satDoc;
 	if (!satDoc.setContent(&satFile)) {
 		satFile.close();
-		PROJECT_LOG_ERROR(m_imagePS->CurrentConfig, QString::fromLocal8Bit("½âÎöSatModelMakerCmdout.xmlÎÄ¼şÊ§°Ü"));
+		PROJECT_LOG_ERROR(m_imagePS->CurrentConfig, QString::fromLocal8Bit("è§£æSatModelMakerCmdout.xmlæ–‡ä»¶å¤±è´¥"));
 
 		//qDebug() << "Failed to parse SatModelMakerCmdout.xml";
 		return false;
 	}
 	satFile.close();
 
-	// 2. ´´½¨ĞÂµÄMatchModel.xml  ÎÄ¼ş½á¹¹ 
+	// 2. åˆ›å»ºæ–°çš„MatchModel.xml  æ–‡ä»¶ç»“æ„ 
 	QDomDocument matchDoc;
 	QFile matchFile(projectdir + "MatchModel.xml");
 
-	// ´´½¨»ù±¾½á¹¹ 
+	// åˆ›å»ºåŸºæœ¬ç»“æ„ 
 	QDomProcessingInstruction instruction = matchDoc.createProcessingInstruction(
 		"xml", "version=\"1.0\" encoding=\"UTF-8\"");
 	matchDoc.appendChild(instruction);
@@ -708,10 +708,10 @@ bool DataModelConfig::writeMatchModelFromSatModelMakerCmdout()
 	QDomElement root = matchDoc.createElement("TPMatchModels");
 	matchDoc.appendChild(root);
 
-	// 3. »ñÈ¡SatImageModels½Úµã 
+	// 3. è·å–SatImageModelsèŠ‚ç‚¹ 
 	QDomElement satRoot = satDoc.documentElement();
 
-	// 3.1 ¸´ÖÆModelNum 
+	// 3.1 å¤åˆ¶ModelNum 
 	QDomElement satModelNum = satRoot.firstChildElement("ModelNum");
 	if (!satModelNum.isNull()) {
 		QDomElement modelNum = matchDoc.createElement("ModelNum");
@@ -720,7 +720,7 @@ bool DataModelConfig::writeMatchModelFromSatModelMakerCmdout()
 		root.appendChild(modelNum);
 	}
 	else {
-		// Èç¹ûÔ´ÎÄ¼şÖĞÃ»ÓĞModelNum£¬´´½¨Ä¬ÈÏÖµ 
+		// å¦‚æœæºæ–‡ä»¶ä¸­æ²¡æœ‰ModelNumï¼Œåˆ›å»ºé»˜è®¤å€¼ 
 		QDomElement modelNum = matchDoc.createElement("ModelNum");
 		modelNum.setAttribute("type", "int32");
 		modelNum.appendChild(matchDoc.createTextNode("0"));
@@ -733,11 +733,11 @@ bool DataModelConfig::writeMatchModelFromSatModelMakerCmdout()
 		return false;
 	}
 
-	// 4. ´´½¨Models½Úµã 
+	// 4. åˆ›å»ºModelsèŠ‚ç‚¹ 
 	QDomElement matchModels = matchDoc.createElement("Models");
 	root.appendChild(matchModels);
 
-	// 5. ¸´ÖÆËùÓĞModel½Úµã²¢Ìí¼ÓĞÂ±êÇ© 
+	// 5. å¤åˆ¶æ‰€æœ‰ModelèŠ‚ç‚¹å¹¶æ·»åŠ æ–°æ ‡ç­¾ 
 	QDomNodeList modelList = satModels.childNodes();
 	int modelCount = 0;
 
@@ -747,48 +747,48 @@ bool DataModelConfig::writeMatchModelFromSatModelMakerCmdout()
 
 		QDomElement model = node.toElement();
 		if (model.tagName().startsWith("Model_")) {
-			// ´´½¨ĞÂµÄModel½Úµã 
+			// åˆ›å»ºæ–°çš„ModelèŠ‚ç‚¹ 
 			QString modelName = QString("Model_%1").arg(modelCount);
 			QDomElement newModel = matchDoc.createElement(modelName);
 
-			// ¸´ÖÆÔ­ÓĞÊôĞÔ 
+			// å¤åˆ¶åŸæœ‰å±æ€§ 
 			QDomNamedNodeMap attributes = model.attributes();
 			for (int j = 0; j < attributes.size(); ++j) {
 				QDomAttr attr = attributes.item(j).toAttr();
 				newModel.setAttribute(attr.name(), attr.value());
 			}
 
-			// ¸´ÖÆÔ­ÓĞ×Ó½Úµã 
+			// å¤åˆ¶åŸæœ‰å­èŠ‚ç‚¹ 
 			QDomNodeList childNodes = model.childNodes();
 			for (int j = 0; j < childNodes.size(); ++j) {
 				QDomNode childNode = childNodes.at(j);
 				if (childNode.isElement()) {
 					QDomElement childElement = childNode.toElement();
-					// Ìø¹ı²»ĞèÒª¸´ÖÆµÄ½Úµã£¨Èç¹ûÓĞ£©
+					// è·³è¿‡ä¸éœ€è¦å¤åˆ¶çš„èŠ‚ç‚¹ï¼ˆå¦‚æœæœ‰ï¼‰
 					newModel.appendChild(childNode.cloneNode(true));
 				}
 			}
 
-			// Ìí¼ÓMatched±êÇ©£¨´Ó±í¸ñµÚ4ÁĞ»ñÈ¡£©
+			// æ·»åŠ Matchedæ ‡ç­¾ï¼ˆä»è¡¨æ ¼ç¬¬4åˆ—è·å–ï¼‰
 			QDomElement matched = matchDoc.createElement("Matched");
 			matched.setAttribute("type", "bool");
 			bool isMatched = false;
 			if (ui.tableWidget_2  && modelCount < ui.tableWidget_2->rowCount()) {
-				QTableWidgetItem* item = ui.tableWidget_2->item(modelCount, 3); // µÚ4ÁĞ 
+				QTableWidgetItem* item = ui.tableWidget_2->item(modelCount, 3); // ç¬¬4åˆ— 
 				if (item) {
-					isMatched = (item->text() == QString::fromLocal8Bit("ÊÇ"));
+					isMatched = (item->text() == QString::fromLocal8Bit("æ˜¯"));
 				}
 			}
 			matched.appendChild(matchDoc.createTextNode(isMatched ? "true" : "false"));
 			newModel.appendChild(matched);
 
-			// Ìí¼ÓMulMatched±êÇ©£¨Ä¬ÈÏfalse£©
+			// æ·»åŠ MulMatchedæ ‡ç­¾ï¼ˆé»˜è®¤falseï¼‰
 			QDomElement mulMatched = matchDoc.createElement("MulMatched");
 			mulMatched.setAttribute("type", "bool");
 			mulMatched.appendChild(matchDoc.createTextNode("false"));
 			newModel.appendChild(mulMatched);
 
-			// Ìí¼ÓJoinMatch±êÇ©£¨Ä¬ÈÏtrue£©
+			// æ·»åŠ JoinMatchæ ‡ç­¾ï¼ˆé»˜è®¤trueï¼‰
 			QDomElement joinMatch = matchDoc.createElement("JoinMatch");
 			joinMatch.setAttribute("type", "bool");
 			joinMatch.appendChild(matchDoc.createTextNode("true"));
@@ -799,7 +799,7 @@ bool DataModelConfig::writeMatchModelFromSatModelMakerCmdout()
 		}
 	}
 
-	// 6. ¸üĞÂModelNumÎªÊµ¼Ê¸´ÖÆµÄÄ£ĞÍÊıÁ¿ 
+	// 6. æ›´æ–°ModelNumä¸ºå®é™…å¤åˆ¶çš„æ¨¡å‹æ•°é‡ 
 	QDomElement modelNumToUpdate = root.firstChildElement("ModelNum");
 	if (!modelNumToUpdate.isNull()) {
 		QDomText numText = matchDoc.createTextNode(QString::number(modelCount));
@@ -811,9 +811,9 @@ bool DataModelConfig::writeMatchModelFromSatModelMakerCmdout()
 		}
 	}
 
-	// 7. ±£´æMatchModel.xml  ÎÄ¼ş 
+	// 7. ä¿å­˜MatchModel.xml  æ–‡ä»¶ 
 	if (!matchFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
-		PROJECT_LOG_ERROR(m_imagePS->CurrentConfig, QString::fromLocal8Bit("±£´æMatchModel.xmlÎÄ¼şÊ§°Ü!"));
+		PROJECT_LOG_ERROR(m_imagePS->CurrentConfig, QString::fromLocal8Bit("ä¿å­˜MatchModel.xmlæ–‡ä»¶å¤±è´¥!"));
 
 		//qDebug() << "Failed to open MatchModel.xml  for writing";
 		return false;
@@ -821,29 +821,29 @@ bool DataModelConfig::writeMatchModelFromSatModelMakerCmdout()
 
 	QTextStream out(&matchFile);
 	out.setCodec("UTF-8");
-	matchDoc.save(out, 4); // Ëõ½ø4¸ö¿Õ¸ñ 
+	matchDoc.save(out, 4); // ç¼©è¿›4ä¸ªç©ºæ ¼ 
 	matchFile.close();
 
 	return true;
 }
 /**
- * @brief ½«MatchModel.xml ÖĞÊı¾İ¶ÁÈ¡²¢ÏÔÊ¾µ½tableWidget_2±íÖĞ
- * @return bool ³É¹¦·µ»Øtrue£¬Ê§°Ü·µ»Øfalse
+ * @brief å°†MatchModel.xml ä¸­æ•°æ®è¯»å–å¹¶æ˜¾ç¤ºåˆ°tableWidget_2è¡¨ä¸­
+ * @return bool æˆåŠŸè¿”å›trueï¼Œå¤±è´¥è¿”å›false
  */
 bool DataModelConfig::loadMatchModelToTable()
 {
 	if (!ui.tableWidget_2) {
-		PROJECT_LOG_ERROR(m_imagePS->CurrentConfig, QString::fromLocal8Bit("´«ÈëÎŞĞ§µÄui.tableWidget_2±í¸ñÖ¸Õë"));
+		PROJECT_LOG_ERROR(m_imagePS->CurrentConfig, QString::fromLocal8Bit("ä¼ å…¥æ— æ•ˆçš„ui.tableWidget_2è¡¨æ ¼æŒ‡é’ˆ"));
 
 		//qDebug() << "Invalid table widget";
 		return false;
 	}
 	setProjectdir();
 
-	// 1. ¶ÁÈ¡MatchModel.xml ÎÄ¼ş 
+	// 1. è¯»å–MatchModel.xml æ–‡ä»¶ 
 	QFile matchFile(projectdir + "MatchModel.xml");
 	if (!matchFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
-		PROJECT_LOG_ERROR(m_imagePS->CurrentConfig, QString::fromLocal8Bit("´ò¿ªMatchModel.xmlÎÄ¼şÊ§°Ü"));
+		PROJECT_LOG_ERROR(m_imagePS->CurrentConfig, QString::fromLocal8Bit("æ‰“å¼€MatchModel.xmlæ–‡ä»¶å¤±è´¥"));
 
 		//qDebug() << "Failed to open MatchModel.xml";
 		return false;
@@ -852,28 +852,28 @@ bool DataModelConfig::loadMatchModelToTable()
 	QDomDocument matchDoc;
 	if (!matchDoc.setContent(&matchFile)) {
 		matchFile.close();
-		PROJECT_LOG_ERROR(m_imagePS->CurrentConfig, QString::fromLocal8Bit("½âÎöMatchModel.xmlÎÄ¼şÊ§°Ü"));
+		PROJECT_LOG_ERROR(m_imagePS->CurrentConfig, QString::fromLocal8Bit("è§£æMatchModel.xmlæ–‡ä»¶å¤±è´¥"));
 
 		//qDebug() << "Failed to parse MatchModel.xml";
 		return false;
 	}
 	matchFile.close();
 
-	// 2. Çå¿Õ±í¸ñÄÚÈİ£¨±£³ÖÁĞÃû²»±ä£©
+	// 2. æ¸…ç©ºè¡¨æ ¼å†…å®¹ï¼ˆä¿æŒåˆ—åä¸å˜ï¼‰
 	ui.tableWidget_2->clearContents();
 	ui.tableWidget_2->setRowCount(0);
 
-	// 3. »ñÈ¡Models½Úµã 
+	// 3. è·å–ModelsèŠ‚ç‚¹ 
 	QDomElement root = matchDoc.documentElement();
 	QDomElement models = root.firstChildElement("Models");
 	if (models.isNull()) {
-		PROJECT_LOG_ERROR(m_imagePS->CurrentConfig, QString::fromLocal8Bit("MatchModel.xmlÎÄ¼şÖĞÃ»ÓĞÄ£ĞÍÊı¾İ"));
+		PROJECT_LOG_ERROR(m_imagePS->CurrentConfig, QString::fromLocal8Bit("MatchModel.xmlæ–‡ä»¶ä¸­æ²¡æœ‰æ¨¡å‹æ•°æ®"));
 
 		//qDebug() << "No Models element in MatchModel.xml";
-		return true; // Ã»ÓĞÊı¾İ²»Ëã´íÎó 
+		return true; // æ²¡æœ‰æ•°æ®ä¸ç®—é”™è¯¯ 
 	}
 
-	// 4. ±éÀúËùÓĞModel½Úµã 
+	// 4. éå†æ‰€æœ‰ModelèŠ‚ç‚¹ 
 	QDomNodeList modelList = models.childNodes();
 	for (int i = 0; i < modelList.size(); ++i) {
 		QDomNode node = modelList.at(i);
@@ -883,23 +883,23 @@ bool DataModelConfig::loadMatchModelToTable()
 
 		QDomElement model = node.toElement();
 
-		// Ìí¼ÓĞÂĞĞ 
+		// æ·»åŠ æ–°è¡Œ 
 		int row = ui.tableWidget_2->rowCount();
 		ui.tableWidget_2->insertRow(row);
 
-		// µÚ1ÁĞ£ºĞòºÅ£¨ĞĞºÅ£©
+		// ç¬¬1åˆ—ï¼šåºå·ï¼ˆè¡Œå·ï¼‰
 		QTableWidgetItem* indexItem = new QTableWidgetItem(QString::number(row + 1));
 		indexItem->setTextAlignment(Qt::AlignCenter);
 		ui.tableWidget_2->setItem(row, 0, indexItem);
 
-		// µÚ2ÁĞ£ºÄ£ĞÍºÅ£¨ModelID£©
+		// ç¬¬2åˆ—ï¼šæ¨¡å‹å·ï¼ˆModelIDï¼‰
 		QDomElement modelId = model.firstChildElement("ModelID");
 		QString modelIdText = modelId.isNull() ? "" : modelId.text();
 		QTableWidgetItem* modelIdItem = new QTableWidgetItem(modelIdText);
 		modelIdItem->setTextAlignment(Qt::AlignCenter);
 		ui.tableWidget_2->setItem(row, 1, modelIdItem);
 
-		// µÚ3ÁĞ£º»ù×¼£¨NadImageNameµÄÎÄ¼şÃû²¿·Ö£©
+		// ç¬¬3åˆ—ï¼šåŸºå‡†ï¼ˆNadImageNameçš„æ–‡ä»¶åéƒ¨åˆ†ï¼‰
 		QDomElement nadImageName = model.firstChildElement("NadImageName");
 		QString nadFileName = "";
 		if (!nadImageName.isNull()) {
@@ -910,16 +910,16 @@ bool DataModelConfig::loadMatchModelToTable()
 		nadItem->setTextAlignment(Qt::AlignCenter);
 		ui.tableWidget_2->setItem(row, 2, nadItem);
 
-		// µÚ4ÁĞ£ºMatchedµÄÖµ£¨true->ÊÇ£¬false->·ñ£©
+		// ç¬¬4åˆ—ï¼šMatchedçš„å€¼ï¼ˆtrue->æ˜¯ï¼Œfalse->å¦ï¼‰
 		QDomElement matched = model.firstChildElement("Matched");
 		QString matchedText = matched.isNull() ? "false" : matched.text();
 		QString matchedDisplay = (matchedText.compare("true", Qt::CaseInsensitive) == 0) ?
-			QString::fromLocal8Bit("ÊÇ") : QString::fromLocal8Bit("·ñ");
+			QString::fromLocal8Bit("æ˜¯") : QString::fromLocal8Bit("å¦");
 		QTableWidgetItem* matchedItem = new QTableWidgetItem(matchedDisplay);
 		matchedItem->setTextAlignment(Qt::AlignCenter);
 		ui.tableWidget_2->setItem(row, 3, matchedItem);
 
-		// µÚ5ÁĞ£º»ù×¼£¨FwdImageNameµÄÎÄ¼şÃû²¿·Ö£©
+		// ç¬¬5åˆ—ï¼šåŸºå‡†ï¼ˆFwdImageNameçš„æ–‡ä»¶åéƒ¨åˆ†ï¼‰
 		QDomElement fwdImageName = model.firstChildElement("FwdImageName");
 		QString fwdFileName = "";
 		if (!fwdImageName.isNull()) {
@@ -930,7 +930,7 @@ bool DataModelConfig::loadMatchModelToTable()
 		fwdItem->setTextAlignment(Qt::AlignCenter);
 		ui.tableWidget_2->setItem(row, 4, fwdItem);
 
-		// µÚ6ÁĞ£º»ù×¼£¨BwdImageNameµÄÎÄ¼şÃû²¿·Ö£©
+		// ç¬¬6åˆ—ï¼šåŸºå‡†ï¼ˆBwdImageNameçš„æ–‡ä»¶åéƒ¨åˆ†ï¼‰
 		QDomElement bwdImageName = model.firstChildElement("BwdImageName");
 		QString bwdFileName = "";
 		if (!bwdImageName.isNull()) {
@@ -941,7 +941,7 @@ bool DataModelConfig::loadMatchModelToTable()
 		bwdItem->setTextAlignment(Qt::AlignCenter);
 		ui.tableWidget_2->setItem(row, 5, bwdItem);
 
-		// µÚ7ÁĞ£ºMulImageNameµÄÎÄ¼şÃû²¿·Ö 
+		// ç¬¬7åˆ—ï¼šMulImageNameçš„æ–‡ä»¶åéƒ¨åˆ† 
 		QDomElement mulImageName = model.firstChildElement("MulImageName");
 		QString mulFileName = "";
 		if (!mulImageName.isNull()) {
@@ -953,16 +953,16 @@ bool DataModelConfig::loadMatchModelToTable()
 		ui.tableWidget_2->setItem(row, 6, mulItem);
 	}
 
-	// ×Ô¶¯µ÷ÕûÁĞ¿í£¨¿ÉÑ¡£©
+	// è‡ªåŠ¨è°ƒæ•´åˆ—å®½ï¼ˆå¯é€‰ï¼‰
 	ui.tableWidget_2->resizeColumnsToContents();
 
 	return true;
 }
 
-// ÊÂ¼ş¹ıÂËÆ÷
+// äº‹ä»¶è¿‡æ»¤å™¨
 bool DataModelConfig::eventFilter(QObject *watched, QEvent *event) {
 
-	// ÎªĞÂ´´½¨µÄ¹ö¶¯Ìõ¶¯Ì¬Ìí¼ÓÖĞÎÄ²Ëµ¥Ö§³Ö 
+	// ä¸ºæ–°åˆ›å»ºçš„æ»šåŠ¨æ¡åŠ¨æ€æ·»åŠ ä¸­æ–‡èœå•æ”¯æŒ 
 	if (event->type() == QEvent::ChildAdded) {
 		QChildEvent* childEvent = static_cast<QChildEvent*>(event);
 		if (QScrollBar* scrollBar = qobject_cast<QScrollBar*>(childEvent->child())) {
@@ -976,7 +976,7 @@ bool DataModelConfig::eventFilter(QObject *watched, QEvent *event) {
 	}
 
 	if (event->type() == QEvent::MouseButtonPress) {
-		// Çå³ıËùÓĞ QTableWidget µÄÑ¡ÖĞ×´Ì¬
+		// æ¸…é™¤æ‰€æœ‰ QTableWidget çš„é€‰ä¸­çŠ¶æ€
 		QList<QTableWidget*> tableWidgets = findChildren<QTableWidget*>();
 		for (QTableWidget* tableWidget : tableWidgets) {
 			tableWidget->clearSelection();

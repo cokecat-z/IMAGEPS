@@ -1,4 +1,4 @@
-#ifndef PUBLICSTRUCT_H
+ï»¿#ifndef PUBLICSTRUCT_H
 #define PUBLICSTRUCT_H
 #include <QString>
 #include <QList>
@@ -11,7 +11,7 @@ struct SatImageData {
 	double imageVY;
 };
 
-// ¼ÓÃÜµãÊı¾İ½á¹¹ 
+// åŠ å¯†ç‚¹æ•°æ®ç»“æ„ 
 struct EncryptedPoint {
 	QString id;
 	int overlap;
@@ -23,7 +23,7 @@ struct EncryptedPoint {
 	QList<SatImageData> satImages;
 };
 
-// ¿ØÖÆµãÊı¾İ½á¹¹
+// æ§åˆ¶ç‚¹æ•°æ®ç»“æ„
 struct ControlPoint {
 	QString id;
 	QString type;

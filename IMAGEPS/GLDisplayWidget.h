@@ -1,4 +1,4 @@
-#ifndef GLDISPLAYWIDGET_H 
+ï»¿#ifndef GLDISPLAYWIDGET_H 
 #define GLDISPLAYWIDGET_H 
 
 #include <QOpenGLWidget>
@@ -36,7 +36,7 @@ protected:
 	void paintGL() override;
 	void resizeGL(int w, int h) override;
 
-	// Êó±ê½»»¥ 
+	// é¼ æ ‡äº¤äº’ 
 	void mousePressEvent(QMouseEvent* event) override;
 	void mouseMoveEvent(QMouseEvent* event) override;
 	void mouseReleaseEvent(QMouseEvent* event) override;
@@ -47,17 +47,17 @@ private:
 	QVector<ImageData> m_images;
 	QString m_currentImagePath;
 
-	// ÊÓÍ¼¿ØÖÆ 
+	// è§†å›¾æ§åˆ¶ 
 	QPointF m_viewCenter;
 	float m_viewScale = 1.0f;
 
-	// ½ğ×ÖËş¹ÜÀí 
+	// é‡‘å­—å¡”ç®¡ç† 
 	QImage readOverview(int overviewLevel, const QRect& region = QRect());
 	void updateTextureForCurrentLevel();
 	int calculateOverviewLevel(float viewScale) const;
 	void clampViewCenter();
 
-	// Êı¾İ´¦Àí 
+	// æ•°æ®å¤„ç† 
 	QImage processMultispectralBlock(GDALDataset* dataset, int overviewLevel,
 		int x, int y, int width, int height);
 	QImage processPanchromaticBlock(GDALRasterBand* band,
@@ -78,7 +78,7 @@ private:
 		const QRect& region);
 	QImage ensureRGBOrder(const QImage& inputImage, GDALDataset* dataset);
 
-	// ½»»¥×´Ì¬ 
+	// äº¤äº’çŠ¶æ€ 
 	QPoint m_lastDragPos;
 	QPointF m_dragStartViewCenter;
 };

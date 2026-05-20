@@ -1,4 +1,4 @@
-#include "SetOrthoInfo.h"
+ï»¿#include "SetOrthoInfo.h"
 #include "IMAGEPS.h"  
 
 SetOrthoInfo::SetOrthoInfo(IMAGEPS* parentImagePS, QWidget* parent)
@@ -10,7 +10,7 @@ SetOrthoInfo::SetOrthoInfo(IMAGEPS* parentImagePS, QWidget* parent)
 	if (!m_imagePS && parent) {
 		m_imagePS = qobject_cast<IMAGEPS*>(parent);
 	}
-	setWindowTitle(QString::fromLocal8Bit("ÉèÖÃ¾ÀÕı³É¹ûÊôĞÔĞÅÏ¢"));
+	setWindowTitle(QString::fromLocal8Bit("è®¾ç½®çº æ­£æˆæœå±æ€§ä¿¡æ¯"));
 	resize(600, 450);
 	initWidget();
 	connects();
@@ -29,9 +29,9 @@ void SetOrthoInfo::setconfigFile() {
 void SetOrthoInfo::initWidget()
 {
 	setWindowFlags(Qt::Dialog | Qt::MSWindowsFixedSizeDialogHint);
-	setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint); // ÒÆ³ı°ïÖú°´Å¥
-	setSizeGripEnabled(false); // ½ûÓÃÓÒÏÂ½ÇµÄ´óĞ¡µ÷ÕûÊÖ±ú£¨Èç¹ûÓĞ£©
-	setFixedSize(size()); // È·±£´°¿Ú´óĞ¡¹Ì¶¨ 
+	setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint); // ç§»é™¤å¸®åŠ©æŒ‰é’®
+	setSizeGripEnabled(false); // ç¦ç”¨å³ä¸‹è§’çš„å¤§å°è°ƒæ•´æ‰‹æŸ„ï¼ˆå¦‚æœæœ‰ï¼‰
+	setFixedSize(size()); // ç¡®ä¿çª—å£å¤§å°å›ºå®š 
 
 	//ui.lineEdit_4->setText("CGCS20000");
 	ui.lineEdit_3->setReadOnly(true);
@@ -57,33 +57,33 @@ void SetOrthoInfo::connects()
 		ui.comboBox_3->setEnabled(isChecked);
 	});
 
-	// ÔÚ¹¹Ôìº¯Êı»ò³õÊ¼»¯º¯ÊıÖĞÌí¼Ó 
+	// åœ¨æ„é€ å‡½æ•°æˆ–åˆå§‹åŒ–å‡½æ•°ä¸­æ·»åŠ  
 	connect(ui.comboBox_3, QOverload<int>::of(&QComboBox::currentIndexChanged), this, [=]() {
 
 		QString currentText = ui.comboBox_3->currentText();
 
 		if (currentText == QString::fromLocal8Bit("UTM") || currentText == QString::fromLocal8Bit("WGS84")) {
-			ui.comboBox->setEnabled(false);   // ½ûÓÃ 
+			ui.comboBox->setEnabled(false);   // ç¦ç”¨ 
 			ui.comboBox->setCurrentIndex(1);
-			ui.comboBox_2->setEnabled(false);   // ½ûÓÃ 
+			ui.comboBox_2->setEnabled(false);   // ç¦ç”¨ 
 		}
 		else {
-			ui.comboBox->setEnabled(true);    // ÆôÓÃ 
-			ui.comboBox_2->setEnabled(true);    // ÆôÓÃ 
+			ui.comboBox->setEnabled(true);    // å¯ç”¨ 
+			ui.comboBox_2->setEnabled(true);    // å¯ç”¨ 
 		}
 	});
 }
 
 void SetOrthoInfo::loadConfig()
 {
-	PublicFunctions::loadFile(QString::fromLocal8Bit("../bin/config/systemConfig/Í¶Ó°ÅäÖÃ¹¦ÄÜÁĞ±í.csv"), ",");
+	PublicFunctions::loadFile(QString::fromLocal8Bit("../bin/config/systemConfig/æŠ•å½±é…ç½®åŠŸèƒ½åˆ—è¡¨.csv"), ",");
 
-	QString filePath = QString::fromLocal8Bit("../bin/config/systemConfig/¹ú¼ÒÍ¶Ó°ĞÅÏ¢.txt");
+	QString filePath = QString::fromLocal8Bit("../bin/config/systemConfig/å›½å®¶æŠ•å½±ä¿¡æ¯.txt");
 	QFile* file = new QFile(filePath);
 
 	if (!file->open(QIODevice::ReadOnly | QIODevice::Text))
 	{
-		QMessageBox::critical(nullptr, u8"´íÎó", filePath + u8" ´ò¿ªÊ§°Ü");
+		QMessageBox::critical(nullptr, u8"é”™è¯¯", filePath + u8" æ‰“å¼€å¤±è´¥");
 		return;
 	}
 
@@ -104,9 +104,9 @@ void SetOrthoInfo::loadConfig()
 			tempLines = lineStr.toInt();
 			for (int i = 0; i < tempLines; i++)
 			{
-				//ÌáÈ¡Í¶Ó°Ãû³ÆÒ»ĞĞÊı¾İ
+				//æå–æŠ•å½±åç§°ä¸€è¡Œæ•°æ®
 				QString projectName = stream->readLine().remove('\n');
-				//ÌáÈ¡ÏêÏ¸ĞÅÏ¢Ò»ĞĞÊı¾İ
+				//æå–è¯¦ç»†ä¿¡æ¯ä¸€è¡Œæ•°æ®
 				lineStr = stream->readLine().remove('\n');
 
 				if (!projectName.isEmpty() && !lineStr.isEmpty())
@@ -115,7 +115,7 @@ void SetOrthoInfo::loadConfig()
 					if (lineStr.left(6) == QString::fromLocal8Bit("PROJCS") || lineStr.left(6) == QString::fromLocal8Bit("GEOGCS"))
 						tempPreData.PROJCS = lineStr;
 
-					// µ¥¶ÀÆ¥Åä DAM[
+					// å•ç‹¬åŒ¹é… DAM[
 					QRegularExpression reDam(R"(DATUM\[\"([^\"]+)\")");
 					QRegularExpressionMatch matchDam = reDam.match(lineStr);
 					if (matchDam.hasMatch())
@@ -123,7 +123,7 @@ void SetOrthoInfo::loadConfig()
 						tempPreData.Datum = matchDam.captured(1);
 					}
 
-					// µ¥¶ÀÆ¥Åä SPID[
+					// å•ç‹¬åŒ¹é… SPID[
 					QRegularExpression reSpid(R"(SPHEROID\[\"([^\"]+)\",\s*([^,]+),\s*([^\]]+))");
 					QRegularExpressionMatch matchSpid = reSpid.match(lineStr);
 					if (matchSpid.hasMatch())
@@ -133,19 +133,19 @@ void SetOrthoInfo::loadConfig()
 						tempPreData.InFlattening = matchSpid.captured(3).trimmed().toDouble();
 					}
 
-					// µ¥¶ÀÆ¥Åä TOWGS84[
+					// å•ç‹¬åŒ¹é… TOWGS84[
 					QRegularExpression reTowgs84(R"(TOWGS84\[([^]]+)\])");
 					QRegularExpressionMatch matchTowgs84 = reTowgs84.match(lineStr);
 					if (matchTowgs84.hasMatch()) {
-						QString towgs84Content = matchTowgs84.captured(1); // »ñÈ¡ TOWGS84[ ºóµÄÄÚÈİ
-						QStringList numbers = towgs84Content.split(",");   // °´¶ººÅ·Ö¸îÊı×Ö
+						QString towgs84Content = matchTowgs84.captured(1); // è·å– TOWGS84[ åçš„å†…å®¹
+						QStringList numbers = towgs84Content.split(",");   // æŒ‰é€—å·åˆ†å‰²æ•°å­—
 
 						for (const QString& number : numbers) {
 							tempPreData.List_TOWGS84.push_back(number.trimmed().toInt());
 						}
 					}
 
-					// µ¥¶ÀÆ¥Åä PRIMEM[
+					// å•ç‹¬åŒ¹é… PRIMEM[
 					QRegularExpression rePrime(R"(PRIMEM\[\"([^\"]+)\",(\d+))");
 					QRegularExpressionMatch matchPrime = rePrime.match(lineStr);
 					if (matchPrime.hasMatch())
@@ -153,7 +153,7 @@ void SetOrthoInfo::loadConfig()
 						tempPreData.PrimeMeridian = matchPrime.captured(1) + "," + matchPrime.captured(2).trimmed();
 					}
 
-					// µ¥¶ÀÆ¥Åä PARAMETER[
+					// å•ç‹¬åŒ¹é… PARAMETER[
 					QRegularExpression reParam(R"(PARAMETER\[\"([^\"]+)\",\s*([^\]]+))");
 					QRegularExpressionMatchIterator itParam = reParam.globalMatch(lineStr);
 					int paramCount = 0;
@@ -187,13 +187,13 @@ void SetOrthoInfo::setPROJCStextSlot(QString PROJCStext)
 	ui.lineEdit_3->setCursorPosition(0);
 }
 
-// ±£´æËùÓĞÉèÖÃµ½µ¥Ò»ÅäÖÃÎÄ¼ş 
+// ä¿å­˜æ‰€æœ‰è®¾ç½®åˆ°å•ä¸€é…ç½®æ–‡ä»¶ 
 void SetOrthoInfo::saveAllSettingsToFile(const QString& configFile)
 {
 	QSettings settings(configFile, QSettings::IniFormat);
 	settings.setIniCodec("UTF-8");
 
-	// »ñÈ¡µ±Ç°UI×´Ì¬ 
+	// è·å–å½“å‰UIçŠ¶æ€ 
 	QMap<QString, QVariant> currentSettings = getCurrentSettings();
 
 	foreach(const QString& filePath, m_currentFileList) {
@@ -216,11 +216,11 @@ void SetOrthoInfo::saveAllSettingsToFile(const QString& configFile)
 				settings.setValue("AutoCalProj", AutoCalProj.PROJCS);
 			}
 			else if (ui.comboBox_3->currentText() == "WGS84") {
-				// ¼ì²éÒ»¼¶¼üÊÇ·ñ´æÔÚ 
+				// æ£€æŸ¥ä¸€çº§é”®æ˜¯å¦å­˜åœ¨ 
 				if (!tranData.contains("North WGS_1984")) {
 					return;
 				}
-				// ÔÚÖ¸¶¨×ø±êÏµÀàĞÍÏÂ²éÕÒÆ¥ÅäÏî 
+				// åœ¨æŒ‡å®šåæ ‡ç³»ç±»å‹ä¸‹æŸ¥æ‰¾åŒ¹é…é¡¹ 
 				const QMap<QString, PredefineData>& typeData = tranData.value("North WGS_1984");
 
 				const PredefineData data = typeData.value("WGS_1984_GEOGCS");
@@ -232,7 +232,7 @@ void SetOrthoInfo::saveAllSettingsToFile(const QString& configFile)
 				settings.setValue("AutoCalProj", AutoCalProj.PROJCS);
 			}
 			else {
-				PROJECT_LOG_ERROR(m_imagePS->CurrentConfig, QString::fromLocal8Bit("Ã»ÓĞÕÒµ½Æ¥ÅäµÄui.comboBox_3Ïî"));
+				PROJECT_LOG_ERROR(m_imagePS->CurrentConfig, QString::fromLocal8Bit("æ²¡æœ‰æ‰¾åˆ°åŒ¹é…çš„ui.comboBox_3é¡¹"));
 			}
 		}
 		else {
@@ -242,7 +242,7 @@ void SetOrthoInfo::saveAllSettingsToFile(const QString& configFile)
 	}
 }
 
-// ´Óµ¥Ò»ÅäÖÃÎÄ¼ş¼ÓÔØÌØ¶¨ÎÄ¼şµÄÉèÖÃ 
+// ä»å•ä¸€é…ç½®æ–‡ä»¶åŠ è½½ç‰¹å®šæ–‡ä»¶çš„è®¾ç½® 
 void SetOrthoInfo::loadSettingsFromFile(const QString& configFile, const QString& fileName)
 {
 	QSettings settings(configFile, QSettings::IniFormat);
@@ -266,7 +266,7 @@ void SetOrthoInfo::loadSettingsFromFile(const QString& configFile, const QString
 	ui.lineEdit_3->setCursorPosition(0);
 }
 
-// ´Óµ¥Ò»ÅäÖÃÎÄ¼ş¼ÓÔØ¶à¸öÎÄ¼şµÄ¹²Í¬ÉèÖÃ 
+// ä»å•ä¸€é…ç½®æ–‡ä»¶åŠ è½½å¤šä¸ªæ–‡ä»¶çš„å…±åŒè®¾ç½® 
 void SetOrthoInfo::loadCommonSettingsFromFile(const QString& configFile, const QStringList& fileNames)
 {
 	if (fileNames.isEmpty())  return;
@@ -274,7 +274,7 @@ void SetOrthoInfo::loadCommonSettingsFromFile(const QString& configFile, const Q
 	QSettings settings(configFile, QSettings::IniFormat);
 	settings.setIniCodec("UTF-8");
 
-	// ÊÕ¼¯ËùÓĞÉèÖÃ 
+	// æ”¶é›†æ‰€æœ‰è®¾ç½® 
 	QList<QMap<QString, QVariant>> allSettings;
 
 	foreach(const QString& fileName, fileNames) {
@@ -294,7 +294,7 @@ void SetOrthoInfo::loadCommonSettingsFromFile(const QString& configFile, const Q
 		allSettings.append(fileSettings);
 	}
 
-	// ÕÒ³ö¹²Í¬ÉèÖÃ 
+	// æ‰¾å‡ºå…±åŒè®¾ç½® 
 	QMap<QString, QVariant> commonSettings;
 	if (!allSettings.isEmpty()) {
 		commonSettings = allSettings.first();
@@ -304,9 +304,9 @@ void SetOrthoInfo::loadCommonSettingsFromFile(const QString& configFile, const Q
 
 			foreach(const QString& key, commonSettings.keys()) {
 				if (current[key] != commonSettings[key]) {
-					// ÉèÖÃ²»Í¬Ê±£¬Ê¹ÓÃÄ¬ÈÏÖµ»ò¿ÕÖµ 
+					// è®¾ç½®ä¸åŒæ—¶ï¼Œä½¿ç”¨é»˜è®¤å€¼æˆ–ç©ºå€¼ 
 					if (key == "lineEdit") {
-						commonSettings[key] = ""; // ÎÄ¼şÃû²»Í¬Ê±Çå¿Õ 
+						commonSettings[key] = ""; // æ–‡ä»¶åä¸åŒæ—¶æ¸…ç©º 
 					}
 					else if (key == "checkBox") {
 						commonSettings[key] = false;
@@ -327,7 +327,7 @@ void SetOrthoInfo::loadCommonSettingsFromFile(const QString& configFile, const Q
 	ui.lineEdit_3->setCursorPosition(0);
 }
 
-// »ñÈ¡µ±Ç°¿Ø¼ş×´Ì¬ 
+// è·å–å½“å‰æ§ä»¶çŠ¶æ€ 
 QMap<QString, QVariant> SetOrthoInfo::getCurrentSettings() const
 {
 	QMap<QString, QVariant> settings;
@@ -342,7 +342,7 @@ QMap<QString, QVariant> SetOrthoInfo::getCurrentSettings() const
 	return settings;
 }
 
-// Ó¦ÓÃÉèÖÃµ½UI 
+// åº”ç”¨è®¾ç½®åˆ°UI 
 void SetOrthoInfo::applySettingsToUI(const QMap<QString, QVariant>& settings)
 {
 	ui.lineEdit->setText(settings["GSDX"].toString());
@@ -359,7 +359,7 @@ void SetOrthoInfo::setCurrentFileList(const QStringList& filePaths)
 {
 	m_currentFileList = filePaths;
 	if (!filePaths.isEmpty()) {
-		// ÌáÈ¡´¿ÎÄ¼şÃû 
+		// æå–çº¯æ–‡ä»¶å 
 		QStringList fileNames;
 		foreach(const QString& path, filePaths) {
 			fileNames.append(QFileInfo(path).completeBaseName());
@@ -381,30 +381,30 @@ QStringList SetOrthoInfo::getCurrentFileList() const
 
 PredefineData SetOrthoInfo::findCoordinateSystem(const QString& coordType, const QString& imagePath)
 {
-	// ¼ì²éÒ»¼¶¼üÊÇ·ñ´æÔÚ 
+	// æ£€æŸ¥ä¸€çº§é”®æ˜¯å¦å­˜åœ¨ 
 	if (!tranData.contains(coordType)) {
 		return PredefineData();
 	}
 
-	// ´ÓUI¿Ø¼ş»ñÈ¡²ÎÊı 
+	// ä»UIæ§ä»¶è·å–å‚æ•° 
 	QString degreeType = ui.comboBox->currentIndex() == 0 ? "3" : "6";
 	bool hasZoneNumber = ui.comboBox_2->currentIndex() == 1;
 
-	// »ñÈ¡Í¼ÏñÔªÊı¾İ 
+	// è·å–å›¾åƒå…ƒæ•°æ® 
 	ImageGeoMetadata* metadata = m_imagePS->getImageMetadata(imagePath);
 	if (!metadata) {
 		return PredefineData();
 	}
 
-	// ¼ÆËãÖĞĞÄ¾­¶È
+	// è®¡ç®—ä¸­å¿ƒç»åº¦
 	double centerLon = (metadata->Corners[0] + metadata->Corners[2]) / 2;
 
-	// ÔÚÖ¸¶¨×ø±êÏµÀàĞÍÏÂ²éÕÒÆ¥ÅäÏî 
+	// åœ¨æŒ‡å®šåæ ‡ç³»ç±»å‹ä¸‹æŸ¥æ‰¾åŒ¹é…é¡¹ 
 	const QMap<QString, PredefineData>& typeData = tranData.value(coordType);
 
 	foreach(const QString& coordName, typeData.keys()) {
 		const PredefineData& data = typeData.value(coordName);
-		// ÌáÈ¡À¨ºÅÄÚµÄÄÚÈİ 
+		// æå–æ‹¬å·å†…çš„å†…å®¹ 
 		int start = coordName.indexOf("(");
 		int end = coordName.indexOf(")");
 		if (start == -1 || end == -1 || start >= end) continue;
@@ -413,92 +413,92 @@ PredefineData SetOrthoInfo::findCoordinateSystem(const QString& coordType, const
 		QStringList parts = params.split(" ");
 		if (parts.size() < 4) continue;
 
-		// ¼ì²é¶È´øÀàĞÍ 
+		// æ£€æŸ¥åº¦å¸¦ç±»å‹ 
 		if (parts[0] != degreeType) continue;
 
-		// ¼ì²é´øºÅĞÅÏ¢ 
+		// æ£€æŸ¥å¸¦å·ä¿¡æ¯ 
 		QString zoneInfo = parts[3];
-		if ((hasZoneNumber && zoneInfo.toUtf8() != u8"ÓĞ´øºÅ") ||
-			(!hasZoneNumber && zoneInfo.toUtf8() != u8"ÎŞ´øºÅ")) {
+		if ((hasZoneNumber && zoneInfo.toUtf8() != u8"æœ‰å¸¦å·") ||
+			(!hasZoneNumber && zoneInfo.toUtf8() != u8"æ— å¸¦å·")) {
 			continue;
 		}
 
-		// ¼ì²éÖĞÑë¾­Ïß 
+		// æ£€æŸ¥ä¸­å¤®ç»çº¿ 
 		QString centralMeridianStr = parts[2].toUtf8();
-		if (!centralMeridianStr.startsWith(u8"ÖĞÑë¾­Ïß=")) continue;
+		if (!centralMeridianStr.startsWith(u8"ä¸­å¤®ç»çº¿=")) continue;
 
 		bool ok = false;
 		double centralMeridian = centralMeridianStr.mid(5).toDouble(&ok);
 		if (!ok) continue;
 
-		// ¸ù¾İ¶È´øÀàĞÍÉèÖÃ²»Í¬µÄ¾­¶È·¶Î§ 
-		double range = (degreeType == "3") ? 1.5 : 3.0; // 3¶È´ø¡À1.5¡ã£¬6¶È´ø¡À3¡ã
-		// ¼ì²éÖĞĞÄ¾­¶ÈÊÇ·ñÔÚ·¶Î§ÄÚ 
+		// æ ¹æ®åº¦å¸¦ç±»å‹è®¾ç½®ä¸åŒçš„ç»åº¦èŒƒå›´ 
+		double range = (degreeType == "3") ? 1.5 : 3.0; // 3åº¦å¸¦Â±1.5Â°ï¼Œ6åº¦å¸¦Â±3Â°
+		// æ£€æŸ¥ä¸­å¿ƒç»åº¦æ˜¯å¦åœ¨èŒƒå›´å†… 
 		if (qAbs(centerLon - centralMeridian) <= range) {
-			return data; // ÕÒµ½Æ¥ÅäÏî 
+			return data; // æ‰¾åˆ°åŒ¹é…é¡¹ 
 		}
 	}
 
-	return PredefineData(); // Î´ÕÒµ½Æ¥ÅäÏî 
+	return PredefineData(); // æœªæ‰¾åˆ°åŒ¹é…é¡¹ 
 }
 
 PredefineData SetOrthoInfo::findUTMCoordinateSystem(const QString& coordType, const QString& imagePath)
 {
-	// ¼ì²éÒ»¼¶¼üÊÇ·ñ´æÔÚ
+	// æ£€æŸ¥ä¸€çº§é”®æ˜¯å¦å­˜åœ¨
 	if (!tranData.contains(coordType)) {
 		return PredefineData();
 	}
 
-	// »ñÈ¡Í¼ÏñÔªÊı¾İ
+	// è·å–å›¾åƒå…ƒæ•°æ®
 	ImageGeoMetadata* metadata = m_imagePS->getImageMetadata(imagePath);
 	if (!metadata) {
 		return PredefineData();
 	}
 
-	// ¼ÆËãÖĞĞÄ¾­¶ÈºÍÅĞ¶ÏÄÏ±±°ëÇò
+	// è®¡ç®—ä¸­å¿ƒç»åº¦å’Œåˆ¤æ–­å—åŒ—åŠçƒ
 	double centerLon = (metadata->Corners[0] + metadata->Corners[2]) / 2;
 	bool isNorthHemisphere = metadata->Corners[1] >= 0 && metadata->Corners[3] >= 0;
 
-	// ÔÚÖ¸¶¨×ø±êÏµÀàĞÍÏÂ²éÕÒÆ¥ÅäÏî 
+	// åœ¨æŒ‡å®šåæ ‡ç³»ç±»å‹ä¸‹æŸ¥æ‰¾åŒ¹é…é¡¹ 
 	const QMap<QString, PredefineData>& typeData = tranData.value(coordType);
 
 	for (auto it = typeData.constBegin(); it != typeData.constEnd(); ++it) {
 		const QString& coordName = it.key();
 		const PredefineData& data = it.value();
 
-		// ·Ö¸î×Ö·û´®£¬²éÕÒ "Zone" ºóµÄÏÂÒ»¸ö´Ê 
+		// åˆ†å‰²å­—ç¬¦ä¸²ï¼ŒæŸ¥æ‰¾ "Zone" åçš„ä¸‹ä¸€ä¸ªè¯ 
 		QStringList parts = coordName.split(" ", Qt::SkipEmptyParts);
 		int zoneIndex = parts.indexOf("Zone");
 		if (zoneIndex == -1 || zoneIndex + 1 >= parts.size()) {
-			continue; // Ã»ÓĞÕÒµ½ "Zone" »òºóÃæÃ»ÓĞ´Ê 
+			continue; // æ²¡æœ‰æ‰¾åˆ° "Zone" æˆ–åé¢æ²¡æœ‰è¯ 
 		}
 
-		// ÌáÈ¡ "Zone" ºóµÄÏÂÒ»¸ö´Ê£¨±ÈÈç "14N"£©
+		// æå– "Zone" åçš„ä¸‹ä¸€ä¸ªè¯ï¼ˆæ¯”å¦‚ "14N"ï¼‰
 		QString zoneInfo = parts[zoneIndex + 1];
 		if (zoneInfo.isEmpty()) {
 			continue;
 		}
 
-		// ÌáÈ¡ N/S ±êÊ¶£¨×îºóÒ»¸ö×Ö·û£©
+		// æå– N/S æ ‡è¯†ï¼ˆæœ€åä¸€ä¸ªå­—ç¬¦ï¼‰
 		QChar hemisphereChar = zoneInfo.back();
 		if (hemisphereChar != 'N' && hemisphereChar != 'S') {
-			continue; // ²»ÊÇÓĞĞ§µÄ N/S ±êÊ¶ 
+			continue; // ä¸æ˜¯æœ‰æ•ˆçš„ N/S æ ‡è¯† 
 		}
 
-		// ¼ì²éÄÏ±±°ëÇòÊÇ·ñÆ¥Åä
+		// æ£€æŸ¥å—åŒ—åŠçƒæ˜¯å¦åŒ¹é…
 		if ((isNorthHemisphere && hemisphereChar != 'N') ||
 			(!isNorthHemisphere && hemisphereChar != 'S')) {
 			continue;
 		}
 
-		// ¼ì²éÖĞÑë¾­ÏßÊÇ·ñÆ¥Åä£¨´Ó PROJCS ²ÎÊı»ñÈ¡£©
-		double centralMeridian = data.List_projectInfo[2]; // Central_Meridian ´æ´¢ÔÚ List_projectInfo[2]
-		if (qAbs(centerLon - centralMeridian) <= 3.0) { // +_3¶È
+		// æ£€æŸ¥ä¸­å¤®ç»çº¿æ˜¯å¦åŒ¹é…ï¼ˆä» PROJCS å‚æ•°è·å–ï¼‰
+		double centralMeridian = data.List_projectInfo[2]; // Central_Meridian å­˜å‚¨åœ¨ List_projectInfo[2]
+		if (qAbs(centerLon - centralMeridian) <= 3.0) { // +_3åº¦
 			return data;
 		}
 	}
 
-	return PredefineData(); // Î´ÕÒµ½Æ¥Åä
+	return PredefineData(); // æœªæ‰¾åˆ°åŒ¹é…
 }
 
 QMap<QString, QString> SetOrthoInfo::getFileConfigInfo(const QString& fileName)
@@ -507,45 +507,45 @@ QMap<QString, QString> SetOrthoInfo::getFileConfigInfo(const QString& fileName)
 
 	QMap<QString, QString> result;
 
-	//¼ì²éÅäÖÃÎÄ¼şÊÇ·ñ´æÔÚ
+	//æ£€æŸ¥é…ç½®æ–‡ä»¶æ˜¯å¦å­˜åœ¨
 	if (!QFile::exists(m_configFile)) {
-		return result; // ·µ»Ø¿ÕµÄQMap 
+		return result; // è¿”å›ç©ºçš„QMap 
 	}
 
-	//´ÓÅäÖÃÎÄ¼şÖĞ¶ÁÈ¡Êı¾İ
+	//ä»é…ç½®æ–‡ä»¶ä¸­è¯»å–æ•°æ®
 	QSettings settings(m_configFile, QSettings::IniFormat);
 	settings.setIniCodec("UTF-8");
 
-	// ¼ì²éÊÇ·ñ´æÔÚ¸ÃÎÄ¼şÃûµÄÅäÖÃ×é 
+	// æ£€æŸ¥æ˜¯å¦å­˜åœ¨è¯¥æ–‡ä»¶åçš„é…ç½®ç»„ 
 	if (!settings.childGroups().contains(fileName)) {
-		return result; // ·µ»Ø¿ÕµÄQMap 
+		return result; // è¿”å›ç©ºçš„QMap 
 	}
 
 	settings.beginGroup(fileName);
 
-	// »ñÈ¡GSDXºÍGSDY 
+	// è·å–GSDXå’ŒGSDY 
 	QString gsdx = settings.value("GSDX", "").toString();
 	QString gsdy = settings.value("GSDY", "").toString();
 
-	//¸ù¾İcheckBox×´Ì¬»ñÈ¡Í¶Ó°ĞÅÏ¢
+	//æ ¹æ®checkBoxçŠ¶æ€è·å–æŠ•å½±ä¿¡æ¯
 	QString projectionInfo;
 	if (settings.value("checkBox", "").toString() == "true") {
-		// Èç¹ûcheckBoxÑ¡ÖĞ£¬»ñÈ¡AutoCalProj
+		// å¦‚æœcheckBoxé€‰ä¸­ï¼Œè·å–AutoCalProj
 		projectionInfo = settings.value("AutoCalProj", "").toString();
 	}
 	else {
-		// Èç¹ûcheckBoxÎ´Ñ¡ÖĞ£¬»ñÈ¡wktHCS 
+		// å¦‚æœcheckBoxæœªé€‰ä¸­ï¼Œè·å–wktHCS 
 		projectionInfo = settings.value("wktHCS", "").toString();
 	}
 
 	settings.endGroup();
 
-	// ¼ì²éÊÇ·ñËùÓĞÖµ¶¼Îª¿Õ£¨ÀíÂÛÉÏ²»»á·¢Éú£¬ÒòÎªÒÑ¾­¼ì²éÁË×é´æÔÚ£©
+	// æ£€æŸ¥æ˜¯å¦æ‰€æœ‰å€¼éƒ½ä¸ºç©ºï¼ˆç†è®ºä¸Šä¸ä¼šå‘ç”Ÿï¼Œå› ä¸ºå·²ç»æ£€æŸ¥äº†ç»„å­˜åœ¨ï¼‰
 	if (gsdx.isEmpty() && gsdy.isEmpty() && projectionInfo.isEmpty()) {
-		return result; // ·µ»Ø¿ÕµÄQMap
+		return result; // è¿”å›ç©ºçš„QMap
 	}
 
-	// Ìî³ä·µ»Ø½á¹û 
+	// å¡«å……è¿”å›ç»“æœ 
 	result.insert("GSDX", gsdx);
 	result.insert("GSDY", gsdy);
 	result.insert("Projection", projectionInfo);

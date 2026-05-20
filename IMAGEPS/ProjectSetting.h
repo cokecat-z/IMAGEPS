@@ -1,4 +1,4 @@
-#ifndef PROJECTSETTING_H
+ï»¿#ifndef PROJECTSETTING_H
 #define PROJECTSETTING_H
 
 #include "ui_projectSetting.h"
@@ -13,7 +13,7 @@
 
 class IMAGEPS;
 
-//Ô¤¶¨ÒåÍ¶Ó°ÏêÏ¸ĞÅÏ¢
+//é¢„å®šä¹‰æŠ•å½±è¯¦ç»†ä¿¡æ¯
 struct PredefineData
 {
 	QString Datum;
@@ -36,7 +36,7 @@ public:
 	~ProjectSetting();
 
 	void initWidget();
-	void loadConfig(QString funfunModule = QString::fromLocal8Bit("Í¶Ó°ÅäÖÃ¹¦ÄÜÁĞ±í"));
+	void loadConfig(QString funfunModule = QString::fromLocal8Bit("æŠ•å½±é…ç½®åŠŸèƒ½åˆ—è¡¨"));
 	void connects();
 	QString m_openerButtonName;
 	void setOpenerButtonName(const QString& name) {
@@ -57,17 +57,17 @@ public slots:
 	void onListModified();
 
 signals:
-	void PROJCStext(QString PROJCS); //¿Õ¼ä²Î¿¼ĞÅºÅ
+	void PROJCStext(QString PROJCS); //ç©ºé—´å‚è€ƒä¿¡å·
 
 private:
 	Ui::ProjectSetting ui;
 	IMAGEPS* m_imagePS;
 
-	QMap<QString, QMap<QString,PredefineData>> tranData;//QMap<×ø±êÏµÀàĞÍ£¬QMap<×ø±êÏµÃû³Æ ÏêÏ¸ĞÅÏ¢>>
-	QList<QStringList> funListConifg;//Í¶Ó°ÅäÖÃ¹¦ÄÜÁĞ±í
-	QMap<QString, bool> funModuleBool;//Í¶Ó°ÅäÖÃ¹¦ÄÜÄ£¿é¿ØÖÆ ±ÜÃâÖØ¸´µã»÷·´¸´¶ÁÈ¡
-	QMap<QString, QList<QStringList>> funModuleTemp;//×é¼şÄÚÏÂÀ­²Ëµ¥Ê¹ÄÜ¿ØÖÆĞÅÏ¢
-	QMap<QString, QStringList> projectTypetoInfo;//ĞÅÏ¢ÖÖÊô Í¶Ó°ÀàĞÍ±í 
+	QMap<QString, QMap<QString,PredefineData>> tranData;//QMap<åæ ‡ç³»ç±»å‹ï¼ŒQMap<åæ ‡ç³»åç§° è¯¦ç»†ä¿¡æ¯>>
+	QList<QStringList> funListConifg;//æŠ•å½±é…ç½®åŠŸèƒ½åˆ—è¡¨
+	QMap<QString, bool> funModuleBool;//æŠ•å½±é…ç½®åŠŸèƒ½æ¨¡å—æ§åˆ¶ é¿å…é‡å¤ç‚¹å‡»åå¤è¯»å–
+	QMap<QString, QList<QStringList>> funModuleTemp;//ç»„ä»¶å†…ä¸‹æ‹‰èœå•ä½¿èƒ½æ§åˆ¶ä¿¡æ¯
+	QMap<QString, QStringList> projectTypetoInfo;//ä¿¡æ¯ç§å± æŠ•å½±ç±»å‹è¡¨ 
 };
 
 #endif

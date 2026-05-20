@@ -1,4 +1,4 @@
-#include "SimpleToolS.h"
+ï»¿#include "SimpleToolS.h"
 #include "IMAGEPS.h"
 
 SimpleToolS::SimpleToolS(IMAGEPS* parentImagePS, QWidget* parent)
@@ -27,7 +27,7 @@ SimpleToolS::~SimpleToolS()
 void SimpleToolS::initWidget()
 {
 	//setWindowFlags(Qt::Dialog | Qt::MSWindowsFixedSizeDialogHint);
-	setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint); // ÒÆ³ı°ïÖú°´Å¥
+	setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint); // ç§»é™¤å¸®åŠ©æŒ‰é’®
 }
 
 void SimpleToolS::connects()
@@ -36,21 +36,21 @@ void SimpleToolS::connects()
 		ui.toolButton_23,
 		ui.lineEdit_33,
 		nullptr,   
-		tr("%1;;TIF Files(*.tif);;TIFF Files(*.tiff);;IMAGINE images Files(*.img);;All Files(*)").arg(QString::fromLocal8Bit("ËùÓĞÖ§³ÖµÄÓ°Ïñ¸ñÊ½(*.tif *.tiff *.img)"))
+		tr("%1;;TIF Files(*.tif);;TIFF Files(*.tiff);;IMAGINE images Files(*.img);;All Files(*)").arg(QString::fromLocal8Bit("æ‰€æœ‰æ”¯æŒçš„å½±åƒæ ¼å¼(*.tif *.tiff *.img)"))
 	);
 
 	bindFileDialog(
 		ui.toolButton_24,
 		ui.lineEdit_34,
 		nullptr, 
-		tr("%1;;TIF Files(*.tif);;TIFF Files(*.tiff);;IMAGINE images Files(*.img);;All Files(*)").arg(QString::fromLocal8Bit("ËùÓĞÖ§³ÖµÄÓ°Ïñ¸ñÊ½(*.tif *.tiff *.img)"))
+		tr("%1;;TIF Files(*.tif);;TIFF Files(*.tiff);;IMAGINE images Files(*.img);;All Files(*)").arg(QString::fromLocal8Bit("æ‰€æœ‰æ”¯æŒçš„å½±åƒæ ¼å¼(*.tif *.tiff *.img)"))
 	);
 
 	bindFileDialog(
 		ui.toolButton_25,
 		ui.lineEdit_35,
 		nullptr,  
-		tr("%1;;TIF Files(*.tif);;TIFF Files(*.tiff);;IMAGINE images Files(*.img);;All Files(*)").arg(QString::fromLocal8Bit("ËùÓĞÖ§³ÖµÄÓ°Ïñ¸ñÊ½(*.tif *.tiff *.img)"))
+		tr("%1;;TIF Files(*.tif);;TIFF Files(*.tiff);;IMAGINE images Files(*.img);;All Files(*)").arg(QString::fromLocal8Bit("æ‰€æœ‰æ”¯æŒçš„å½±åƒæ ¼å¼(*.tif *.tiff *.img)"))
 	);
 }
 
@@ -63,29 +63,29 @@ void SimpleToolS::bindFileDialog(
 	connect(button, &QToolButton::clicked, [=]() {
 		QString path;
 
-		// ¸ù¾İCheckBox×´Ì¬Ñ¡Ôñ¶Ô»°¿òÀàĞÍ 
+		// æ ¹æ®CheckBoxçŠ¶æ€é€‰æ‹©å¯¹è¯æ¡†ç±»å‹ 
 		if (checkBox && checkBox->isChecked()) {
-			// ÎÄ¼ş¼ĞÑ¡Ôñ¶Ô»°¿ò 
+			// æ–‡ä»¶å¤¹é€‰æ‹©å¯¹è¯æ¡† 
 			path = QFileDialog::getExistingDirectory(
 				this,
-				"Ñ¡ÔñÎÄ¼ş¼Ğ",
+				"é€‰æ‹©æ–‡ä»¶å¤¹",
 				"",
 				QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks
 			);
 		}
 		else {
-			// ÎÄ¼şÑ¡Ôñ¶Ô»°¿ò£¨Ö§³Ö¶àÑ¡£©
+			// æ–‡ä»¶é€‰æ‹©å¯¹è¯æ¡†ï¼ˆæ”¯æŒå¤šé€‰ï¼‰
 			//QStringList files = QFileDialog::getOpenFileNames(
 			path = QFileDialog::getOpenFileName(
 				this,
-				"Ñ¡ÔñÎÄ¼ş",
+				"é€‰æ‹©æ–‡ä»¶",
 				"",
 				filter
 			);
-			//path = files.join(";");   // ¶àÎÄ¼şÂ·¾¶ÓÃ·ÖºÅ·Ö¸ô 
+			//path = files.join(";");   // å¤šæ–‡ä»¶è·¯å¾„ç”¨åˆ†å·åˆ†éš” 
 		}
 
-		// ¸üĞÂLineEdit
+		// æ›´æ–°LineEdit
 		if (!path.isEmpty()) {
 			lineEdit->setText(path);
 		}
@@ -93,39 +93,39 @@ void SimpleToolS::bindFileDialog(
 }
 
 /**
-* @brief DEMÏà¹ØĞÔÖÊ¼ì¹¤¾ß
+* @brief DEMç›¸å…³æ€§è´¨æ£€å·¥å…·
 */
 void SimpleToolS::DEMRelatedPropertyCheck()
 {
-	if (!tryLockFunction(SimModelMutex, QString::fromLocal8Bit("ÒÑÓĞDEMÏà¹ØĞÔÖÊ¼ì"))) {
+	if (!tryLockFunction(SimModelMutex, QString::fromLocal8Bit("å·²æœ‰DEMç›¸å…³æ€§è´¨æ£€"))) {
 		return;
 	}
 	//setProjectdir();
-	//logEdit->append(QString::fromLocal8Bit("****DEMÏà¹ØĞÔÖÊ¼ì****"));
+	//logEdit->append(QString::fromLocal8Bit("****DEMç›¸å…³æ€§è´¨æ£€****"));
 
-	// »ñÈ¡½çÃæ²ÎÊı
+	// è·å–ç•Œé¢å‚æ•°
 	QString InputImageFilePathPS = ui.lineEdit_33->text();
 	QString RefImageFilePathPS = ui.lineEdit_34->text();
 	QString OutputImageFilePathPS = ui.lineEdit_35->text();
 	int coefWidPS = ui.lineEdit_36->text().toInt();
 	bool CreatePydPS = ui.checkBox_9->isChecked();
 
-	// ¼ì²éÊÇ·ñÓĞÈÎÎñĞèÒª´¦Àí 
+	// æ£€æŸ¥æ˜¯å¦æœ‰ä»»åŠ¡éœ€è¦å¤„ç† 
 	if (InputImageFilePathPS.isEmpty()) {
 		QMessageBox::warning(this,
-			QString::fromLocal8Bit("¾¯¸æ"),
-			QString::fromLocal8Bit("ÇëÍê³ÉÂ·¾¶ÅäÖÃ!"));
+			QString::fromLocal8Bit("è­¦å‘Š"),
+			QString::fromLocal8Bit("è¯·å®Œæˆè·¯å¾„é…ç½®!"));
 		SimModelMutex.unlock();
 		return;
 	}
-	// ³õÊ¼»¯ÈÎÎñ¶ÓÁĞ
+	// åˆå§‹åŒ–ä»»åŠ¡é˜Ÿåˆ—
 	m_taskQueue.clear();
 	m_runningProcesses.store(0);
 	m_completedTasks.store(0);
 	m_startTime = QDateTime::currentDateTime();
 	m_totalTasks = 0;
 
-	// ¼ì²éÊä³öÎÄ¼şÊÇ·ñ´æÔÚ 
+	// æ£€æŸ¥è¾“å‡ºæ–‡ä»¶æ˜¯å¦å­˜åœ¨ 
 	int duplicateCount = 0;
 	bool isDuplicate = false;
 
@@ -139,12 +139,12 @@ void SimpleToolS::DEMRelatedPropertyCheck()
 	//	isDuplicate= false;
 	//}
 
-	// ´¦ÀíÖØ¸´ÎÄ¼şÇé¿ö 
+	// å¤„ç†é‡å¤æ–‡ä»¶æƒ…å†µ 
 	bool processAll = true;
 	if (isDuplicate) {
 		QMessageBox::StandardButton reply = QMessageBox::question(nullptr,
-			QString::fromLocal8Bit("Â·¾¶ÒÑ´æÔÚ"),
-			QString::fromLocal8Bit("³É¹ûÎÄ¼ş!").arg(duplicateCount),
+			QString::fromLocal8Bit("è·¯å¾„å·²å­˜åœ¨"),
+			QString::fromLocal8Bit("æˆæœæ–‡ä»¶!").arg(duplicateCount),
 			QMessageBox::Yes | QMessageBox::No);
 
 		processAll = (reply == QMessageBox::Yes);
@@ -155,7 +155,7 @@ void SimpleToolS::DEMRelatedPropertyCheck()
 		}
 	}
 
-	// ´´½¨XMLÎÄµµ
+	// åˆ›å»ºXMLæ–‡æ¡£
 	QDomDocument doc;
 	QDomProcessingInstruction instruction = doc.createProcessingInstruction("xml", "version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"");
 	doc.appendChild(instruction);
@@ -164,7 +164,7 @@ void SimpleToolS::DEMRelatedPropertyCheck()
 	root.setAttribute("version", "1.0");
 	doc.appendChild(root);
 
-	// Ìí¼ÓÊäÈëÊä³öÎÄ¼şÂ·¾¶ 
+	// æ·»åŠ è¾“å…¥è¾“å‡ºæ–‡ä»¶è·¯å¾„ 
 	QDomElement inputImageFileName = doc.createElement("InputImageFilePath");
 	inputImageFileName.setAttribute("type", "string");
 	inputImageFileName.appendChild(doc.createTextNode(InputImageFilePathPS));
@@ -190,13 +190,13 @@ void SimpleToolS::DEMRelatedPropertyCheck()
 	root.appendChild(CreatePyd);
 
 	QFileInfo fileinfo(OutputImageFilePathPS);
-	// ±£´æXMLÎÄ¼ş
+	// ä¿å­˜XMLæ–‡ä»¶
 	QString xmlPath = fileinfo.absolutePath()+ "/" + fileinfo.completeBaseName() + QString::fromLocal8Bit(".xml");
 	QFile file(xmlPath);
 	if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
 		QMessageBox::warning(this,
-			QString::fromLocal8Bit("´íÎó"),
-			QString::fromLocal8Bit("´´½¨ÈÎÎñµ¥Ê§°Ü!"));
+			QString::fromLocal8Bit("é”™è¯¯"),
+			QString::fromLocal8Bit("åˆ›å»ºä»»åŠ¡å•å¤±è´¥!"));
 		SimModelMutex.unlock();
 		return;
 	}
@@ -206,7 +206,7 @@ void SimpleToolS::DEMRelatedPropertyCheck()
 	doc.save(out, 4);
 	file.close();
 
-	// Ìí¼Óµ½ÈÎÎñ¶ÓÁĞ 
+	// æ·»åŠ åˆ°ä»»åŠ¡é˜Ÿåˆ— 
 	TaskInfo task;
 	task.taskFilePath = xmlPath;
 #ifdef Q_OS_LINUX 
@@ -217,18 +217,18 @@ void SimpleToolS::DEMRelatedPropertyCheck()
 	m_taskQueue.enqueue(task);
 	m_totalTasks++;
 
-	// ¿ªÊ¼´¦ÀíÈÎÎñ 
-	startNextTasks(QString::fromLocal8Bit("DEMÏà¹ØĞÔÖÊ¼ì"), true);
+	// å¼€å§‹å¤„ç†ä»»åŠ¡ 
+	startNextTasks(QString::fromLocal8Bit("DEMç›¸å…³æ€§è´¨æ£€"), true);
 }
 
-// Í¨ÓÃµÄÈÎÎñ´¦Àíº¯Êı   
+// é€šç”¨çš„ä»»åŠ¡å¤„ç†å‡½æ•°   
 void SimpleToolS::startNextTasks(QString title, bool enableLogging)
 {
 	//if (m_runningProcesses.load() > 0) {
-	//	return; // ±ÜÃâÖØ¸´´¦Àí 
+	//	return; // é¿å…é‡å¤å¤„ç† 
 	//}
 	QProgressBar* progressBar = m_ProgressBar;
-	// ³õÊ¼»¯½ø¶ÈÌõ
+	// åˆå§‹åŒ–è¿›åº¦æ¡
 	if (!m_taskQueue.isEmpty() && progressBar && !m_progressBarInitialized) {
 		progressBar->setRange(0, m_totalTasks);
 		progressBar->setValue(0);
@@ -251,16 +251,16 @@ void SimpleToolS::startNextTasks(QString title, bool enableLogging)
 			//isFromFinishedSignal = true;
 			m_runningProcesses.fetchAndSubOrdered(1);
 			m_completedTasks.fetchAndAddOrdered(1);
-			// ¸üĞÂ½ø¶ÈÌõ
+			// æ›´æ–°è¿›åº¦æ¡
 			if (progressBar) {
 				progressBar->setValue(m_completedTasks.load());
 			}
 
-			// ¼ì²é.moniÎÄ¼şÊÇ·ñ´æÔÚ
+			// æ£€æŸ¥.moniæ–‡ä»¶æ˜¯å¦å­˜åœ¨
 			QString errorstr = task.taskFilePath;
 			QFileInfo taskFileInfo(task.taskFilePath);
 			QString moniFilePath = taskFileInfo.absolutePath() + "/" + taskFileInfo.completeBaseName() + ".moni";
-			if (enableLogging && title == QString::fromLocal8Bit("****Á¬½ÓµãÆ¥Åä"))
+			if (enableLogging && title == QString::fromLocal8Bit("****è¿æ¥ç‚¹åŒ¹é…"))
 			{
 				errorstr = task.outfilename;
 				moniFilePath = taskFileInfo.absolutePath() + "/" + errorstr + ".moni";
@@ -268,55 +268,55 @@ void SimpleToolS::startNextTasks(QString title, bool enableLogging)
 			QFile moniFile(moniFilePath);
 
 			if (!moniFile.exists()) {
-				if (enableLogging && title != QString::fromLocal8Bit("****Ó°ÏñÔÆ¼ì")) {
+				if (enableLogging && title != QString::fromLocal8Bit("****å½±åƒäº‘æ£€")) {
 					m_SimProcesses.removeOne(process);
 					//enableLogging = false;
 					process->deleteLater();
 					//m_taskQueue.clear();
 					//return;
-					if (title == QString::fromLocal8Bit("****¿ØÖÆµãÆ¥Åä"))
+					if (title == QString::fromLocal8Bit("****æ§åˆ¶ç‚¹åŒ¹é…"))
 						m_taskQueue_col.enqueue(task);
 				}
 			}
 
 			//if (enableLogging) {
-			//	logEdit->append(QString::fromLocal8Bit("ÒÑÍê³ÉÈÎÎñ£º%1/%2")
+			//	logEdit->append(QString::fromLocal8Bit("å·²å®Œæˆä»»åŠ¡ï¼š%1/%2")
 			//		.arg(m_completedTasks.load())
 			//		.arg(m_totalTasks));
 			//}
 
-			// ËùÓĞÈÎÎñÍê³ÉºóµÄ´¦Àí
+			// æ‰€æœ‰ä»»åŠ¡å®Œæˆåçš„å¤„ç†
 			if (m_completedTasks.load() == m_totalTasks) {
 				QDateTime endTime = QDateTime::currentDateTime();
 				if (enableLogging && m_taskQueue_col.empty()) {
 					//QMessageBox::StandardButton reply = QMessageBox::question(nullptr,
-					//	title + QString::fromLocal8Bit("ÒÑÍê³É"),
+					//	title + QString::fromLocal8Bit("å·²å®Œæˆ"),
 					//	QMessageBox::Yes | QMessageBox::No);
 					m_ExeName = "";
 					SimModelMutex.unlock();
 					QMessageBox msgBox;
 					msgBox.setWindowTitle(title);
-					msgBox.setText(title + QString::fromLocal8Bit("ÒÑÍê³É"));
+					msgBox.setText(title + QString::fromLocal8Bit("å·²å®Œæˆ"));
 
-					QPushButton *yesButton = msgBox.addButton(QString::fromLocal8Bit("È·ÈÏ"), QMessageBox::YesRole);
+					QPushButton *yesButton = msgBox.addButton(QString::fromLocal8Bit("ç¡®è®¤"), QMessageBox::YesRole);
 
 					msgBox.exec();
 
 					if (msgBox.clickedButton() == yesButton) {
 						return;
 					}
-					//logEdit->append(QString::fromLocal8Bit("****½áÊøÊ±¼ä£º") + endTime.toString(QString::fromLocal8Bit("hhÊ±mm·ÖssÃë")));
-					//logEdit->append(title + QString::fromLocal8Bit("×ÜºÄÊ±£º") + systemConfig->calculateTimeDifference(m_startTime, endTime));
+					//logEdit->append(QString::fromLocal8Bit("****ç»“æŸæ—¶é—´ï¼š") + endTime.toString(QString::fromLocal8Bit("hhæ—¶mmåˆ†ssç§’")));
+					//logEdit->append(title + QString::fromLocal8Bit("æ€»è€—æ—¶ï¼š") + systemConfig->calculateTimeDifference(m_startTime, endTime));
 				}
 
 				m_progressBarInitialized = false;
 				progressBar->setVisible(false);
 				m_completedTasks.store(0);
 				m_runningProcesses.store(0);
-				//if (title == QString::fromLocal8Bit("****¿ØÖÆµãÆ¥Åä")) {
+				//if (title == QString::fromLocal8Bit("****æ§åˆ¶ç‚¹åŒ¹é…")) {
 				//
 				//}
-				//else if (title == QString::fromLocal8Bit("****Á¬½ÓµãÆ¥Åä")) {
+				//else if (title == QString::fromLocal8Bit("****è¿æ¥ç‚¹åŒ¹é…")) {
 				//	//ModelMutex.unlock();
 				//	//emit EncryptedPointsMatchFinished();
 				//	//return;
@@ -326,7 +326,7 @@ void SimpleToolS::startNextTasks(QString title, bool enableLogging)
 			m_SimProcesses.removeOne(process);
 			process->deleteLater();
 
-				// ½öÔÚĞèÒªÊ±´¥·¢ĞÂÈÎÎñ¼ì²é
+				// ä»…åœ¨éœ€è¦æ—¶è§¦å‘æ–°ä»»åŠ¡æ£€æŸ¥
 			if (m_runningProcesses.load() < m_maxConcurrentProcesses && !m_taskQueue.isEmpty()) {
 				QMetaObject::invokeMethod(this, "startNextTasks",
 					Qt::QueuedConnection,
@@ -337,11 +337,11 @@ void SimpleToolS::startNextTasks(QString title, bool enableLogging)
 
 		m_runningProcesses.fetchAndAddOrdered(1);
 		m_SimProcesses.append(process);
-		//if (title == QString::fromLocal8Bit("****Ó°ÏñÔÆ¼ì"))
+		//if (title == QString::fromLocal8Bit("****å½±åƒäº‘æ£€"))
 		//{
 		//	process->start(task.operatorName, { task.taskFilePath, task.taskFilePath2 });
 		//}
-		//else if (title == QString::fromLocal8Bit("****Á¬½ÓµãÆ¥Åä"))
+		//else if (title == QString::fromLocal8Bit("****è¿æ¥ç‚¹åŒ¹é…"))
 		//{
 		//	process->start(task.operatorName, { task.taskFilePath, task.taskFilePath2, task.taskFilePath3 });
 		//}
@@ -367,7 +367,7 @@ void SimpleToolS::terminateAllProcesses()
 
 void SimpleToolS::on_pushButton_46_clicked()
 {
-	if (m_ExeName == u8"DEMÏà¹ØĞÔÖÊ¼ì")
+	if (m_ExeName == u8"DEMç›¸å…³æ€§è´¨æ£€")
 	{
 		DEMRelatedPropertyCheck();
 	}

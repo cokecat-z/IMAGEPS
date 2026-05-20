@@ -20,8 +20,10 @@ int main(int argc, char *argv[])
 
 	QApplication a(argc, argv);
 
-	// 设置字体 
-	int fontId = QFontDatabase::addApplicationFont("D:/CokeWork/VsProject/IMAGEPS/bin/resource/fonts/SourceHanSansSC-Medium.otf");
+	// 设置字体
+	QString exeDir = QCoreApplication::applicationDirPath();
+	QString fontPath = exeDir + "/resource/fonts/SourceHanSansSC-Medium.otf";
+	int fontId = QFontDatabase::addApplicationFont(fontPath);
 	if (fontId >= 0) {
 		QString family = QFontDatabase::applicationFontFamilies(fontId).at(0);
 		a.setFont(QFont(family));

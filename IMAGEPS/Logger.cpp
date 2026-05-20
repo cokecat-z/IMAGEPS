@@ -1,4 +1,4 @@
-#include "Logger.h"
+ï»¿#include "Logger.h"
 #include <QDir>
 #include <QCoreApplication>
 #include <QStandardPaths>
@@ -36,10 +36,10 @@ void Logger::write(LogLevel level, const QString& message, const char* file, int
 		fullMessage += QString::fromLocal8Bit(" (%1:%2)").arg(file).arg(line);
 	}
 
-	// Ğ´ÈëÎÄ¼ş 
+	// å†™å…¥æ–‡ä»¶ 
 	writeToFile(fullMessage);
 
-	// ¿ØÖÆÌ¨Êä³ö 
+	// æ§åˆ¶å°è¾“å‡º 
 	if (config_.consoleOutput) {
 		QTextStream out(stdout);
 		switch (level) {
@@ -54,7 +54,7 @@ void Logger::write(LogLevel level, const QString& message, const char* file, int
 		}
 	}
 
-	// ÏµÍ³ÈÕÖ¾
+	// ç³»ç»Ÿæ—¥å¿—
 	if (config_.useSystemLog) {
 		writeToSystemLog(level, fullMessage);
 	}

@@ -1,4 +1,4 @@
-#ifndef IMAGEPS_H
+ï»¿#ifndef IMAGEPS_H
 #define IMAGEPS_H
 
 #include <QtWidgets/QMainWindow>
@@ -54,6 +54,7 @@
 #include "PublicStruct.h"
 #include "NonEditableModel.h"
 #include "logger.h"
+#include "QgsMapCanvasWidget.h"
 
 
 enum ImageCorner {
@@ -76,11 +77,11 @@ struct XMLParseConfig {
 	QStringList fieldNames;
 };
 
-// ÅäÖÃÎÄ¼şÊı¾İ½á¹¹ 
+// é…ç½®æ–‡ä»¶æ•°æ®ç»“æ„ 
 struct SatelliteConfig {
-	QString prefix;      // ĞÇÔ´Ç°×º£¨ÈçGF1¡¢WV01£©
-	QString xmlSuffix;   // XMLÎÄ¼şºó×º
-	QString timeTag;     // Ê±¼ä±êÇ©Ãû
+	QString prefix;      // æ˜Ÿæºå‰ç¼€ï¼ˆå¦‚GF1ã€WV01ï¼‰
+	QString xmlSuffix;   // XMLæ–‡ä»¶åç¼€
+	QString timeTag;     // æ—¶é—´æ ‡ç­¾å
 };
 
 struct ImageGeoMetadata {
@@ -99,33 +100,33 @@ class IMAGEPS : public QMainWindow
 public:
 	IMAGEPS(QWidget *parent = nullptr);
 	~IMAGEPS();
-	QString projectdir;//¹¤³ÌÎÄ¼şÄ¿Â¼
-	QString connectPointsMatchmarkerFile; //Á¬½ÓµãÎÄ¼ş±ê¼Ç
-	QString colPointsMatchmarkerFile; //¿ØÖÆµãÎÄ¼ş±ê¼Ç
-	QString DataModelmarkerFile; //Ä£ĞÍÎÄ¼ş±ê¼Ç
+	QString projectdir;//å·¥ç¨‹æ–‡ä»¶ç›®å½•
+	QString connectPointsMatchmarkerFile; //è¿æ¥ç‚¹æ–‡ä»¶æ ‡è®°
+	QString colPointsMatchmarkerFile; //æ§åˆ¶ç‚¹æ–‡ä»¶æ ‡è®°
+	QString DataModelmarkerFile; //æ¨¡å‹æ–‡ä»¶æ ‡è®°
 	QString appDirPath;
 	Logger CurrentConfig;
 	QList<QString> colPointIds;
 	QList<QString> colPointIds_out;
-	QList<QString> m_visibleControlPointIds;      // µ±Ç°¿É¼ûµÄ¿ØÖÆµãIDÁĞ±í
-	QList<QString> m_visibleControlPointIds_conBack;      // µ±Ç°¿É¼ûµÄ¿ØÖÆµãIDÁĞ±í
+	QList<QString> m_visibleControlPointIds;      // å½“å‰å¯è§çš„æ§åˆ¶ç‚¹IDåˆ—è¡¨
+	QList<QString> m_visibleControlPointIds_conBack;      // å½“å‰å¯è§çš„æ§åˆ¶ç‚¹IDåˆ—è¡¨
 
 	//static IMAGEPS* instance;
 	QString getInstanceId() const { return m_instanceId.toString(); }
 	Ui::IMAGEPSClass ui;
 
-	QMap<QString, bool> tmpcontrolPointsPath; //¼ÓÔØ¹¤³ÌÊ¹ÓÃ
-	bool tmpcontrolPointsflag; //¼ÓÔØ¹¤³ÌÊ¹ÓÃ
-	QMap<QString, bool> tmpimageInterPath; //¼ÓÔØ¹¤³ÌÊ¹ÓÃ
-	bool tmpimageInterflag; //¼ÓÔØ¹¤³ÌÊ¹ÓÃ
+	QMap<QString, bool> tmpcontrolPointsPath; //åŠ è½½å·¥ç¨‹ä½¿ç”¨
+	bool tmpcontrolPointsflag; //åŠ è½½å·¥ç¨‹ä½¿ç”¨
+	QMap<QString, bool> tmpimageInterPath; //åŠ è½½å·¥ç¨‹ä½¿ç”¨
+	bool tmpimageInterflag; //åŠ è½½å·¥ç¨‹ä½¿ç”¨
 
-		// ÅäÖÃÏà¹Ø³ÉÔ±±äÁ¿
+		// é…ç½®ç›¸å…³æˆå‘˜å˜é‡
 	QString m_configFilePath;
-	QStringList m_rpcFileExtensions;    // RPCÎÄ¼şÀ©Õ¹ÃûÁĞ±í
-	QStringList m_imageFileExtensions;  // Í¼ÏñÎÄ¼şÀ©Õ¹ÃûÁĞ±í
-	QStringList m_tilFileExtensions;      // TILÎÄ¼şÀ©Õ¹ÃûÁĞ±í 
-	QStringList m_pyramidFileExtensions;  // ½ğ×ÖËşÎÄ¼şÀ©Õ¹ÃûÁĞ±í
-	QStringList m_cldFileExtensions;  // ÎÄ¼ş¼Ğ¹ıÂË×Ö¶ÎÁĞ±í
+	QStringList m_rpcFileExtensions;    // RPCæ–‡ä»¶æ‰©å±•ååˆ—è¡¨
+	QStringList m_imageFileExtensions;  // å›¾åƒæ–‡ä»¶æ‰©å±•ååˆ—è¡¨
+	QStringList m_tilFileExtensions;      // TILæ–‡ä»¶æ‰©å±•ååˆ—è¡¨ 
+	QStringList m_pyramidFileExtensions;  // é‡‘å­—å¡”æ–‡ä»¶æ‰©å±•ååˆ—è¡¨
+	QStringList m_cldFileExtensions;  // æ–‡ä»¶å¤¹è¿‡æ»¤å­—æ®µåˆ—è¡¨
 
 	//static QMap<QString, ImageGeoMetadata> s_imageMetadata;
 
@@ -154,9 +155,9 @@ public:
 	QDateTime readTimestampFromXml(const QString& nodeName);
 	QString getProjectDir(const QString& fullPath);
 
-	QMap<QString, bool> controlPointsPath; //¿ØÖÆµãÊä³öÎÄ¼şÂ·¾¶
-	QMap<QString, bool> modelMatchByInterPath; //Ä£ĞÍÅä×¼Êä³öÎÄ¼şÂ·¾¶
-	QMap<QString, bool> AbsPositPrecCheckPathPath; //¾ø¶Ô¶¨Î»ÖÊ¼ìÊä³öÎÄ¼şÂ·¾¶
+	QMap<QString, bool> controlPointsPath; //æ§åˆ¶ç‚¹è¾“å‡ºæ–‡ä»¶è·¯å¾„
+	QMap<QString, bool> modelMatchByInterPath; //æ¨¡å‹é…å‡†è¾“å‡ºæ–‡ä»¶è·¯å¾„
+	QMap<QString, bool> AbsPositPrecCheckPathPath; //ç»å¯¹å®šä½è´¨æ£€è¾“å‡ºæ–‡ä»¶è·¯å¾„
 	QPointF geoToScreen(double lon, double lat,
 		double minLon, double maxLon,
 		double minLat, double maxLat,
@@ -169,16 +170,16 @@ public:
 	bool getWorkProcessflag() const;
 	void setWorkProcessflag(bool flag);
 	//bool getDataModelPath(const QString& filePath) const;
-		// »ñÈ¡Ô­Ê¼Êı¾İÂ·¾¶ÁĞ±í
+		// è·å–åŸå§‹æ•°æ®è·¯å¾„åˆ—è¡¨
 	const QStringList& getDataModelPath() const;
 
-	// »ñÈ¡DOM²Î¿¼Êı¾İÂ·¾¶ÁĞ±í 
+	// è·å–DOMå‚è€ƒæ•°æ®è·¯å¾„åˆ—è¡¨ 
 	const QStringList& getDOMFilePath() const;
 
-	// »ñÈ¡DEM²Î¿¼Êı¾İÂ·¾¶ÁĞ±í 
+	// è·å–DEMå‚è€ƒæ•°æ®è·¯å¾„åˆ—è¡¨ 
 	const QStringList& getDEMFilePath() const;
 
-	// »ñÈ¡ÖÇÄÜÏâÇ¶Êı¾İÂ·¾¶ÁĞ±í 
+	// è·å–æ™ºèƒ½é•¶åµŒæ•°æ®è·¯å¾„åˆ—è¡¨ 
 	QStringList& getSmartMosaicFilePath();
 	bool getIsCtrlIMG(QString filename, int col) const;
 	void showChineseScrollBarContextMenu(QScrollBar* scrollBar, const QPoint& pos);
@@ -191,30 +192,30 @@ signals:
 	void buildPSIntersectObjCmdFileFinished();
 
 public slots:
-	bool newProActionSlot();//ĞÂ½¨¹¤³Ì
-	bool openProActionSlot();//´ò¿ª¹¤³Ì
-	bool saveProActionSlot();//±£´æ¹¤³Ì
+	bool newProActionSlot();//æ–°å»ºå·¥ç¨‹
+	bool openProActionSlot();//æ‰“å¼€å·¥ç¨‹
+	bool saveProActionSlot();//ä¿å­˜å·¥ç¨‹
 	void loadRecentFiles();
 	void updateRecentFiles(const QString& projectPath, const QString& projectPathname);
 	//bool openRecentProject(const QString& projectPath, const QString& projectPathname);
 	bool openRecentProject(const QString& projectPath_Recent);
-	void systemSetSlot();//ÏµÍ³ÅäÖÃ
-	void dataModelConfigActionSlot();//Êı¾İÄ£ĞÍÅäÖÃ
-	void connectPointsMatchActionSlot();//Á¬½ÓµãÆ¥Åä
-	void controlPointsMatchActionSlot();//¿ØÖÆµãÆ¥Åä
-	void OrthoRectificationFusion_actionSlot();  //×Ô¶¯»¯Á÷³ÌÒ»ÒµÎñ
-	void FreeNetworkAdjustmentActionSlot();//×ÔÓÉÍøÆ½²î
-	void controlNetAdjustmentActionSlot();//¿ØÖÆÍøÍøÆ½²î
-	void orthorectificAtionSlot();  //ÕıÉä¾ÀÕı
-	void imageInterActionSlot();  //Ó°ÏñÈÚºÏ
-	void trueColorConveractionSlot();  //Õæ²ÊÉ«×ª»»
-	void DodgingactionSlot(); //Ó°ÏñÔÈÉ«
-	void ImageMosaicactionSlot(); //Ó°ÏñÏâÇ¶
-	void SmartMosaicactionSlot(); //ÖÇÄÜÏâÇ¶
-	void allMapShow_actionSlot();//È«Í¼ÏÔÊ¾
-	void amplify_actionSlot();//·Å´ó
-	void narrow_actionSlot();//ËõĞ¡
-	void translation_actionSlot();//Æ½ÒÆ
+	void systemSetSlot();//ç³»ç»Ÿé…ç½®
+	void dataModelConfigActionSlot();//æ•°æ®æ¨¡å‹é…ç½®
+	void connectPointsMatchActionSlot();//è¿æ¥ç‚¹åŒ¹é…
+	void controlPointsMatchActionSlot();//æ§åˆ¶ç‚¹åŒ¹é…
+	void OrthoRectificationFusion_actionSlot();  //è‡ªåŠ¨åŒ–æµç¨‹ä¸€ä¸šåŠ¡
+	void FreeNetworkAdjustmentActionSlot();//è‡ªç”±ç½‘å¹³å·®
+	void controlNetAdjustmentActionSlot();//æ§åˆ¶ç½‘ç½‘å¹³å·®
+	void orthorectificAtionSlot();  //æ­£å°„çº æ­£
+	void imageInterActionSlot();  //å½±åƒèåˆ
+	void trueColorConveractionSlot();  //çœŸå½©è‰²è½¬æ¢
+	void DodgingactionSlot(); //å½±åƒåŒ€è‰²
+	void ImageMosaicactionSlot(); //å½±åƒé•¶åµŒ
+	void SmartMosaicactionSlot(); //æ™ºèƒ½é•¶åµŒ
+	void allMapShow_actionSlot();//å…¨å›¾æ˜¾ç¤º
+	void amplify_actionSlot();//æ”¾å¤§
+	void narrow_actionSlot();//ç¼©å°
+	void translation_actionSlot();//å¹³ç§»
 	void onTabChanged(int index);
 	void closeEvent(QCloseEvent *event);
 	bool buildPSIntersectObjCmdFile();
@@ -223,41 +224,41 @@ public slots:
 	void onEncryptedPointSelected(const QItemSelection &selected, const QItemSelection &deselected);
 	void onControlPointSelected(const QItemSelection &selected, const QItemSelection &deselected);
 
-	void referDataList_TabWContextSlot(const QPoint &pos);//²Î¿¼Êı¾İÁĞ±íÓÒ¼ü
-	void sateImageDataList_TabWContextSlot(const QPoint &pos);//ÎÀĞÇÓ°ÏñÊı¾İÁĞ±íÓÒ¼ü
-	void PyramidDataList_TabWContextSlot(const QPoint & pos);//½ğ×ÖËşÊı¾İÁĞ±íÓÒ¼ü
-	void ImageInterList_TabWContextSlot(const QPoint & pos);//Õæ²ÊÉ«×ª»»ÁĞ±íÓÒ¼ü
-	void DodgingList_TabWContextSlot(const QPoint & pos);//Ó°ÏñÔÈÉ«ÁĞ±íÓÒ¼ü
-	void ImageMosaicList_TabWContextSlot(const QPoint & pos);//Ó°ÏñÏâÇ¶ÁĞ±íÓÒ¼ü
-	void QuickMosaicDataList_TabWContextSlot(const QPoint & pos);//¿ìËÙÏâÇ¶ÁĞ±íÓÒ¼ü
-	void AlignmentAdjustmentList_TabWContextSlot(const QPoint & pos);//Åä×¼¾ÀÕıÁĞ±íÓÒ¼ü
-	void FusionmodelsrcList_TabWContextSlot(const QPoint & pos);//Ó°ÏñÈÚºÏÁĞ±íÓÒ¼ü
-	void FusionmodelList_TabWContextSlot(const QPoint & pos);//Ó°ÏñÈÚºÏÁĞ±íÓÒ¼ü
-	void AlignmentIntsrcList_TabWContextSlot(const QPoint & pos);//Åä×¼ÈÚºÏÁĞ±íÓÒ¼ü
-	void AlignmentIntList_TabWContextSlot(const QPoint & pos);//Åä×¼ÈÚºÏÁĞ±íÓÒ¼ü
-	void SmartMosaicDataList_TabWContextSlot(const QPoint & pos);//ÖÇÄÜÏâÇ¶ÁĞ±íÓÒ¼ü
-	void MosaicCropDataList_TabWContextSlot(const QPoint & pos);//ÖÇÄÜÏâÇ¶ÁĞ±íÓÒ¼ü
-	void ImagecropDataList_TabWContextSlot(const QPoint & pos);//Ó°Ïñ²ÃÇĞÊı¾İÁĞ±íÓÒ¼ü
-	void VectorfileDataList_TabWContextSlot(const QPoint & pos);//²ÃÇĞÊ¸Á¿Êı¾İÁĞ±íÓÒ¼ü
-	void AbsPositPrecCheckList_TabWContextSlot(const QPoint & pos);//¾ø¶Ô¶¨Î»¾«¶ÈÖÊ¼ìÁĞ±íÓÒ¼ü
-	void RelPositPrecCheckList_TabWContextSlot(const QPoint & pos);//Ïà¶Ô¶¨Î»¾«¶ÈÖÊ¼ìÁĞ±íÓÒ¼ü
-	void measureAreaShow_GLWContextSlot(const QPoint &pos);//²âÇøÏÔÊ¾ÓÒ¼ü
-	void encryptPointsList_TabWContextSlot(const QPoint &pos);//¼ÓÃÜµãÁĞ±íÓÒ¼ü
-	void controlPointsLIst_TabWContextSlot(const QPoint &pos);//¿ØÖÆµãÁĞ±íÓÒ¼ü
-	void CloudDetectionDataList_TabWContextSlot(const QPoint &pos);//Ò£¸ĞÓ°ÏñÔÆ¼ìÊı¾İÁĞ±íÁĞ±íÓÒ¼ü
-	void CloudDetectionLIst_TabWContextSlot(const QPoint &pos);//ÔÆ¼ì³É¹ûÁĞ±íÓÒ¼ü
-	void ProTransformationDataList_TabWContextSlot(const QPoint &pos);//Í¶Ó°×ª»»Êı¾İÁĞ±íÓÒ¼ü
-	void FormatConversionDataList_TabWContextSlot(const QPoint &pos);//¸ñÊ½×ª»»Êı¾İÁĞ±íÓÒ¼ü
-	void SARImageFilteringDataList_TabWContextSlot(const QPoint &pos);//SARÓ°ÏñÂË²¨Êı¾İÁĞ±íÓÒ¼ü
-	void imageHandleBus_TreWContextSlot(const QPoint &pos);//Ó°Ïñ´¦ÀíÒµÎñÓÒ¼ü
-	void imageHandleBus_TreWSlot(QTreeWidgetItem *item, int column);//Ó°Ïñ´¦ÀíÒµÎñ×ó¼ü
-	void pointsInfoList_DockWContextSlot(const QPoint &pos);//µãĞÅÏ¢ÁĞ±íÓÒ¼ü
-	void attributeView_actionSLOT(int row, int column); //ÊôĞÔÊÓÍ¼
+	void referDataList_TabWContextSlot(const QPoint &pos);//å‚è€ƒæ•°æ®åˆ—è¡¨å³é”®
+	void sateImageDataList_TabWContextSlot(const QPoint &pos);//å«æ˜Ÿå½±åƒæ•°æ®åˆ—è¡¨å³é”®
+	void PyramidDataList_TabWContextSlot(const QPoint & pos);//é‡‘å­—å¡”æ•°æ®åˆ—è¡¨å³é”®
+	void ImageInterList_TabWContextSlot(const QPoint & pos);//çœŸå½©è‰²è½¬æ¢åˆ—è¡¨å³é”®
+	void DodgingList_TabWContextSlot(const QPoint & pos);//å½±åƒåŒ€è‰²åˆ—è¡¨å³é”®
+	void ImageMosaicList_TabWContextSlot(const QPoint & pos);//å½±åƒé•¶åµŒåˆ—è¡¨å³é”®
+	void QuickMosaicDataList_TabWContextSlot(const QPoint & pos);//å¿«é€Ÿé•¶åµŒåˆ—è¡¨å³é”®
+	void AlignmentAdjustmentList_TabWContextSlot(const QPoint & pos);//é…å‡†çº æ­£åˆ—è¡¨å³é”®
+	void FusionmodelsrcList_TabWContextSlot(const QPoint & pos);//å½±åƒèåˆåˆ—è¡¨å³é”®
+	void FusionmodelList_TabWContextSlot(const QPoint & pos);//å½±åƒèåˆåˆ—è¡¨å³é”®
+	void AlignmentIntsrcList_TabWContextSlot(const QPoint & pos);//é…å‡†èåˆåˆ—è¡¨å³é”®
+	void AlignmentIntList_TabWContextSlot(const QPoint & pos);//é…å‡†èåˆåˆ—è¡¨å³é”®
+	void SmartMosaicDataList_TabWContextSlot(const QPoint & pos);//æ™ºèƒ½é•¶åµŒåˆ—è¡¨å³é”®
+	void MosaicCropDataList_TabWContextSlot(const QPoint & pos);//æ™ºèƒ½é•¶åµŒåˆ—è¡¨å³é”®
+	void ImagecropDataList_TabWContextSlot(const QPoint & pos);//å½±åƒè£åˆ‡æ•°æ®åˆ—è¡¨å³é”®
+	void VectorfileDataList_TabWContextSlot(const QPoint & pos);//è£åˆ‡çŸ¢é‡æ•°æ®åˆ—è¡¨å³é”®
+	void AbsPositPrecCheckList_TabWContextSlot(const QPoint & pos);//ç»å¯¹å®šä½ç²¾åº¦è´¨æ£€åˆ—è¡¨å³é”®
+	void RelPositPrecCheckList_TabWContextSlot(const QPoint & pos);//ç›¸å¯¹å®šä½ç²¾åº¦è´¨æ£€åˆ—è¡¨å³é”®
+	void measureAreaShow_GLWContextSlot(const QPoint &pos);//æµ‹åŒºæ˜¾ç¤ºå³é”®
+	void encryptPointsList_TabWContextSlot(const QPoint &pos);//åŠ å¯†ç‚¹åˆ—è¡¨å³é”®
+	void controlPointsLIst_TabWContextSlot(const QPoint &pos);//æ§åˆ¶ç‚¹åˆ—è¡¨å³é”®
+	void CloudDetectionDataList_TabWContextSlot(const QPoint &pos);//é¥æ„Ÿå½±åƒäº‘æ£€æ•°æ®åˆ—è¡¨åˆ—è¡¨å³é”®
+	void CloudDetectionLIst_TabWContextSlot(const QPoint &pos);//äº‘æ£€æˆæœåˆ—è¡¨å³é”®
+	void ProTransformationDataList_TabWContextSlot(const QPoint &pos);//æŠ•å½±è½¬æ¢æ•°æ®åˆ—è¡¨å³é”®
+	void FormatConversionDataList_TabWContextSlot(const QPoint &pos);//æ ¼å¼è½¬æ¢æ•°æ®åˆ—è¡¨å³é”®
+	void SARImageFilteringDataList_TabWContextSlot(const QPoint &pos);//SARå½±åƒæ»¤æ³¢æ•°æ®åˆ—è¡¨å³é”®
+	void imageHandleBus_TreWContextSlot(const QPoint &pos);//å½±åƒå¤„ç†ä¸šåŠ¡å³é”®
+	void imageHandleBus_TreWSlot(QTreeWidgetItem *item, int column);//å½±åƒå¤„ç†ä¸šåŠ¡å·¦é”®
+	void pointsInfoList_DockWContextSlot(const QPoint &pos);//ç‚¹ä¿¡æ¯åˆ—è¡¨å³é”®
+	void attributeView_actionSLOT(int row, int column); //å±æ€§è§†å›¾
 
-	void AbsPositPrecCheckPList(); //Ïà¶Ô¶¨Î»¾«¶ÈÖÊ¼ìÁĞ±í
-	void CloudDetectionList(); //ÔÆ¼ì³É¹ûÁĞ±íÊı¾İĞ´Èë
+	void AbsPositPrecCheckPList(); //ç›¸å¯¹å®šä½ç²¾åº¦è´¨æ£€åˆ—è¡¨
+	void CloudDetectionList(); //äº‘æ£€æˆæœåˆ—è¡¨æ•°æ®å†™å…¥
 
-	void killAllProcesses(bool flag = true);  // É±ËÀËùÓĞ½ø³ÌµÄ²Ûº¯Êı
+	void killAllProcesses(bool flag = true);  // æ€æ­»æ‰€æœ‰è¿›ç¨‹çš„æ§½å‡½æ•°
 
 	void on_pushButton_clicked();
 	void on_pushButton_2_clicked();
@@ -292,13 +293,13 @@ private:
 	void inline setImage(const QImage &image)
 	{
 		m_image = image;
-		update(); // ´¥·¢paintEvent
+		update(); // è§¦å‘paintEvent
 	}
 
 	void inline clearImage()
 	{
 		m_image = QImage();
-		update(); // ´¥·¢paintEvent
+		update(); // è§¦å‘paintEvent
 	}
 
 	//GeoCoordinates parseGeoXML(const QString& xmlPath);
@@ -310,11 +311,11 @@ private:
 		double& minLat, double& maxLat);
 	void ReadXMLresult();
 
-	void loadXMLConfigs(); // ¼ÓÔØÅäÖÃÎÄ¼ş
-	GeoCoordinates parseGeoXML(const QString& xmlPath, const XMLParseConfig& config); // Ê¹ÓÃÅäÖÃ½âÎöXML
-	GeoCoordinates parseGeoXMLBJ3(const QString& xmlPath, const XMLParseConfig& config); // Ê¹ÓÃÅäÖÃ½âÎöXML
+	void loadXMLConfigs(); // åŠ è½½é…ç½®æ–‡ä»¶
+	GeoCoordinates parseGeoXML(const QString& xmlPath, const XMLParseConfig& config); // ä½¿ç”¨é…ç½®è§£æXML
+	GeoCoordinates parseGeoXMLBJ3(const QString& xmlPath, const XMLParseConfig& config); // ä½¿ç”¨é…ç½®è§£æXML
 
-	//±£´æ¹¤³Ì¸¨Öúº¯Êı
+	//ä¿å­˜å·¥ç¨‹è¾…åŠ©å‡½æ•°
 	bool writeControlPointXml(const QString& projectFolder);
 	bool writeSatImageXml(const QString& projectFolder);
 	void writeCreatePydImageXml();
@@ -359,7 +360,7 @@ private:
     void sortNumericColumn(QTableWidget *table, int column, Qt::SortOrder order);
     void sortNumericColumn(QTableView* tableView, int column, Qt::SortOrder order);
 	void sortNumericColumn_SmartM(QTableWidget * table, int column, Qt::SortOrder order);
-    void productionconfiguration(); //´ò¿ªÉú²úÅäÖÃ½çÃæ
+    void productionconfiguration(); //æ‰“å¼€ç”Ÿäº§é…ç½®ç•Œé¢
     void setUiEnabled(QWidget* window, bool enabled);
 
 	void loadOriginalImagesFromFiles(QTableWidget* tableWidget, QStringList& filePathList);
@@ -391,13 +392,13 @@ private:
 
 	QStringList syncFileOrderWithTable(QStringList & filePaths, QTableWidget * table);
 
-	// ´ÓXMLÎÄ¼ş¶ÁÈ¡¼ÓÃÜµã 
+	// ä»XMLæ–‡ä»¶è¯»å–åŠ å¯†ç‚¹ 
 	bool readEncryptedPointsFromXml(const QString& filePath);
 	bool writeEncryptedPointsToXml(const QString& filePath);
 
 	bool readControlPointsFromXml(const QString& filePath);
 	bool writeControlPointsToXml(const QString& filePath);
-	// ÅäÖÃÏà¹Øº¯Êı 
+	// é…ç½®ç›¸å…³å‡½æ•° 
 	void loadConfiguration();
 	void saveConfiguration();
 	QStringList getConfigStringList(const QString& section, const QString& key, const QStringList& defaultValue);
@@ -405,50 +406,50 @@ private:
 private:
 	QUuid m_instanceId;
     QImage m_image;
-    QString projectPath;//¹¤³ÌÎÄ¼şÂ·¾¶
-    QString parentDir; //Ô­Ê¼Ó°Ïñ¾ø¶ÔÂ·¾¶
-    QStringList CreatepyramidPath;//´´½¨½ğ×ÖËşÎÄ¼şÂ·¾¶
-    QStringList DataModelPath;//Ä£ĞÍ´´½¨ÎÄ¼şÂ·¾¶|ÎÀĞÇ²Î¿¼Êı¾İÎÄ¼şÂ·¾¶
-    QStringList DOMFilePath;//DOMÎÄ¼şÂ·¾¶
-    QStringList DEMFilePath;//DEMÎÄ¼şÂ·¾¶
-    QStringList ImageInterFilePath;//Õæ²ÊÉ«×ª»¯ÎÄ¼şÂ·¾¶
-    QStringList AlignmentAdFilePath;//Åä×¼¾ÀÕıÎÄ¼şÂ·¾¶
-    QStringList FusionmodelFilePath;//Ó°ÏñÈÚºÏÎÄ¼şÂ·¾¶
-    QStringList AlignmentIntFilePath;//Åä×¼ÈÚºÏÎÄ¼şÂ·¾¶
-    QStringList SmartMosaicFilePath;//ÖÇÄÜÏâÇ¶ÎÄ¼şÂ·¾¶
-    QStringList MosaicCropFilePath;//ÖÇÄÜÏâÇ¶²ÃÇĞ·¶Î§ÎÄ¼şÂ·¾¶
-    QStringList DodgingFilePath;//Ó°ÏñÔÈÉ«ÎÄ¼şÂ·¾¶
-    QStringList ImageMosaicFilePath;//Ó°ÏñÏâÇ¶ÎÄ¼şÂ·¾¶
-    QStringList QuickMosaicFilePath;//¿ìËÙÏâÇ¶ÎÄ¼şÂ·¾¶
-    QStringList ImagecropFilePath;//Ó°Ïñ²ÃÇĞÎÄ¼şÂ·¾¶
-    QStringList VectorfileFilePath;//²ÃÇĞÊ¸Á¿ÎÄ¼şÂ·¾¶
-    QStringList AbsPositPrecCheckFilePath;//¾ø¶Ô¶¨Î»¾«¶ÈÖÊ¼ìÎÄ¼şÂ·¾¶
-    QStringList RelPositPrecCheckFilePath;//Ïà¶Ô¶¨Î»¾«¶ÈÖÊ¼ìÎÄ¼şÂ·¾¶
-    QStringList CloudDetectionDataListFilePath;//ÔÆ¼ìÊı¾İÎÄ¼şÂ·¾¶
-    QStringList CloudDetectionListFilePath;//ÔÆ¼ì³É¹ûÎÄ¼şÂ·¾¶
-    QStringList ProTransformationFilePath;//Í¶Ó°×ª»»ÎÄ¼şÂ·¾¶
-    QStringList FormatConversionFilePath;//¸ñÊ½×ª»»ÎÄ¼şÂ·¾¶
-    QStringList SARImageFilteringFilePath;//SARÓ°ÏñÂË²¨Êı¾İÎÄ¼şÂ·¾¶
+    QString projectPath;//å·¥ç¨‹æ–‡ä»¶è·¯å¾„
+    QString parentDir; //åŸå§‹å½±åƒç»å¯¹è·¯å¾„
+    QStringList CreatepyramidPath;//åˆ›å»ºé‡‘å­—å¡”æ–‡ä»¶è·¯å¾„
+    QStringList DataModelPath;//æ¨¡å‹åˆ›å»ºæ–‡ä»¶è·¯å¾„|å«æ˜Ÿå‚è€ƒæ•°æ®æ–‡ä»¶è·¯å¾„
+    QStringList DOMFilePath;//DOMæ–‡ä»¶è·¯å¾„
+    QStringList DEMFilePath;//DEMæ–‡ä»¶è·¯å¾„
+    QStringList ImageInterFilePath;//çœŸå½©è‰²è½¬åŒ–æ–‡ä»¶è·¯å¾„
+    QStringList AlignmentAdFilePath;//é…å‡†çº æ­£æ–‡ä»¶è·¯å¾„
+    QStringList FusionmodelFilePath;//å½±åƒèåˆæ–‡ä»¶è·¯å¾„
+    QStringList AlignmentIntFilePath;//é…å‡†èåˆæ–‡ä»¶è·¯å¾„
+    QStringList SmartMosaicFilePath;//æ™ºèƒ½é•¶åµŒæ–‡ä»¶è·¯å¾„
+    QStringList MosaicCropFilePath;//æ™ºèƒ½é•¶åµŒè£åˆ‡èŒƒå›´æ–‡ä»¶è·¯å¾„
+    QStringList DodgingFilePath;//å½±åƒåŒ€è‰²æ–‡ä»¶è·¯å¾„
+    QStringList ImageMosaicFilePath;//å½±åƒé•¶åµŒæ–‡ä»¶è·¯å¾„
+    QStringList QuickMosaicFilePath;//å¿«é€Ÿé•¶åµŒæ–‡ä»¶è·¯å¾„
+    QStringList ImagecropFilePath;//å½±åƒè£åˆ‡æ–‡ä»¶è·¯å¾„
+    QStringList VectorfileFilePath;//è£åˆ‡çŸ¢é‡æ–‡ä»¶è·¯å¾„
+    QStringList AbsPositPrecCheckFilePath;//ç»å¯¹å®šä½ç²¾åº¦è´¨æ£€æ–‡ä»¶è·¯å¾„
+    QStringList RelPositPrecCheckFilePath;//ç›¸å¯¹å®šä½ç²¾åº¦è´¨æ£€æ–‡ä»¶è·¯å¾„
+    QStringList CloudDetectionDataListFilePath;//äº‘æ£€æ•°æ®æ–‡ä»¶è·¯å¾„
+    QStringList CloudDetectionListFilePath;//äº‘æ£€æˆæœæ–‡ä»¶è·¯å¾„
+    QStringList ProTransformationFilePath;//æŠ•å½±è½¬æ¢æ–‡ä»¶è·¯å¾„
+    QStringList FormatConversionFilePath;//æ ¼å¼è½¬æ¢æ–‡ä»¶è·¯å¾„
+    QStringList SARImageFilteringFilePath;//SARå½±åƒæ»¤æ³¢æ•°æ®æ–‡ä»¶è·¯å¾„
 
-	QStringList TmpDataModelPath;//Ä£ĞÍ´´½¨ÎÄ¼şÂ·¾¶|ÎÀĞÇ²Î¿¼Êı¾İÎÄ¼şÂ·¾¶
-	//QStringList TmpDOMFilePath;//DOMÎÄ¼şÂ·¾¶
-	//QStringList TmpDEMFilePath;//DEMÎÄ¼şÂ·¾¶
+	QStringList TmpDataModelPath;//æ¨¡å‹åˆ›å»ºæ–‡ä»¶è·¯å¾„|å«æ˜Ÿå‚è€ƒæ•°æ®æ–‡ä»¶è·¯å¾„
+	//QStringList TmpDOMFilePath;//DOMæ–‡ä»¶è·¯å¾„
+	//QStringList TmpDEMFilePath;//DEMæ–‡ä»¶è·¯å¾„
 
-	QMap<QString, QAction*> Map_mainToolBarAction;//Ö÷²Ëµ¥->²Ëµ¥×ÓÏî
+	QMap<QString, QAction*> Map_mainToolBarAction;//ä¸»èœå•->èœå•å­é¡¹
 	SystemConfig* systemConfig = nullptr;
 	DataModelConfig* dataModelConfig = nullptr;
 	MeasurementareaShow* Measurementarea = nullptr;
 	SimpleToolS* SimpleToolSWidget = nullptr;
     SetOrthoInfo* SetOrthoInfoWidget = nullptr;
 	QMetaObject::Connection m_encryptedPointsConnection;
-	QMetaObject::Connection m_connection; //Á¬½Ó±äÁ¿
+	QMetaObject::Connection m_connection; //è¿æ¥å˜é‡
 	QHash<QString, int> DataimageListMap;
 	bool OrthoRectificationFusionflag;
-	QMap<QString, XMLParseConfig> xmlConfigs; // ´æ´¢²»Í¬Ç°×ºµÄÅäÖÃ
-	QString m_lastPath = "C:"; //¼ÇÂ¼ÉÏ´ÎÂ·¾¶
+	QMap<QString, XMLParseConfig> xmlConfigs; // å­˜å‚¨ä¸åŒå‰ç¼€çš„é…ç½®
+	QString m_lastPath = "C:"; //è®°å½•ä¸Šæ¬¡è·¯å¾„
 	bool closeflag;
-	bool m_isModified = false;  // ±ê¼ÇÊÇ·ñÓĞÎ´±£´æµÄ¸ü¸Ä
-	bool m_ImageselectionAll = false;  // Ó°ÏñÑ¡Ôñ(ÎÀĞÇÓ°ÏñºÍ²Î¿¼Ó°Ïñ)
+	bool m_isModified = false;  // æ ‡è®°æ˜¯å¦æœ‰æœªä¿å­˜çš„æ›´æ”¹
+	bool m_ImageselectionAll = false;  // å½±åƒé€‰æ‹©(å«æ˜Ÿå½±åƒå’Œå‚è€ƒå½±åƒ)
 	QSettings* settings;
 
 	QAtomicInt m_processedCount;
@@ -459,24 +460,24 @@ private:
 		QString moniFile;
 	};
 	QVector<TaskData> m_taskData;
-	QList<QProcess*> m_childProcesses;  // ´æ´¢ËùÓĞ×Ó½ø³ÌÖ¸Õë
-	QList<QList<QVariant>> m_encListData; // ´æ´¢¼ÓÃÜµã±í¸ñÊı¾İ 
-	QList<QList<QVariant>> m_colListData; // ´æ´¢¿ØÖÆµã±í¸ñÊı¾İ 
+	QList<QProcess*> m_childProcesses;  // å­˜å‚¨æ‰€æœ‰å­è¿›ç¨‹æŒ‡é’ˆ
+	QList<QList<QVariant>> m_encListData; // å­˜å‚¨åŠ å¯†ç‚¹è¡¨æ ¼æ•°æ® 
+	QList<QList<QVariant>> m_colListData; // å­˜å‚¨æ§åˆ¶ç‚¹è¡¨æ ¼æ•°æ® 
 
 	NonEditableModel *encryptPointsModel;
 	NonEditableModel *ControlPointsModel;
 
-	// Ê¹ÓÃ¹şÏ£±í´æ´¢¼ÓÃÜµãÊı¾İ£¬¼üÎªµãID 
+	// ä½¿ç”¨å“ˆå¸Œè¡¨å­˜å‚¨åŠ å¯†ç‚¹æ•°æ®ï¼Œé”®ä¸ºç‚¹ID 
 	QHash<QString, EncryptedPoint> m_encryptedPoints;
-	// ÓÃÓÚÀÁ¼ÓÔØµÄ·ÖÒ³Êı¾İ 
-	QList<QString> m_visiblePointIds; // µ±Ç°¿É¼ûµÄµãIDÁĞ±í 
+	// ç”¨äºæ‡’åŠ è½½çš„åˆ†é¡µæ•°æ® 
+	QList<QString> m_visiblePointIds; // å½“å‰å¯è§çš„ç‚¹IDåˆ—è¡¨ 
 	int m_currentPage = 0;
-	const int PAGE_SIZE = 1000000; // Ã¿Ò³ÏÔÊ¾1000ĞĞ 
+	const int PAGE_SIZE = 1000000; // æ¯é¡µæ˜¾ç¤º1000è¡Œ 
 
-	QHash<QString, ControlPoint> m_controlPoints; // ´æ´¢ËùÓĞ¿ØÖÆµãÊı¾İ
-	QHash<QString, ControlPoint> m_controlPoints_conBack; // ´æ´¢icp¿ØÖÆµãÊı¾İ±¸·İ
-	int m_currentControlPointPage = 0;            // µ±Ç°¿ØÖÆµãÒ³Âë 
-	const int CONTROL_POINT_PAGE_SIZE = 1000000;     // Ã¿Ò³ÏÔÊ¾µÄ¿ØÖÆµãÊı 
+	QHash<QString, ControlPoint> m_controlPoints; // å­˜å‚¨æ‰€æœ‰æ§åˆ¶ç‚¹æ•°æ®
+	QHash<QString, ControlPoint> m_controlPoints_conBack; // å­˜å‚¨icpæ§åˆ¶ç‚¹æ•°æ®å¤‡ä»½
+	int m_currentControlPointPage = 0;            // å½“å‰æ§åˆ¶ç‚¹é¡µç  
+	const int CONTROL_POINT_PAGE_SIZE = 1000000;     // æ¯é¡µæ˜¾ç¤ºçš„æ§åˆ¶ç‚¹æ•° 
 
     QMetaObject::Connection buildPSIntersectObjCmdFileConnection;
 

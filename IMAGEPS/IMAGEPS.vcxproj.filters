@@ -77,16 +77,13 @@
     <QtMoc Include="ImageCloudSnowProcessing.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="RPC2RPB.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
     <QtMoc Include="HeightAnomalyProcessing.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="InvalidValueHandling.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="ImageCropTool.h">
+    <QtMoc Include="QgsMapCanvasWidget.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>
@@ -142,16 +139,13 @@
     <ClCompile Include="Logger.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="RPC2RPB.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="HeightAnomalyProcessing.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ImageCropTool.cpp">
+    <ClCompile Include="InvalidValueHandling.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="InvalidValueHandling.cpp">
+    <ClCompile Include="QgsMapCanvasWidget.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -180,13 +174,7 @@
     <QtUic Include="ImageCloudSnowProcessing.ui">
       <Filter>Form Files</Filter>
     </QtUic>
-    <QtUic Include="RPC2RPB.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
     <QtUic Include="HeightAnomalyProcessing.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
-    <QtUic Include="ImageCropTool.ui">
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="InvalidValueHandling.ui">

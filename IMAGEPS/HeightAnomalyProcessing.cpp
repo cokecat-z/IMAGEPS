@@ -1,4 +1,4 @@
-#include "HeightAnomalyProcessing.h"
+ï»¿#include "HeightAnomalyProcessing.h"
 
 //HeightAnomalyProcessing* HeightAnomalyProcessing::instance = nullptr;
 
@@ -6,8 +6,8 @@ HeightAnomalyProcessing::HeightAnomalyProcessing(QWidget *parent)
 	: QDialog(parent)
 {
 	ui.setupUi(this);
-	setWindowTitle(QString::fromLocal8Bit("Ó°Ïñ±à¼­´¦Àí"));
-	setWindowIcon(QIcon(QString::fromLocal8Bit(":/resource/menu/¹¤¾ß/¸ß³ÌÒì³£´¦Àí.png")));
+	setWindowTitle(QString::fromLocal8Bit("å½±åƒç¼–è¾‘å¤„ç†"));
+	setWindowIcon(QIcon(QString::fromLocal8Bit(":/resource/menu/å·¥å…·/é«˜ç¨‹å¼‚å¸¸å¤„ç†.png")));
 
 	QString exeDir = QCoreApplication::applicationDirPath();
 	QDir dir(exeDir);
@@ -23,7 +23,7 @@ HeightAnomalyProcessing::~HeightAnomalyProcessing()
 void HeightAnomalyProcessing::initWidget()
 {
 	//setWindowFlags(Qt::Dialog | Qt::MSWindowsFixedSizeDialogHint);
-	setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint); // ÒÆ³ı°ïÖú°´Å¥
+	setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint); // ç§»é™¤å¸®åŠ©æŒ‰é’®
 
 	buttonGroup_model = {
 		ui.HeightAnomalyDetection_btn , ui.HeightAnomalyElimination_btn/*, ui.DSMDEMLogicalConsistencyProcessing_btn,
@@ -32,16 +32,16 @@ void HeightAnomalyProcessing::initWidget()
 	};
 
 	QStringList iconPaths = {
-		QString::fromLocal8Bit(":/resource/menu/×Ó²Ëµ¥/¸ß³ÌÒì³£Ïû³ı.png"),
-		QString::fromLocal8Bit(":/resource/menu/×Ó²Ëµ¥/¸ß³ÌÒì³£²éÕÒ.png"),
-		//QString::fromLocal8Bit(":/resource/menu/×Ó²Ëµ¥/DSM-DEMÂß¼­Ò»ÖÂĞÔ´¦Àí.png"),
-		//QString::fromLocal8Bit(":/resource/menu/×Ó²Ëµ¥/DSM-DEMÂß¼­Ò»ÖÂĞÔ´¦Àí(²¢ĞĞ).png"),
-		//QString::fromLocal8Bit(":/resource/menu/×Ó²Ëµ¥/DSM-DEM±ê×¼»¯¼ì²é.png"),
-		//QString::fromLocal8Bit(":/resource/menu/×Ó²Ëµ¥/DSM-DEM½Ó±ß¼ì²é.png"),
-		//QString::fromLocal8Bit(":/resource/menu/×Ó²Ëµ¥/DEMÏà¹ØĞÔÖÊ¼ì¹¤¾ß.png")
+		QString::fromLocal8Bit(":/resource/menu/å­èœå•/é«˜ç¨‹å¼‚å¸¸æ¶ˆé™¤.png"),
+		QString::fromLocal8Bit(":/resource/menu/å­èœå•/é«˜ç¨‹å¼‚å¸¸æŸ¥æ‰¾.png"),
+		//QString::fromLocal8Bit(":/resource/menu/å­èœå•/DSM-DEMé€»è¾‘ä¸€è‡´æ€§å¤„ç†.png"),
+		//QString::fromLocal8Bit(":/resource/menu/å­èœå•/DSM-DEMé€»è¾‘ä¸€è‡´æ€§å¤„ç†(å¹¶è¡Œ).png"),
+		//QString::fromLocal8Bit(":/resource/menu/å­èœå•/DSM-DEMæ ‡å‡†åŒ–æ£€æŸ¥.png"),
+		//QString::fromLocal8Bit(":/resource/menu/å­èœå•/DSM-DEMæ¥è¾¹æ£€æŸ¥.png"),
+		//QString::fromLocal8Bit(":/resource/menu/å­èœå•/DEMç›¸å…³æ€§è´¨æ£€å·¥å…·.png")
 	};
 
-	// ÎªÃ¿¸ö°´Å¥ÉèÖÃÍ¼±ê
+	// ä¸ºæ¯ä¸ªæŒ‰é’®è®¾ç½®å›¾æ ‡
 	for (int i = 0; i < buttonGroup_model.size(); ++i) {
 		buttonGroup_model[i]->setIcon(QIcon(iconPaths[i]));
 		buttonGroup_model[i]->setIconSize(QSize(32, 32));
@@ -51,43 +51,43 @@ void HeightAnomalyProcessing::initWidget()
 void HeightAnomalyProcessing::connects() {
 
 	//m_toolConnections = {
-	//	////¸ß³ÌÒì³£Ïû³ı
+	//	////é«˜ç¨‹å¼‚å¸¸æ¶ˆé™¤
 	//	//{"PSRemoveCorseValue.exe", {
 	//	//	ui.HeightAnomalyDetection_btn,
 	//	//	ui.HeightAnomalyDetection_btnf
 	//	//}},
 
-	//	////¸ß³ÌÒì³£²éÕÒ
+	//	////é«˜ç¨‹å¼‚å¸¸æŸ¥æ‰¾
 	//	//{"PSFindCorseValueTool.exe", {
 	//	//	ui.HeightAnomalyElimination_btn,
 	//	//	ui.HeightAnomalyElimination_btnf
 	//	//}},
 
-	//	////DSM-DEMÂß¼­Ò»ÖÂĞÔ´¦Àí
+	//	////DSM-DEMé€»è¾‘ä¸€è‡´æ€§å¤„ç†
 	//	//{"PSDsmDemCheckTool.exe", {
 	//	//	ui.DSMDEMLogicalConsistencyProcessing_btn,
 	//	//	ui.DSMDEMLogicalConsistencyProcessing_btnf
 	//	//}},
 
-	//	////DSM-DEMÂß¼­Ò»ÖÂĞÔ´¦Àí£¨²¢ĞĞ£©
+	//	////DSM-DEMé€»è¾‘ä¸€è‡´æ€§å¤„ç†ï¼ˆå¹¶è¡Œï¼‰
 	//	//{"PSDsmDemCheckTool2.exe", {
 	//	//	ui.ParallelDSMDEMLogicalConsistencyProcessing_btn,
 	//	//	ui.ParallelDSMDEMLogicalConsistencyProcessing_btnf
 	//	//}},
 
-	//	////DSM-DEM±ê×¼»¯¼ì²é
+	//	////DSM-DEMæ ‡å‡†åŒ–æ£€æŸ¥
 	//	//{"PSDsmDemStandCheckTool.exe", {
 	//	//	ui.DSMDEMStandardizationCheck_btn,
 	//	//	ui.DSMDEMStandardizationCheck_btnf
 	//	//}},
 
-	//	////DSM-DEM½Ó±ß¼ì²é
+	//	////DSM-DEMæ¥è¾¹æ£€æŸ¥
 	//	//{"PSDsmDemRelCheckTool.exe", {
 	//	//	ui.DSMDEMEdgeMatchingCheck_btn,
 	//	//	ui.DSMDEMEdgeMatchingCheck_btnf
 	//	//}},
 
-	//	////DEMÏà¹ØĞÔÖÊ¼ì¹¤¾ß
+	//	////DEMç›¸å…³æ€§è´¨æ£€å·¥å…·
 	//	//{"PSImageCorrelatonTool.exe", {
 	//	//	ui.DEMRelatedPropertyCheck_btn,
 	//	//	ui.DEMRelatedPropertyCheck_btnf
@@ -95,19 +95,19 @@ void HeightAnomalyProcessing::connects() {
 	//};
 
 	m_moduleConnections = {
-		//¸ß³ÌÒì³£Ïû³ı
+		//é«˜ç¨‹å¼‚å¸¸æ¶ˆé™¤
 		{"PSRemoveCorseValue.exe", {
 			ui.HeightAnomalyDetection_btn,
 			ui.HeightAnomalyDetection_btnf
 		}},
-		//¸ß³ÌÒì³£²éÕÒ
+		//é«˜ç¨‹å¼‚å¸¸æŸ¥æ‰¾
 		{"PSFindCorseValue.exe", {
 			ui.HeightAnomalyElimination_btn,
 			ui.HeightAnomalyElimination_btnf
 		}},
 	};
 
-	//// ÒÆ³ı¿ÕÖ¸Õë 
+	//// ç§»é™¤ç©ºæŒ‡é’ˆ 
 	//for (auto& toolList : m_toolConnections) {
 	//	toolList.erase(std::remove_if(toolList.begin(), toolList.end(),
 	//		[](QObject* obj) { return obj == nullptr; }), toolList.end());
@@ -129,7 +129,7 @@ void HeightAnomalyProcessing::connects() {
 	//	}
 	//}
 
-	// ÒÆ³ı¿ÕÖ¸Õë 
+	// ç§»é™¤ç©ºæŒ‡é’ˆ 
 	for (auto& toolList : m_moduleConnections) {
 		toolList.erase(std::remove_if(toolList.begin(), toolList.end(),
 			[](QObject* obj) { return obj == nullptr; }), toolList.end());
@@ -141,7 +141,7 @@ void HeightAnomalyProcessing::connects() {
 			if (QAction* action = qobject_cast<QAction*>(uiElement)) {
 				if (action) {
 					connect(action, &QAction::triggered, this, [=]() {
-						// ÑéÖ¤Ğí¿ÉÖ¤
+						// éªŒè¯è®¸å¯è¯
 						if (!PublicFunctions::validateDogLicense()) {
 							return 0;
 						}
@@ -155,7 +155,7 @@ void HeightAnomalyProcessing::connects() {
 			else if (QPushButton* button = qobject_cast<QPushButton*>(uiElement)) {
 				if (button) {
 					connect(button, &QPushButton::clicked, this, [=]() {
-						// ÑéÖ¤Ğí¿ÉÖ¤
+						// éªŒè¯è®¸å¯è¯
 						if (!PublicFunctions::validateDogLicense()) {
 							return 0;
 						}

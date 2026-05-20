@@ -1,4 +1,4 @@
-#ifndef SETORTHOINFO_H
+ï»¿#ifndef SETORTHOINFO_H
 #define SETORTHOINFO_H
 
 #include <QDialog>
@@ -21,25 +21,25 @@ public:
 	~SetOrthoInfo();
 	Ui::SetOrthoInfo ui;
 
-	QString m_configFile = "ortho_settings.ini";  // Í³Ò»ÅäÖÃÎÄ¼şÂ·¾¶ 
+	QString m_configFile = "ortho_settings.ini";  // ç»Ÿä¸€é…ç½®æ–‡ä»¶è·¯å¾„ 
 	void setconfigFile();
 
-	// ±£´æËùÓĞÎÄ¼şÉèÖÃµ½µ¥Ò»ÅäÖÃÎÄ¼ş 
+	// ä¿å­˜æ‰€æœ‰æ–‡ä»¶è®¾ç½®åˆ°å•ä¸€é…ç½®æ–‡ä»¶ 
 	void saveAllSettingsToFile(const QString& configFile);
 
-	// ´Óµ¥Ò»ÅäÖÃÎÄ¼ş¼ÓÔØÌØ¶¨ÎÄ¼şµÄÉèÖÃ 
+	// ä»å•ä¸€é…ç½®æ–‡ä»¶åŠ è½½ç‰¹å®šæ–‡ä»¶çš„è®¾ç½® 
 	void loadSettingsFromFile(const QString& configFile, const QString& fileName);
 
-	// ´Óµ¥Ò»ÅäÖÃÎÄ¼ş¼ÓÔØ¶à¸öÎÄ¼şµÄ¹²Í¬ÉèÖÃ 
+	// ä»å•ä¸€é…ç½®æ–‡ä»¶åŠ è½½å¤šä¸ªæ–‡ä»¶çš„å…±åŒè®¾ç½® 
 	void loadCommonSettingsFromFile(const QString& configFile, const QStringList& fileNames);
 
-	// ÉèÖÃµ±Ç°ÎÄ¼şÁĞ±í 
+	// è®¾ç½®å½“å‰æ–‡ä»¶åˆ—è¡¨ 
 	void setCurrentFileList(const QStringList& filePaths);
 
-	// »ñÈ¡µ±Ç°ÎÄ¼şÁĞ±í 
+	// è·å–å½“å‰æ–‡ä»¶åˆ—è¡¨ 
 	QStringList getCurrentFileList() const;
 
-	//»ñÈ¡ÎÄ¼şÅäÖÃĞÅÏ¢ 
+	//è·å–æ–‡ä»¶é…ç½®ä¿¡æ¯ 
 	QMap<QString, QString> getFileConfigInfo(const QString& fileName);
 
 private slots:
@@ -48,9 +48,9 @@ private slots:
 private:
 	IMAGEPS* m_imagePS;
 	ProjectSetting  projectSetting;
-	QStringList m_filePath;  // ´æ´¢ÎÄ¼şÂ·¾¶
+	QStringList m_filePath;  // å­˜å‚¨æ–‡ä»¶è·¯å¾„
 	QStringList m_currentFileList;
-	QMap<QString, QMap<QString, PredefineData>> tranData;//QMap<×ø±êÏµÀàĞÍ£¬QMap<×ø±êÏµÃû³Æ ÏêÏ¸ĞÅÏ¢>>
+	QMap<QString, QMap<QString, PredefineData>> tranData;//QMap<åæ ‡ç³»ç±»å‹ï¼ŒQMap<åæ ‡ç³»åç§° è¯¦ç»†ä¿¡æ¯>>
 
 	void initWidget();
 	void connects();
@@ -58,13 +58,13 @@ private:
 
 	void setPROJCStextSlot(QString PROJCStext);
 
-	// »ñÈ¡µ±Ç°¿Ø¼ş×´Ì¬ 
+	// è·å–å½“å‰æ§ä»¶çŠ¶æ€ 
 	QMap<QString, QVariant> getCurrentSettings() const;
 
-	// Ó¦ÓÃÉèÖÃµ½UI 
+	// åº”ç”¨è®¾ç½®åˆ°UI 
 	void applySettingsToUI(const QMap<QString, QVariant>& settings);
 
-	// ²éÕÒ¶ÔÓ¦µÄÍ¶Ó°×ø±êÏµ
+	// æŸ¥æ‰¾å¯¹åº”çš„æŠ•å½±åæ ‡ç³»
 	PredefineData findCoordinateSystem(const QString& coordType, const QString& imagePath);
 	PredefineData findUTMCoordinateSystem(const QString& coordType, const QString& imagePath);
 

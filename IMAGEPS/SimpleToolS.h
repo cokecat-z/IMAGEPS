@@ -1,4 +1,4 @@
-#ifndef SIMPLETOOLS_H
+ï»¿#ifndef SIMPLETOOLS_H
 #define SIMPLETOOLS_H
 
 #include <QDialog>
@@ -36,22 +36,22 @@ private:
 	void initWidget();
 	void connects();
 
-	// Í¨ÓÃ°ó¶¨º¯Êı
+	// é€šç”¨ç»‘å®šå‡½æ•°
 	void bindFileDialog(
-		QToolButton* button,          // °ó¶¨µÄ°´Å¥ 
-		QLineEdit* lineEdit,          // ÏÔÊ¾Â·¾¶µÄÊäÈë¿ò
-		QCheckBox* checkBox = nullptr,// ¿ÉÑ¡£º¿ØÖÆÑ¡ÔñÎÄ¼ş/ÎÄ¼ş¼Ğ 
-		const QString& filter = "ËùÓĞÎÄ¼ş (*.*)"  // ÎÄ¼şÀàĞÍ¹ıÂË 
+		QToolButton* button,          // ç»‘å®šçš„æŒ‰é’® 
+		QLineEdit* lineEdit,          // æ˜¾ç¤ºè·¯å¾„çš„è¾“å…¥æ¡†
+		QCheckBox* checkBox = nullptr,// å¯é€‰ï¼šæ§åˆ¶é€‰æ‹©æ–‡ä»¶/æ–‡ä»¶å¤¹ 
+		const QString& filter = "æ‰€æœ‰æ–‡ä»¶ (*.*)"  // æ–‡ä»¶ç±»å‹è¿‡æ»¤ 
 	);
 	void startNextTasks(QString title, bool enableLogging);
-	void terminateAllProcesses();  // ÖÕÖ¹ËùÓĞ½ø³Ì 
+	void terminateAllProcesses();  // ç»ˆæ­¢æ‰€æœ‰è¿›ç¨‹ 
 
-	// ¸¨Öúº¯Êı£¬ÓÃÓÚ¼ì²é²¢»ñÈ¡Ëø 
+	// è¾…åŠ©å‡½æ•°ï¼Œç”¨äºæ£€æŸ¥å¹¶è·å–é” 
 	bool tryLockFunction(QMutex& mutex, const QString& functionName) {
 		if (!mutex.tryLock()) {
 				QMessageBox::warning(this,
-				QString::fromLocal8Bit("¾¯¸æ"),
-				QString::fromLocal8Bit("ÒÑÓĞÈÎÎñÕıÔÚÔËĞĞÖĞ£¬ÇëµÈ´ıÈÎÎñ½áÊø"));
+				QString::fromLocal8Bit("è­¦å‘Š"),
+				QString::fromLocal8Bit("å·²æœ‰ä»»åŠ¡æ­£åœ¨è¿è¡Œä¸­ï¼Œè¯·ç­‰å¾…ä»»åŠ¡ç»“æŸ"));
 			return false;
 		}
 		return true;
@@ -72,13 +72,13 @@ private:
 	QAtomicInt m_completedTasks;
 	QDateTime m_startTime;
 	int m_totalTasks = 0;
-	int m_maxConcurrentProcesses = 1; // ¸ù¾İCPUºËĞÄÊıµ÷Õû²¢·¢Êı
-	bool m_progressBarInitialized = false;//½ø¶ÈÌõ³õÊ¼»¯±êÊ¶
+	int m_maxConcurrentProcesses = 1; // æ ¹æ®CPUæ ¸å¿ƒæ•°è°ƒæ•´å¹¶å‘æ•°
+	bool m_progressBarInitialized = false;//è¿›åº¦æ¡åˆå§‹åŒ–æ ‡è¯†
 	QMutex SimModelMutex;
 
 	bool isFromFinishedSignal = false;
 
-	QList<QProcess*> m_SimProcesses;  // ´æ´¢SimpleToolSÆô¶¯µÄ½ø³Ì
+	QList<QProcess*> m_SimProcesses;  // å­˜å‚¨SimpleToolSå¯åŠ¨çš„è¿›ç¨‹
 
 	SystemConfig* systemConfig = nullptr;
 };

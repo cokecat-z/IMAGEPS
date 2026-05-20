@@ -1,4 +1,4 @@
-#ifndef SYSTEMCONFIG_H
+ï»¿#ifndef SYSTEMCONFIG_H
 #define SYSTEMCONFIG_H
 
 #include "ui_SystemConfig.h"
@@ -33,8 +33,8 @@ class IMAGEPS;
 
 struct ImageDatacol {
 	QString imagePath;
-	QStringList demPaths;  // ´æ´¢DEMÎÄ¼şÖĞµÄËùÓĞÂ·¾¶ 
-	QStringList satPaths;  // ´æ´¢SATÎÄ¼şÖĞµÄËùÓĞÂ·¾¶
+	QStringList demPaths;  // å­˜å‚¨DEMæ–‡ä»¶ä¸­çš„æ‰€æœ‰è·¯å¾„ 
+	QStringList satPaths;  // å­˜å‚¨SATæ–‡ä»¶ä¸­çš„æ‰€æœ‰è·¯å¾„
 };
 
 class SystemConfig : public QDialog
@@ -50,7 +50,7 @@ public:
 
 	void setImagePSInstance(IMAGEPS* instance);
 
-	void loadConfig(QString funfunModule = QString::fromLocal8Bit("ÏµÍ³ÅäÖÃ¹¦ÄÜÁĞ±í"));
+	void loadConfig(QString funfunModule = QString::fromLocal8Bit("ç³»ç»Ÿé…ç½®åŠŸèƒ½åˆ—è¡¨"));
 	void initWidget();
 	void setProjectdir();
 
@@ -58,39 +58,39 @@ public:
 	void FreeNetworkAdjust(QStringList DEMReferencefilename);
 	void controlNetAdjust(QStringList DEMReferencefilename);
 
-	int showFunctionAndWait(const QString& functionName); //Ä£¿éÔËĞĞÇ°ÉèÖÃ
+	int showFunctionAndWait(const QString& functionName); //æ¨¡å—è¿è¡Œå‰è®¾ç½®
 	bool addWeakTextureNode(const QString& xmlFilePath, bool WeakTexturePS,
 		const QStringList& DOMReferencefilename);
 	void acceptModule(QString title, QStringList filename);
-	void connectPointsMatch(QStringList DEMReferencefilename, QStringList DOMReferencefilename, const QString xmldir);//Á¬½ÓµãÆ¥Åä
-	void IntersectCmd(QStringList Referencefilename, QStringList SatelliteImagefilename, QString str, QString OutputPath, bool enableLogging = false); //PSIntersectCmdÈÎÎñµ¥¼°Ëã×Óµ÷ÓÃ
+	void connectPointsMatch(QStringList DEMReferencefilename, QStringList DOMReferencefilename, const QString xmldir);//è¿æ¥ç‚¹åŒ¹é…
+	void IntersectCmd(QStringList Referencefilename, QStringList SatelliteImagefilename, QString str, QString OutputPath, bool enableLogging = false); //PSIntersectCmdä»»åŠ¡å•åŠç®—å­è°ƒç”¨
 	void colIntersectCmd(QStringList DOMReferencefilename, QStringList DEMReferencefilename, QStringList SatelliteImagefilename, QString OutputPath, bool enableLogging);
 	bool readAndValidatePathsFile(const QString & filePath, QStringList & paths);
 	QVector<ImageDatacol> colparallelProcessSatelliteImages(const QStringList & satelliteImagePaths, const QString & precisionCheckDir);
-	void controlPointsMatch(QStringList DEMReferencefilename, QStringList DOMReferencefilename, QStringList SatelliteImagefilename, QMap<QString, bool>& controlPointsPath);//¿ØÖÆµãÆ¥Åä
-	void modelMatchByInter(QStringList DEMReferencefilename, QStringList DOMReferencefilename, QStringList SatelliteImagefilename, QMap<QString, bool>& cmodelMatchByIntePath);//Ä£ĞÍÅä×¼
-	void controlNetAdjustmergeFile(QMap<QString, bool> controlPointsPath);//¿ØÖÆÍøÆ½²î
-	void FreeNetworkAdjustmergeFile(); //×ÔÓÉÍøÆ½²î
-	void FreeNetworkAdjustmergeFile(QString filePath, QStringList tieFilePattern); //×ÔÓÉÍøÆ½²î
-	void orthorectification(QStringList DEMReferencefilename, QStringList SatelliteImagefilename); //ÕıÉä¾ÀÕı
-	void AlignmentAdjustment(QStringList DEMReferencefilename, QStringList SatelliteImagefilename); //ÕıÉä¾ÀÕı
-	void imageInterAction(); //Ó°ÏñÈÚºÏ
-	void TrueColorConversion(QStringList imagePath); //Õæ²ÊÉ«×ª»»
-	void ImageColorCorrection(QStringList imagePath); //Ó°ÏñÔÈÉ«
-	void ImageMosaic(QStringList imagePath); //Ó°ÏñÏâÇ¶
-	void QuickMosaic(QStringList imagePath); //¿ìËÙÏâÇ¶
-	void SmartMosaic(QStringList imagePath, QStringList CropFilePath); //ÖÇÄÜÏâÇ¶
-	void ExcuteExetopo(QString mosaicListFile, QString mosaicToopfile,int GenLineOnlyisNo = 0); //ÖÇÄÜÏâÇ¶
-	void ExcuteExeMuchXQMosaicX(QStringList imagePath, QString mosaicToopfile); //ÖÇÄÜÏâÇ¶(·Ö·ù)
-	void ExcuteExeCutVector(QString imagePath, QString OutputDir, QString attriID); //²ÃÇĞÊ¸Á¿
-	void ImageAbsPositPrecCheck(QStringList DEMReferencefilename, QStringList DOMReferencefilename, QStringList SatelliteImagefilename, QMap<QString, bool>& AbsPositPrecCheckPath); //¾ø¶Ô¶¨Î»¾«¶ÈÖÊ¼ì
-	void ImageCropping(QStringList imagePath, QStringList polyShpPath, QString OutputDir); //Ó°Ïñ²ÃÇĞ
+	void controlPointsMatch(QStringList DEMReferencefilename, QStringList DOMReferencefilename, QStringList SatelliteImagefilename, QMap<QString, bool>& controlPointsPath);//æ§åˆ¶ç‚¹åŒ¹é…
+	void modelMatchByInter(QStringList DEMReferencefilename, QStringList DOMReferencefilename, QStringList SatelliteImagefilename, QMap<QString, bool>& cmodelMatchByIntePath);//æ¨¡å‹é…å‡†
+	void controlNetAdjustmergeFile(QMap<QString, bool> controlPointsPath);//æ§åˆ¶ç½‘å¹³å·®
+	void FreeNetworkAdjustmergeFile(); //è‡ªç”±ç½‘å¹³å·®
+	void FreeNetworkAdjustmergeFile(QString filePath, QStringList tieFilePattern); //è‡ªç”±ç½‘å¹³å·®
+	void orthorectification(QStringList DEMReferencefilename, QStringList SatelliteImagefilename); //æ­£å°„çº æ­£
+	void AlignmentAdjustment(QStringList DEMReferencefilename, QStringList SatelliteImagefilename); //æ­£å°„çº æ­£
+	void imageInterAction(); //å½±åƒèåˆ
+	void TrueColorConversion(QStringList imagePath); //çœŸå½©è‰²è½¬æ¢
+	void ImageColorCorrection(QStringList imagePath); //å½±åƒåŒ€è‰²
+	void ImageMosaic(QStringList imagePath); //å½±åƒé•¶åµŒ
+	void QuickMosaic(QStringList imagePath); //å¿«é€Ÿé•¶åµŒ
+	void SmartMosaic(QStringList imagePath, QStringList CropFilePath); //æ™ºèƒ½é•¶åµŒ
+	void ExcuteExetopo(QString mosaicListFile, QString mosaicToopfile,int GenLineOnlyisNo = 0); //æ™ºèƒ½é•¶åµŒ
+	void ExcuteExeMuchXQMosaicX(QStringList imagePath, QString mosaicToopfile); //æ™ºèƒ½é•¶åµŒ(åˆ†å¹…)
+	void ExcuteExeCutVector(QString imagePath, QString OutputDir, QString attriID); //è£åˆ‡çŸ¢é‡
+	void ImageAbsPositPrecCheck(QStringList DEMReferencefilename, QStringList DOMReferencefilename, QStringList SatelliteImagefilename, QMap<QString, bool>& AbsPositPrecCheckPath); //ç»å¯¹å®šä½ç²¾åº¦è´¨æ£€
+	void ImageCropping(QStringList imagePath, QStringList polyShpPath, QString OutputDir); //å½±åƒè£åˆ‡
 	void SARImageFiltering(QStringList imagePath);
-	void ProjectionTransformation(QStringList imagePath); //Í¶Ó°×ª»»
-	void FormatConversion(QStringList imagePath); //¸ñÊ½×ª»»
-	void ThumbnailGeneration(QStringList imagePath); //Éú³ÉËõÂÔÍ¼
-	void CloudDetection();//Ó°ÏñÔÆ¼ì
-	void Imageprojection(QStringList imagePath); //Éú³ÉËõÂÔÍ¼
+	void ProjectionTransformation(QStringList imagePath); //æŠ•å½±è½¬æ¢
+	void FormatConversion(QStringList imagePath); //æ ¼å¼è½¬æ¢
+	void ThumbnailGeneration(QStringList imagePath); //ç”Ÿæˆç¼©ç•¥å›¾
+	void CloudDetection();//å½±åƒäº‘æ£€
+	void Imageprojection(QStringList imagePath); //ç”Ÿæˆç¼©ç•¥å›¾
 	void OrthoRectificationFusion(QStringList DEMReferencefilename, QStringList DOMReferencefilename, QStringList SatelliteImagefilename);
 
 	QString calculateTimeDifference(const QDateTime &start, const QDateTime &end);
@@ -141,14 +141,14 @@ public:
 	void writeGlobalShpFileValue(QString filePath) const;
 
 	QStringList filterSatelliteImagesByColumn(const QStringList& fileList, int col) const;
-	void terminateAllProcesses();  // ÖÕÖ¹ËùÓĞ½ø³Ì 
+	void terminateAllProcesses();  // ç»ˆæ­¢æ‰€æœ‰è¿›ç¨‹ 
 
 	void executeMainMatching(const QStringList& SatelliteImagefilename,
 		QMap<QString, bool>& controlPointsPath);
 	void exemodelMatchByInter(const QStringList& SatelliteImagefilename,
 		QMap<QString, bool>& cmodelMatchByIntePath);
 
-	// Á÷³ÌÖ´ĞĞ¿ØÖÆ 
+	// æµç¨‹æ‰§è¡Œæ§åˆ¶ 
 	void executeCustomProcess(const QStringList& selectedProcesses, const QStringList& inputFiles);
 	void executeNextProcess();
 
@@ -212,7 +212,7 @@ public slots:
 	}
 	void itemSlot(QMap<QString, bool>& itemfunModuleBool);
 	void itemswitchSlot(QListWidgetItem* item);
-	// ×Ô¶¨ÒåÁ÷³ÌÏà¹Ø²Ûº¯Êı 
+	// è‡ªå®šä¹‰æµç¨‹ç›¸å…³æ§½å‡½æ•° 
 	void handleBusinessButtonClicked();
 	void handleStartProcessClicked();
 	void handlePathSettingClicked();
@@ -221,40 +221,40 @@ public slots:
 	void deleteProcessingNode();
 	void savePathSettings();
 
-	void onCurrentProcessFinished(); // µ±Ç°Á÷³ÌÍê³É²Û 
+	void onCurrentProcessFinished(); // å½“å‰æµç¨‹å®Œæˆæ§½ 
 
 signals:
-	void CreatepyramidFinished(); //½ğ×ÖËş´´½¨ĞÅºÅ
-	void BuildSatModelFinished(); //Ä£ĞÍ¹¹½¨ĞÅºÅ
-	void intersectCmdFinished(); //Ä£ĞÍÅä×¼ĞÅºÅ
-	void colintersectCmdFinished(); //¿ØÖÆµãÆ¥ÅäÄ£ĞÍÅä×¼ĞÅºÅ
-	void EncryptedPointsMatchFinished(); //Á¬½ÓµãÆ¥ÅäĞÅºÅ
-	void controlPointsMatchFinished(); //¿ØÖÆµãÆ¥ÅäĞÅºÅ
-	void modelMatchByInterFinished(); //Ä£ĞÍÅä×¼ĞÅºÅ
-	void FreeNetworkAdjustFinished(); //×ÔÓÉÍøÆ½²îĞÅºÅ
-	void controlNetAdjustFinished(); //¿ØÖÆÍøÆ½²îĞÅºÅ
-	void orthorectificationFinished(); //ÕıÉä¾ÀÕıĞÅºÅ
-	void AlignmentAdjustmentFinished(); //ÕıÉä¾ÀÕıĞÅºÅ
-	void imageInterActionFinished(); //Ó°ÏñÈÚºÏĞÅºÅ
-	void TrueColorConversionFinished(); //Õæ²ÊÉ«×ª»»ĞÅºÅ
-	void ImageColorCorrectionFinished(); //Ó°ÏñÔÈÉ«ĞÅºÅ
-	void ImageMosaicFinished(); //Ó°ÏñÏâÇ¶ĞÅºÅ
-	void SmartMosaicFinished(); //ÖÇÄÜÏâÇ¶ĞÅºÅ
-	void CreateTopologyFinished(); //Éú³ÉÍØÆËÎÄ¼şĞÅºÅ
-	void ExcuteExeCutVectorFinished(); //²ÃÇĞÊ¸Á¿ĞÅºÅ
-	void ImageAbsPositPrecCheckFinished(); //¾ø¶Ô¶¨Î»¾«¶ÈÖÊ¼ìĞÅºÅ
-	void ThumbnailGenerationFinished(); //Éú³ÉËõÂÔÍ¼ĞÅºÅ
-	void CloudDetectionFinished(); //ÔÆ¼ìĞÅºÅ
-	void ProjectionTransformationFinished(); //Í¶Ó°×ª»»ĞÅºÅ
-	void ImageCropFinished(); //Ó°Ïñ²ÃÇĞĞÅºÅ
-	void SARImageFilterFinished(); //SARÓ°ÏñÂË²¨ĞÅºÅ
-	void ImageRangeFinished(); //Ó°Ïñ·¶Î§¼ÆËãĞÅºÅ
-	void FormatConversionFinished(); //¸ñÊ½×ª»»ĞÅºÅ
-	void FunctionAbnormalExit(QString title); //º¯Êı·ÇÕı³£ÍË³öĞÅºÅ
-	void allIntersectCmdsFinished(); //IntersectCmdsĞÅºÅ
+	void CreatepyramidFinished(); //é‡‘å­—å¡”åˆ›å»ºä¿¡å·
+	void BuildSatModelFinished(); //æ¨¡å‹æ„å»ºä¿¡å·
+	void intersectCmdFinished(); //æ¨¡å‹é…å‡†ä¿¡å·
+	void colintersectCmdFinished(); //æ§åˆ¶ç‚¹åŒ¹é…æ¨¡å‹é…å‡†ä¿¡å·
+	void EncryptedPointsMatchFinished(); //è¿æ¥ç‚¹åŒ¹é…ä¿¡å·
+	void controlPointsMatchFinished(); //æ§åˆ¶ç‚¹åŒ¹é…ä¿¡å·
+	void modelMatchByInterFinished(); //æ¨¡å‹é…å‡†ä¿¡å·
+	void FreeNetworkAdjustFinished(); //è‡ªç”±ç½‘å¹³å·®ä¿¡å·
+	void controlNetAdjustFinished(); //æ§åˆ¶ç½‘å¹³å·®ä¿¡å·
+	void orthorectificationFinished(); //æ­£å°„çº æ­£ä¿¡å·
+	void AlignmentAdjustmentFinished(); //æ­£å°„çº æ­£ä¿¡å·
+	void imageInterActionFinished(); //å½±åƒèåˆä¿¡å·
+	void TrueColorConversionFinished(); //çœŸå½©è‰²è½¬æ¢ä¿¡å·
+	void ImageColorCorrectionFinished(); //å½±åƒåŒ€è‰²ä¿¡å·
+	void ImageMosaicFinished(); //å½±åƒé•¶åµŒä¿¡å·
+	void SmartMosaicFinished(); //æ™ºèƒ½é•¶åµŒä¿¡å·
+	void CreateTopologyFinished(); //ç”Ÿæˆæ‹“æ‰‘æ–‡ä»¶ä¿¡å·
+	void ExcuteExeCutVectorFinished(); //è£åˆ‡çŸ¢é‡ä¿¡å·
+	void ImageAbsPositPrecCheckFinished(); //ç»å¯¹å®šä½ç²¾åº¦è´¨æ£€ä¿¡å·
+	void ThumbnailGenerationFinished(); //ç”Ÿæˆç¼©ç•¥å›¾ä¿¡å·
+	void CloudDetectionFinished(); //äº‘æ£€ä¿¡å·
+	void ProjectionTransformationFinished(); //æŠ•å½±è½¬æ¢ä¿¡å·
+	void ImageCropFinished(); //å½±åƒè£åˆ‡ä¿¡å·
+	void SARImageFilterFinished(); //SARå½±åƒæ»¤æ³¢ä¿¡å·
+	void ImageRangeFinished(); //å½±åƒèŒƒå›´è®¡ç®—ä¿¡å·
+	void FormatConversionFinished(); //æ ¼å¼è½¬æ¢ä¿¡å·
+	void FunctionAbnormalExit(QString title); //å‡½æ•°éæ­£å¸¸é€€å‡ºä¿¡å·
+	void allIntersectCmdsFinished(); //IntersectCmdsä¿¡å·
 
-	void processSequenceFinished(); // Õû¸öÁ÷³ÌÍê³ÉĞÅºÅ
-	void currentProcessProgress(int value); // µ±Ç°Á÷³Ì½ø¶ÈĞÅºÅ
+	void processSequenceFinished(); // æ•´ä¸ªæµç¨‹å®Œæˆä¿¡å·
+	void currentProcessProgress(int value); // å½“å‰æµç¨‹è¿›åº¦ä¿¡å·
 
 private:
 	//struct TaskInfo {
@@ -270,25 +270,25 @@ private:
 	//QAtomicInt m_completedTasks;
 	//QDateTime m_startTime;
 	//int m_totalTasks = 0;
-	int m_maxConcurrentProcesses = 4; // ¸ù¾İCPUºËĞÄÊıµ÷Õû²¢·¢Êı
-	bool m_progressBarInitialized = false;//½ø¶ÈÌõ³õÊ¼»¯±êÊ¶
-	bool m_progressBarInitializedIR = false;//½ø¶ÈÌõ³õÊ¼»¯±êÊ¶
+	int m_maxConcurrentProcesses = 4; // æ ¹æ®CPUæ ¸å¿ƒæ•°è°ƒæ•´å¹¶å‘æ•°
+	bool m_progressBarInitialized = false;//è¿›åº¦æ¡åˆå§‹åŒ–æ ‡è¯†
+	bool m_progressBarInitializedIR = false;//è¿›åº¦æ¡åˆå§‹åŒ–æ ‡è¯†
 	
 	int m_coltotalTasks = 0;
 
 	QMetaObject::Connection m_intersectCmdConnection;
 	QMetaObject::Connection m_allintersectCmdConnection;
 	
-	QString projectdir;//¹¤³ÌÎÄ¼şÄ¿Â¼
-	QMap<QString, bool> imageInterPath; //Ó°ÏñÈÚºÏÊä³öÎÄ¼şÂ·¾¶
-	QStringList IntersectCmdPaths;    //Ä£ĞÍÅä×¼Êä³öÎÄ¼şÂ·¾¶
-	QStringList ThumbnailGenerationPaths; //Ó°ÏñÔÆ¼ìËõÂÔÍ¼Êä³öÎÄ¼şÂ·¾¶
-	QStringList CloudDetectionOutPaths; //Ó°ÏñÔÆ¼ìËõÂÔÍ¼Êä³öÎÄ¼şÂ·¾¶
+	QString projectdir;//å·¥ç¨‹æ–‡ä»¶ç›®å½•
+	QMap<QString, bool> imageInterPath; //å½±åƒèåˆè¾“å‡ºæ–‡ä»¶è·¯å¾„
+	QStringList IntersectCmdPaths;    //æ¨¡å‹é…å‡†è¾“å‡ºæ–‡ä»¶è·¯å¾„
+	QStringList ThumbnailGenerationPaths; //å½±åƒäº‘æ£€ç¼©ç•¥å›¾è¾“å‡ºæ–‡ä»¶è·¯å¾„
+	QStringList CloudDetectionOutPaths; //å½±åƒäº‘æ£€ç¼©ç•¥å›¾è¾“å‡ºæ–‡ä»¶è·¯å¾„
 	QStringList m_orthoSatelliteImages; 
 
-	QList<QStringList> funListConifg;//ÏµÍ³ÅäÖÃÁĞ±í
-	QMap<QString, QList<QStringList>> funModuleTemp;//ÏµÍ³ÅäÖÃ¹¦ÄÜÁÙÊ±ÁĞ±í
-	QMap<QString, bool> funModuleBool;//ÏµÍ³ÅäÖÃ¹¦ÄÜÄ£¿é¿ØÖÆ ±ÜÃâÖØ¸´µã»÷·´¸´¶ÁÈ¡
+	QList<QStringList> funListConifg;//ç³»ç»Ÿé…ç½®åˆ—è¡¨
+	QMap<QString, QList<QStringList>> funModuleTemp;//ç³»ç»Ÿé…ç½®åŠŸèƒ½ä¸´æ—¶åˆ—è¡¨
+	QMap<QString, bool> funModuleBool;//ç³»ç»Ÿé…ç½®åŠŸèƒ½æ¨¡å—æ§åˆ¶ é¿å…é‡å¤ç‚¹å‡»åå¤è¯»å–
 	ProjectSetting  projectSetting;
 	DataModelConfig* dataModelConfig = nullptr;
 	SetOrthoInfo* SetOrthoInfoConfig = nullptr;
@@ -315,30 +315,30 @@ private:
 
 	QMutex m_taskMutex;
 
-	// ¸¨Öúº¯Êı£¬ÓÃÓÚ¼ì²é²¢»ñÈ¡Ëø 
+	// è¾…åŠ©å‡½æ•°ï¼Œç”¨äºæ£€æŸ¥å¹¶è·å–é” 
 	bool tryLockFunction(QMutex& mutex, const QString& functionName) {
 		if (!mutex.tryLock()) {
 			//qDebug() << functionName << "is already running, aborting";
-			logEdit->append(QString::fromLocal8Bit("ÒÑÓĞÈÎÎñÔÚÖ´ĞĞ,ÇëÉÔºóÔÙÊÔ!!!"));
+			logEdit->append(QString::fromLocal8Bit("å·²æœ‰ä»»åŠ¡åœ¨æ‰§è¡Œ,è¯·ç¨åå†è¯•!!!"));
 			QMessageBox::warning(this,
-				QString::fromLocal8Bit("¾¯¸æ"),
-				QString::fromLocal8Bit("ÒÑÓĞÈÎÎñÕıÔÚÔËĞĞÖĞ£¬ÇëµÈ´ıÈÎÎñ½áÊø"));
+				QString::fromLocal8Bit("è­¦å‘Š"),
+				QString::fromLocal8Bit("å·²æœ‰ä»»åŠ¡æ­£åœ¨è¿è¡Œä¸­ï¼Œè¯·ç­‰å¾…ä»»åŠ¡ç»“æŸ"));
 			return false;
 		}
 		return true;
 	}
 	std::shared_ptr<QMutexLocker> tryLockFunction_test(QMutex& mutex, const QString& functionName) {
 		if (!mutex.tryLock()) {
-			logEdit->append(QString::fromLocal8Bit("ÒÑÓĞÈÎÎñÔÚÖ´ĞĞ,ÇëÉÔºóÔÙÊÔ!!!"));
+			logEdit->append(QString::fromLocal8Bit("å·²æœ‰ä»»åŠ¡åœ¨æ‰§è¡Œ,è¯·ç¨åå†è¯•!!!"));
 			QMessageBox::warning(this,
-				QString::fromLocal8Bit("¾¯¸æ"),
-				QString::fromLocal8Bit("ÒÑÓĞÈÎÎñÕıÔÚÔËĞĞÖĞ£¬ÇëµÈ´ıÈÎÎñ½áÊø"));
+				QString::fromLocal8Bit("è­¦å‘Š"),
+				QString::fromLocal8Bit("å·²æœ‰ä»»åŠ¡æ­£åœ¨è¿è¡Œä¸­ï¼Œè¯·ç­‰å¾…ä»»åŠ¡ç»“æŸ"));
 			return nullptr;
 		}
 		return std::make_shared<QMutexLocker>(&mutex);
 	}
 
-	//ÎÄ¼ş±ê¼Ç
+	//æ–‡ä»¶æ ‡è®°
 	QString connectPointsMatchmarkerFile;
 	QString connectPointsMatchTaskmarkerFile;
 	QString FreeNetworkAdjustmarkerFile;
@@ -353,7 +353,7 @@ private:
 	QStringList ImageCroplocalInputPaths;
 	int ImageCropId = 0;
 
-	QVector<QList<QWidget*>> imageEventColor_eventLightGroups; //ÔÈÉ«ÉèÖÃ
+	QVector<QList<QWidget*>> imageEventColor_eventLightGroups; //åŒ€è‰²è®¾ç½®
 	QMap<QCheckBox*, QList<QWidget*>> imageEventColorcheckboxMap;
 	bool m_isAboutToClose = false;
 	
@@ -366,14 +366,14 @@ private:
 	bool isFromFinishedSignal = false;
 	bool isFromFinishedSignalIR = false;
 
-	QList<QProcess*> m_systemProcesses;  // ´æ´¢SystemConfigÆô¶¯µÄ½ø³Ì
-	bool m_systemProcessesFlag = false;  // ´æ´¢SystemConfigÆô¶¯µÄ½ø³Ì±êÖ¾
+	QList<QProcess*> m_systemProcesses;  // å­˜å‚¨SystemConfigå¯åŠ¨çš„è¿›ç¨‹
+	bool m_systemProcessesFlag = false;  // å­˜å‚¨SystemConfigå¯åŠ¨çš„è¿›ç¨‹æ ‡å¿—
 	QList<QMetaObject::Connection> m_systemProcessesConn;
 	QVector<QMetaObject::Connection> connections;
 
-	// ±£´æÅäÖÃµ½ÎÄ¼ş 
+	// ä¿å­˜é…ç½®åˆ°æ–‡ä»¶ 
 	void saveSettings();
-	// ´ÓÎÄ¼ş¼ÓÔØÅäÖÃ 
+	// ä»æ–‡ä»¶åŠ è½½é…ç½® 
 	void loadSettings();
 
 	QMovie *movie_left = nullptr;
@@ -382,31 +382,31 @@ private:
 
 	QSize sizeHint() const;
 
-	// Á÷³ÌÏà¹Ø³ÉÔ± 
+	// æµç¨‹ç›¸å…³æˆå‘˜ 
 	QStringList m_selectedProcesses;
 	QStringList m_processInputFiles;
 	int m_currentProcessIndex = -1;
 	QQueue<QString> m_processQueue;
 
-	// ×Ô¶¨ÒåÁ÷³ÌÏà¹Ø³ÉÔ± 
-	QList<QPushButton*> m_selectedButtons; // ÒÑÑ¡ÔñµÄÒµÎñ°´Å¥ 
-	QList<QPushButton*> m_visibleButtons;  // ÉÏ·½ÏÔÊ¾µÄ°´Å¥ 
-	QList<QFrame*> m_connectionLines;      // Á¬½ÓÏß
-	QDialog* m_pathSettingsDialog;         // Â·¾¶ÉèÖÃ¶Ô»°¿ò 
+	// è‡ªå®šä¹‰æµç¨‹ç›¸å…³æˆå‘˜ 
+	QList<QPushButton*> m_selectedButtons; // å·²é€‰æ‹©çš„ä¸šåŠ¡æŒ‰é’® 
+	QList<QPushButton*> m_visibleButtons;  // ä¸Šæ–¹æ˜¾ç¤ºçš„æŒ‰é’® 
+	QList<QFrame*> m_connectionLines;      // è¿æ¥çº¿
+	QDialog* m_pathSettingsDialog;         // è·¯å¾„è®¾ç½®å¯¹è¯æ¡† 
 
-	// ÍÏ×§Ïà¹Ø³ÉÔ±
-	QPoint m_dragStartPosition;            // ÍÏ×§ÆğÊ¼Î»ÖÃ
-	QPushButton* m_draggedButton;          // µ±Ç°±»ÍÏ×§µÄ°´Å¥
-	QPushButton* m_contextMenuButton;      // ÓÒ¼ü²Ëµ¥¹ØÁªµÄ°´Å¥ 
+	// æ‹–æ‹½ç›¸å…³æˆå‘˜
+	QPoint m_dragStartPosition;            // æ‹–æ‹½èµ·å§‹ä½ç½®
+	QPushButton* m_draggedButton;          // å½“å‰è¢«æ‹–æ‹½çš„æŒ‰é’®
+	QPushButton* m_contextMenuButton;      // å³é”®èœå•å…³è”çš„æŒ‰é’® 
 
-	// ×Ô¶¨ÒåÁ÷³ÌÏà¹Ø·½·¨
+	// è‡ªå®šä¹‰æµç¨‹ç›¸å…³æ–¹æ³•
 	void setupCustomWorkflowPage();
 	void createPathSettingsDialog();
 	void updateVisualConnections();
 
-	QVector<ImageDatacol> m_colIntersectData; //¿ØÖÆµãÓ°ÏñºÍ¶ÔÓ¦DEMÂ·¾¶
+	QVector<ImageDatacol> m_colIntersectData; //æ§åˆ¶ç‚¹å½±åƒå’Œå¯¹åº”DEMè·¯å¾„
 
-	//¾²Ì¬±äÁ¿ĞŞ¸Ä
+	//é™æ€å˜é‡ä¿®æ”¹
 	int SmartMosaiccurrentIndex = 0;
 	QStringList SmartMosaiclocalInputPaths;
 

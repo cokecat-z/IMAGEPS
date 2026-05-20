@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include <qabstractitemmodel.h>
 
 class NonEditableModel : public QAbstractTableModel {
@@ -8,27 +8,27 @@ public:
 	NonEditableModel(int rows, int columns, QObject *parent = nullptr);
 	~NonEditableModel();
 
-	// ÖØĞ´ QAbstractTableModel µÄ´¿Ğéº¯Êı 
+	// é‡å†™ QAbstractTableModel çš„çº¯è™šå‡½æ•° 
 	int rowCount(const QModelIndex &parent = QModelIndex()) const override;
 	int columnCount(const QModelIndex &parent = QModelIndex()) const override;
 	QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
 	QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
 
-	// ÉèÖÃ²»¿É±à¼­ 
+	// è®¾ç½®ä¸å¯ç¼–è¾‘ 
 	Qt::ItemFlags flags(const QModelIndex &index) const override;
 
-	// ÅúÁ¿Ìí¼ÓÊı¾İµÄ¹«¹²·½·¨ 
+	// æ‰¹é‡æ·»åŠ æ•°æ®çš„å…¬å…±æ–¹æ³• 
 	void appendRowsBatch(const QList<QList<QVariant>>& rows);
 	void setHorizontalHeaderLabels(const QStringList &labels);
 	void setDataBatch(const QList<QList<QVariant>>& data);
 
-	// Çå¿ÕÊı¾İ 
+	// æ¸…ç©ºæ•°æ® 
 	void clear();
 
-	// ÉèÖÃÊı¾İ 
+	// è®¾ç½®æ•°æ® 
 	bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole) override;
 
-	// »ñÈ¡Ö¸¶¨µ¥Ôª¸ñµÄÊı¾İ 
+	// è·å–æŒ‡å®šå•å…ƒæ ¼çš„æ•°æ® 
 	QVariant getData(int row, int column, int role = Qt::DisplayRole) const;
 
 

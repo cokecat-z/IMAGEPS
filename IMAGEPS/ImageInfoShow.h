@@ -1,4 +1,4 @@
-#ifndef IMAGEINFOSHOW_H 
+ï»¿#ifndef IMAGEINFOSHOW_H 
 #define IMAGEINFOSHOW_H 
 
 #include <QWidget>
@@ -55,15 +55,15 @@ public:
 	void clearBoundaries();
 	void removeGeoBoundary(const QString &filePath);
 
-	// É¸Ñ¡ËùÓĞ²Î¿¼Êı¾İ±ß½ç 
+	// ç­›é€‰æ‰€æœ‰å‚è€ƒæ•°æ®è¾¹ç•Œ 
 	void filterReferenceBoundaries();
 
 	bool isReferenceData(const QString & filePath) const;
 
-	// »ñÈ¡ËùÓĞÔ­Ê¼Êı¾İ¶à±ßĞÎ
+	// è·å–æ‰€æœ‰åŸå§‹æ•°æ®å¤šè¾¹å½¢
 	QVector<QPolygonF> getOriginalPolygons() const;
 
-	// ÅĞ¶Ïµ¥¸ö²Î¿¼Êı¾İ±ß½çÊÇ·ñĞèÒª»æÖÆ 
+	// åˆ¤æ–­å•ä¸ªå‚è€ƒæ•°æ®è¾¹ç•Œæ˜¯å¦éœ€è¦ç»˜åˆ¶ 
 	bool shouldDrawReference(const GeoBoundary& boundary, const QVector<QPolygonF>& originalPolygons) const;
 
 	void loadPoints(QHash<QString, EncryptedPoint> encryptedPoints,
@@ -77,19 +77,19 @@ public:
 	void highlightPointsById(const QSet<QString>& pointIds, const QString& flag, bool highlight);
 	void clearPointHighlights();
 
-	// Á¬½ÓµãÏÔÊ¾/Òş²Øº¯Êı 
+	// è¿æ¥ç‚¹æ˜¾ç¤º/éšè—å‡½æ•° 
 	void setConPointsVisible(bool visible, QString pointId = "-1");
 	bool isConPointVisible(QString pointId) const;
 	void showAllConPoints();
 	void hideAllConPoints();
 
-	// ¿ØÖÆµãÏÔÊ¾/Òş²Øº¯Êı 
+	// æ§åˆ¶ç‚¹æ˜¾ç¤º/éšè—å‡½æ•° 
 	void setColPointsVisible(bool visible, QString pointId = "-1");
 	bool isColPointVisible(QString pointId) const;
 	void showAllColPoints();
 	void hideAllColPoints();
 
-	// Í³Ò»¹ÜÀíº¯Êı 
+	// ç»Ÿä¸€ç®¡ç†å‡½æ•° 
 	void setAllPointsVisible(bool visible);
 
 	QPointF pixelToWorld(const QPointF& pixelPos, QString& imageName, const QStringList filenames);
@@ -102,7 +102,7 @@ public:
 	void clearHighlights();
 	QPointF screenToWorld(const QPoint &screenPos) const;
 
-	// ½»»¥¿ØÖÆº¯Êı 
+	// äº¤äº’æ§åˆ¶å‡½æ•° 
 	void zoomIn();
 	void zoomOut();
 	void zoomToFullExtent();
@@ -128,7 +128,7 @@ public:
 	void setVisiblePointIds(const QSet<QString>& ids);
 	void setOnlyShowVisibleIds(bool enable);
 
-	// ´æ´¢Ã¿ÕÅÍ¼ÏñµÄµØÀí±ä»»²ÎÊı 
+	// å­˜å‚¨æ¯å¼ å›¾åƒçš„åœ°ç†å˜æ¢å‚æ•° 
 	QMap<QString, double*> m_geoTransforms;
 	double m_worldMinX, m_worldMaxX, m_worldMinY, m_worldMaxY;
 
@@ -150,22 +150,22 @@ private:
 		QSet<QString> hiddenIds;
 	};
 	GDALDataset *currentDataset;
-	// ÊÓÍ¼±ä»»²ÎÊı 
+	// è§†å›¾å˜æ¢å‚æ•° 
 	double m_viewCenterX = 0, m_viewCenterY = 0;
 	double m_viewScale = 1.0;
 	bool m_isPanning = false;
 	QPoint m_lastPanPos;
 
-	// Ñ¡Ôñ¿òÏà¹Ø±äÁ¿ 
+	// é€‰æ‹©æ¡†ç›¸å…³å˜é‡ 
 	QRect m_selectionRect;
 	bool m_isSelecting = false;
 	QPoint m_selectionStart;
 	bool m_useMiddleButtonForPan = false;
 
-	// Ó°ÏñÀàĞÍ¹ıÂË 
-	QString m_currentImageTypeFilter = "ËùÓĞÀàĞÍ";
+	// å½±åƒç±»å‹è¿‡æ»¤ 
+	QString m_currentImageTypeFilter = "æ‰€æœ‰ç±»å‹";
 
-	// µãÏÔÊ¾×´Ì¬¹ÜÀí 
+	// ç‚¹æ˜¾ç¤ºçŠ¶æ€ç®¡ç† 
 	PointVisibility m_conVisibility;
 	PointVisibility m_colVisibility;
 
@@ -182,7 +182,7 @@ private:
 	float m_highlightWidth = 3.0f;
 	QColor m_highlightColor = Qt::yellow;
 
-	// µãÑ¡ÔñÏà¹Ø±äÁ¿ 
+	// ç‚¹é€‰æ‹©ç›¸å…³å˜é‡ 
 	bool m_isPointSelecting = false;
 	QSet<QString> m_selectedConPoints;
 	QSet<QString> m_selectedColPoints;

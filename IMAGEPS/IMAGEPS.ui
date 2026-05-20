@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>IMAGEPSClass</class>
  <widget class="QMainWindow" name="IMAGEPSClass">
@@ -2799,7 +2799,7 @@ QTableWidget {
              </attribute>
              <layout class="QGridLayout" name="gridLayout_20">
               <item row="0" column="0">
-               <widget class="GLDisplayWidget" name="openGLWidget">
+               <widget class="QgsMapCanvasWidget" name="openGLWidget">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
                   <horstretch>0</horstretch>
@@ -4635,6 +4635,11 @@ QMenu::separator {
    <class>GLDisplayWidget</class>
    <extends>QOpenGLWidget</extends>
    <header>GLDisplayWidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>QgsMapCanvasWidget</class>
+   <extends>QWidget</extends>
+   <header>QgsMapCanvasWidget.h</header>
   </customwidget>
   <customwidget>
    <class>TabbedDockWidget</class>

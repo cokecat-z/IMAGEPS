@@ -1,4 +1,4 @@
-#include "NonEditableModel.h"
+ï»¿#include "NonEditableModel.h"
 
 NonEditableModel::NonEditableModel(QObject *parent)
 	: QAbstractTableModel(parent), m_rows(0), m_columns(0)
@@ -8,7 +8,7 @@ NonEditableModel::NonEditableModel(QObject *parent)
 NonEditableModel::NonEditableModel(int rows, int columns, QObject *parent)
 	: QAbstractTableModel(parent), m_rows(rows), m_columns(columns)
 {
-	// ³õÊ¼»¯Êı¾İÈİÆ÷ 
+	// åˆå§‹åŒ–æ•°æ®å®¹å™¨ 
 	m_data.resize(m_rows);
 	for (int i = 0; i < m_rows; ++i) {
 		m_data[i].resize(m_columns);
@@ -63,7 +63,7 @@ Qt::ItemFlags NonEditableModel::flags(const QModelIndex &index) const
 	if (!index.isValid())
 		return Qt::NoItemFlags;
 
-	// ÉèÖÃÎª²»¿É±à¼­£¬µ«¿ÉÒÔÑ¡Ôñ 
+	// è®¾ç½®ä¸ºä¸å¯ç¼–è¾‘ï¼Œä½†å¯ä»¥é€‰æ‹© 
 	return Qt::ItemIsEnabled | Qt::ItemIsSelectable;
 }
 
@@ -112,7 +112,7 @@ bool NonEditableModel::setData(const QModelIndex &index, const QVariant &value, 
 	if (index.row() >= m_rows || index.column() >= m_columns)
 		return false;
 
-	// È·±£Êı¾İÈİÆ÷×ã¹»´ó 
+	// ç¡®ä¿æ•°æ®å®¹å™¨è¶³å¤Ÿå¤§ 
 	if (m_data.size() <= index.row()) {
 		m_data.resize(index.row() + 1);
 	}
@@ -136,7 +136,7 @@ QVariant NonEditableModel::getData(int row, int column, int role) const
 	return m_data[row][column];
 }
 
-// ĞÂÔö·½·¨µÄÊµÏÖ
+// æ–°å¢æ–¹æ³•çš„å®ç°
 
 void NonEditableModel::setRowCount(int rows)
 {
@@ -144,7 +144,7 @@ void NonEditableModel::setRowCount(int rows)
 		return;
 
 	if (rows > m_rows) {
-		// Ôö¼ÓĞĞÊı
+		// å¢åŠ è¡Œæ•°
 		beginInsertRows(QModelIndex(), m_rows, rows - 1);
 		m_data.resize(rows);
 		for (int i = m_rows; i < rows; ++i) {
@@ -154,7 +154,7 @@ void NonEditableModel::setRowCount(int rows)
 		endInsertRows();
 	}
 	else {
-		// ¼õÉÙĞĞÊı 
+		// å‡å°‘è¡Œæ•° 
 		beginRemoveRows(QModelIndex(), rows, m_rows - 1);
 		m_data.resize(rows);
 		m_rows = rows;
@@ -168,7 +168,7 @@ void NonEditableModel::setColumnCount(int columns)
 		return;
 
 	if (columns > m_columns) {
-		// Ôö¼ÓÁĞÊı 
+		// å¢åŠ åˆ—æ•° 
 		beginResetModel();
 		for (int i = 0; i < m_rows; ++i) {
 			m_data[i].resize(columns);
@@ -177,7 +177,7 @@ void NonEditableModel::setColumnCount(int columns)
 		endResetModel();
 	}
 	else {
-		// ¼õÉÙÁĞÊı 
+		// å‡å°‘åˆ—æ•° 
 		beginResetModel();
 		for (int i = 0; i < m_rows; ++i) {
 			m_data[i].resize(columns);
@@ -227,7 +227,7 @@ QVariant NonEditableModel::horizontalHeaderItem(int section) const
 //		return;
 //	}
 //
-//	beginResetModel(); // Ê¹ÓÃ reset Ä£ĞÍÒÔ»ñµÃ×î¼ÑĞÔÄÜ
+//	beginResetModel(); // ä½¿ç”¨ reset æ¨¡å‹ä»¥è·å¾—æœ€ä½³æ€§èƒ½
 //
 //	m_rows = data.size();
 //	m_columns = data.isEmpty() ? 0 : data.first().size();
@@ -265,18 +265,18 @@ bool NonEditableModel::removeRowsBatch(const QVector<int>& rows)
 {
 	if (rows.isEmpty())  return true;
 
-	// °´´Ó´óµ½Ğ¡ÅÅĞò 
+	// æŒ‰ä»å¤§åˆ°å°æ’åº 
 	QVector<int> sortedRows = rows;
 	std::sort(sortedRows.begin(), sortedRows.end(), std::greater<int>());
 
-	// ÅúÁ¿É¾³ıĞĞ 
+	// æ‰¹é‡åˆ é™¤è¡Œ 
 	for (int row : sortedRows) {
 		if (row < 0 || row >= m_rows) continue;
 
-		// ·¢³öÉ¾³ıĞÅºÅ 
+		// å‘å‡ºåˆ é™¤ä¿¡å· 
 		beginRemoveRows(QModelIndex(), sortedRows.last(), sortedRows.first());
 
-		// ÅúÁ¿É¾³ıÊı¾İ 
+		// æ‰¹é‡åˆ é™¤æ•°æ® 
 		for (int row : sortedRows) {
 			m_data.remove(row);
 		}

@@ -1,4 +1,4 @@
-#include "SatelliteViewer.h"
+ï»¿#include "SatelliteViewer.h"
 #include <QDebug>
 #include <QMouseEvent>
 #include <QWheelEvent>
@@ -23,7 +23,7 @@ SatelliteViewer::SatelliteViewer(QWidget* parent)
 }
 
 SatelliteViewer::~SatelliteViewer() {
-	// GDAL»á×Ô¶¯ÇåÀí×ÊÔ´ 
+	// GDALä¼šè‡ªåŠ¨æ¸…ç†èµ„æº 
 }
 //
 //void SatelliteViewer::loadImage(const QString& path) {
@@ -36,13 +36,13 @@ SatelliteViewer::~SatelliteViewer() {
 //		return;
 //	}
 //
-//	// ³õÊ¼»¯Í¼ÏñÊı¾İ 
+//	// åˆå§‹åŒ–å›¾åƒæ•°æ® 
 //	ImageData newImage;
 //	int bandCount = dataset->GetRasterCount();
 //	GDALRasterBand* firstBand = dataset->GetRasterBand(1);
 //	newImage.dataType = firstBand->GetRasterDataType();
 //
-//	// »ñÈ¡µØÀí×ø±êĞÅÏ¢ 
+//	// è·å–åœ°ç†åæ ‡ä¿¡æ¯ 
 //	double geoTransform[6];
 //	bool hasGeoTransform = (dataset->GetGeoTransform(geoTransform) == CE_None);
 //
@@ -59,7 +59,7 @@ SatelliteViewer::~SatelliteViewer() {
 //		newImage.maxY = dataset->GetRasterYSize();
 //	}
 //
-//	// ÉèÖÃ³õÊ¼ÊÓÍ¼ 
+//	// è®¾ç½®åˆå§‹è§†å›¾ 
 //	m_viewCenter = QPointF((newImage.minX + newImage.maxX) / 2.0,
 //		(newImage.minY + newImage.maxY) / 2.0);
 //	float widthRatio = width() / (float)(newImage.maxX - newImage.minX);
@@ -69,7 +69,7 @@ SatelliteViewer::~SatelliteViewer() {
 //	m_images.append(newImage);
 //	GDALClose(dataset);
 //
-//	// ¼ÓÔØ³õÊ¼Êı¾İ 
+//	// åŠ è½½åˆå§‹æ•°æ® 
 //	updateImageForCurrentLevel();
 //}
 //
@@ -82,7 +82,7 @@ SatelliteViewer::~SatelliteViewer() {
 //	QImage img = readOverview(overviewLevel);
 //	if (img.isNull())  return;
 //
-//	// ¸üĞÂ»ò´´½¨pixmapÏî 
+//	// æ›´æ–°æˆ–åˆ›å»ºpixmapé¡¹ 
 //	if (!m_pixmapItem) {
 //		m_pixmapItem = m_scene->addPixmap(QPixmap::fromImage(img));
 //		m_pixmapItem->setTransformationMode(Qt::SmoothTransformation);
@@ -91,7 +91,7 @@ SatelliteViewer::~SatelliteViewer() {
 //		m_pixmapItem->setPixmap(QPixmap::fromImage(img));
 //	}
 //
-//	// ¸üĞÂ³¡¾°·¶Î§ 
+//	// æ›´æ–°åœºæ™¯èŒƒå›´ 
 //	const ImageData& imgData = m_images.first();
 //	m_scene->setSceneRect(imgData.minX, imgData.minY,
 //		imgData.maxX - imgData.minX,
@@ -106,20 +106,20 @@ SatelliteViewer::~SatelliteViewer() {
 //	const ImageData& img = m_images.first();
 //	resetTransform();
 //
-//	// ¼ÆËãËõ·ÅÒò×Ó 
+//	// è®¡ç®—ç¼©æ”¾å› å­ 
 //	float scaleX = width() / (img.maxX - img.minX)  * m_viewScale;
 //	float scaleY = height() / (img.maxY - img.minY)  * m_viewScale;
 //	float scale1 = qMin(scaleX, scaleY);
 //
-//	// Ó¦ÓÃ±ä»» 
+//	// åº”ç”¨å˜æ¢ 
 //	scale(scale1, scale1);
 //	centerOn(m_viewCenter);
 //}
 //
-//// ÆäËû·½·¨ÊµÏÖÓëÔ­Ê¼´úÂëÀàËÆ£¬Ö÷ÒªĞŞ¸Ä£º
-//// 1. ÒÆ³ıËùÓĞOpenGLÏà¹Ø´úÂë 
-//// 2. ½«ÎÆÀí²Ù×÷¸ÄÎªQPixmap²Ù×÷ 
-//// 3. ĞŞ¸ÄÊó±êÊÂ¼ş´¦ÀíÒÔÊÊÓ¦QGraphicsView 
+//// å…¶ä»–æ–¹æ³•å®ç°ä¸åŸå§‹ä»£ç ç±»ä¼¼ï¼Œä¸»è¦ä¿®æ”¹ï¼š
+//// 1. ç§»é™¤æ‰€æœ‰OpenGLç›¸å…³ä»£ç  
+//// 2. å°†çº¹ç†æ“ä½œæ”¹ä¸ºQPixmapæ“ä½œ 
+//// 3. ä¿®æ”¹é¼ æ ‡äº‹ä»¶å¤„ç†ä»¥é€‚åº”QGraphicsView 
 //
 //void SatelliteViewer::wheelEvent(QWheelEvent* event) {
 //	if (m_images.isEmpty()) {
@@ -127,11 +127,11 @@ SatelliteViewer::~SatelliteViewer() {
 //		return;
 //	}
 //
-//	// ¼ÆËãËõ·ÅÒò×Ó 
+//	// è®¡ç®—ç¼©æ”¾å› å­ 
 //	float scaleFactor = pow(1.2, event->angleDelta().y() / 120.0f);
 //	float newScale = qBound(0.01f, m_viewScale * scaleFactor, 100.0f);
 //
-//	// ¸üĞÂÊÓÍ¼ 
+//	// æ›´æ–°è§†å›¾ 
 //	m_viewScale = newScale;
 //	updateImageForCurrentLevel();
 //	event->accept();
@@ -154,7 +154,7 @@ SatelliteViewer::~SatelliteViewer() {
 //		QPoint delta = event->pos() - m_lastDragPos;
 //		m_lastDragPos = event->pos();
 //
-//		// ¼ÆËãÊÓÍ¼ÖĞĞÄÒÆ¶¯Á¿ 
+//		// è®¡ç®—è§†å›¾ä¸­å¿ƒç§»åŠ¨é‡ 
 //		QPointF viewDelta = mapToScene(delta) - mapToScene(QPoint(0, 0));
 //		m_viewCenter = m_dragStartViewCenter - viewDelta;
 //
@@ -167,8 +167,8 @@ SatelliteViewer::~SatelliteViewer() {
 //	}
 //}
 //
-//// ÆäËû·½·¨£¨ÈçprocessMultiBand, calculateOverviewLevelµÈ£©±£³ÖÓëÔ­Ê¼´úÂëÏàÍ¬£¬
-//// Ö»ÊÇÒÆ³ıÁËOpenGLÏà¹Ø²¿·Ö 
+//// å…¶ä»–æ–¹æ³•ï¼ˆå¦‚processMultiBand, calculateOverviewLevelç­‰ï¼‰ä¿æŒä¸åŸå§‹ä»£ç ç›¸åŒï¼Œ
+//// åªæ˜¯ç§»é™¤äº†OpenGLç›¸å…³éƒ¨åˆ† 
 //
 //void SatelliteViewer::clampViewCenter() {
 //	if (m_images.isEmpty())  return;
@@ -177,15 +177,15 @@ SatelliteViewer::~SatelliteViewer() {
 //	float halfW = width() / (2.0f * m_viewScale);
 //	float halfH = height() / (2.0f * m_viewScale);
 //
-//	// ĞŞ¸ÄÇ°£¨´íÎó£©£º
+//	// ä¿®æ”¹å‰ï¼ˆé”™è¯¯ï¼‰ï¼š
 //	// m_viewCenter.setX(qBound(img.minX  + halfW, m_viewCenter.x(), img.maxX  - halfW));
 //	// m_viewCenter.setY(qBound(img.minY  + halfH, m_viewCenter.y(), img.maxY  - halfH));
 //
-//	// ĞŞ¸Äºó£¨ÕıÈ·£©£º
+//	// ä¿®æ”¹åï¼ˆæ­£ç¡®ï¼‰ï¼š
 //	m_viewCenter.setX(qBound(img.minX + halfW, m_viewCenter.x(), img.maxX - halfW));
 //	m_viewCenter.setY(qBound(img.minY + halfH, m_viewCenter.y(), img.maxY - halfH));
 //
-//	// Ìí¼Ó±ß½çÇé¿ö´¦Àí 
+//	// æ·»åŠ è¾¹ç•Œæƒ…å†µå¤„ç† 
 //	if (halfW * 2 > (img.maxX - img.minX)) {
 //		m_viewCenter.setX((img.minX + img.maxX) / 2.0f);
 //	}
@@ -196,7 +196,7 @@ SatelliteViewer::~SatelliteViewer() {
 //
 //QImage SatelliteViewer::processMultispectralBlock(GDALDataset* dataset, int overviewLevel,
 //	int x, int y, int width, int height) {
-//	// ²éÕÒRGB²¨¶Î£¨Ö§³Ö×Ô¶¯²¨¶ÎÊ¶±ğ£©
+//	// æŸ¥æ‰¾RGBæ³¢æ®µï¼ˆæ”¯æŒè‡ªåŠ¨æ³¢æ®µè¯†åˆ«ï¼‰
 //	int redBandIdx = 1, greenBandIdx = 2, blueBandIdx = 3;
 //	for (int i = 1; i <= dataset->GetRasterCount(); i++) {
 //		GDALColorInterp colorType = dataset->GetRasterBand(i)->GetColorInterpretation();
@@ -205,12 +205,12 @@ SatelliteViewer::~SatelliteViewer() {
 //		else if (colorType == GCI_BlueBand) blueBandIdx = i;
 //	}
 //
-//	// »ñÈ¡½ğ×ÖËş²ã¼¶²¨¶Î 
+//	// è·å–é‡‘å­—å¡”å±‚çº§æ³¢æ®µ 
 //	GDALRasterBand* redBand = dataset->GetRasterBand(redBandIdx)->GetOverview(overviewLevel);
 //	GDALRasterBand* greenBand = dataset->GetRasterBand(greenBandIdx)->GetOverview(overviewLevel);
 //	GDALRasterBand* blueBand = dataset->GetRasterBand(blueBandIdx)->GetOverview(overviewLevel);
 //
-//	// ¶ÁÈ¡16Î»Êı¾İ 
+//	// è¯»å–16ä½æ•°æ® 
 //	uint16_t* redBuf = new uint16_t[width * height];
 //	uint16_t* greenBuf = new uint16_t[width * height];
 //	uint16_t* blueBuf = new uint16_t[width * height];
@@ -222,11 +222,11 @@ SatelliteViewer::~SatelliteViewer() {
 //	blueBand->RasterIO(GF_Read, x, y, width, height,
 //		blueBuf, width, height, GDT_UInt16, 0, 0);
 //
-//	// ×ÔÊÊÓ¦À­ÉìºÍgammaĞ£Õı 
+//	// è‡ªé€‚åº”æ‹‰ä¼¸å’Œgammaæ ¡æ­£ 
 //	auto stretchValues = [](uint16_t* data, int size) {
 //		uint16_t minVal = 65535, maxVal = 0;
 //		for (int i = 0; i < size; i++) {
-//			if (data[i] > 0) { // ºöÂÔ0Öµ 
+//			if (data[i] > 0) { // å¿½ç•¥0å€¼ 
 //				minVal = qMin(minVal, data[i]);
 //				maxVal = qMax(maxVal, data[i]);
 //			}
@@ -238,7 +238,7 @@ SatelliteViewer::~SatelliteViewer() {
 //	auto gRange = stretchValues(greenBuf, width * height);
 //	auto bRange = stretchValues(blueBuf, width * height);
 //
-//	// ×ª»»ÎªQImage 
+//	// è½¬æ¢ä¸ºQImage 
 //	QImage img(width, height, QImage::Format_RGB888);
 //	const float gamma = 0.6f;
 //	for (int y = 0; y < height; ++y) {
@@ -270,22 +270,22 @@ SatelliteViewer::~SatelliteViewer() {
 //QImage SatelliteViewer::processPanchromaticBlock(GDALRasterBand* band,
 //	int x, int y,
 //	int width, int height) {
-//	// ¶ÁÈ¡16Î»Êı¾İ 
+//	// è¯»å–16ä½æ•°æ® 
 //	uint16_t* buffer = new uint16_t[width * height];
 //	band->RasterIO(GF_Read, x, y, width, height,
 //		buffer, width, height, GDT_UInt16, 0, 0);
 //
-//	// ĞŞ¸´ÎÊÌâ2£º¸Ä½øÍ³¼ÆÖµ¼ÆËã£¨ÅÅ³ı¼«¶ËÖµ£©
+//	// ä¿®å¤é—®é¢˜2ï¼šæ”¹è¿›ç»Ÿè®¡å€¼è®¡ç®—ï¼ˆæ’é™¤æç«¯å€¼ï¼‰
 //	uint16_t minVal = 65535, maxVal = 0;
-//	const float percentile = 0.02f; // ÅÅ³ı2%µÄ¼«¶ËÖµ 
+//	const float percentile = 0.02f; // æ’é™¤2%çš„æç«¯å€¼ 
 //
-//	// ¼ÆËãÖ±·½Í¼ 
+//	// è®¡ç®—ç›´æ–¹å›¾ 
 //	int hist[65536] = { 0 };
 //	for (int i = 0; i < width * height; ++i) {
 //		if (buffer[i] > 0) hist[buffer[i]]++;
 //	}
 //
-//	// ¼ÆËã°Ù·Ö±ÈãĞÖµ 
+//	// è®¡ç®—ç™¾åˆ†æ¯”é˜ˆå€¼ 
 //	int totalPixels = width * height;
 //	int count = 0;
 //	int lowThreshold = 0, highThreshold = 65535;
@@ -307,13 +307,13 @@ SatelliteViewer::~SatelliteViewer() {
 //		}
 //	}
 //
-//	// Ê¹ÓÃ¸Ä½øºóµÄ·¶Î§ 
+//	// ä½¿ç”¨æ”¹è¿›åçš„èŒƒå›´ 
 //	minVal = lowThreshold;
 //	maxVal = highThreshold;
 //
-//	// ´´½¨Í¼Ïñ£¨Ê¹ÓÃgammaĞ£ÕıÌáÉıÁÁ¶È£©
+//	// åˆ›å»ºå›¾åƒï¼ˆä½¿ç”¨gammaæ ¡æ­£æå‡äº®åº¦ï¼‰
 //	QImage img(width, height, QImage::Format_Grayscale8);
-//	const float gamma = 0.6f; // gammaÖµ¿Éµ÷Õû 
+//	const float gamma = 0.6f; // gammaå€¼å¯è°ƒæ•´ 
 //
 //	for (int y = 0; y < height; ++y) {
 //		uchar* scanLine = img.scanLine(y);
@@ -341,30 +341,30 @@ SatelliteViewer::~SatelliteViewer() {
 //		return 0;
 //	}
 //
-//	// »ñÈ¡»ù´¡ĞÅÏ¢ 
+//	// è·å–åŸºç¡€ä¿¡æ¯ 
 //	GDALRasterBand* firstBand = dataset->GetRasterBand(1);
 //	int maxOverview = firstBand->GetOverviewCount();
 //
-//	//// Èç¹ûÃ»ÓĞ½ğ×ÖËşÔòÖ±½Ó·µ»Ø0¼¶£¨È«·Ö±æÂÊ£©
+//	//// å¦‚æœæ²¡æœ‰é‡‘å­—å¡”åˆ™ç›´æ¥è¿”å›0çº§ï¼ˆå…¨åˆ†è¾¨ç‡ï¼‰
 //	//if (maxOverview <= 0) {
 //	//	GDALClose(dataset);
 //	//	return 0;
 //	//}
 //
-//		// Èç¹ûÃ»ÓĞ½ğ×ÖËşÔò´´½¨½ğ×ÖËş
+//		// å¦‚æœæ²¡æœ‰é‡‘å­—å¡”åˆ™åˆ›å»ºé‡‘å­—å¡”
 //	if (maxOverview <= 0) {
-//		GDALClose(dataset); // ÏÈ¹Ø±Õµ±Ç°Êı¾İ¼¯ 
+//		GDALClose(dataset); // å…ˆå…³é—­å½“å‰æ•°æ®é›† 
 //
-//		// µ÷ÓÃ½ğ×ÖËş´´½¨º¯Êı 
+//		// è°ƒç”¨é‡‘å­—å¡”åˆ›å»ºå‡½æ•° 
 //		SystemConfig* sysConfig = IMAGEPS::instance->getSystemConfig();
 //		if (sysConfig) {
 //			QStringList fileList;
 //			fileList << m_currentImagePath;
 //
-//			// ´´½¨½ğ×ÖËş£¨×èÈû·½Ê½£©
-//			sysConfig->acceptModule(QString::fromLocal8Bit("½ğ×ÖËş´´½¨"), fileList);
+//			// åˆ›å»ºé‡‘å­—å¡”ï¼ˆé˜»å¡æ–¹å¼ï¼‰
+//			sysConfig->acceptModule(QString::fromLocal8Bit("é‡‘å­—å¡”åˆ›å»º"), fileList);
 //
-//			// ÖØĞÂ´ò¿ªÊı¾İ¼¯¼ì²é½ğ×ÖËş
+//			// é‡æ–°æ‰“å¼€æ•°æ®é›†æ£€æŸ¥é‡‘å­—å¡”
 //			dataset = (GDALDataset*)GDALOpen(m_currentImagePath.toUtf8(), GA_ReadOnly);
 //			if (dataset) {
 //				firstBand = dataset->GetRasterBand(1);
@@ -372,14 +372,14 @@ SatelliteViewer::~SatelliteViewer() {
 //			}
 //		}
 //
-//		// Èç¹û»¹ÊÇÃ»ÓĞ½ğ×ÖËşÔò·µ»Ø0¼¶ 
+//		// å¦‚æœè¿˜æ˜¯æ²¡æœ‰é‡‘å­—å¡”åˆ™è¿”å›0çº§ 
 //		if (maxOverview <= 0) {
 //			if (dataset) GDALClose(dataset);
 //			return 0;
 //		}
 //	}
 //
-//	// ¼ÆËãÍ¼Ïñ·Ö±æÂÊ£¨µ¥Î»£ºÏñËØ/Ã×£©
+//	// è®¡ç®—å›¾åƒåˆ†è¾¨ç‡ï¼ˆå•ä½ï¼šåƒç´ /ç±³ï¼‰
 //	ImageGeoMetadata* metadata = IMAGEPS::getImageMetadata(m_currentImagePath);
 //
 //	double geoTransform[6];
@@ -398,38 +398,38 @@ SatelliteViewer::~SatelliteViewer() {
 //	}
 //	float imageResolution = hasGeoTransform ? qAbs(geoTransform[1]) : 1.0f;
 //
-//	// ¼ÆËãÏÔÊ¾·Ö±æÂÊ£¨µ¥Î»£ºÏñËØ/Ã×£©
-//	// viewScale±íÊ¾1¸öÊÀ½çµ¥Î»¶ÔÓ¦¶àÉÙÆÁÄ»ÏñËØ 
-//	// devicePixelRatio¿¼ÂÇ¸ßDPIÆÁÄ» 
+//	// è®¡ç®—æ˜¾ç¤ºåˆ†è¾¨ç‡ï¼ˆå•ä½ï¼šåƒç´ /ç±³ï¼‰
+//	// viewScaleè¡¨ç¤º1ä¸ªä¸–ç•Œå•ä½å¯¹åº”å¤šå°‘å±å¹•åƒç´  
+//	// devicePixelRatioè€ƒè™‘é«˜DPIå±å¹• 
 //	float displayResolution = viewScale * devicePixelRatioF();
 //
-//	// ¼ÆËã·Ö±æÂÊ±ÈÂÊ£¨ÏÔÊ¾·Ö±æÂÊ / Í¼Ïñ·Ö±æÂÊ£©
-//	// ±ÈÂÊ>1±íÊ¾ĞèÒªËõĞ¡ÏÔÊ¾£¨Ê¹ÓÃ½ğ×ÖËş£©
-//	// ±ÈÂÊ<1±íÊ¾ĞèÒª·Å´óÏÔÊ¾£¨Ê¹ÓÃ¸ü¾«Ï¸µÄ½ğ×ÖËş²ã¼¶£©
+//	// è®¡ç®—åˆ†è¾¨ç‡æ¯”ç‡ï¼ˆæ˜¾ç¤ºåˆ†è¾¨ç‡ / å›¾åƒåˆ†è¾¨ç‡ï¼‰
+//	// æ¯”ç‡>1è¡¨ç¤ºéœ€è¦ç¼©å°æ˜¾ç¤ºï¼ˆä½¿ç”¨é‡‘å­—å¡”ï¼‰
+//	// æ¯”ç‡<1è¡¨ç¤ºéœ€è¦æ”¾å¤§æ˜¾ç¤ºï¼ˆä½¿ç”¨æ›´ç²¾ç»†çš„é‡‘å­—å¡”å±‚çº§ï¼‰
 //	float ratio = displayResolution / imageResolution;
 //
-//	// ¸ù¾İ±ÈÂÊÑ¡Ôñ×îÓÅ½ğ×ÖËş²ã¼¶ 
+//	// æ ¹æ®æ¯”ç‡é€‰æ‹©æœ€ä¼˜é‡‘å­—å¡”å±‚çº§ 
 //	int optimalLevel = 0;
 //	if (maxOverview >= 4 && ratio <= 0.0625f) {  // 1:16 
 //		optimalLevel = 4;
 //	}
-//	else if (ratio <= 0.125f && maxOverview >= 3) {  // 1:8ËõĞ¡ 
+//	else if (ratio <= 0.125f && maxOverview >= 3) {  // 1:8ç¼©å° 
 //		optimalLevel = 3;
 //	}
-//	else if (ratio <= 0.25f && maxOverview >= 2) {  // 1:4ËõĞ¡ 
+//	else if (ratio <= 0.25f && maxOverview >= 2) {  // 1:4ç¼©å° 
 //		optimalLevel = 2;
 //	}
-//	else if (ratio <= 0.5f && maxOverview >= 1) {  // 1:2ËõĞ¡ 
+//	else if (ratio <= 0.5f && maxOverview >= 1) {  // 1:2ç¼©å° 
 //		optimalLevel = 1;
 //	}
-//	else {  // È«·Ö±æÂÊ 
+//	else {  // å…¨åˆ†è¾¨ç‡ 
 //		optimalLevel = 0;
 //	}
 //
-//	// ÑéÖ¤Ñ¡ÔñµÄ½ğ×ÖËş²ã¼¶ÊÇ·ñÓĞĞ§ 
+//	// éªŒè¯é€‰æ‹©çš„é‡‘å­—å¡”å±‚çº§æ˜¯å¦æœ‰æ•ˆ 
 //	optimalLevel = qBound(0, optimalLevel, maxOverview - 1);
 //
-//	//// µ÷ÊÔĞÅÏ¢ 
+//	//// è°ƒè¯•ä¿¡æ¯ 
 //	//qDebug() << "Overview selection:"
 //	//	<< "ImageRes=" << imageResolution
 //	//	<< "DisplayRes=" << displayResolution
@@ -444,10 +444,10 @@ SatelliteViewer::~SatelliteViewer() {
 //QImage SatelliteViewer::processFloat32Block(GDALRasterBand* band,
 //	int x, int y,
 //	int width, int height) {
-//	// ·ÖÅä32Î»¸¡µã»º³åÇø 
+//	// åˆ†é…32ä½æµ®ç‚¹ç¼“å†²åŒº 
 //	float* buffer = new float[width * height];
 //
-//	// ¶ÁÈ¡Êı¾İ 
+//	// è¯»å–æ•°æ® 
 //	CPLErr err = band->RasterIO(GF_Read, x, y, width, height,
 //		buffer, width, height, GDT_Float32, 0, 0);
 //	if (err != CE_None) {
@@ -456,7 +456,7 @@ SatelliteViewer::~SatelliteViewer() {
 //		return QImage();
 //	}
 //
-//	// ¼ÆËãÓĞĞ§Êı¾İ·¶Î§£¨ÅÅ³ıNaNºÍÎŞÇî´ó£©
+//	// è®¡ç®—æœ‰æ•ˆæ•°æ®èŒƒå›´ï¼ˆæ’é™¤NaNå’Œæ— ç©·å¤§ï¼‰
 //	float minVal = std::numeric_limits<float>::max();
 //	float maxVal = -std::numeric_limits<float>::max();
 //	int validCount = 0;
@@ -469,13 +469,13 @@ SatelliteViewer::~SatelliteViewer() {
 //		}
 //	}
 //
-//	// ´¦ÀíÈ«ÎŞĞ§Êı¾İÇé¿ö 
+//	// å¤„ç†å…¨æ— æ•ˆæ•°æ®æƒ…å†µ 
 //	if (validCount == 0 || minVal >= maxVal) {
 //		minVal = 0;
 //		maxVal = 1;
 //	}
 //
-//	// ´´½¨8Î»»Ò¶ÈÍ¼ 
+//	// åˆ›å»º8ä½ç°åº¦å›¾ 
 //	QImage img(width, height, QImage::Format_Grayscale8);
 //	float range = maxVal - minVal;
 //	range = (range > 0) ? range : 1.0f;
@@ -501,15 +501,15 @@ SatelliteViewer::~SatelliteViewer() {
 //QImage SatelliteViewer::processSingleBand(GDALRasterBand* band,
 //	int x, int y,
 //	int width, int height) {
-//	// ¶ÁÈ¡Êı¾İ 
+//	// è¯»å–æ•°æ® 
 //	uint8_t* buffer = new uint8_t[width * height];
 //	band->RasterIO(GF_Read, x, y, width, height,
 //		buffer, width, height, GDT_Byte, 0, 0);
 //
-//	// ´´½¨»Ò¶ÈÍ¼Ïñ 
+//	// åˆ›å»ºç°åº¦å›¾åƒ 
 //	QImage img(width, height, QImage::Format_Grayscale8);
 //
-//	// Ö±½Ó¸´ÖÆÊı¾İ£¨8Î»ÎŞĞèÀ­Éì£©
+//	// ç›´æ¥å¤åˆ¶æ•°æ®ï¼ˆ8ä½æ— éœ€æ‹‰ä¼¸ï¼‰
 //	for (int y = 0; y < height; ++y) {
 //		uchar* scanLine = img.scanLine(y);
 //		memcpy(scanLine, buffer + y * width, width);
@@ -522,22 +522,22 @@ SatelliteViewer::~SatelliteViewer() {
 //QImage SatelliteViewer::processSingleBand16(GDALRasterBand* band,
 //	int x, int y,
 //	int width, int height) {
-//	// ¶ÁÈ¡16Î»Êı¾İ 
+//	// è¯»å–16ä½æ•°æ® 
 //	uint16_t* buffer = new uint16_t[width * height];
 //	band->RasterIO(GF_Read, x, y, width, height,
 //		buffer, width, height, GDT_UInt16, 0, 0);
 //
-//	// ¸Ä½øµÄÍ³¼ÆÖµ¼ÆËã£¨ÅÅ³ı¼«¶ËÖµ£©
+//	// æ”¹è¿›çš„ç»Ÿè®¡å€¼è®¡ç®—ï¼ˆæ’é™¤æç«¯å€¼ï¼‰
 //	uint16_t minVal = 65535, maxVal = 0;
-//	const float excludePercent = 0.02f; // ÅÅ³ı2%¼«¶ËÖµ 
+//	const float excludePercent = 0.02f; // æ’é™¤2%æç«¯å€¼ 
 //
-//	// ¼ÆËãÖ±·½Í¼ 
+//	// è®¡ç®—ç›´æ–¹å›¾ 
 //	int hist[65536] = { 0 };
 //	for (int i = 0; i < width * height; ++i) {
 //		if (buffer[i] > 0) hist[buffer[i]]++;
 //	}
 //
-//	// ¼ÆËã×îĞ¡ãĞÖµ 
+//	// è®¡ç®—æœ€å°é˜ˆå€¼ 
 //	int total = width * height;
 //	int count = 0;
 //	for (int i = 0; i < 65536; ++i) {
@@ -548,7 +548,7 @@ SatelliteViewer::~SatelliteViewer() {
 //		}
 //	}
 //
-//	// ¼ÆËã×î´óãĞÖµ 
+//	// è®¡ç®—æœ€å¤§é˜ˆå€¼ 
 //	count = 0;
 //	for (int i = 65535; i >= 0; --i) {
 //		count += hist[i];
@@ -558,9 +558,9 @@ SatelliteViewer::~SatelliteViewer() {
 //		}
 //	}
 //
-//	// ´´½¨Í¼Ïñ£¨´øgammaĞ£ÕıÌáÉıÁÁ¶È£©
+//	// åˆ›å»ºå›¾åƒï¼ˆå¸¦gammaæ ¡æ­£æå‡äº®åº¦ï¼‰
 //	QImage img(width, height, QImage::Format_Grayscale8);
-//	const float gamma = 0.7f; // ¿Éµ÷ÕûµÄgammaÖµ 
+//	const float gamma = 0.7f; // å¯è°ƒæ•´çš„gammaå€¼ 
 //
 //	for (int y = 0; y < height; ++y) {
 //		uchar* scanLine = img.scanLine(y);
@@ -580,12 +580,12 @@ SatelliteViewer::~SatelliteViewer() {
 //	std::unique_ptr<uint8_t[]> buffers[3];
 //
 //	try {
-//		// ·ÖÅäÄÚ´æ 
+//		// åˆ†é…å†…å­˜ 
 //		for (int i = 0; i < 3; ++i) {
 //			buffers[i].reset(new uint8_t[region.width() * region.height()]);
 //		}
 //
-//		// ¶ÁÈ¡Êı¾İ 
+//		// è¯»å–æ•°æ® 
 //		for (int i = 0; i < 3; ++i) {
 //			CPLErr err = bands[i]->RasterIO(
 //				GF_Read,
@@ -602,7 +602,7 @@ SatelliteViewer::~SatelliteViewer() {
 //			}
 //		}
 //
-//		// ´´½¨Í¼Ïñ 
+//		// åˆ›å»ºå›¾åƒ 
 //		QImage img(region.size(), QImage::Format_RGB888);
 //
 //		for (int y = 0; y < region.height(); ++y) {
@@ -627,13 +627,13 @@ SatelliteViewer::~SatelliteViewer() {
 //	std::unique_ptr<uint16_t[]> buffers[3];
 //
 //	try {
-//		// ·ÖÅäÄÚ´æ 
+//		// åˆ†é…å†…å­˜ 
 //		const int pixelCount = region.width()  * region.height();
 //		for (int i = 0; i < 3; ++i) {
 //			buffers[i].reset(new uint16_t[pixelCount]);
 //		}
 //
-//		// ¶ÁÈ¡Êı¾İ£¨Ê¹ÓÃ½ø¶ÈÌáÊ¾£©
+//		// è¯»å–æ•°æ®ï¼ˆä½¿ç”¨è¿›åº¦æç¤ºï¼‰
 //		//qDebug() << "Loading 16-bit multi-band data...";
 //		QElapsedTimer timer;
 //		timer.start();
@@ -656,27 +656,27 @@ SatelliteViewer::~SatelliteViewer() {
 //
 //		//qDebug() << "Data loaded in" << timer.elapsed() << "ms";
 //
-//		// ¸Ä½øµÄÍ³¼ÆÖµ¼ÆËã£¨ÅÅ³ı¼«¶ËÖµ£©
+//		// æ”¹è¿›çš„ç»Ÿè®¡å€¼è®¡ç®—ï¼ˆæ’é™¤æç«¯å€¼ï¼‰
 //		uint16_t minVals[3] = { 65535, 65535, 65535 };
 //		uint16_t maxVals[3] = { 0, 0, 0 };
-//		const float excludePercent = 0.01f; // ¸üÑÏ¸ñµÄÅÅ³ı±ÈÀı 
+//		const float excludePercent = 0.01f; // æ›´ä¸¥æ ¼çš„æ’é™¤æ¯”ä¾‹ 
 //
-//		// ²¢ĞĞ¼ÆËãÍ³¼ÆÖµ£¨Ê¹ÓÃOpenMP£©
+//		// å¹¶è¡Œè®¡ç®—ç»Ÿè®¡å€¼ï¼ˆä½¿ç”¨OpenMPï¼‰
 //#pragma omp parallel for 
 //		for (int i = 0; i < 3; ++i) {
-//			// ¼ÆËãÖ±·½Í¼ 
+//			// è®¡ç®—ç›´æ–¹å›¾ 
 //			int hist[65536] = { 0 };
 //			for (int j = 0; j < pixelCount; ++j) {
 //				if (buffers[i][j] > 0) hist[buffers[i][j]]++;
 //			}
 //
-//			// ¼ÆËãÓĞĞ§·¶Î§£¨¸Ä½øËã·¨£©
+//			// è®¡ç®—æœ‰æ•ˆèŒƒå›´ï¼ˆæ”¹è¿›ç®—æ³•ï¼‰
 //			int totalValid = 0;
 //			for (int j = 0; j < 65536; ++j) {
 //				totalValid += hist[j];
 //			}
 //
-//			// ¼ÆËã×îĞ¡ãĞÖµ£¨ÅÅ³ı°µ²¿ÔëÉù£©
+//			// è®¡ç®—æœ€å°é˜ˆå€¼ï¼ˆæ’é™¤æš—éƒ¨å™ªå£°ï¼‰
 //			int count = 0;
 //			int lowThreshold = 0;
 //			for (int j = 0; j < 65536; ++j) {
@@ -687,7 +687,7 @@ SatelliteViewer::~SatelliteViewer() {
 //				}
 //			}
 //
-//			// ¼ÆËã×î´óãĞÖµ£¨ÅÅ³ı¸ß¹âÒç³ö£©
+//			// è®¡ç®—æœ€å¤§é˜ˆå€¼ï¼ˆæ’é™¤é«˜å…‰æº¢å‡ºï¼‰
 //			count = 0;
 //			int highThreshold = 65535;
 //			for (int j = 65535; j >= 0; --j) {
@@ -704,10 +704,10 @@ SatelliteViewer::~SatelliteViewer() {
 //			//qDebug() << "Band" << i << "range:" << minVals[i] << "-" << maxVals[i];
 //		}
 //
-//		// ´´½¨Í¼Ïñ£¨¸Ä½øµÄÉ«µ÷Ó³Éä£©
+//		// åˆ›å»ºå›¾åƒï¼ˆæ”¹è¿›çš„è‰²è°ƒæ˜ å°„ï¼‰
 //		QImage img(region.size(), QImage::Format_RGB888);
-//		const float gamma = 0.8f; // µ÷ÕûgammaÖµ 
-//		const float contrast = 1.2f; // ¶Ô±È¶ÈÔöÇ¿ 
+//		const float gamma = 0.8f; // è°ƒæ•´gammaå€¼ 
+//		const float contrast = 1.2f; // å¯¹æ¯”åº¦å¢å¼º 
 //
 //		for (int y = 0; y < region.height(); ++y) {
 //			uchar* scanLine = img.scanLine(y);
@@ -715,23 +715,23 @@ SatelliteViewer::~SatelliteViewer() {
 //				int idx = y * region.width() + x;
 //
 //				for (int i = 0; i < 3; ++i) {
-//					// ¸Ä½øµÄÉ«µ÷Ó³ÉäËã·¨ 
+//					// æ”¹è¿›çš„è‰²è°ƒæ˜ å°„ç®—æ³• 
 //					float normalized = (buffers[i][idx] - minVals[i]) /
 //						float(maxVals[i] - minVals[i]);
 //					normalized = qBound(0.0f, normalized, 1.0f);
 //
-//					// ¶Ô±È¶ÈÔöÇ¿ 
+//					// å¯¹æ¯”åº¦å¢å¼º 
 //					normalized = (normalized - 0.5f) * contrast + 0.5f;
 //					normalized = qBound(0.0f, normalized, 1.0f);
 //
-//					// GammaĞ£Õı 
+//					// Gammaæ ¡æ­£ 
 //					scanLine[x * 3 + i] = static_cast<uchar>(pow(normalized, gamma) * 255);
 //				}
 //			}
 //		}
 //
-//		// Èñ»¯´¦Àí£¨¿ÉÑ¡£©
-//		if (region.width() > 512) { // ¶Ô´óÍ¼Ïñ½øĞĞÈñ»¯ 
+//		// é”åŒ–å¤„ç†ï¼ˆå¯é€‰ï¼‰
+//		if (region.width() > 512) { // å¯¹å¤§å›¾åƒè¿›è¡Œé”åŒ– 
 //			QImage sharpened = img;
 //			QPainter painter(&sharpened);
 //			painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
@@ -751,25 +751,25 @@ SatelliteViewer::~SatelliteViewer() {
 //QImage SatelliteViewer::processMultiBand(GDALDataset* dataset,
 //	int overviewLevel,
 //	const QRect& region) {
-//	// ÊäÈëÑéÖ¤ 
+//	// è¾“å…¥éªŒè¯ 
 //	if (!dataset) {
 //		qCritical() << "Null dataset pointer";
 //		return QImage();
 //	}
 //
 //	try {
-//		// »ñÈ¡²¨¶ÎĞÅÏ¢ 
+//		// è·å–æ³¢æ®µä¿¡æ¯ 
 //		const int bandCount = dataset->GetRasterCount();
 //		if (bandCount < 3) {
 //			qWarning() << "Insufficient bands:" << bandCount;
 //			return QImage();
 //		}
 //
-//		// ×Ô¶¯Ê¶±ğRGB²¨¶Î£¨´ø±£»¤£©
-//		int bands[3] = { 1, 2, 3 }; // Ä¬ÈÏRGBË³Ğò 
+//		// è‡ªåŠ¨è¯†åˆ«RGBæ³¢æ®µï¼ˆå¸¦ä¿æŠ¤ï¼‰
+//		int bands[3] = { 1, 2, 3 }; // é»˜è®¤RGBé¡ºåº 
 //		bool hasColorInfo = false;
 //
-//		for (int i = 1; i <= qMin(bandCount, 10); i++) { // ÏŞÖÆ¼ì²éÇ°10¸ö²¨¶Î 
+//		for (int i = 1; i <= qMin(bandCount, 10); i++) { // é™åˆ¶æ£€æŸ¥å‰10ä¸ªæ³¢æ®µ 
 //			GDALRasterBand* band = dataset->GetRasterBand(i);
 //			if (!band) continue;
 //
@@ -782,7 +782,7 @@ SatelliteViewer::~SatelliteViewer() {
 //			}
 //		}
 //
-//		// »ñÈ¡½ğ×ÖËş²ã¼¶£¨´ø·¶Î§¼ì²é£©
+//		// è·å–é‡‘å­—å¡”å±‚çº§ï¼ˆå¸¦èŒƒå›´æ£€æŸ¥ï¼‰
 //		GDALRasterBand* redBand = dataset->GetRasterBand(bands[0]);
 //		if (!redBand) {
 //			qCritical() << "Invalid red band";
@@ -792,7 +792,7 @@ SatelliteViewer::~SatelliteViewer() {
 //		const int overviewCount = redBand->GetOverviewCount();
 //		overviewLevel = qBound(0, overviewLevel, qMax(0, overviewCount - 1));
 //
-//		// »ñÈ¡½ğ×ÖËş²¨¶Î£¨´ø¿ÕÖ¸Õë¼ì²é£©
+//		// è·å–é‡‘å­—å¡”æ³¢æ®µï¼ˆå¸¦ç©ºæŒ‡é’ˆæ£€æŸ¥ï¼‰
 //		GDALRasterBand* ovrBands[3] = {
 //			redBand->GetOverview(overviewLevel),
 //			dataset->GetRasterBand(bands[1])->GetOverview(overviewLevel),
@@ -806,7 +806,7 @@ SatelliteViewer::~SatelliteViewer() {
 //			}
 //		}
 //
-//		// È·¶¨´¦ÀíÇøÓò 
+//		// ç¡®å®šå¤„ç†åŒºåŸŸ 
 //		const int width = ovrBands[0]->GetXSize();
 //		const int height = ovrBands[0]->GetYSize();
 //
@@ -818,7 +818,7 @@ SatelliteViewer::~SatelliteViewer() {
 //			return QImage();
 //		}
 //
-//		// ¸ù¾İÊı¾İÀàĞÍ·ÖÅÉ´¦Àí 
+//		// æ ¹æ®æ•°æ®ç±»å‹åˆ†æ´¾å¤„ç† 
 //		const GDALDataType dataType = ovrBands[0]->GetRasterDataType();
 //
 //		if (dataType == GDT_Byte) {
@@ -845,11 +845,11 @@ SatelliteViewer::~SatelliteViewer() {
 //
 //	const ImageData& img = m_images.first();
 //
-//	// ¼ÆËãÊÓ¿Ú·¶Î§ 
+//	// è®¡ç®—è§†å£èŒƒå›´ 
 //	float halfW = width() / (2.0f * m_viewScale);
 //	float halfH = height() / (2.0f * m_viewScale);
 //
-//	// ×ª»»ÎªÊÀ½ç×ø±ê 
+//	// è½¬æ¢ä¸ºä¸–ç•Œåæ ‡ 
 //	double worldX = m_viewCenter.x() + (screenPos.x() - width() / 2.0) / m_viewScale;
 //	double worldY = m_viewCenter.y() - (screenPos.y() - height() / 2.0) / m_viewScale;
 //

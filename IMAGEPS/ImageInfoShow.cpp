@@ -1,4 +1,4 @@
-#include "ImageInfoShow.h"
+ï»¿#include "ImageInfoShow.h"
 #include "IMAGEPS.h"  
 #include <QPainter>
 #include <QDebug>
@@ -10,10 +10,10 @@
 ImageInfoShow::ImageInfoShow( QWidget* parent)
 	: QCustomPlot(parent)
 {
-	// ³õÊ¼»¯GDAL 
+	// åˆå§‹åŒ–GDAL 
 	GDALAllRegister();
 	m_imagePS = nullptr;
-	// ¼ì²éPROJÊÇ·ñ¿ÉÓÃ 
+	// æ£€æŸ¥PROJæ˜¯å¦å¯ç”¨ 
 	PJ_CONTEXT* ctx = proj_context_create();
 	if (!ctx) {
 		qWarning() << "Failed to create PROJ context";
@@ -23,7 +23,7 @@ ImageInfoShow::ImageInfoShow( QWidget* parent)
 		proj_context_destroy(ctx);
 	}
 
-	// ÉèÖÃQCustomPlotµÄ»ù±¾ÊôĞÔ 
+	// è®¾ç½®QCustomPlotçš„åŸºæœ¬å±æ€§ 
 	setInteractions(QCP::iRangeDrag | QCP::iRangeZoom);
 	setInteractions(QCP::iRangeDrag | QCP::iRangeZoom);
 	xAxis->setVisible(false);
@@ -32,22 +32,22 @@ ImageInfoShow::ImageInfoShow( QWidget* parent)
 	yAxis->grid()->setVisible(false);
 	axisRect()->setupFullAxesBox();
 
-	// ÉèÖÃ±³¾°É« 
+	// è®¾ç½®èƒŒæ™¯è‰² 
 	setBackground(QBrush(Qt::black));
 
-	m_currentImageTypeFilter = QString::fromLocal8Bit("ËùÓĞÀàĞÍ");
+	m_currentImageTypeFilter = QString::fromLocal8Bit("æ‰€æœ‰ç±»å‹");
 }
 
 ImageInfoShow::~ImageInfoShow()
 {
-	// ÊÍ·ÅµØÀí±ä»»²ÎÊıÄÚ´æ 
+	// é‡Šæ”¾åœ°ç†å˜æ¢å‚æ•°å†…å­˜ 
 	for (auto& transform : m_geoTransforms) {
 		delete[] transform;
 	}
 	m_geoTransforms.clear();
 }
 
-// ÉèÖÃ IMAGEPS ÊµÀı 
+// è®¾ç½® IMAGEPS å®ä¾‹ 
 void ImageInfoShow::setImagePS(IMAGEPS* imagePS)
 {
 	m_imagePS = imagePS;
@@ -60,83 +60,83 @@ void ImageInfoShow::paintEvent(QPaintEvent *event)
 	QPainter painter(this);
 	painter.setRenderHint(QPainter::Antialiasing);
 
-	// »æÖÆ±ß½ç¿ò 
+	// ç»˜åˆ¶è¾¹ç•Œæ¡† 
 	for (const GeoBoundary &boundary : m_boundaries) {
 		drawBoundary(boundary);
 	}
 
-	// »æÖÆµã 
+	// ç»˜åˆ¶ç‚¹ 
 	if (m_showPoints) {
 		drawPoints();
 	}
 
-	// »æÖÆÑ¡Ôñ¿ò 
+	// ç»˜åˆ¶é€‰æ‹©æ¡† 
 	if (m_isSelecting || !m_selectionRect.isNull()) {
 		drawSelectionRect();
 	}
 }
 
-// ÅĞ¶ÏÓ°ÏñÊÇ·ñÎª¼Ó´øºÅµÄÍ¶Ó°×ø±êÏµ
+// åˆ¤æ–­å½±åƒæ˜¯å¦ä¸ºåŠ å¸¦å·çš„æŠ•å½±åæ ‡ç³»
 bool ImageInfoShow::isProjectedWithZone(const QString& imagePath, int* zone = nullptr) {
-	// ×¢²áGDALÇı¶¯ 
+	// æ³¨å†ŒGDALé©±åŠ¨ 
 	GDALAllRegister();
 
-	// ´ò¿ªÓ°ÏñÎÄ¼ş 
+	// æ‰“å¼€å½±åƒæ–‡ä»¶ 
 	GDALDataset* dataset = (GDALDataset*)GDALOpen(imagePath.toUtf8().constData(), GA_ReadOnly);
 	if (!dataset) {
-		//QMessageBox::critical(nullptr, u8"´íÎó", u8"ÎŞ·¨´ò¿ªÓ°ÏñÎÄ¼ş£¡");
+		//QMessageBox::critical(nullptr, u8"é”™è¯¯", u8"æ— æ³•æ‰“å¼€å½±åƒæ–‡ä»¶ï¼");
 		return false;
 	}
 
-	// »ñÈ¡Í¶Ó°ĞÅÏ¢ 
+	// è·å–æŠ•å½±ä¿¡æ¯ 
 	const char* proj = dataset->GetProjectionRef();
 	if (strlen(proj) == 0) {
 		GDALClose(dataset);
-		//QMessageBox::warning(nullptr, u8"¾¯¸æ", u8"¸ÃÓ°ÏñÃ»ÓĞÍ¶Ó°ĞÅÏ¢£¡");
+		//QMessageBox::warning(nullptr, u8"è­¦å‘Š", u8"è¯¥å½±åƒæ²¡æœ‰æŠ•å½±ä¿¡æ¯ï¼");
 		return false;
 	}
 
-	// ´´½¨¿Õ¼ä²Î¿¼¶ÔÏó
+	// åˆ›å»ºç©ºé—´å‚è€ƒå¯¹è±¡
 	OGRSpatialReference srs;
 	if (srs.importFromWkt(proj) != OGRERR_NONE) {
 		GDALClose(dataset);
-		//QMessageBox::critical(nullptr, u8"´íÎó", u8"ÎŞ·¨½âÎöÍ¶Ó°ĞÅÏ¢£¡");
+		//QMessageBox::critical(nullptr, u8"é”™è¯¯", u8"æ— æ³•è§£ææŠ•å½±ä¿¡æ¯ï¼");
 		return false;
 	}
 
-	// Èç¹û²»ÊÇÍ¶Ó°×ø±êÏµ£¬Ö±½Ó·µ»Øfalse 
+	// å¦‚æœä¸æ˜¯æŠ•å½±åæ ‡ç³»ï¼Œç›´æ¥è¿”å›false 
 	if (!srs.IsProjected()) {
 		GDALClose(dataset);
 		return false;
 	}
 
-	// ¼ì²é³£¼û´øºÅÍ¶Ó°ÀàĞÍ
+	// æ£€æŸ¥å¸¸è§å¸¦å·æŠ•å½±ç±»å‹
 	const char* projName = srs.GetAttrValue("PROJCS");
 	int detectedZone = 0;
 	bool isZonedProjection = false;
 
-	// 1. ¼ì²éUTMÍ¶Ó° 
+	// 1. æ£€æŸ¥UTMæŠ•å½± 
 	if (projName && strstr(projName, "UTM")) {
 		detectedZone = srs.GetUTMZone();
 		if (detectedZone != 0) {
 			isZonedProjection = true;
 		}
 	}
-	// 2. ¼ì²é¸ßË¹¿ËÂÀ¸ñÍ¶Ó°
+	// 2. æ£€æŸ¥é«˜æ–¯å…‹å•æ ¼æŠ•å½±
 	else if (projName && (strstr(projName, "Gauss") || strstr(projName, "GK"))) {
 		double centralMeridian = srs.GetProjParm(SRS_PP_CENTRAL_MERIDIAN, 0.0);
 		if (centralMeridian != 0.0) {
-			// 6¶È´ø¼ÆËã
+			// 6åº¦å¸¦è®¡ç®—
 			detectedZone = static_cast<int>((centralMeridian + 3) / 6);
 			isZonedProjection = true;
 
-			// »òÕß3¶È´ø¼ÆËã
+			// æˆ–è€…3åº¦å¸¦è®¡ç®—
 			// detectedZone = static_cast<int>(centralMeridian / 3);
 		}
 	}
-	// 3. ¼ì²éÆäËû¿ÉÄÜ´øºÅÍ¶Ó°
+	// 3. æ£€æŸ¥å…¶ä»–å¯èƒ½å¸¦å·æŠ•å½±
 	else {
-		// ¼ì²éÊÇ·ñ´æÔÚ´øºÅ²ÎÊı
+		// æ£€æŸ¥æ˜¯å¦å­˜åœ¨å¸¦å·å‚æ•°
 		const char* zoneParam = srs.GetAttrValue("PROJCS|PARAMETER[\"zone\"");
 		if (zoneParam) {
 			detectedZone = atoi(zoneParam);
@@ -144,7 +144,7 @@ bool ImageInfoShow::isProjectedWithZone(const QString& imagePath, int* zone = nu
 		}
 	}
 
-	// Èç¹û´«ÈëÁËzoneÖ¸Õë£¬·µ»Ø´øºÅ 
+	// å¦‚æœä¼ å…¥äº†zoneæŒ‡é’ˆï¼Œè¿”å›å¸¦å· 
 	if (zone) {
 		*zone = detectedZone;
 	}
@@ -163,63 +163,63 @@ bool ImageInfoShow::calculateCornerCoordinates(const QString filePath, GeoBounda
 	currentDataset = (GDALDataset*)GDALOpen(filePath.toUtf8().constData(), GA_ReadOnly);
 	if (!currentDataset) return false;
 
-	//// Çå¿ÕÔ­ÓĞÊı¾İ 
+	//// æ¸…ç©ºåŸæœ‰æ•°æ® 
 	boundary.corners.clear();
 	//boundary.filePath = filePath;
 
-	// »ñÈ¡µØÀí±ä»»²ÎÊı 
+	// è·å–åœ°ç†å˜æ¢å‚æ•° 
 	double geoTransform[6];
 	if (currentDataset->GetGeoTransform(geoTransform) != CE_None) {
-		//QMessageBox::warning(this, "¾¯¸æ", "¸ÃÓ°ÏñÎÄ¼ş²»°üº¬µØÀí²Î¿¼ĞÅÏ¢£¡");
+		//QMessageBox::warning(this, "è­¦å‘Š", "è¯¥å½±åƒæ–‡ä»¶ä¸åŒ…å«åœ°ç†å‚è€ƒä¿¡æ¯ï¼");
 		return false;
 	}
 
-	// »ñÈ¡Í¶Ó°ĞÅÏ¢ 
+	// è·å–æŠ•å½±ä¿¡æ¯ 
 	const char* projectionRef = currentDataset->GetProjectionRef();
 	if (strlen(projectionRef) == 0) {
-		//QMessageBox::warning(this, "¾¯¸æ", "¸ÃÓ°ÏñÎÄ¼ş²»°üº¬Í¶Ó°ĞÅÏ¢£¡\n");
+		//QMessageBox::warning(this, "è­¦å‘Š", "è¯¥å½±åƒæ–‡ä»¶ä¸åŒ…å«æŠ•å½±ä¿¡æ¯ï¼\n");
 		return false;
 	}
 
 	int imageWidth = currentDataset->GetRasterXSize();
 	int imageHeight = currentDataset->GetRasterYSize();
 
-	// ´´½¨×ø±ê×ª»» 
+	// åˆ›å»ºåæ ‡è½¬æ¢ 
 	OGRSpatialReference sourceSRS, targetSRS;
 	if (sourceSRS.importFromWkt(projectionRef) != OGRERR_NONE) {
-		//QMessageBox::critical(this, "´íÎó", "ÎŞ·¨½âÎöÍ¶Ó°ĞÅÏ¢£¡\n");
+		//QMessageBox::critical(this, "é”™è¯¯", "æ— æ³•è§£ææŠ•å½±ä¿¡æ¯ï¼\n");
 		return false;
 	}
 
-	targetSRS.SetWellKnownGeogCS("WGS84");  // Ä¿±ê×ø±êÏµÎªWGS84 
+	targetSRS.SetWellKnownGeogCS("WGS84");  // ç›®æ ‡åæ ‡ç³»ä¸ºWGS84 
 
 	OGRCoordinateTransformation *coordTransform =
 		OGRCreateCoordinateTransformation(&sourceSRS, &targetSRS);
 
 	if (!coordTransform) {
-		//QMessageBox::critical(this, "´íÎó", "´´½¨×ø±ê×ª»»Ê§°Ü£¡\n");
+		//QMessageBox::critical(this, "é”™è¯¯", "åˆ›å»ºåæ ‡è½¬æ¢å¤±è´¥ï¼\n");
 		return false;
 	}
 
-	// ¶¨ÒåËÄ¸ö½Çµã£¨°´parseXmlBoundaryµÄË³Ğò£º×óÉÏ¡¢ÓÒÉÏ¡¢ÓÒÏÂ¡¢×óÏÂ£©
+	// å®šä¹‰å››ä¸ªè§’ç‚¹ï¼ˆæŒ‰parseXmlBoundaryçš„é¡ºåºï¼šå·¦ä¸Šã€å³ä¸Šã€å³ä¸‹ã€å·¦ä¸‹ï¼‰
 	struct ImageCorner {
 		QString name;
 		double pixelX, pixelY;
 	};
 
 	ImageCorner corners[4] = {
-		{"×óÉÏ½Ç(UL)", 0, 0},
-		{"ÓÒÉÏ½Ç(UR)", static_cast<double>(imageWidth), 0},
-		{"ÓÒÏÂ½Ç(LR)", static_cast<double>(imageWidth), static_cast<double>(imageHeight)},
-		{"×óÏÂ½Ç(LL)", 0, static_cast<double>(imageHeight)}
+		{"å·¦ä¸Šè§’(UL)", 0, 0},
+		{"å³ä¸Šè§’(UR)", static_cast<double>(imageWidth), 0},
+		{"å³ä¸‹è§’(LR)", static_cast<double>(imageWidth), static_cast<double>(imageHeight)},
+		{"å·¦ä¸‹è§’(LL)", 0, static_cast<double>(imageHeight)}
 	};
 
 	for (const auto& corner : corners) {
-		// ¼ÆËãÍ¶Ó°×ø±ê 
+		// è®¡ç®—æŠ•å½±åæ ‡ 
 		double projX = geoTransform[0] + corner.pixelX  * geoTransform[1] + corner.pixelY  * geoTransform[2];
 		double projY = geoTransform[3] + corner.pixelX  * geoTransform[4] + corner.pixelY  * geoTransform[5];
 
-		// ×ª»»ÎªµØÀí×ø±ê 
+		// è½¬æ¢ä¸ºåœ°ç†åæ ‡ 
 		double lon = projX;
 		double lat = projY;
 
@@ -232,7 +232,7 @@ bool ImageInfoShow::calculateCornerCoordinates(const QString filePath, GeoBounda
 		}
 	}
 
-	// ÇåÀí×ÊÔ´ 
+	// æ¸…ç†èµ„æº 
 	OCTDestroyCoordinateTransformation(coordTransform);
 	return true;
 }
@@ -241,23 +241,23 @@ bool ImageInfoShow::calculateCornerCoordinates(const QString filePath, GeoBounda
 bool ImageInfoShow::parseXmlBoundary(const QString &xmlPath, GeoBoundary &boundary) {
 	QFile file(xmlPath);
 	if (!file.open(QIODevice::ReadOnly)) {
-		qWarning() << "ÎŞ·¨´ò¿ªXMLÎÄ¼ş:" << xmlPath;
+		qWarning() << "æ— æ³•æ‰“å¼€XMLæ–‡ä»¶:" << xmlPath;
 		return false;
 	}
 
 	QDomDocument doc;
 	if (!doc.setContent(&file)) {
 		file.close();
-		qWarning() << "XML½âÎöÊ§°Ü:" << xmlPath;
+		qWarning() << "XMLè§£æå¤±è´¥:" << xmlPath;
 		return false;
 	}
 	file.close();
 
 	QDomElement root = doc.documentElement();
 	boundary.corners.clear();
-	// boundary.isGeoReferenced  = true;  // Ô­½á¹¹ÌåÖĞµÄ±ê¼Ç£¬ĞÂ½á¹¹ÌåÎŞ´Ë×Ö¶Î 
+	// boundary.isGeoReferenced  = true;  // åŸç»“æ„ä½“ä¸­çš„æ ‡è®°ï¼Œæ–°ç»“æ„ä½“æ— æ­¤å­—æ®µ 
 
-	// °´Ë³Ê±ÕëË³Ğò»ñÈ¡ËÄ¸ö½Çµã
+	// æŒ‰é¡ºæ—¶é’ˆé¡ºåºè·å–å››ä¸ªè§’ç‚¹
 	boundary.corners.append(QPointF(
 		root.firstChildElement("UpperLeftLong").text().toDouble(),
 		root.firstChildElement("UpperLeftLat").text().toDouble()
@@ -281,7 +281,7 @@ bool ImageInfoShow::parseXmlBoundary(const QString &xmlPath, GeoBoundary &bounda
 bool ImageInfoShow::containsBoundary(const QVector<GeoBoundary>& boundaries, const QString& filePath) {
 	for (const auto& b : boundaries) {
 		if (b.filePath == filePath) {
-			return true; // ÒÑ´æÔÚÏàÍ¬Ïî£¬ÎŞĞèÌí¼Ó
+			return true; // å·²å­˜åœ¨ç›¸åŒé¡¹ï¼Œæ— éœ€æ·»åŠ 
 		}
 	}
 	return false;
@@ -291,7 +291,7 @@ bool ImageInfoShow::removeFromRetainReferences(const QString& fileName, const QC
 {
 	if (fileName.isEmpty()) {
 		//qWarning() << "Invalid empty filename";
-		PROJECT_LOG_WARNING(m_imagePS->CurrentConfig, (QString::fromLocal8Bit("É¾³ı±£Áô²Î¿¼Êı¾İÁĞ±íÊ±ÊäÈëÁËÎŞĞ§µÄÎÄ¼şÃû!")));
+		PROJECT_LOG_WARNING(m_imagePS->CurrentConfig, (QString::fromLocal8Bit("åˆ é™¤ä¿ç•™å‚è€ƒæ•°æ®åˆ—è¡¨æ—¶è¾“å…¥äº†æ— æ•ˆçš„æ–‡ä»¶å!")));
 		return false;
 	}
 
@@ -300,7 +300,7 @@ bool ImageInfoShow::removeFromRetainReferences(const QString& fileName, const QC
 
 	if (it == m_retainReferences.end()) {
 		//qDebug() << "Color key not found in retain references";
-		PROJECT_LOG_WARNING(m_imagePS->CurrentConfig, (QString::fromLocal8Bit("Ã»ÓĞÔÚÎÄ¼şÁĞ±íÖĞÕÒµ½ÑÕÉ«·Ö×é")));
+		PROJECT_LOG_WARNING(m_imagePS->CurrentConfig, (QString::fromLocal8Bit("æ²¡æœ‰åœ¨æ–‡ä»¶åˆ—è¡¨ä¸­æ‰¾åˆ°é¢œè‰²åˆ†ç»„")));
 		return false;
 	}
 
@@ -315,12 +315,12 @@ bool ImageInfoShow::removeFromRetainReferences(const QString& fileName, const QC
 
 	bool removed = (initialCount != files.count());
 	if (removed) {
-		PROJECT_LOG_WARNING(m_imagePS->CurrentConfig, (QString::fromLocal8Bit("É¾³ı¶ÔÓ¦¿ÕµÄÑÕÉ«×é")));
+		PROJECT_LOG_WARNING(m_imagePS->CurrentConfig, (QString::fromLocal8Bit("åˆ é™¤å¯¹åº”ç©ºçš„é¢œè‰²ç»„")));
 
 		//qDebug() << "Removed" << fileName << "from color group" << color;
 	}
 	else {
-		PROJECT_LOG_WARNING(m_imagePS->CurrentConfig, (QString::fromLocal8Bit("Ã»ÓĞÕÒµ½¶ÔÓ¦ÑÕÉ«×é")));
+		PROJECT_LOG_WARNING(m_imagePS->CurrentConfig, (QString::fromLocal8Bit("æ²¡æœ‰æ‰¾åˆ°å¯¹åº”é¢œè‰²ç»„")));
 
 		//qDebug() << fileName << "not found in color group" << color;
 	}
@@ -375,27 +375,27 @@ void ImageInfoShow::filterReferenceBoundaries()
 	QVector<QPolygonF> originalPolygons = getOriginalPolygons();
 	QVector<GeoBoundary> newBoundaries;
 	QString tmp = QString::number(m_boundaries.size());
-	PROJECT_LOG_INFO(m_imagePS->CurrentConfig, (QString::fromLocal8Bit("Ó°Ïñ°üÂç¿ò¹ıÂËº¯Êı¿ªÊ¼Ö´ĞĞ") + QString::fromLocal8Bit("***** ÊıÁ¿ :") + tmp));
-	// ÁÙÊ±´æ´¢±¾´ÎÒªÅÅ³ıµÄ²Î¿¼Êı¾İ£¨°´ÑÕÉ«·Ö×é£©
+	PROJECT_LOG_INFO(m_imagePS->CurrentConfig, (QString::fromLocal8Bit("å½±åƒåŒ…ç»œæ¡†è¿‡æ»¤å‡½æ•°å¼€å§‹æ‰§è¡Œ") + QString::fromLocal8Bit("***** æ•°é‡ :") + tmp));
+	// ä¸´æ—¶å­˜å‚¨æœ¬æ¬¡è¦æ’é™¤çš„å‚è€ƒæ•°æ®ï¼ˆæŒ‰é¢œè‰²åˆ†ç»„ï¼‰
 	QHash<QRgb, QStringList> newExcludedRefs;
 
 	for (const GeoBoundary& boundary : m_boundaries) {
 		if (m_imagePS->getDataModelPath().contains(boundary.filePath)) {
-			// Ô­Ê¼Êı¾İÖ±½Ó±£Áô
+			// åŸå§‹æ•°æ®ç›´æ¥ä¿ç•™
 			newBoundaries.append(boundary);
 		}
 		else if (!isReferenceData(boundary.filePath)) {
-			// ·Ç²Î¿¼Êı¾İÖ±½Ó±£Áô 
+			// éå‚è€ƒæ•°æ®ç›´æ¥ä¿ç•™ 
 			newBoundaries.append(boundary);
 		}
 		else {
-			// ²Î¿¼Êı¾İĞèÒªÉ¸Ñ¡ 
+			// å‚è€ƒæ•°æ®éœ€è¦ç­›é€‰ 
 			if (shouldDrawReference(boundary, originalPolygons)) {
 				newBoundaries.append(boundary);
-				// »ñÈ¡ÎÄ¼şÃû£¨²»º¬Â·¾¶£©
+				// è·å–æ–‡ä»¶åï¼ˆä¸å«è·¯å¾„ï¼‰
 				QString fileName = QFileInfo(boundary.filePath).completeBaseName();
 
-				// °´ÑÕÉ«·Ö×éÌí¼Óµ½ÁĞ±í£¨²»¸²¸ÇÔ­ÓĞÊı¾İ£©
+				// æŒ‰é¢œè‰²åˆ†ç»„æ·»åŠ åˆ°åˆ—è¡¨ï¼ˆä¸è¦†ç›–åŸæœ‰æ•°æ®ï¼‰
 				if (!m_retainReferences[boundary.color.rgba()].contains(fileName)) {
 					m_retainReferences[boundary.color.rgba()] << fileName;
 					//PROJECT_LOG_INFO(m_imagePS->CurrentConfig, fileName);
@@ -403,7 +403,7 @@ void ImageInfoShow::filterReferenceBoundaries()
 			}
 			else {
 				PROJECT_LOG_INFO(m_imagePS->CurrentConfig,
-					boundary.filePath + QString::fromLocal8Bit("²Î¿¼Ó°Ïñ×ø±ê²»ÓëÔ­Ê¼Ó°Ïñ½Ó±ß..."));
+					boundary.filePath + QString::fromLocal8Bit("å‚è€ƒå½±åƒåæ ‡ä¸ä¸åŸå§‹å½±åƒæ¥è¾¹..."));
 			}
 		}
 	}
@@ -421,29 +421,29 @@ void ImageInfoShow::addGeoBoundary(const QString &filePath, const QColor &color)
 	QString xmlPath = m_imagePS->projectdir + QString::fromLocal8Bit("Temp/ImageInfo/") +
 		fileInfo.completeBaseName() + QString::fromLocal8Bit(".xml");
 
-	PROJECT_LOG_INFO(m_imagePS->CurrentConfig, filePath + QString::fromLocal8Bit("¿ªÊ¼¼ÆËã±ß½ç×ø±ê...."));
+	PROJECT_LOG_INFO(m_imagePS->CurrentConfig, filePath + QString::fromLocal8Bit("å¼€å§‹è®¡ç®—è¾¹ç•Œåæ ‡...."));
 
 	if (isProjectedWithZone(filePath)) {
 		calculateCornerCoordinates(filePath, boundary);
 	}
 	else {
 		if (!parseXmlBoundary(xmlPath, boundary)) {
-			PROJECT_LOG_ERROR(m_imagePS->CurrentConfig, xmlPath + QString::fromLocal8Bit("ÎÄ¼ş½âÎöÊ§°Ü!!"));
+			PROJECT_LOG_ERROR(m_imagePS->CurrentConfig, xmlPath + QString::fromLocal8Bit("æ–‡ä»¶è§£æå¤±è´¥!!"));
 			return;
 		}
 	}
 
 	if (boundary.corners.size() != 4) {
-		PROJECT_LOG_ERROR(m_imagePS->CurrentConfig, xmlPath + QString::fromLocal8Bit("¼ÆËã×ø±êÊıÁ¿²»¶Ô!!"));
+		PROJECT_LOG_ERROR(m_imagePS->CurrentConfig, xmlPath + QString::fromLocal8Bit("è®¡ç®—åæ ‡æ•°é‡ä¸å¯¹!!"));
 		return;
 	}
 
-	// Ö±½ÓÌí¼Óµ½±ß½çÁĞ±í£¬²»½øĞĞÉ¸Ñ¡ 
+	// ç›´æ¥æ·»åŠ åˆ°è¾¹ç•Œåˆ—è¡¨ï¼Œä¸è¿›è¡Œç­›é€‰ 
 	if (!containsBoundary(m_boundaries, filePath)) {
 		m_boundaries.append(boundary);
 	}
 
-	// ¸üĞÂÏÔÊ¾ 
+	// æ›´æ–°æ˜¾ç¤º 
 	calculateWorldExtent();
 	zoomToFullExtent();
 	update();
@@ -459,7 +459,7 @@ void ImageInfoShow::addGeoBoundary(const QString &filePath, const QColor &color)
 //	QString xmlPath = m_imagePS->projectdir + QString::fromLocal8Bit("Temp/ImageInfo/") +
 //		fileInfo.completeBaseName() + QString::fromLocal8Bit(".xml");
 //
-//	PROJECT_LOG_INFO(m_imagePS->CurrentConfig, filePath + QString::fromLocal8Bit("¿ªÊ¼¼ÆËã±ß½ç×ø±ê...."));
+//	PROJECT_LOG_INFO(m_imagePS->CurrentConfig, filePath + QString::fromLocal8Bit("å¼€å§‹è®¡ç®—è¾¹ç•Œåæ ‡...."));
 //
 //	if (isProjectedWithZone(filePath))
 //	{
@@ -467,29 +467,29 @@ void ImageInfoShow::addGeoBoundary(const QString &filePath, const QColor &color)
 //	}
 //	else {
 //		if (!parseXmlBoundary(xmlPath, boundary)) {
-//			PROJECT_LOG_ERROR(m_imagePS->CurrentConfig, xmlPath + QString::fromLocal8Bit("ÎÄ¼ş½âÎöÊ§°Ü!!"));
+//			PROJECT_LOG_ERROR(m_imagePS->CurrentConfig, xmlPath + QString::fromLocal8Bit("æ–‡ä»¶è§£æå¤±è´¥!!"));
 //			//qWarning() << "Failed to parse XML boundary for file:" << filePath;
 //			return;
 //		}
 //	}
 //
 //	if (boundary.corners.size() != 4) {
-//		PROJECT_LOG_ERROR(m_imagePS->CurrentConfig, xmlPath + QString::fromLocal8Bit("¼ÆËã×ø±êÊıÁ¿²»¶Ô!!"));
+//		PROJECT_LOG_ERROR(m_imagePS->CurrentConfig, xmlPath + QString::fromLocal8Bit("è®¡ç®—åæ ‡æ•°é‡ä¸å¯¹!!"));
 //
 //		//qWarning() << "Invalid boundary data for file:" << filePath;
 //		return;
 //	}
 //
-//	// ÅĞ¶Ïµ±Ç°ÎÄ¼şÊÇ·ñÎªÔ­Ê¼Êı¾İ£¨DataModelPathÖĞµÄÎÄ¼ş£©
+//	// åˆ¤æ–­å½“å‰æ–‡ä»¶æ˜¯å¦ä¸ºåŸå§‹æ•°æ®ï¼ˆDataModelPathä¸­çš„æ–‡ä»¶ï¼‰
 //	bool isOriginalData = m_imagePS->getDataModelPath().contains(filePath);
 //
-//	// ÅĞ¶Ïµ±Ç°ÎÄ¼şÊÇ·ñÎª²Î¿¼Êı¾İ£¨DOMFilePath»òDEMFilePathÖĞµÄÎÄ¼ş£©
+//	// åˆ¤æ–­å½“å‰æ–‡ä»¶æ˜¯å¦ä¸ºå‚è€ƒæ•°æ®ï¼ˆDOMFilePathæˆ–DEMFilePathä¸­çš„æ–‡ä»¶ï¼‰
 //	bool isReferenceData = m_imagePS->getDOMFilePath().contains(filePath) ||
 //		m_imagePS->getDEMFilePath().contains(filePath);
 //
-//	// Ô­Ê¼Êı¾İÖ±½Ó¼ÓÔØ£¬²»×ö¹ıÂË
+//	// åŸå§‹æ•°æ®ç›´æ¥åŠ è½½ï¼Œä¸åšè¿‡æ»¤
 //	if (isOriginalData) {
-//		// ¼ì²éÊÇ·ñÒÑ´æÔÚÏàÍ¬ filePath µÄ±ß½ç 
+//		// æ£€æŸ¥æ˜¯å¦å·²å­˜åœ¨ç›¸åŒ filePath çš„è¾¹ç•Œ 
 //		if (!containsBoundary(m_boundaries, filePath)) {
 //			m_boundaries.append(boundary);
 //		}
@@ -499,7 +499,7 @@ void ImageInfoShow::addGeoBoundary(const QString &filePath, const QColor &color)
 //		return;
 //	}
 //
-//	// Èç¹û²»ÊÇ²Î¿¼Êı¾İ£¬Ò²Ö±½Ó¼ÓÔØ£¨±£³ÖÔ­ÓĞ¼æÈİĞÔ£©
+//	// å¦‚æœä¸æ˜¯å‚è€ƒæ•°æ®ï¼Œä¹Ÿç›´æ¥åŠ è½½ï¼ˆä¿æŒåŸæœ‰å…¼å®¹æ€§ï¼‰
 //	if (!isReferenceData) {
 //		if (!containsBoundary(m_boundaries, filePath)) {
 //			m_boundaries.append(boundary);
@@ -510,8 +510,8 @@ void ImageInfoShow::addGeoBoundary(const QString &filePath, const QColor &color)
 //		return;
 //	}
 //
-//	// ÒÔÏÂÊÇÖ»¶Ô²Î¿¼Êı¾İµÄ´¦ÀíÂß¼­ 
-//	// »ñÈ¡ËùÓĞÔ­Ê¼Ó°ÏñµÄ±ß½ç¿ò 
+//	// ä»¥ä¸‹æ˜¯åªå¯¹å‚è€ƒæ•°æ®çš„å¤„ç†é€»è¾‘ 
+//	// è·å–æ‰€æœ‰åŸå§‹å½±åƒçš„è¾¹ç•Œæ¡† 
 //	QVector<QPolygonF> originalPolygons;
 //	for (const GeoBoundary& existing : m_boundaries) {
 //		if (m_imagePS->getDataModelPath().contains(existing.filePath)) {
@@ -523,18 +523,18 @@ void ImageInfoShow::addGeoBoundary(const QString &filePath, const QColor &color)
 //		}
 //	}
 //
-//	// Èç¹ûÃ»ÓĞÔ­Ê¼Ó°Ïñ±ß½ç¿ò£¬Ä¬ÈÏ»æÖÆËùÓĞ²Î¿¼Êı¾İ
+//	// å¦‚æœæ²¡æœ‰åŸå§‹å½±åƒè¾¹ç•Œæ¡†ï¼Œé»˜è®¤ç»˜åˆ¶æ‰€æœ‰å‚è€ƒæ•°æ®
 //	bool shouldDraw = originalPolygons.isEmpty();
 //
-//	// ¼ì²é²Î¿¼Êı¾İ±ß½ç¿òÊÇ·ñÓëÈÎºÎÔ­Ê¼Ó°Ïñ±ß½ç¿òÏà½» 
+//	// æ£€æŸ¥å‚è€ƒæ•°æ®è¾¹ç•Œæ¡†æ˜¯å¦ä¸ä»»ä½•åŸå§‹å½±åƒè¾¹ç•Œæ¡†ç›¸äº¤ 
 //	if (!shouldDraw) {
-//		// ´´½¨²Î¿¼Êı¾İµÄ¶à±ßĞÎ
+//		// åˆ›å»ºå‚è€ƒæ•°æ®çš„å¤šè¾¹å½¢
 //		QPolygonF refPoly;
 //		for (const QPointF& point : boundary.corners) {
 //			refPoly << point;
 //		}
 //
-//		// ¼ì²éÓëÃ¿¸öÔ­Ê¼Ó°Ïñ±ß½ç¿òµÄÏà½»Çé¿ö
+//		// æ£€æŸ¥ä¸æ¯ä¸ªåŸå§‹å½±åƒè¾¹ç•Œæ¡†çš„ç›¸äº¤æƒ…å†µ
 //		for (const QPolygonF& originalPoly : originalPolygons) {
 //			if (originalPoly.intersects(refPoly)) {
 //				shouldDraw = true;
@@ -547,7 +547,7 @@ void ImageInfoShow::addGeoBoundary(const QString &filePath, const QColor &color)
 //		if (!containsBoundary(m_boundaries, filePath)) {
 //			m_boundaries.append(boundary);
 //		}
-//		// Èç¹ûÖ®Ç°±»ÅÅ³ı¹ı£¬ÏÖÔÚÓÖ·ûºÏÌõ¼şÁË£¬¾Í´ÓÅÅ³ıÁĞ±íÖĞÒÆ³ı
+//		// å¦‚æœä¹‹å‰è¢«æ’é™¤è¿‡ï¼Œç°åœ¨åˆç¬¦åˆæ¡ä»¶äº†ï¼Œå°±ä»æ’é™¤åˆ—è¡¨ä¸­ç§»é™¤
 //		if (m_excludedReferences.contains(filePath)) {
 //			m_excludedReferences.remove(filePath);
 //		}
@@ -557,25 +557,25 @@ void ImageInfoShow::addGeoBoundary(const QString &filePath, const QColor &color)
 //	}
 //	else {
 //		//qDebug() << "Reference boundary does not intersect with any original image, skipping:" << filePath;
-//		PROJECT_LOG_INFO(m_imagePS->CurrentConfig, xmlPath + QString::fromLocal8Bit("²Î¿¼Ó°Ïñ×ø±ê²»ÓëÔ­Ê¼Ó°Ïñ½Ó±ß..."));
+//		PROJECT_LOG_INFO(m_imagePS->CurrentConfig, xmlPath + QString::fromLocal8Bit("å‚è€ƒå½±åƒåæ ‡ä¸ä¸åŸå§‹å½±åƒæ¥è¾¹..."));
 //
-//		// Ìí¼Óµ½ÅÅ³ıÁĞ±í
+//		// æ·»åŠ åˆ°æ’é™¤åˆ—è¡¨
 //		if (!m_excludedReferences.contains(filePath)) {
 //			m_excludedReferences.insert(filePath);
 //		}
 //	}
 //}
 
-// »ñÈ¡ÎÄ¼şÁĞ±í
+// è·å–æ–‡ä»¶åˆ—è¡¨
 QStringList ImageInfoShow::getExcludedReferences() const {
 	return m_excludedReferences.toList();
 }
 
-// »ñÈ¡ÎÄ¼şÁĞ±í
+// è·å–æ–‡ä»¶åˆ—è¡¨
 QSet<QString> ImageInfoShow::getExcludedReferencesSet() const {
 	
 	QStringList tmpPath = getExcludedReferences();
-	// Ê¹ÓÃQSet´æ´¢ĞèÒª±£ÁôµÄÎÄ¼şÃû£¨²»º¬Â·¾¶ºÍÀ©Õ¹Ãû£©
+	// ä½¿ç”¨QSetå­˜å‚¨éœ€è¦ä¿ç•™çš„æ–‡ä»¶åï¼ˆä¸å«è·¯å¾„å’Œæ‰©å±•åï¼‰
 	QSet<QString> filesToKeep;
 	for (const QString& fullPath : tmpPath) {
 		filesToKeep.insert(QFileInfo(fullPath).completeBaseName());
@@ -583,7 +583,7 @@ QSet<QString> ImageInfoShow::getExcludedReferencesSet() const {
 	return filesToKeep;
 }
 
-// »ñÈ¡ÎÄ¼şÁĞ±í
+// è·å–æ–‡ä»¶åˆ—è¡¨
 QHash<QRgb, QStringList> ImageInfoShow::getRetainReferencesSet() const {
 	return m_retainReferences;
 }
@@ -592,10 +592,10 @@ QHash<QRgb, QStringList> ImageInfoShow::getRetainReferencesSet() const {
 //
 //	GeoBoundary boundary;
 //	boundary.color = color;
-//	boundary.filePath = filePath;  // ´æ´¢ÍêÕûÎÄ¼şÂ·¾¶
+//	boundary.filePath = filePath;  // å­˜å‚¨å®Œæ•´æ–‡ä»¶è·¯å¾„
 //	QFileInfo fileInfo(filePath);
 //	if (parseXmlBoundary(m_imagePS->projectdir + QString::fromLocal8Bit("Temp/ImageInfo/") + fileInfo.completeBaseName() + QString::fromLocal8Bit(".xml"), boundary)) {
-//		m_boundaries.append(boundary);   // Ö±½Ó×·¼Ó£¬²»Çå³ıÒÑÓĞ±ß½ç 
+//		m_boundaries.append(boundary);   // ç›´æ¥è¿½åŠ ï¼Œä¸æ¸…é™¤å·²æœ‰è¾¹ç•Œ 
 //		update();
 //	}
 //
@@ -610,14 +610,14 @@ QHash<QRgb, QStringList> ImageInfoShow::getRetainReferencesSet() const {
 //}
 
 //void ImageInfoShow::addGeoBoundary(const QString &filePath, const QColor &color) {
-//	// »ñÈ¡Ğı×ªºóµÄËÄ¸ö½Çµã×ø±ê 
+//	// è·å–æ—‹è½¬åçš„å››ä¸ªè§’ç‚¹åæ ‡ 
 //	std::vector<QString> corners = getRotatedImageCorners(filePath);
-//	if (corners.size() != 4 || corners[0] == "ÎŞµØÀí²Î¿¼ĞÅÏ¢") {
+//	if (corners.size() != 4 || corners[0] == "æ— åœ°ç†å‚è€ƒä¿¡æ¯") {
 //		qWarning() << "Failed to get valid geographic coordinates for file:" << filePath;
 //		return;
 //	}
 //
-//	// ½âÎöËÄ¸ö½ÇµãµÄ×ø±ê 
+//	// è§£æå››ä¸ªè§’ç‚¹çš„åæ ‡ 
 //	GeoBoundary boundary;
 //	boundary.color = color;
 //	boundary.filePath = filePath;
@@ -633,10 +633,10 @@ QHash<QRgb, QStringList> ImageInfoShow::getRetainReferencesSet() const {
 //		return;
 //	}
 //
-//	// ´´½¨Ä¿±ê×ø±êÏµ 
+//	// åˆ›å»ºç›®æ ‡åæ ‡ç³» 
 //	OGRSpatialReference* targetSRS = createTargetSRS();
 //
-//	// Ö´ĞĞ×ø±êÏµ×ª»» 
+//	// æ‰§è¡Œåæ ‡ç³»è½¬æ¢ 
 //	reprojectBoundary(boundary, targetSRS);
 //
 //	delete targetSRS;
@@ -659,10 +659,10 @@ void ImageInfoShow::calculateWorldExtent() {
 		return;
 	}
 
-	// ³õÊ¼»¯·¶Î§ 
+	// åˆå§‹åŒ–èŒƒå›´ 
 	bool initialized = false;
 
-	// Ê×ÏÈ³¢ÊÔ´Ó±ß½ç¿ò³õÊ¼»¯ 
+	// é¦–å…ˆå°è¯•ä»è¾¹ç•Œæ¡†åˆå§‹åŒ– 
 	if (!m_boundaries.isEmpty()) {
 		const auto& firstBoundary = m_boundaries.first();
 		if (!firstBoundary.corners.isEmpty()) {
@@ -678,7 +678,7 @@ void ImageInfoShow::calculateWorldExtent() {
 		return;
 	}
 
-	// ¸üĞÂËùÓĞ±ß½ç¿òµÄ·¶Î§ 
+	// æ›´æ–°æ‰€æœ‰è¾¹ç•Œæ¡†çš„èŒƒå›´ 
 	for (const auto& boundary : m_boundaries) {
 		for (const auto& corner : boundary.corners) {
 			m_worldMinX = qMin(m_worldMinX, corner.x());
@@ -739,10 +739,10 @@ void ImageInfoShow::drawBoundary(const GeoBoundary &boundary)
 	QPainter painter(this);
 	painter.setRenderHint(QPainter::Antialiasing);
 
-	// ÅĞ¶ÏÊÇ·ñÊÇ¸ßÁÁ±ß½ç 
+	// åˆ¤æ–­æ˜¯å¦æ˜¯é«˜äº®è¾¹ç•Œ 
 	bool isHighlighted = m_highlightedFiles.contains(boundary.filePath);
 
-	// ÉèÖÃ»­±Ê 
+	// è®¾ç½®ç”»ç¬” 
 	if (isHighlighted) {
 		painter.setPen(QPen(m_highlightColor, m_highlightWidth));
 	}
@@ -750,16 +750,16 @@ void ImageInfoShow::drawBoundary(const GeoBoundary &boundary)
 		painter.setPen(QPen(boundary.color, 1.0));
 	}
 
-	// ×ª»»ËùÓĞ½Çµãµ½ÆÁÄ»×ø±ê 
+	// è½¬æ¢æ‰€æœ‰è§’ç‚¹åˆ°å±å¹•åæ ‡ 
 	QPolygonF polygon;
 	for (const QPointF& corner : boundary.corners) {
 		polygon << worldToScreen(corner);
 	}
 
-	// »æÖÆ±ß½ç¿ò 
+	// ç»˜åˆ¶è¾¹ç•Œæ¡† 
 	painter.drawPolygon(polygon);
 
-	// Èç¹ûÊÇ¸ßÁÁ×´Ì¬£¬ÔÙ»æÖÆÒ»´Î´øÍ¸Ã÷¶ÈµÄ´ÖÏß 
+	// å¦‚æœæ˜¯é«˜äº®çŠ¶æ€ï¼Œå†ç»˜åˆ¶ä¸€æ¬¡å¸¦é€æ˜åº¦çš„ç²—çº¿ 
 	if (isHighlighted) {
 		QColor highlightColor = m_highlightColor;
 		highlightColor.setAlphaF(0.1);
@@ -768,16 +768,16 @@ void ImageInfoShow::drawBoundary(const GeoBoundary &boundary)
 	}
 }
 
-// ½»»¥¿ØÖÆº¯ÊıÊµÏÖ   
+// äº¤äº’æ§åˆ¶å‡½æ•°å®ç°   
 void ImageInfoShow::zoomIn()
 {
-	m_viewScale *= 1.2; // ·Å´ó20%
+	m_viewScale *= 1.2; // æ”¾å¤§20%
 	update();
 }
 
 void ImageInfoShow::zoomOut()
 {
-	m_viewScale /= 1.2; // ËõĞ¡20%
+	m_viewScale /= 1.2; // ç¼©å°20%
 	update();
 }
 
@@ -790,11 +790,11 @@ void ImageInfoShow::zoomToFullExtent()
 		return;
 	}
 
-	// ³õÊ¼»¯·¶Î§ 
+	// åˆå§‹åŒ–èŒƒå›´ 
 	bool hasValidRange = false;
 	double minX = 0, maxX = 0, minY = 0, maxY = 0;
 
-	// Ê×ÏÈ´Ó±ß½ç¿ò»ñÈ¡·¶Î§ 
+	// é¦–å…ˆä»è¾¹ç•Œæ¡†è·å–èŒƒå›´ 
 	if (!m_boundaries.isEmpty()) {
 		const auto& firstBoundary = m_boundaries.first();
 		if (!firstBoundary.corners.isEmpty()) {
@@ -804,14 +804,14 @@ void ImageInfoShow::zoomToFullExtent()
 		}
 	}
 
-	// Èç¹ûÃ»ÓĞ±ß½ç¿ò£¬³¢ÊÔ´ÓÁ¬½Óµã»ñÈ¡·¶Î§ 
+	// å¦‚æœæ²¡æœ‰è¾¹ç•Œæ¡†ï¼Œå°è¯•ä»è¿æ¥ç‚¹è·å–èŒƒå›´ 
 	if (!hasValidRange && !m_conPoints.isEmpty()) {
 		minX = maxX = m_conPoints.first().position.x();
 		minY = maxY = m_conPoints.first().position.y();
 		hasValidRange = true;
 	}
 
-	// Èç¹û»¹ÊÇÃ»ÓĞ£¬³¢ÊÔ´Ó¿ØÖÆµã»ñÈ¡·¶Î§ 
+	// å¦‚æœè¿˜æ˜¯æ²¡æœ‰ï¼Œå°è¯•ä»æ§åˆ¶ç‚¹è·å–èŒƒå›´ 
 	if (!hasValidRange && !m_colPoints.isEmpty()) {
 		minX = maxX = m_colPoints.first().position.x();
 		minY = maxY = m_colPoints.first().position.y();
@@ -823,7 +823,7 @@ void ImageInfoShow::zoomToFullExtent()
 		return;
 	}
 
-	// ¸üĞÂËùÓĞ±ß½ç¿òµÄ·¶Î§ 
+	// æ›´æ–°æ‰€æœ‰è¾¹ç•Œæ¡†çš„èŒƒå›´ 
 	for (const auto& boundary : m_boundaries) {
 		for (const auto& corner : boundary.corners) {
 			minX = qMin(minX, corner.x());
@@ -833,7 +833,7 @@ void ImageInfoShow::zoomToFullExtent()
 		}
 	}
 
-	// ¸üĞÂËùÓĞÁ¬½ÓµãµÄ·¶Î§ 
+	// æ›´æ–°æ‰€æœ‰è¿æ¥ç‚¹çš„èŒƒå›´ 
 	for (const auto& point : m_conPoints) {
 		minX = qMin(minX, point.position.x());
 		maxX = qMax(maxX, point.position.x());
@@ -841,7 +841,7 @@ void ImageInfoShow::zoomToFullExtent()
 		maxY = qMax(maxY, point.position.y());
 	}
 
-	// ¸üĞÂËùÓĞ¿ØÖÆµãµÄ·¶Î§ 
+	// æ›´æ–°æ‰€æœ‰æ§åˆ¶ç‚¹çš„èŒƒå›´ 
 	for (const auto& point : m_colPoints) {
 		minX = qMin(minX, point.position.x());
 		maxX = qMax(maxX, point.position.x());
@@ -849,25 +849,25 @@ void ImageInfoShow::zoomToFullExtent()
 		maxY = qMax(maxY, point.position.y());
 	}
 
-	// ¼ÆËãÖĞĞÄµã 
+	// è®¡ç®—ä¸­å¿ƒç‚¹ 
 	m_viewCenterX = (minX + maxX) / 2.0;
 	m_viewCenterY = (minY + maxY) / 2.0;
 
-	// ¼ÆËãºÏÊÊµÄËõ·Å±ÈÀı£¬Ê¹Õû¸ö·¶Î§¿É¼û
+	// è®¡ç®—åˆé€‚çš„ç¼©æ”¾æ¯”ä¾‹ï¼Œä½¿æ•´ä¸ªèŒƒå›´å¯è§
 	double worldWidth = maxX - minX;
 	double worldHeight = maxY - minY;
 	double widgetAspect = static_cast<double>(width()) / height();
 	double worldAspect = worldWidth / worldHeight;
 
-	// Ìí¼Ó10%µÄ±ß¾à 
+	// æ·»åŠ 10%çš„è¾¹è· 
 	double marginScale = 1.1;
 
 	if (widgetAspect > worldAspect) {
-		// ÒÔ¸ß¶ÈÎª»ù×¼
+		// ä»¥é«˜åº¦ä¸ºåŸºå‡†
 		m_viewScale = height() / (worldHeight * marginScale);
 	}
 	else {
-		// ÒÔ¿í¶ÈÎª»ù×¼ 
+		// ä»¥å®½åº¦ä¸ºåŸºå‡† 
 		m_viewScale = width() / (worldWidth * marginScale);
 	}
 
@@ -876,28 +876,28 @@ void ImageInfoShow::zoomToFullExtent()
 
 void ImageInfoShow::pan(double dx, double dy)
 {
-	// ½«ÆÁÄ»×ø±êµÄÆ½ÒÆÁ¿×ª»»ÎªÊÀ½ç×ø±ê
+	// å°†å±å¹•åæ ‡çš„å¹³ç§»é‡è½¬æ¢ä¸ºä¸–ç•Œåæ ‡
 	double worldDx = dx / m_viewScale;
 	double worldDy = dy / m_viewScale;
 
 	m_viewCenterX -= worldDx;
-	m_viewCenterY += worldDy; // YÖá·½ÏòÏà·´
+	m_viewCenterY += worldDy; // Yè½´æ–¹å‘ç›¸å
 
 	update();
 }
 
-// ĞŞ¸ÄÊó±êÊÂ¼ş´¦Àí 
+// ä¿®æ”¹é¼ æ ‡äº‹ä»¶å¤„ç† 
 void ImageInfoShow::mousePressEvent(QMouseEvent *event) {
 	if (m_useMiddleButtonForPan && event->button() == Qt::LeftButton) {
-		// Ñ¡ÔñÄ£Ê½ÏÂ£¬×ó¼ü¿ªÊ¼Ñ¡Ôñ 
+		// é€‰æ‹©æ¨¡å¼ä¸‹ï¼Œå·¦é”®å¼€å§‹é€‰æ‹© 
 		if (m_isPointSelecting) {
-			// µãÑ¡ÔñÄ£Ê½
+			// ç‚¹é€‰æ‹©æ¨¡å¼
 			m_isSelecting = true;
 			m_selectionStart = event->pos();
 			m_selectionRect = QRect(m_selectionStart, QSize());
 		}
 		else {
-			// Ô­ÓĞÓ°ÏñÑ¡ÔñÄ£Ê½
+			// åŸæœ‰å½±åƒé€‰æ‹©æ¨¡å¼
 			m_isSelecting = true;
 			m_selectionStart = event->pos();
 			m_selectionRect = QRect(m_selectionStart, QSize());
@@ -905,7 +905,7 @@ void ImageInfoShow::mousePressEvent(QMouseEvent *event) {
 	}
 	else if ((!m_useMiddleButtonForPan && event->button() == Qt::LeftButton) ||
 		(m_useMiddleButtonForPan && event->button() == Qt::MiddleButton)) {
-		// ÆÕÍ¨Ä£Ê½×ó¼üÆ½ÒÆ£¬»òÑ¡ÔñÄ£Ê½ÖĞ¼üÆ½ÒÆ 
+		// æ™®é€šæ¨¡å¼å·¦é”®å¹³ç§»ï¼Œæˆ–é€‰æ‹©æ¨¡å¼ä¸­é”®å¹³ç§» 
 		m_isPanning = true;
 		m_lastPanPos = event->pos();
 	}
@@ -914,7 +914,7 @@ void ImageInfoShow::mousePressEvent(QMouseEvent *event) {
 
 void ImageInfoShow::mouseMoveEvent(QMouseEvent *event) {
 	if (m_isSelecting) {
-		// ¸üĞÂÑ¡Ôñ¿ò 
+		// æ›´æ–°é€‰æ‹©æ¡† 
 		m_selectionRect = QRect(m_selectionStart, event->pos()).normalized();
 		update();
 	}
@@ -932,23 +932,23 @@ void ImageInfoShow::mouseReleaseEvent(QMouseEvent *event) {
 
 		if (m_isPointSelecting) {
 			clearPointHighlights();
-			// ´¦ÀíµãÑ¡Ôñ 
+			// å¤„ç†ç‚¹é€‰æ‹© 
 			QPointF worldStart = screenToWorld(m_selectionRect.topLeft());
 			QPointF worldEnd = screenToWorld(m_selectionRect.bottomRight());
 
-			// ¼ÆËãÊÀ½ç×ø±ê·¶Î§ 
+			// è®¡ç®—ä¸–ç•Œåæ ‡èŒƒå›´ 
 			double minX = qMin(worldStart.x(), worldEnd.x());
 			double maxX = qMax(worldStart.x(), worldEnd.x());
 			double minY = qMin(worldStart.y(), worldEnd.y());
 			double maxY = qMax(worldStart.y(), worldEnd.y());
 
-			// Çå¿ÕÖ®Ç°µÄÑ¡Ôñ
+			// æ¸…ç©ºä¹‹å‰çš„é€‰æ‹©
 			if (!event->modifiers().testFlag(Qt::ControlModifier)) {
 				m_selectedConPoints.clear();
 				m_selectedColPoints.clear();
 			}
 
-			// ¼ì²éÄÄĞ©µãÔÚÑ¡Ôñ·¶Î§ÄÚ 
+			// æ£€æŸ¥å“ªäº›ç‚¹åœ¨é€‰æ‹©èŒƒå›´å†… 
 			if (m_currentPointTypeFilter == "con" || m_currentPointTypeFilter == "all") {
 				for (const Point& point : m_conPoints) {
 					if (point.position.x() >= minX && point.position.x() <= maxX &&
@@ -967,62 +967,62 @@ void ImageInfoShow::mouseReleaseEvent(QMouseEvent *event) {
 				}
 			}
 
-			// ¸ßÁÁÑ¡ÖĞµÄµã
+			// é«˜äº®é€‰ä¸­çš„ç‚¹
 			highlightPointsById(m_selectedColPoints, "col", true);
 			highlightPointsById(m_selectedConPoints, "con", true);
 
-			// ¸üĞÂ±í¸ñÑ¡ÖĞ×´Ì¬ 
+			// æ›´æ–°è¡¨æ ¼é€‰ä¸­çŠ¶æ€ 
 			emit pointsSelected(m_selectedConPoints, m_selectedColPoints);
 		}
 		else {
-			// ×ª»»Ñ¡Ôñ¿òµ½ÊÀ½ç×ø±ê 
+			// è½¬æ¢é€‰æ‹©æ¡†åˆ°ä¸–ç•Œåæ ‡ 
 			QPointF worldStart = screenToWorld(m_selectionRect.topLeft());
 			QPointF worldEnd = screenToWorld(m_selectionRect.bottomRight());
 
-			// ¼ÆËãÑ¡Ôñ¾ØĞÎµÄÊÀ½ç×ø±ê±ß½ç 
+			// è®¡ç®—é€‰æ‹©çŸ©å½¢çš„ä¸–ç•Œåæ ‡è¾¹ç•Œ 
 			double minX = qMin(worldStart.x(), worldEnd.x());
 			double maxX = qMax(worldStart.x(), worldEnd.x());
 			double minY = qMin(worldStart.y(), worldEnd.y());
 			double maxY = qMax(worldStart.y(), worldEnd.y());
 
-			// ´´½¨Ñ¡ÔñÇøÓòµÄ¶à±ßĞÎ£¨Ë³Ê±Õë»òÄæÊ±Õë¾ù¿É£©
+			// åˆ›å»ºé€‰æ‹©åŒºåŸŸçš„å¤šè¾¹å½¢ï¼ˆé¡ºæ—¶é’ˆæˆ–é€†æ—¶é’ˆå‡å¯ï¼‰
 			QPolygonF selectionPoly;
 			selectionPoly << QPointF(minX, minY)
 				<< QPointF(maxX, minY)
 				<< QPointF(maxX, maxY)
 				<< QPointF(minX, maxY);
 
-			//// Çå¿ÕÖ®Ç°µÄÑ¡Ôñ 
+			//// æ¸…ç©ºä¹‹å‰çš„é€‰æ‹© 
 			//m_selectedFiles.clear();
-			// ÊÇ·ñ°´ÏÂÁË Ctrl ¼ü 
+			// æ˜¯å¦æŒ‰ä¸‹äº† Ctrl é”® 
 			bool isCtrlPressed = event->modifiers().testFlag(Qt::ControlModifier);
 
-			// Èç¹ûÃ»ÓĞ°´ÏÂ Ctrl£¬ÔòÇå³ıÖ®Ç°µÄ¸ßÁÁ
+			// å¦‚æœæ²¡æœ‰æŒ‰ä¸‹ Ctrlï¼Œåˆ™æ¸…é™¤ä¹‹å‰çš„é«˜äº®
 			if (!isCtrlPressed) {
 				m_selectedFiles.clear();
-				//clearHighlights(); // Õâ»áÇå¿Õ m_highlightedFiles ²¢´¥·¢ÖØ»æ
+				//clearHighlights(); // è¿™ä¼šæ¸…ç©º m_highlightedFiles å¹¶è§¦å‘é‡ç»˜
 			}
 
 			QStringList m_currentImageFilePath = m_imagePS->getSelectFilePath(m_currentImageTypeFilter);
 
-			// ±éÀúËùÓĞ±ß½ç¿ò 
+			// éå†æ‰€æœ‰è¾¹ç•Œæ¡† 
 			for (const GeoBoundary &boundary : m_boundaries) {
-				// ¹ıÂËÎÄ¼şÀàĞÍ 
+				// è¿‡æ»¤æ–‡ä»¶ç±»å‹ 
 				if (!m_currentImageTypeFilter.isEmpty() && !m_currentImageFilePath.contains(boundary.filePath)) {
 					continue;
 				}
 
-				// ¹¹Ôì±ß½ç¿òµÄ¶à±ßĞÎ 
+				// æ„é€ è¾¹ç•Œæ¡†çš„å¤šè¾¹å½¢ 
 				QPolygonF boundaryPoly;
 				for (const QPointF &corner : boundary.corners) {
 					boundaryPoly.append(corner);
 				}
-				// È·±£±ÕºÏ£¨¿ÉÑ¡£¬QPolygonF ×Ô¶¯´¦Àí£©
+				// ç¡®ä¿é—­åˆï¼ˆå¯é€‰ï¼ŒQPolygonF è‡ªåŠ¨å¤„ç†ï¼‰
 
-				// ÅĞ¶ÏÑ¡Ôñ¾ØĞÎÊÇ·ñÓë±ß½ç¿òµÄ±ßÏß»ò½ÇµãÏà½» 
+				// åˆ¤æ–­é€‰æ‹©çŸ©å½¢æ˜¯å¦ä¸è¾¹ç•Œæ¡†çš„è¾¹çº¿æˆ–è§’ç‚¹ç›¸äº¤ 
 				bool intersects = false;
 
-				// ¼ì²é±ßÏßÏà½» 
+				// æ£€æŸ¥è¾¹çº¿ç›¸äº¤ 
 				for (int i = 0; i < boundaryPoly.size(); ++i) {
 					QLineF edge(boundaryPoly[i], boundaryPoly[(i + 1) % boundaryPoly.size()]);
 					QPointF intersectPoint;
@@ -1048,7 +1048,7 @@ void ImageInfoShow::mouseReleaseEvent(QMouseEvent *event) {
 					}
 				}
 
-				// ¼ì²é½ÇµãÏà½» 
+				// æ£€æŸ¥è§’ç‚¹ç›¸äº¤ 
 				if (!intersects) {
 					for (const QPointF &corner : boundary.corners) {
 						if (selectionPoly.containsPoint(corner, Qt::OddEvenFill)) {
@@ -1063,25 +1063,25 @@ void ImageInfoShow::mouseReleaseEvent(QMouseEvent *event) {
 					bool wasHighlighted = m_highlightedFiles.contains(boundary.filePath);
 
 					if (wasHighlighted) {
-						// ÒÑ¸ßÁÁ ¡ú È¡Ïû¸ßÁÁ
+						// å·²é«˜äº® â†’ å–æ¶ˆé«˜äº®
 						//m_highlightedFiles.remove(boundary.filePath);
 						m_selectedFiles.remove(boundary.filePath);
-						//highlightBoundary(boundary.filePath, false); // ´¥·¢ÊÓ¾õ¸üĞÂ 
+						//highlightBoundary(boundary.filePath, false); // è§¦å‘è§†è§‰æ›´æ–° 
 					}
 					else {
-						// Î´¸ßÁÁ ¡ú ÉèÖÃ¸ßÁÁ
+						// æœªé«˜äº® â†’ è®¾ç½®é«˜äº®
 						//m_highlightedFiles.insert(boundary.filePath);
 						m_selectedFiles.insert(boundary.filePath);
-						//highlightBoundary(boundary.filePath, true); // ´¥·¢ÊÓ¾õ¸üĞÂ 
+						//highlightBoundary(boundary.filePath, true); // è§¦å‘è§†è§‰æ›´æ–° 
 					}
 				}
 			}
 
-			// ¸üĞÂ¸ßÁÁ×´Ì¬ 
+			// æ›´æ–°é«˜äº®çŠ¶æ€ 
 			m_highlightedFiles = m_selectedFiles;
 			update();
 
-			// ·¢ËÍĞÅºÅ 
+			// å‘é€ä¿¡å· 
 			emit filesSelected(m_selectedFiles.toList());
 		}
 
@@ -1098,33 +1098,33 @@ void ImageInfoShow::mouseReleaseEvent(QMouseEvent *event) {
 //	if (m_isSelecting && event->button() == Qt::LeftButton) {
 //		m_isSelecting = false;
 //
-//		// ×ª»»Ñ¡Ôñ¿òµ½ÊÀ½ç×ø±ê 
+//		// è½¬æ¢é€‰æ‹©æ¡†åˆ°ä¸–ç•Œåæ ‡ 
 //		QPointF worldStart = screenToWorld(m_selectionRect.topLeft());
 //		QPointF worldEnd = screenToWorld(m_selectionRect.bottomRight());
 //
-//		// ¼ÆËãÊÀ½ç×ø±ê·¶Î§ 
+//		// è®¡ç®—ä¸–ç•Œåæ ‡èŒƒå›´ 
 //		double minX = qMin(worldStart.x(), worldEnd.x());
 //		double maxX = qMax(worldStart.x(), worldEnd.x());
 //		double minY = qMin(worldStart.y(), worldEnd.y());
 //		double maxY = qMax(worldStart.y(), worldEnd.y());
 //
-//		// Çå¿ÕÖ®Ç°µÄÑ¡Ôñ 
+//		// æ¸…ç©ºä¹‹å‰çš„é€‰æ‹© 
 //		m_selectedFiles.clear();
 //		QStringList m_currentImageFilePath = m_imagePS->getSelectFilePath(m_currentImageTypeFilter);
 //
-//		// ¼ì²éÄÄĞ©±ß½ç¿òÔÚÑ¡Ôñ·¶Î§ÄÚ 
+//		// æ£€æŸ¥å“ªäº›è¾¹ç•Œæ¡†åœ¨é€‰æ‹©èŒƒå›´å†… 
 //		for (const GeoBoundary &boundary : m_boundaries) {
-//			// Ê×ÏÈ¼ì²éÎÄ¼şÊÇ·ñÔÚm_currentImageFilePathÁĞ±íÖĞ
+//			// é¦–å…ˆæ£€æŸ¥æ–‡ä»¶æ˜¯å¦åœ¨m_currentImageFilePathåˆ—è¡¨ä¸­
 //			if (!m_currentImageTypeFilter.isEmpty() && !m_currentImageFilePath.contains(boundary.filePath)) {
 //				continue;
 //			}
 //
-//			//// ¼ì²éÀàĞÍÊÇ·ñÆ¥Åä
+//			//// æ£€æŸ¥ç±»å‹æ˜¯å¦åŒ¹é…
 //			//if (!m_currentImageTypeFilter.isEmpty() && type != m_currentImageTypeFilter) {
 //			//	continue;
 //			//}
 //
-//			// ¼ì²é±ß½ç¿òÊÇ·ñÔÚÑ¡Ôñ·¶Î§ÄÚ 
+//			// æ£€æŸ¥è¾¹ç•Œæ¡†æ˜¯å¦åœ¨é€‰æ‹©èŒƒå›´å†… 
 //			bool inside = true;
 //			for (const QPointF &corner : boundary.corners) {
 //				if (corner.x() < minX || corner.x() > maxX ||
@@ -1139,12 +1139,12 @@ void ImageInfoShow::mouseReleaseEvent(QMouseEvent *event) {
 //			}
 //		}
 //
-//		// ¸ßÁÁÑ¡ÖĞµÄÓ°Ïñ 
+//		// é«˜äº®é€‰ä¸­çš„å½±åƒ 
 //		m_highlightedFiles = m_selectedFiles;
 //		//qDebug() << "Highlighted files:" << m_highlightedFiles;
 //		update();
 //
-//		// ·¢ÉäĞÅºÅÍ¨ÖªÍâ²¿Ñ¡ÖĞÁËÎÄ¼ş 
+//		// å‘å°„ä¿¡å·é€šçŸ¥å¤–éƒ¨é€‰ä¸­äº†æ–‡ä»¶ 
 //		emit filesSelected(m_selectedFiles.toList());
 //	}
 //	else if ((!m_useMiddleButtonForPan && event->button() == Qt::LeftButton) ||
@@ -1155,28 +1155,28 @@ void ImageInfoShow::mouseReleaseEvent(QMouseEvent *event) {
 //}
 
 void ImageInfoShow::wheelEvent(QWheelEvent* event) {
-	// »ñÈ¡Êó±êÎ»ÖÃµÄÊÀ½ç×ø±ê 
+	// è·å–é¼ æ ‡ä½ç½®çš„ä¸–ç•Œåæ ‡ 
 	QPointF mouseWorldPos = screenToWorld(event->position().toPoint());
 
-	// ¼ÆËãËõ·ÅÒò×Ó 
-	double zoomFactor = 1.1; // Ä¬ÈÏ·Å´ó10%
+	// è®¡ç®—ç¼©æ”¾å› å­ 
+	double zoomFactor = 1.1; // é»˜è®¤æ”¾å¤§10%
 	if (event->angleDelta().y() < 0) {
-		zoomFactor = 1.0 / zoomFactor; // ËõĞ¡
+		zoomFactor = 1.0 / zoomFactor; // ç¼©å°
 	}
 
-	// ¼ÆËãĞÂµÄËõ·Å±ÈÀı
+	// è®¡ç®—æ–°çš„ç¼©æ”¾æ¯”ä¾‹
 	double newScale = m_viewScale * zoomFactor;
 
-	// ÉèÖÃºÏÀíµÄËõ·ÅÏŞÖÆ
-	const double minScale = 0.001;  // ×îĞ¡Ëõ·Å¼¶±ğ 
-	const double maxScale = 1000000000.0; // ×î´óËõ·Å¼¶±ğ 
+	// è®¾ç½®åˆç†çš„ç¼©æ”¾é™åˆ¶
+	const double minScale = 0.001;  // æœ€å°ç¼©æ”¾çº§åˆ« 
+	const double maxScale = 1000000000.0; // æœ€å¤§ç¼©æ”¾çº§åˆ« 
 	newScale = qBound(minScale, newScale, maxScale);
 
-	// ¼ÆËãËõ·ÅºóµÄÊó±êÎ»ÖÃ 
+	// è®¡ç®—ç¼©æ”¾åçš„é¼ æ ‡ä½ç½® 
 	m_viewScale = newScale;
 	QPointF newMouseWorldPos = screenToWorld(event->position().toPoint());
 
-	// µ÷ÕûÊÓÍ¼ÖĞĞÄ±£³ÖÊó±êÎ»ÖÃÎÈ¶¨ 
+	// è°ƒæ•´è§†å›¾ä¸­å¿ƒä¿æŒé¼ æ ‡ä½ç½®ç¨³å®š 
 	m_viewCenterX += (mouseWorldPos.x() - newMouseWorldPos.x());
 	m_viewCenterY += (mouseWorldPos.y() - newMouseWorldPos.y());
 
@@ -1184,28 +1184,28 @@ void ImageInfoShow::wheelEvent(QWheelEvent* event) {
 	event->accept();
 }
 
-// ×ø±ê×ª»»º¯Êı   
+// åæ ‡è½¬æ¢å‡½æ•°   
 QPointF ImageInfoShow::screenToWorld(const QPoint &screenPos) const {
-	// ÆÁÄ»×ø±êµ½ÊÀ½ç×ø±êµÄ×ª»»
+	// å±å¹•åæ ‡åˆ°ä¸–ç•Œåæ ‡çš„è½¬æ¢
 	double x = (screenPos.x() - width() / 2.0) / m_viewScale + m_viewCenterX;
 	double y = (height() / 2.0 - screenPos.y()) / m_viewScale + m_viewCenterY;
 	return QPointF(x, y);
 }
 
 QPoint ImageInfoShow::worldToScreen(const QPointF &worldPos) const {
-	// ÊÀ½ç×ø±êµ½ÆÁÄ»×ø±êµÄ×ª»» 
+	// ä¸–ç•Œåæ ‡åˆ°å±å¹•åæ ‡çš„è½¬æ¢ 
 	int x = static_cast<int>((worldPos.x() - m_viewCenterX) * m_viewScale + width() / 2.0);
 	int y = static_cast<int>((m_viewCenterY - worldPos.y()) * m_viewScale + height() / 2.0);
 	return QPoint(x, y);
 }
 
-// ¸üĞÂÊÓÍ¼±ä»»   
+// æ›´æ–°è§†å›¾å˜æ¢   
 void ImageInfoShow::updateViewTransform()
 {
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 
-	// ¼ÆËãÊÓÍ¼·¶Î§
+	// è®¡ç®—è§†å›¾èŒƒå›´
 	double halfWidth = width() / (2.0 * m_viewScale);
 	double halfHeight = height() / (2.0 * m_viewScale);
 
@@ -1222,36 +1222,36 @@ void ImageInfoShow::updateViewTransform()
 
 /////////////////////////////////////////////
 
-// ¸¨Öúº¯Êı£º¸ñÊ½»¯×ø±êµ½Ğ¡Êıµãºó9Î»
+// è¾…åŠ©å‡½æ•°ï¼šæ ¼å¼åŒ–åæ ‡åˆ°å°æ•°ç‚¹å9ä½
 QString ImageInfoShow::formatGeoCoordinate(double x, double y) {
 	std::ostringstream oss;
 	oss << std::fixed << std::setprecision(9) << x << ", " << y;
 	return QString::fromStdString(oss.str());
 }
 
-// Ö÷º¯Êı£º»ñÈ¡Ó°ÏñĞı×ªºóµÄÊµ¼ÊËÄ¶¥µã×ø±ê
+// ä¸»å‡½æ•°ï¼šè·å–å½±åƒæ—‹è½¬åçš„å®é™…å››é¡¶ç‚¹åæ ‡
 //std::vector<QString> ImageInfoShow::getRotatedImageCorners(const QString& imagePath, const QString& rpcPath) {
 //	GDALAllRegister();
 //	std::vector<QString> corners;
 //
 //	GDALDataset* poDataset = (GDALDataset*)GDALOpen(imagePath.toUtf8().constData(), GA_ReadOnly);
 //	if (!poDataset) {
-//		corners.push_back(" ÎŞ·¨´ò¿ªÎÄ¼ş");
+//		corners.push_back(" æ— æ³•æ‰“å¼€æ–‡ä»¶");
 //		return corners;
 //	}
 //
-//	// »ñÈ¡Ô´×ø±êÏµ 
+//	// è·å–æºåæ ‡ç³» 
 //	const char* srcWKT = poDataset->GetProjectionRef();
 //	QString sourceCRS(srcWKT);
 //
-//	// »ñÈ¡½Çµã×ø±ê 
+//	// è·å–è§’ç‚¹åæ ‡ 
 //	double geoTransform[6];
 //	if (poDataset->GetGeoTransform(geoTransform) == CE_None) {
-//		// Ê¹ÓÃdoubleÀàĞÍ±ÜÃâ×ª»»¾¯¸æ 
+//		// ä½¿ç”¨doubleç±»å‹é¿å…è½¬æ¢è­¦å‘Š 
 //		double xSize = static_cast<double>(poDataset->GetRasterXSize());
 //		double ySize = static_cast<double>(poDataset->GetRasterYSize());
 //
-//		// ËÄ¸ö½Çµã£¨×óÉÏ¡¢ÓÒÉÏ¡¢ÓÒÏÂ¡¢×óÏÂ£©
+//		// å››ä¸ªè§’ç‚¹ï¼ˆå·¦ä¸Šã€å³ä¸Šã€å³ä¸‹ã€å·¦ä¸‹ï¼‰
 //		std::vector<QPointF> pixelCorners = {
 //			QPointF(0.0, 0.0),
 //			QPointF(xSize, 0.0),
@@ -1266,13 +1266,13 @@ QString ImageInfoShow::formatGeoCoordinate(double x, double y) {
 //
 //			GDALApplyGeoTransform(geoTransform, x, y, &geoX, &geoY);
 //
-//			// ×ª»»µ½Ä¿±ê×ø±êÏµ 
+//			// è½¬æ¢åˆ°ç›®æ ‡åæ ‡ç³» 
 //			QPointF projectedPoint = convertToTargetCRS(QPointF(geoX, geoY), sourceCRS);
 //			corners.push_back(formatGeoCoordinate(projectedPoint.x(), projectedPoint.y()));
 //		}
 //	}
 //	else {
-//		corners.push_back(" ÎŞµØÀí²Î¿¼ĞÅÏ¢");
+//		corners.push_back(" æ— åœ°ç†å‚è€ƒä¿¡æ¯");
 //	}
 //
 //	GDALClose(poDataset);
@@ -1283,18 +1283,18 @@ std::vector<QString> ImageInfoShow::getRotatedImageCorners(const QString& imageP
 	GDALAllRegister();
 	std::vector<QString> corners;
 
-	// 1. ´ò¿ªÓ°ÏñÎÄ¼ş
+	// 1. æ‰“å¼€å½±åƒæ–‡ä»¶
 	GDALDataset* poDataset = (GDALDataset*)GDALOpen(imagePath.toUtf8().constData(), GA_ReadOnly);
 	if (!poDataset) return corners;
 
-	// 2. ÅĞ¶ÏÊÇ·ñÊ¹ÓÃRPCÄ£ĞÍ
+	// 2. åˆ¤æ–­æ˜¯å¦ä½¿ç”¨RPCæ¨¡å‹
 	bool useRPC = false;
 	GDALRPCInfo rpcInfo;
 	void* hTransformArg = nullptr;
 	ImageGeoMetadata* metadata = m_imagePS->getImageMetadata(imagePath);
 
 	if (!rpcPath.isEmpty() || metadata) {
-		// ¼ÓÔØRPCĞÅÏ¢
+		// åŠ è½½RPCä¿¡æ¯
 		char** papszRPC = metadata->rpcMetadata;
 		if (!rpcPath.isEmpty()) {
 			papszRPC = GDALLoadRPCFile(rpcPath.toStdString());
@@ -1309,7 +1309,7 @@ std::vector<QString> ImageInfoShow::getRotatedImageCorners(const QString& imageP
 		}
 	}
 
-	// 3. »ñÈ¡µØÀí±ä»»²ÎÊı£¨·ÇRPCÊ±Ê¹ÓÃ£©
+	// 3. è·å–åœ°ç†å˜æ¢å‚æ•°ï¼ˆéRPCæ—¶ä½¿ç”¨ï¼‰
 	double geoTransform[6];
 	bool hasGeoTransform = false;
 	if (metadata) {
@@ -1323,26 +1323,26 @@ std::vector<QString> ImageInfoShow::getRotatedImageCorners(const QString& imageP
 	else if (poDataset) {
 		hasGeoTransform = (poDataset->GetGeoTransform(geoTransform) == CE_None);
 	}
-	// 4. ¶¨ÒåËÄ½ÇÏñËØ×ø±ê£¨×óÉÏ¡¢ÓÒÉÏ¡¢ÓÒÏÂ¡¢×óÏÂ£©
+	// 4. å®šä¹‰å››è§’åƒç´ åæ ‡ï¼ˆå·¦ä¸Šã€å³ä¸Šã€å³ä¸‹ã€å·¦ä¸‹ï¼‰
 	const double xSize = poDataset->GetRasterXSize();
 	const double ySize = poDataset->GetRasterYSize();
 	const std::vector<std::pair<double, double>> pixelCoords = {
-		{0.0, 0.0},     // ×óÉÏ½Ç
-		{xSize, 0.0},   // ÓÒÉÏ½Ç
-		{xSize, ySize}, // ÓÒÏÂ½Ç
-		{0.0, ySize}    // ×óÏÂ½Ç
+		{0.0, 0.0},     // å·¦ä¸Šè§’
+		{xSize, 0.0},   // å³ä¸Šè§’
+		{xSize, ySize}, // å³ä¸‹è§’
+		{0.0, ySize}    // å·¦ä¸‹è§’
 	};
 
-	// 5. ×ø±ê×ª»»Âß¼­
+	// 5. åæ ‡è½¬æ¢é€»è¾‘
 	for (const auto& coord : pixelCoords) {
 		double x = coord.first;
 		double y = coord.second;
 		double geoX = 0.0, geoY = 0.0;
 
-		//qDebug() << "×ø±êµãx" << x << "×ø±êµãy" << y;
+		//qDebug() << "åæ ‡ç‚¹x" << x << "åæ ‡ç‚¹y" << y;
 
 		if (useRPC) {
-			// RPC×ª»»£¨°üº¬Ğı×ª£©
+			// RPCè½¬æ¢ï¼ˆåŒ…å«æ—‹è½¬ï¼‰
 			double z = 0.0;
 			int success = FALSE;
 			GDALRPCTransform(hTransformArg, FALSE, 1, &x, &y, &z, &success);
@@ -1353,21 +1353,21 @@ std::vector<QString> ImageInfoShow::getRotatedImageCorners(const QString& imageP
 				//qDebug() << corners;
 			}
 			else {
-				corners.push_back("RPC×ª»»Ê§°Ü");
+				corners.push_back("RPCè½¬æ¢å¤±è´¥");
 			}
 		}
 		else if (metadata->geoTransform || hasGeoTransform) {
-			// µØÀí±ä»»¾ØÕó×ª»»£¨×Ô¶¯´¦ÀíĞı×ª£©
+			// åœ°ç†å˜æ¢çŸ©é˜µè½¬æ¢ï¼ˆè‡ªåŠ¨å¤„ç†æ—‹è½¬ï¼‰
 			GDALApplyGeoTransform(geoTransform, x, y, &geoX, &geoY);
 			corners.push_back(formatGeoCoordinate(geoX, geoY));
 		}
 		else {
-			// ÎŞµØÀíĞÅÏ¢
-			corners.push_back("ÎŞµØÀí²Î¿¼ĞÅÏ¢");
+			// æ— åœ°ç†ä¿¡æ¯
+			corners.push_back("æ— åœ°ç†å‚è€ƒä¿¡æ¯");
 		}
 	}
 
-	// 6. ÇåÀí×ÊÔ´
+	// 6. æ¸…ç†èµ„æº
 	if (hTransformArg) GDALDestroyTransformer(hTransformArg);
 	GDALClose(poDataset);
 
@@ -1375,32 +1375,32 @@ std::vector<QString> ImageInfoShow::getRotatedImageCorners(const QString& imageP
 }
 
 void ImageInfoShow::removeGeoBoundary(const QString &filePath) {
-	// Ö±½ÓÍ¨¹ıÎÄ¼şÂ·¾¶Æ¥ÅäÉ¾³ı±ß½ç¿ò 
+	// ç›´æ¥é€šè¿‡æ–‡ä»¶è·¯å¾„åŒ¹é…åˆ é™¤è¾¹ç•Œæ¡† 
 	for (int i = 0; i < m_boundaries.size(); ++i) {
 		if (m_boundaries[i].filePath == filePath) {
 			m_boundaries.remove(i);
-			--i; // µ÷ÕûË÷Òı 
+			--i; // è°ƒæ•´ç´¢å¼• 
 			//qDebug() << "Removed boundary for file:" << filePath;
 		}
 	}
 
-	// Í¬Ê±Çå³ı¸ÃÎÄ¼şµÄ¸ßÁÁ×´Ì¬ 
+	// åŒæ—¶æ¸…é™¤è¯¥æ–‡ä»¶çš„é«˜äº®çŠ¶æ€ 
 	m_highlightedFiles.remove(filePath);
 
-	// ¸üĞÂÊÀ½ç·¶Î§²¢ÖØ»æ 
+	// æ›´æ–°ä¸–ç•ŒèŒƒå›´å¹¶é‡ç»˜ 
 	calculateWorldExtent();
 	update();
 }
 
 //void ImageInfoShow::removeGeoBoundary(const QString &filePath) {
-//	// »ñÈ¡Ğı×ªºóµÄËÄ¸ö½Çµã×ø±ê×÷Îª±È½Ï»ù×¼
+//	// è·å–æ—‹è½¬åçš„å››ä¸ªè§’ç‚¹åæ ‡ä½œä¸ºæ¯”è¾ƒåŸºå‡†
 //	std::vector<QString> targetCorners = getRotatedImageCorners(filePath);
-//	if (targetCorners.empty() || targetCorners[0] == "ÎŞµØÀí²Î¿¼ĞÅÏ¢") {
-//		qWarning() << "ÎŞ·¨»ñÈ¡ÓĞĞ§µØÀí×ø±êÓÃÓÚ±È½Ï:" << filePath;
+//	if (targetCorners.empty() || targetCorners[0] == "æ— åœ°ç†å‚è€ƒä¿¡æ¯") {
+//		qWarning() << "æ— æ³•è·å–æœ‰æ•ˆåœ°ç†åæ ‡ç”¨äºæ¯”è¾ƒ:" << filePath;
 //		return;
 //	}
 //
-//	// ×ª»»ÎªQPointF¼¯ºÏÓÃÓÚ±È½Ï
+//	// è½¬æ¢ä¸ºQPointFé›†åˆç”¨äºæ¯”è¾ƒ
 //	QVector<QPointF> targetPoints;
 //	for (const QString& corner : targetCorners) {
 //		QStringList parts = corner.split(", ");
@@ -1409,12 +1409,12 @@ void ImageInfoShow::removeGeoBoundary(const QString &filePath) {
 //		}
 //	}
 //
-//	// ±éÀúËùÓĞ±ß½ç¿ò£¬²éÕÒÆ¥ÅäÏî
+//	// éå†æ‰€æœ‰è¾¹ç•Œæ¡†ï¼ŒæŸ¥æ‰¾åŒ¹é…é¡¹
 //	for (int i = 0; i < m_boundaries.size(); ++i) {
 //		const GeoBoundary& boundary = m_boundaries[i];
 //		bool match = true;
 //
-//		// ±È½ÏËÄ¸ö½ÇµãÊÇ·ñÆ¥Åä 
+//		// æ¯”è¾ƒå››ä¸ªè§’ç‚¹æ˜¯å¦åŒ¹é… 
 //		if (boundary.corners.size() == targetPoints.size()) {
 //			for (int j = 0; j < boundary.corners.size(); ++j) {
 //				if (boundary.corners[j] == targetPoints[j]) {
@@ -1425,12 +1425,12 @@ void ImageInfoShow::removeGeoBoundary(const QString &filePath) {
 //
 //			if (!match) {
 //				m_boundaries.remove(i);
-//				--i; // µ÷ÕûË÷Òı 
+//				--i; // è°ƒæ•´ç´¢å¼• 
 //			}
 //		}
 //	}
 //
-//	// ¸üĞÂÊÀ½ç·¶Î§²¢ÖØ»æ 
+//	// æ›´æ–°ä¸–ç•ŒèŒƒå›´å¹¶é‡ç»˜ 
 //	calculateWorldExtent();
 //	update();
 //}
@@ -1443,11 +1443,11 @@ void ImageInfoShow::loadPoints(QHash<QString, EncryptedPoint> encryptedPoints,
 		m_conPoints.clear();
 		m_conpointIdToIndex.clear();
 
-		// ´¦Àí¼ÓÃÜµã 
+		// å¤„ç†åŠ å¯†ç‚¹ 
 		for (auto it = encryptedPoints.constBegin(); it != encryptedPoints.constEnd(); ++it) {
 			const EncryptedPoint& point = it.value();
 
-			// ´ÓEncryptedPointÖĞ»ñÈ¡×ø±ê 
+			// ä»EncryptedPointä¸­è·å–åæ ‡ 
 			bool okX, okY;
 			double x = point.pointX.toDouble(&okX);
 			double y = point.pointY.toDouble(&okY);
@@ -1459,7 +1459,7 @@ void ImageInfoShow::loadPoints(QHash<QString, EncryptedPoint> encryptedPoints,
 
 			QPointF worldPos(x, y);
 
-			// ÎªÃ¿¸öÎÀĞÇÍ¼Ïñ´´½¨¶ÔÓ¦µÄµã
+			// ä¸ºæ¯ä¸ªå«æ˜Ÿå›¾åƒåˆ›å»ºå¯¹åº”çš„ç‚¹
 			for (const SatImageData& imageData : point.satImages) {
 				m_conPoints.append({ point.id,  imageData.path,  worldPos, "tp" });
 			}
@@ -1469,12 +1469,12 @@ void ImageInfoShow::loadPoints(QHash<QString, EncryptedPoint> encryptedPoints,
 		m_colPoints.clear();
 		m_colpointIdToIndex.clear();
 
-		// ´¦Àí¿ØÖÆµã
+		// å¤„ç†æ§åˆ¶ç‚¹
 		int index = 0;
 		for (auto it = controlPoints.constBegin(); it != controlPoints.constEnd(); ++it, ++index) {
 			const ControlPoint& point = it.value();
 
-			// ´ÓControlPointÖĞ»ñÈ¡×ø±ê
+			// ä»ControlPointä¸­è·å–åæ ‡
 			bool okX, okY;
 			double x = point.pointX.toDouble(&okX);
 			double y = point.pointY.toDouble(&okY);
@@ -1486,7 +1486,7 @@ void ImageInfoShow::loadPoints(QHash<QString, EncryptedPoint> encryptedPoints,
 
 			QPointF worldPos(x, y);
 
-			// ÎªÃ¿¸öÎÀĞÇÍ¼Ïñ´´½¨¶ÔÓ¦µÄµã
+			// ä¸ºæ¯ä¸ªå«æ˜Ÿå›¾åƒåˆ›å»ºå¯¹åº”çš„ç‚¹
 			for (const SatImageData& imageData : point.satImages) {
 				int lastUnderscorePos = imageData.path.lastIndexOf('_');
 				QString result = imageData.path.left(lastUnderscorePos);
@@ -1499,12 +1499,12 @@ void ImageInfoShow::loadPoints(QHash<QString, EncryptedPoint> encryptedPoints,
 		return;
 	}
 
-	// ½¨Á¢pointIdµ½Ë÷ÒıµÄÓ³Éä (¼ÓÃÜµã)
+	// å»ºç«‹pointIdåˆ°ç´¢å¼•çš„æ˜ å°„ (åŠ å¯†ç‚¹)
 	for (int i = 0; i < m_conPoints.size(); ++i) {
 		m_conpointIdToIndex[m_conPoints[i].id] = i;
 	}
 
-	// ¿ØÖÆµãµÄÓ³Éä¹ØÏµ£¨Ê¹ÓÃÊı×éË÷Òı×÷Îªkey£¬pointId×÷Îªvalue£©
+	// æ§åˆ¶ç‚¹çš„æ˜ å°„å…³ç³»ï¼ˆä½¿ç”¨æ•°ç»„ç´¢å¼•ä½œä¸ºkeyï¼ŒpointIdä½œä¸ºvalueï¼‰
 	for (int i = 0; i < m_colPoints.size(); ++i) {
 		m_colpointIdToIndex[i] = m_colPoints[i].id;
 	}
@@ -1519,7 +1519,7 @@ void ImageInfoShow::loadPoints(QHash<QString, EncryptedPoint> encryptedPoints,
 //		m_conPoints.clear();
 //		m_conpointIdToIndex.clear();
 //
-//		// ´Óobj.txt ÎÄ¼şÖĞ¶ÁÈ¡µÚ1,2,3ÁĞÄÚÈİ
+//		// ä»obj.txt æ–‡ä»¶ä¸­è¯»å–ç¬¬1,2,3åˆ—å†…å®¹
 //		QString objFilePath = m_imagePS->projectdir + "SatTiePointMatch" + "/" + "obj.txt";
 //		QFile objFile(objFilePath);
 //		if (!objFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
@@ -1528,7 +1528,7 @@ void ImageInfoShow::loadPoints(QHash<QString, EncryptedPoint> encryptedPoints,
 //		}
 //
 //		QTextStream objIn(&objFile);
-//		//QMap<int, QPointF> objPointMap; // ´æ´¢obj.txt ÖĞµÄµã(pointId -> worldPos)
+//		//QMap<int, QPointF> objPointMap; // å­˜å‚¨obj.txt ä¸­çš„ç‚¹(pointId -> worldPos)
 //
 //		while (!objIn.atEnd()) {
 //			QString objLine = objIn.readLine().trimmed();
@@ -1571,7 +1571,7 @@ void ImageInfoShow::loadPoints(QHash<QString, EncryptedPoint> encryptedPoints,
 //			continue;
 //		}
 //
-//		QSet<QString> uniqueIds; // È¥ÖØÈİÆ÷ 
+//		QSet<QString> uniqueIds; // å»é‡å®¹å™¨ 
 //
 //		QTextStream in(&file);
 //		while (!in.atEnd()) {
@@ -1581,7 +1581,7 @@ void ImageInfoShow::loadPoints(QHash<QString, EncryptedPoint> encryptedPoints,
 //			QStringList parts = line.split(QRegExp("\\s+"), Qt::SkipEmptyParts);
 //
 //			if ("con" == flag) {
-//				// ´¦Àíµ±Ç°ÎÄ¼şÖĞµÄµã 
+//				// å¤„ç†å½“å‰æ–‡ä»¶ä¸­çš„ç‚¹ 
 //				if (parts.size() < 4) continue;
 //
 //				const QString pointId = parts[0];
@@ -1593,7 +1593,7 @@ void ImageInfoShow::loadPoints(QHash<QString, EncryptedPoint> encryptedPoints,
 //				QString imageName = parts[1];
 //				QPointF pixelPos(parts[2].toDouble(), parts[3].toDouble());
 //
-//				// ´ÓobjPointMapÖĞ»ñÈ¡¶ÔÓ¦µÄÊÀ½ç×ø±ê
+//				// ä»objPointMapä¸­è·å–å¯¹åº”çš„ä¸–ç•Œåæ ‡
 //				QPointF worldPos;
 //				if (objPointMap.contains(pointId)) {
 //					worldPos = objPointMap[pointId];
@@ -1607,10 +1607,10 @@ void ImageInfoShow::loadPoints(QHash<QString, EncryptedPoint> encryptedPoints,
 //
 //			}
 //			else if ("col" == flag) {
-//				// .txt ÎÄ¼ş´¦ÀíÂß¼­ - Ê¹ÓÃorderedPointIds×÷ÎªID 
+//				// .txt æ–‡ä»¶å¤„ç†é€»è¾‘ - ä½¿ç”¨orderedPointIdsä½œä¸ºID 
 //				if (parts.size() < 8) continue;
 //
-//				// ¼ì²éorderedPointIdsÊÇ·ñÓĞĞ§ 
+//				// æ£€æŸ¥orderedPointIdsæ˜¯å¦æœ‰æ•ˆ 
 //				if (index >= orderedPointIds.size()) {
 //					//qWarning() << "orderedPointIds size mismatch at index:" << index;
 //					continue;
@@ -1642,12 +1642,12 @@ void ImageInfoShow::loadPoints(QHash<QString, EncryptedPoint> encryptedPoints,
 //		file.close();
 //	}
 //
-//	// ½¨Á¢pointIdµ½Ë÷ÒıµÄÓ³Éä 
+//	// å»ºç«‹pointIdåˆ°ç´¢å¼•çš„æ˜ å°„ 
 //	for (int i = 0; i < m_conPoints.size(); ++i) {
 //		m_conpointIdToIndex[m_conPoints[i].id] = i;
 //	}
 //
-//	// ¿ØÖÆµãµÄÓ³Éä¹ØÏµ£¨Ê¹ÓÃÊı×éË÷Òı×÷Îªkey£¬pointId×÷Îªvalue£©
+//	// æ§åˆ¶ç‚¹çš„æ˜ å°„å…³ç³»ï¼ˆä½¿ç”¨æ•°ç»„ç´¢å¼•ä½œä¸ºkeyï¼ŒpointIdä½œä¸ºvalueï¼‰
 //	for (int i = 0; i < m_colPoints.size(); ++i) {
 //		m_colpointIdToIndex[i] = m_colPoints[i].id;
 //	}
@@ -1677,7 +1677,7 @@ void ImageInfoShow::loadPoints(QHash<QString, EncryptedPoint> encryptedPoints,
 //			continue;
 //		}
 //
-//		QSet<int> uniqueIds; // È¥ÖØÈİÆ÷ 
+//		QSet<int> uniqueIds; // å»é‡å®¹å™¨ 
 //
 //		QTextStream in(&file);
 //		while (!in.atEnd()) {
@@ -1687,7 +1687,7 @@ void ImageInfoShow::loadPoints(QHash<QString, EncryptedPoint> encryptedPoints,
 //			QStringList parts = line.split(QRegExp("\\s+"), Qt::SkipEmptyParts);
 //
 //			if ("con" == flag) {
-//				// .tp ÎÄ¼ş´¦ÀíÂß¼­£¨±£³Ö²»±ä£©
+//				// .tp æ–‡ä»¶å¤„ç†é€»è¾‘ï¼ˆä¿æŒä¸å˜ï¼‰
 //				if (parts.size() < 4) continue;
 //
 //				bool ok;
@@ -1706,10 +1706,10 @@ void ImageInfoShow::loadPoints(QHash<QString, EncryptedPoint> encryptedPoints,
 //
 //			}
 //			else if ("col" == flag) {
-//				// .txt ÎÄ¼ş´¦ÀíÂß¼­ - Ê¹ÓÃorderedPointIds×÷ÎªID 
+//				// .txt æ–‡ä»¶å¤„ç†é€»è¾‘ - ä½¿ç”¨orderedPointIdsä½œä¸ºID 
 //				if (parts.size() < 8) continue;
 //
-//				// ¼ì²éorderedPointIdsÊÇ·ñÓĞĞ§ 
+//				// æ£€æŸ¥orderedPointIdsæ˜¯å¦æœ‰æ•ˆ 
 //				if (index >= orderedPointIds.size()) {
 //					qWarning() << "orderedPointIds size mismatch at index:" << index;
 //					continue;
@@ -1753,12 +1753,12 @@ void ImageInfoShow::loadPoints(QHash<QString, EncryptedPoint> encryptedPoints,
 //		file.close();
 //	}
 //
-//	// ½¨Á¢pointIdµ½Ë÷ÒıµÄÓ³Éä 
+//	// å»ºç«‹pointIdåˆ°ç´¢å¼•çš„æ˜ å°„ 
 //	for (int i = 0; i < m_conPoints.size(); ++i) {
 //		m_conpointIdToIndex[m_conPoints[i].id] = i;
 //	}
 //
-//	// ¿ØÖÆµãµÄÓ³Éä¹ØÏµ£¨Ê¹ÓÃÊı×éË÷Òı×÷Îªkey£¬pointId×÷Îªvalue£©
+//	// æ§åˆ¶ç‚¹çš„æ˜ å°„å…³ç³»ï¼ˆä½¿ç”¨æ•°ç»„ç´¢å¼•ä½œä¸ºkeyï¼ŒpointIdä½œä¸ºvalueï¼‰
 //	for (int i = 0; i < m_colPoints.size(); ++i) {
 //		m_colpointIdToIndex[i] = m_colPoints[i].id;
 //	}
@@ -1766,14 +1766,14 @@ void ImageInfoShow::loadPoints(QHash<QString, EncryptedPoint> encryptedPoints,
 //	update();
 //}
 
-// ¸ù¾İpointIdÉ¾³ıµã 
+// æ ¹æ®pointIdåˆ é™¤ç‚¹ 
 void ImageInfoShow::removePointById(QString pointId, const QString flag) {
 	if ("con" == flag) {
 		if (m_conpointIdToIndex.contains(pointId)) {
 			int index = m_conpointIdToIndex[pointId];
 			m_conPoints.remove(index);
 
-			// ¸üĞÂÓ³Éä±í 
+			// æ›´æ–°æ˜ å°„è¡¨ 
 			m_conpointIdToIndex.remove(pointId);
 			for (auto& id : m_conpointIdToIndex.keys()) {
 				if (m_conpointIdToIndex[id] > index) {
@@ -1784,7 +1784,7 @@ void ImageInfoShow::removePointById(QString pointId, const QString flag) {
 		}
 	}
 	else if ("col" == flag) {
-		// ²éÕÒÒªÉ¾³ıµÄµãµÄË÷Òı 
+		// æŸ¥æ‰¾è¦åˆ é™¤çš„ç‚¹çš„ç´¢å¼• 
 		int removeIndex = -1;
 		for (int i = 0; i < m_colPoints.size(); ++i) {
 			if (m_colPoints[i].id == pointId) {
@@ -1796,7 +1796,7 @@ void ImageInfoShow::removePointById(QString pointId, const QString flag) {
 		if (removeIndex != -1) {
 			m_colPoints.remove(removeIndex);
 
-			// ¸üĞÂÓ³Éä±í 
+			// æ›´æ–°æ˜ å°„è¡¨ 
 			m_colpointIdToIndex.clear();
 			for (int i = 0; i < m_colPoints.size(); ++i) {
 				m_colpointIdToIndex[i] = m_colPoints[i].id;
@@ -1809,7 +1809,7 @@ void ImageInfoShow::removePointById(QString pointId, const QString flag) {
 void ImageInfoShow::removePointsByFilePath(const QString& filePath, const QString& flag)
 {
 	if ("con" == flag) {
-		// É¾³ıÁ¬½Óµã
+		// åˆ é™¤è¿æ¥ç‚¹
 		QVector<Point> newConPoints;
 		for (int i = 0; i < m_conPoints.size(); ++i) {
 			if (m_conPoints[i].imageName != QFileInfo(filePath).completeBaseName()) {
@@ -1818,14 +1818,14 @@ void ImageInfoShow::removePointsByFilePath(const QString& filePath, const QStrin
 		}
 		m_conPoints = newConPoints;
 
-		// ÖØ½¨Ó³Éä±í
+		// é‡å»ºæ˜ å°„è¡¨
 		m_conpointIdToIndex.clear();
 		for (int i = 0; i < m_conPoints.size(); ++i) {
 			m_conpointIdToIndex[m_conPoints[i].id] = i;
 		}
 	}
 	else if ("col" == flag) {
-		// É¾³ı¿ØÖÆµã 
+		// åˆ é™¤æ§åˆ¶ç‚¹ 
 		QVector<Point> newColPoints;
 		for (int i = 0; i < m_colPoints.size(); ++i) {
 			if (m_colPoints[i].imageName != QFileInfo(filePath).completeBaseName()) {
@@ -1834,7 +1834,7 @@ void ImageInfoShow::removePointsByFilePath(const QString& filePath, const QStrin
 		}
 		m_colPoints = newColPoints;
 
-		// ÖØ½¨Ó³Éä±í
+		// é‡å»ºæ˜ å°„è¡¨
 		m_colpointIdToIndex.clear();
 		for (int i = 0; i < m_colPoints.size(); ++i) {
 			m_colpointIdToIndex[i] = m_colPoints[i].id;
@@ -1857,7 +1857,7 @@ void ImageInfoShow::removePointsByFilePath(const QString& filePath, const QStrin
 //		}
 //	}
 //	else if ("col" == flag) {
-//		// ¼ì²épointIdÊÇ·ñ´æÔÚÓÚ¿ØÖÆµãÖĞ 
+//		// æ£€æŸ¥pointIdæ˜¯å¦å­˜åœ¨äºæ§åˆ¶ç‚¹ä¸­ 
 //		bool found = false;
 //		for (const auto& point : m_colPoints) {
 //			if (point.id == pointId) {
@@ -1878,7 +1878,7 @@ void ImageInfoShow::removePointsByFilePath(const QString& filePath, const QStrin
 //	}
 //}
 
-// µ¥µã²Ù×÷¼æÈİ°æ±¾
+// å•ç‚¹æ“ä½œå…¼å®¹ç‰ˆæœ¬
 void ImageInfoShow::highlightPointById(QString pointId,
 	const QString& flag,
 	bool highlight)
@@ -1887,10 +1887,10 @@ void ImageInfoShow::highlightPointById(QString pointId,
 }
 
 /**
- * @brief ¸ßÁÁ/È¡Ïû¸ßÁÁ¶à¸öµã
- * @param pointIds Òª²Ù×÷µÄµãID¼¯ºÏ£¨Ö§³Ö¶à¸öµã£©
- * @param flag µãÀàĞÍ±êÊ¶£¨"con"»ò"col"£©
- * @param highlight true=¸ßÁÁ£¬false=È¡Ïû¸ßÁÁ
+ * @brief é«˜äº®/å–æ¶ˆé«˜äº®å¤šä¸ªç‚¹
+ * @param pointIds è¦æ“ä½œçš„ç‚¹IDé›†åˆï¼ˆæ”¯æŒå¤šä¸ªç‚¹ï¼‰
+ * @param flag ç‚¹ç±»å‹æ ‡è¯†ï¼ˆ"con"æˆ–"col"ï¼‰
+ * @param highlight true=é«˜äº®ï¼Œfalse=å–æ¶ˆé«˜äº®
  */
 void ImageInfoShow::highlightPointsById(const QSet<QString>& pointIds,
 	const QString& flag,
@@ -1931,11 +1931,11 @@ void ImageInfoShow::highlightPointsById(const QSet<QString>& pointIds,
 	}
 
 	if (needUpdate) {
-		update();  // Í³Ò»´¥·¢½çÃæË¢ĞÂ 
+		update();  // ç»Ÿä¸€è§¦å‘ç•Œé¢åˆ·æ–° 
 	}
 }
 
-// Çå³ıËùÓĞ¸ßÁÁ 
+// æ¸…é™¤æ‰€æœ‰é«˜äº® 
 void ImageInfoShow::clearPointHighlights() {
 	m_highlightedconPointIds.clear();
 	m_highlightedcolPointIds.clear();
@@ -1957,13 +1957,13 @@ void ImageInfoShow::drawPoints()
 	QPainter painter(this);
 	painter.setRenderHint(QPainter::Antialiasing);
 
-	// Ô¤¼ÆËã¿É¼ûµã 
+	// é¢„è®¡ç®—å¯è§ç‚¹ 
 	auto drawPoints = [&](const QVector<Point>& points,
 		const QSet<QString>& highlightedIds,
 		const QColor& normalColor,
 		std::function<bool(const QString&)> isVisibleFunc)
 	{
-		// ×¼±¸»æÖÆÊı¾İ 
+		// å‡†å¤‡ç»˜åˆ¶æ•°æ® 
 		struct DrawData {
 			QPoint pos;
 			bool isHighlighted;
@@ -1971,7 +1971,7 @@ void ImageInfoShow::drawPoints()
 		QVector<DrawData> drawList;
 		drawList.reserve(points.size());
 
-		// ÊÕ¼¯ĞèÒª»æÖÆµÄµã
+		// æ”¶é›†éœ€è¦ç»˜åˆ¶çš„ç‚¹
 		for (const Point& point : points) {
 			if (m_onlyShowVisibleIds && !m_visiblePointIds.contains(point.id)) {
 				continue;
@@ -1985,14 +1985,14 @@ void ImageInfoShow::drawPoints()
 				});
 		}
 
-		// ÅúÁ¿»æÖÆ 
+		// æ‰¹é‡ç»˜åˆ¶ 
 		const float crossSize = 1.0f;
 		for (const DrawData& data : drawList) {
-			// ÉèÖÃ»­±Ê
+			// è®¾ç½®ç”»ç¬”
 			painter.setPen(QPen(data.isHighlighted ? Qt::yellow : normalColor,
 				data.isHighlighted ? 3.0f : 1.0f));
 
-			// »æÖÆÊ®×Ö 
+			// ç»˜åˆ¶åå­— 
 			painter.drawLine(data.pos.x() - crossSize, data.pos.y(),
 				data.pos.x() + crossSize, data.pos.y());
 			painter.drawLine(data.pos.x(), data.pos.y() - crossSize,
@@ -2000,11 +2000,11 @@ void ImageInfoShow::drawPoints()
 		}
 	};
 
-	// »æÖÆÁ¬½Óµã
+	// ç»˜åˆ¶è¿æ¥ç‚¹
 	drawPoints(m_conPoints, m_highlightedconPointIds, Qt::green,
 		[this](const QString& id) { return isConPointVisible(id); });
 
-	// »æÖÆ¿ØÖÆµã
+	// ç»˜åˆ¶æ§åˆ¶ç‚¹
 	drawPoints(m_colPoints, m_highlightedcolPointIds, Qt::red,
 		[this](const QString& id) { return isColPointVisible(id); });
 }
@@ -2016,19 +2016,19 @@ void ImageInfoShow::drawPoints()
 //	QPainter painter(this);
 //	painter.setRenderHint(QPainter::Antialiasing);
 //
-//	// »æÖÆËùÓĞÁ¬½Óµã 
+//	// ç»˜åˆ¶æ‰€æœ‰è¿æ¥ç‚¹ 
 //	for (const Point& tp : m_conPoints) {
-//		// ¼ì²éµãÊÇ·ñÓ¦¸ÃÏÔÊ¾ 
+//		// æ£€æŸ¥ç‚¹æ˜¯å¦åº”è¯¥æ˜¾ç¤º 
 //		if (m_onlyShowVisibleIds && !m_visiblePointIds.contains(tp.id)) {
 //			continue;
 //		}
 //
-//		// ¼ì²éµãÊÇ·ñ¿É¼û 
+//		// æ£€æŸ¥ç‚¹æ˜¯å¦å¯è§ 
 //		if (!isConPointVisible(tp.id))  continue;
 //
 //		QPoint screenPos = worldToScreen(tp.position);
 //
-//		// ¸ßÁÁµã¼Ó´ÖÏÔÊ¾ 
+//		// é«˜äº®ç‚¹åŠ ç²—æ˜¾ç¤º 
 //		if (m_highlightedconPointIds.contains(tp.id)) {
 //			painter.setPen(QPen(Qt::yellow, 3.0));
 //		}
@@ -2036,7 +2036,7 @@ void ImageInfoShow::drawPoints()
 //			painter.setPen(QPen(Qt::green, 1.0));
 //		}
 //
-//		// »æÖÆÊ®×Ö±ê¼Ç 
+//		// ç»˜åˆ¶åå­—æ ‡è®° 
 //		const float crossSize = 1.0f;
 //		painter.drawLine(screenPos.x() - crossSize, screenPos.y(),
 //			screenPos.x() + crossSize, screenPos.y());
@@ -2044,19 +2044,19 @@ void ImageInfoShow::drawPoints()
 //			screenPos.x(), screenPos.y() + crossSize);
 //	}
 //
-//	// »æÖÆËùÓĞ¿ØÖÆµã 
+//	// ç»˜åˆ¶æ‰€æœ‰æ§åˆ¶ç‚¹ 
 //	for (const Point& col : m_colPoints) {
-//		// ¼ì²éµãÊÇ·ñÓ¦¸ÃÏÔÊ¾ 
+//		// æ£€æŸ¥ç‚¹æ˜¯å¦åº”è¯¥æ˜¾ç¤º 
 //		if (m_onlyShowVisibleIds && !m_visiblePointIds.contains(col.id)) {
 //			continue;
 //		}
 //
-//		// ¼ì²éµãÊÇ·ñ¿É¼û 
+//		// æ£€æŸ¥ç‚¹æ˜¯å¦å¯è§ 
 //		if (!isColPointVisible(col.id))  continue;
 //
 //		QPoint screenPos = worldToScreen(col.position);
 //
-//		// ¸ßÁÁµã¼Ó´ÖÏÔÊ¾ 
+//		// é«˜äº®ç‚¹åŠ ç²—æ˜¾ç¤º 
 //		if (m_highlightedcolPointIds.contains(col.id)) {
 //			painter.setPen(QPen(Qt::yellow, 3.0));
 //		}
@@ -2064,7 +2064,7 @@ void ImageInfoShow::drawPoints()
 //			painter.setPen(QPen(Qt::red, 1.0));
 //		}
 //
-//		// »æÖÆÊ®×Ö±ê¼Ç 
+//		// ç»˜åˆ¶åå­—æ ‡è®° 
 //		const float crossSize = 1.0f;
 //		painter.drawLine(screenPos.x() - crossSize, screenPos.y(),
 //			screenPos.x() + crossSize, screenPos.y());
@@ -2073,16 +2073,16 @@ void ImageInfoShow::drawPoints()
 //	}
 //}
 
-// Á¬½ÓµãÏÔÊ¾/Òş²ØÉèÖÃ
+// è¿æ¥ç‚¹æ˜¾ç¤º/éšè—è®¾ç½®
 void ImageInfoShow::setConPointsVisible(bool visible, QString pointId)
 {
 	if (pointId == "-1") {
-		// ÕûÌåÉèÖÃ 
+		// æ•´ä½“è®¾ç½® 
 		m_conVisibility.allVisible = visible;
 		m_conVisibility.hiddenIds.clear();
 	}
 	else {
-		// µ¥¸öµãÉèÖÃ
+		// å•ä¸ªç‚¹è®¾ç½®
 		if (visible) {
 			m_conVisibility.hiddenIds.remove(pointId);
 		}
@@ -2109,16 +2109,16 @@ void ImageInfoShow::hideAllConPoints()
 	setConPointsVisible(false);
 }
 
-// ¿ØÖÆµãÏÔÊ¾/Òş²ØÉèÖÃ
+// æ§åˆ¶ç‚¹æ˜¾ç¤º/éšè—è®¾ç½®
 void ImageInfoShow::setColPointsVisible(bool visible, QString pointId)
 {
 	if (pointId == "-1") {
-		// ÕûÌåÉèÖÃ 
+		// æ•´ä½“è®¾ç½® 
 		m_colVisibility.allVisible = visible;
 		m_colVisibility.hiddenIds.clear();
 	}
 	else {
-		// µ¥¸öµãÉèÖÃ
+		// å•ä¸ªç‚¹è®¾ç½®
 		if (visible) {
 			m_colVisibility.hiddenIds.remove(pointId);
 		}
@@ -2145,7 +2145,7 @@ void ImageInfoShow::hideAllColPoints()
 	setColPointsVisible(false);
 }
 
-// Í³Ò»¹ÜÀíËùÓĞµã 
+// ç»Ÿä¸€ç®¡ç†æ‰€æœ‰ç‚¹ 
 void ImageInfoShow::setAllPointsVisible(bool visible)
 {
 	setConPointsVisible(visible);
@@ -2159,27 +2159,27 @@ void ImageInfoShow::setAllPointsVisible(bool visible)
 //{
 //	imageName = "E:\\JLtestData\\origin\\JL1GF02A_PMS1_20230618093553_200166837_102_0025_001_L1_MSS\\JL1GF02A_PMS1_20230618093553_200166837_102_0025_001_L1_MSS.tif";
 //
-//	// Ê¹ÓÃÓëgetRotatedImageCornersÏàÍ¬µÄGDAL×ª»»·½Ê½ 
+//	// ä½¿ç”¨ä¸getRotatedImageCornersç›¸åŒçš„GDALè½¬æ¢æ–¹å¼ 
 //	GDALDataset* poDataset = (GDALDataset*)GDALOpen(imageName.toUtf8(), GA_ReadOnly);
 //	if (!poDataset) {
-//		qWarning() << u8"ÎŞ·¨´ò¿ªÍ¼ÏñÎÄ¼ş:" << imageName;
+//		qWarning() << u8"æ— æ³•æ‰“å¼€å›¾åƒæ–‡ä»¶:" << imageName;
 //		return QPointF(0, 0);
 //	}
 //
-//	// »ñÈ¡µØÀí±ä»»²ÎÊı
+//	// è·å–åœ°ç†å˜æ¢å‚æ•°
 //	double geoTransform[6];
 //	if (poDataset->GetGeoTransform(geoTransform) != CE_None) {
-//		qWarning() << u8"ÎŞ·¨»ñÈ¡µØÀí±ä»»²ÎÊı:" << imageName;
+//		qWarning() << u8"æ— æ³•è·å–åœ°ç†å˜æ¢å‚æ•°:" << imageName;
 //		GDALClose(poDataset);
 //		return QPointF(0, 0);
 //	}
 //
-//	// Ó¦ÓÃÓë±ß½ç¿òÏàÍ¬µÄ×ø±ê×ª»»
+//	// åº”ç”¨ä¸è¾¹ç•Œæ¡†ç›¸åŒçš„åæ ‡è½¬æ¢
 //	double worldX, worldY;
 //	GDALApplyGeoTransform(geoTransform, pixelPos.x(), pixelPos.y(), &worldX, &worldY);
 //
-//	// YÖá·½Ïòµ÷Õû£¨Èç¹ûĞèÒª£©
-//	worldY = -worldY; // ¸ù¾İÄúµÄ×ø±êÏµĞèÇó¾ö¶¨ÊÇ·ñĞèÒª·´×ªYÖá
+//	// Yè½´æ–¹å‘è°ƒæ•´ï¼ˆå¦‚æœéœ€è¦ï¼‰
+//	worldY = -worldY; // æ ¹æ®æ‚¨çš„åæ ‡ç³»éœ€æ±‚å†³å®šæ˜¯å¦éœ€è¦åè½¬Yè½´
 //
 //	GDALClose(poDataset);
 //	return QPointF(worldX, worldY);
@@ -2206,7 +2206,7 @@ QPointF ImageInfoShow::pixelToWorld(const QPointF& pixelPos, QString& imageName,
 		return QPointF(0, 0);
 	}
 
-	// ¼ÓÔØ RPC ÎÄ¼ş 
+	// åŠ è½½ RPC æ–‡ä»¶ 
 	char **rpcMetadata = GDALLoadRPCFile(rpcPath.toStdString().c_str());
 	if (rpcMetadata == nullptr) {
 		qWarning() << u8"Failed to load RPC file!";
@@ -2214,10 +2214,10 @@ QPointF ImageInfoShow::pixelToWorld(const QPointF& pixelPos, QString& imageName,
 		return QPointF(0, 0);
 	}
 
-	// Ğ´Èë RPC ÔªÊı¾İ
+	// å†™å…¥ RPC å…ƒæ•°æ®
 	//poDataset->SetMetadata(rpcMetadata, "RPC");
 
-	// Ê¹ÓÃ×ª»»ºóµÄÆÁÄ»×ø±ê×÷ÎªËÄ½Çµã
+	// ä½¿ç”¨è½¬æ¢åçš„å±å¹•åæ ‡ä½œä¸ºå››è§’ç‚¹
 	double x[1], y[1], z[1] = { 0 };
 	int success[1] = { 0 };
 
@@ -2225,7 +2225,7 @@ QPointF ImageInfoShow::pixelToWorld(const QPointF& pixelPos, QString& imageName,
 	y[0] = pixelPos.y();
 	z[0] = 0;
 
-	// ´ÓRPCÔªÊı¾İÖĞ»ñÈ¡¸ß³ÌĞÅÏ¢
+	// ä»RPCå…ƒæ•°æ®ä¸­è·å–é«˜ç¨‹ä¿¡æ¯
 	double heightOffset = 0.0;
 	double heightScale = 1.0;
 	const char* pszHeightOffset = CSLFetchNameValue(rpcMetadata, "HEIGHT_OFF");
@@ -2236,14 +2236,14 @@ QPointF ImageInfoShow::pixelToWorld(const QPointF& pixelPos, QString& imageName,
 		heightScale = CPLAtof(pszHeightScale);
 	}
 	else {
-		qWarning() << u8"Î´ÕÒµ½RPC¸ß³Ì²ÎÊı£¬Ê¹ÓÃÄ¬ÈÏ¸ß³Ì0.0";
+		qWarning() << u8"æœªæ‰¾åˆ°RPCé«˜ç¨‹å‚æ•°ï¼Œä½¿ç”¨é»˜è®¤é«˜ç¨‹0.0";
 	}
 
 	x[0] = pixelPos.x();
 	y[0] = pixelPos.y();
 	z[0] = heightOffset;
 
-	// ´´½¨ RPC ×ª»»Æ÷
+	// åˆ›å»º RPC è½¬æ¢å™¨
 	GDALRPCInfoV2 rpcInfo = { 0 };
 	GDALExtractRPCInfo(rpcMetadata, &rpcInfo);
 	void *transformer = GDALCreateRPCTransformerV2(&rpcInfo, false, 0.1, nullptr);
@@ -2253,17 +2253,17 @@ QPointF ImageInfoShow::pixelToWorld(const QPointF& pixelPos, QString& imageName,
 		return QPointF(0, 0);
 	}
 
-	// Ö´ĞĞ RPC ×ª»»
+	// æ‰§è¡Œ RPC è½¬æ¢
 	GDALRPCTransform(transformer, FALSE, 1, x, y, z, success);
 
-	// »ñÈ¡Ô´×ø±êÏµ 
+	// è·å–æºåæ ‡ç³» 
 	OGRSpatialReference sourceSRS;
 	const char* pszProjection = poDataset->GetProjectionRef();
 	if (pszProjection && strlen(pszProjection) > 0) {
 		sourceSRS.importFromWkt(pszProjection);
 	}
 	else {
-		// ¸ù¾İ×ø±êÖµÅĞ¶Ï×ø±êÏµÀàĞÍ 
+		// æ ¹æ®åæ ‡å€¼åˆ¤æ–­åæ ‡ç³»ç±»å‹ 
 		if (qAbs(x[0]) <= 180 && qAbs(y[0]) <= 90) {
 			sourceSRS.SetWellKnownGeogCS("WGS84");
 			//qDebug() << "Assuming WGS84 geographic coordinates for pixel position";
@@ -2274,10 +2274,10 @@ QPointF ImageInfoShow::pixelToWorld(const QPointF& pixelPos, QString& imageName,
 		}
 	}
 
-	// ´´½¨Ä¿±ê×ø±êÏµ 
+	// åˆ›å»ºç›®æ ‡åæ ‡ç³» 
 	OGRSpatialReference* targetSRS = createTargetSRS();
 
-	// Ö´ĞĞ×ø±ê×ª»» 
+	// æ‰§è¡Œåæ ‡è½¬æ¢ 
 	if (!transformCoordinates(&sourceSRS, targetSRS, x[0], y[0])) {
 		qWarning() << "Failed to transform coordinates for file:" << imageName;
 	}
@@ -2290,7 +2290,7 @@ QPointF ImageInfoShow::pixelToWorld(const QPointF& pixelPos, QString& imageName,
 	return worldPos;
 }
 
-// ´´½¨Ä¿±ê×ø±êÏµ(CGCS_2000_129)
+// åˆ›å»ºç›®æ ‡åæ ‡ç³»(CGCS_2000_129)
 OGRSpatialReference* ImageInfoShow::createTargetSRS() {
 	OGRSpatialReference* targetSRS = new OGRSpatialReference();
 	//targetSRS->SetFromUserInput("PROJCS[\"CGCS_2000_129\",GEOGCS[\"GCS_CGCS_2000\",DATUM[\"China_2000\",SPHEROID[\"CGCS2000\",6378137,298.257222101]],PRIMEM[\"Greenwich\",0],UNIT[\"Degree\",0.017453292519943295]],PROJECTION[\"Transverse_Mercator\"],PARAMETER[\"False_Easting\",500000],PARAMETER[\"False_Northing\",0],PARAMETER[\"Central_Meridian\",129],PARAMETER[\"Scale_Factor\",1],PARAMETER[\"Latitude_Of_Origin\",0],UNIT[\"Meter\",1]]");
@@ -2298,7 +2298,7 @@ OGRSpatialReference* ImageInfoShow::createTargetSRS() {
 	return targetSRS;
 }
 
-// ×ø±ê×ª»»º¯Êı 
+// åæ ‡è½¬æ¢å‡½æ•° 
 bool ImageInfoShow::transformCoordinates(OGRSpatialReference* sourceSRS,
 	OGRSpatialReference* targetSRS,
 	double& x, double& y)
@@ -2307,7 +2307,7 @@ bool ImageInfoShow::transformCoordinates(OGRSpatialReference* sourceSRS,
 		return false;
 	}
 
-	// ¼ì²éÔ´×ø±êÏµÊÇ·ñÎªWGS84µØÀí×ø±êÏµ
+	// æ£€æŸ¥æºåæ ‡ç³»æ˜¯å¦ä¸ºWGS84åœ°ç†åæ ‡ç³»
 	bool isWGS84 = false;
 	const char* wgs84WKT = "GEOGCS[\"WGS 84\"";
 	char* sourceWKT = nullptr;
@@ -2317,14 +2317,14 @@ bool ImageInfoShow::transformCoordinates(OGRSpatialReference* sourceSRS,
 	}
 	CPLFree(sourceWKT);
 
-	// ´´½¨×ø±ê×ª»»¶ÔÏó
+	// åˆ›å»ºåæ ‡è½¬æ¢å¯¹è±¡
 	OGRCoordinateTransformation* poCT = OGRCreateCoordinateTransformation(sourceSRS, targetSRS);
 	if (!poCT) {
 		qWarning() << "Failed to create coordinate transformation";
 		return false;
 	}
 	bool isGeographic = sourceSRS->IsGeographic();
-	// Ö´ĞĞ×ø±ê×ª»»£¬´¦ÀíWGS84×ø±êË³Ğò
+	// æ‰§è¡Œåæ ‡è½¬æ¢ï¼Œå¤„ç†WGS84åæ ‡é¡ºåº
 	bool success;
 	if (isGeographic) {
 		success = poCT->Transform(1, &y, &x);
@@ -2349,8 +2349,8 @@ bool ImageInfoShow::transformCoordinates(OGRSpatialReference* sourceSRS,
 }
 
 
-// ÖØĞÂÍ¶Ó°±ß½ç¿ò 
-// ÔÚreprojectBoundaryº¯ÊıÖĞ¸Ä½øÍ¶Ó°Ê¶±ğ
+// é‡æ–°æŠ•å½±è¾¹ç•Œæ¡† 
+// åœ¨reprojectBoundaryå‡½æ•°ä¸­æ”¹è¿›æŠ•å½±è¯†åˆ«
 void ImageInfoShow::reprojectBoundary(GeoBoundary& boundary, OGRSpatialReference* targetSRS) {
 	GDALDataset* poDataset = (GDALDataset*)GDALOpen(boundary.filePath.toUtf8().constData(), GA_ReadOnly);
 	if (!poDataset) {
@@ -2358,14 +2358,14 @@ void ImageInfoShow::reprojectBoundary(GeoBoundary& boundary, OGRSpatialReference
 		return;
 	}
 
-	// »ñÈ¡Ô´×ø±êÏµ 
+	// è·å–æºåæ ‡ç³» 
 	OGRSpatialReference sourceSRS;
 	const char* pszProjection = poDataset->GetProjectionRef();
 	if (pszProjection && strlen(pszProjection) > 0) {
 		sourceSRS.importFromWkt(pszProjection);
 	}
 	else {
-		// Èç¹ûÃ»ÓĞÍ¶Ó°ĞÅÏ¢£¬¼ì²é×ø±ê·¶Î§ 
+		// å¦‚æœæ²¡æœ‰æŠ•å½±ä¿¡æ¯ï¼Œæ£€æŸ¥åæ ‡èŒƒå›´ 
 		bool isLatLon = true;
 		for (const QPointF& corner : boundary.corners) {
 			if (qAbs(corner.x()) > 180 || qAbs(corner.y()) > 90) {
@@ -2378,12 +2378,12 @@ void ImageInfoShow::reprojectBoundary(GeoBoundary& boundary, OGRSpatialReference
 			sourceSRS.SetWellKnownGeogCS("WGS84");
 		}
 		else {
-			// ¼ÙÉèÊÇCGCS2000Í¶Ó°×ø±êÏµ
+			// å‡è®¾æ˜¯CGCS2000æŠ•å½±åæ ‡ç³»
 			sourceSRS.SetFromUserInput("PROJCS[\"CGCS2000\",GEOGCS[\"GCS_China_Geodetic_Coordinate_System_2000\",DATUM[\"China_2000\",SPHEROID[\"CGCS2000\",6378137,298.257222101]],PRIMEM[\"Greenwich\",0],UNIT[\"Degree\",0.017453292519943295]],PROJECTION[\"Transverse_Mercator\"],PARAMETER[\"False_Easting\",500000],PARAMETER[\"False_Northing\",0],PARAMETER[\"Central_Meridian\",120],PARAMETER[\"Scale_Factor\",1],PARAMETER[\"Latitude_Of_Origin\",0],UNIT[\"Meter\",1]]");
 		}
 	}
 
-	// ×ª»»Ã¿¸ö½Çµã×ø±ê
+	// è½¬æ¢æ¯ä¸ªè§’ç‚¹åæ ‡
 	for (QPointF& corner : boundary.corners) {
 		double x = corner.x();
 		double y = corner.y();
@@ -2405,7 +2405,7 @@ void ImageInfoShow::highlightBoundary(const QString& filePath, bool highlight) {
 	else {
 		m_highlightedFiles.remove(filePath);
 	}
-	update(); // ´¥·¢ÖØ»æ
+	update(); // è§¦å‘é‡ç»˜
 }
 
 void ImageInfoShow::highlightsBoundary(const QStringList& filePath, bool highlight) {
@@ -2419,7 +2419,7 @@ void ImageInfoShow::highlightsBoundary(const QStringList& filePath, bool highlig
 			m_highlightedFiles.remove(filename);
 		}
 	}
-	update(); // ´¥·¢ÖØ»æ
+	update(); // è§¦å‘é‡ç»˜
 }
 
 void ImageInfoShow::clearHighlights() {
@@ -2429,14 +2429,14 @@ void ImageInfoShow::clearHighlights() {
 
 ///////////////////////////////////////
 /**
- * @brief Ó°ÏñÑ¡Ôñ¹¦ÄÜ
+ * @brief å½±åƒé€‰æ‹©åŠŸèƒ½
  */
- // ÉèÖÃµ±Ç°Ó°ÏñÀàĞÍ¹ıÂË 
+ // è®¾ç½®å½“å‰å½±åƒç±»å‹è¿‡æ»¤ 
 void ImageInfoShow::setImageTypeFilter(const QString& type) {
 	m_currentImageTypeFilter = type;
 }
 
-// ÉèÖÃÑ¡ÔñÄ£Ê½
+// è®¾ç½®é€‰æ‹©æ¨¡å¼
 void ImageInfoShow::setSelectionMode(bool enabled) {
 	m_useMiddleButtonForPan = enabled;
 	if (!enabled) {
@@ -2445,7 +2445,7 @@ void ImageInfoShow::setSelectionMode(bool enabled) {
 	update();
 }
 
-// Çå³ıÑ¡Ôñ
+// æ¸…é™¤é€‰æ‹©
 void ImageInfoShow::clearSelection() {
 	//m_selectedFiles.clear();
 	m_selectionRect = QRect();
@@ -2459,14 +2459,14 @@ void ImageInfoShow::drawSelectionRect()
 	QPainter painter(this);
 	painter.setRenderHint(QPainter::Antialiasing);
 
-	// »æÖÆ°ëÍ¸Ã÷Ìî³ä 
+	// ç»˜åˆ¶åŠé€æ˜å¡«å…… 
 	painter.setBrush(QColor(51, 102, 204, 51));
 	painter.setPen(Qt::blue);
 	painter.drawRect(m_selectionRect);
 }
 
 /**
- * @brief µãÑ¡Ôñ¹¦ÄÜ
+ * @brief ç‚¹é€‰æ‹©åŠŸèƒ½
  */
 
 void ImageInfoShow::setPointSelectionMode(bool enabled) {
@@ -2486,7 +2486,7 @@ void ImageInfoShow::setPointTypeFilter(const QString& type) {
 }
 
 void ImageInfoShow::clearPointSelection() {
-	// È¡ÏûËùÓĞµãµÄ¸ßÁÁ 
+	// å–æ¶ˆæ‰€æœ‰ç‚¹çš„é«˜äº® 
 	highlightPointsById(m_selectedConPoints, "con", false);
 	highlightPointsById(m_selectedColPoints, "col", false);
 
@@ -2497,11 +2497,11 @@ void ImageInfoShow::clearPointSelection() {
 
 void ImageInfoShow::setVisiblePointIds(const QSet<QString>& ids) {
 	m_visiblePointIds = ids;
-	update(); // ´¥·¢ÖØ»æ
+	update(); // è§¦å‘é‡ç»˜
 }
 
-// ÉèÖÃÊÇ·ñÖ»ÏÔÊ¾Ö¸¶¨µÄµãID
+// è®¾ç½®æ˜¯å¦åªæ˜¾ç¤ºæŒ‡å®šçš„ç‚¹ID
 void ImageInfoShow::setOnlyShowVisibleIds(bool enable) {
 	m_onlyShowVisibleIds = enable;
-	update(); // ´¥·¢ÖØ»æ 
+	update(); // è§¦å‘é‡ç»˜ 
 }
