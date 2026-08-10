@@ -1,14 +1,20 @@
-﻿#include "GLDisplayWidget.h"
-#include "IMAGEPS.h"
-#include <QDebug>
+﻿#include <QDebug>
 #include <QMouseEvent>
 #include <QWheelEvent>
 #include <QApplication>
 #include <QElapsedTimer>
 #include <cmath>
 
+// GDAL headers - moved from header to avoid Qt Designer crash
+#include "gdal_priv.h"
+
+#include "GLDisplayWidget.h"
+#include "IMAGEPS.h"
+
 GLDisplayWidget::GLDisplayWidget(QWidget* parent) : QOpenGLWidget(parent) {
-	GDALAllRegister();
+	if (!QCoreApplication::applicationFilePath().contains("designer", Qt::CaseInsensitive)) {
+		GDALAllRegister();
+	}
 	setFocusPolicy(Qt::StrongFocus);
 	m_imagePS = nullptr;
 }

@@ -6,12 +6,14 @@
 #include <QOpenGLTexture>
 #include <QVector>
 #include <QMatrix4x4>
-#include "gdal_priv.h"
+// GDAL classes - forward declarations to avoid Qt Designer crash
+class GDALDataset;
+class GDALRasterBand;
 
 struct ImageData {
 	QOpenGLTexture* texture = nullptr;
 	double minX = 0, maxX = 0, minY = 0, maxY = 0;
-	GDALDataType dataType = GDT_Unknown;
+	int dataType = 0;
 	bool isSingleBand = true;
 };
 

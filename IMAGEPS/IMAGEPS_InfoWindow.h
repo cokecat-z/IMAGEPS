@@ -11,11 +11,15 @@
 #include <QTimer>
 #include <QDebug>
 #include <QDesktopServices>
+#include <QInputDialog>
 
 #include "IMAGEPS.h"
 #include "ImageCloudSnowProcessing.h"
 #include "InvalidValueHandling.h"
 #include "HeightAnomalyProcessing.h"
+#include "imagesuperresolution.h"
+#include "WebBrowserDialog.h"
+#include "FileDecompression.h"
 
 class IMAGEPS_InfoWindow : public QMainWindow
 {
@@ -72,6 +76,8 @@ private:
 	ImageCloudSnowProcessing* ImageCloudSnowShow = nullptr;
 	HeightAnomalyProcessing* HeightAnomaly = nullptr;
 	InvalidValueHandling* InvalidValueHandl = nullptr;
+    ImageSuperResolution* imagesuper = nullptr;
+	FileDecompression* FileDec = nullptr;
 };
 
 #endif

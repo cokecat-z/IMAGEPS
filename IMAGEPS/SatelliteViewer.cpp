@@ -1,10 +1,14 @@
-﻿#include "SatelliteViewer.h"
-#include <QDebug>
+﻿#include <QDebug>
 #include <QMouseEvent>
 #include <QWheelEvent>
 #include <QApplication>
 #include <QElapsedTimer>
 #include <cmath>
+
+// GDAL headers - moved from header to avoid Qt Designer crash
+#include "gdal_priv.h"
+
+#include "SatelliteViewer.h"
 #include "IMAGEPS.h"
 
 SatelliteViewer::SatelliteViewer(QWidget* parent)
@@ -12,7 +16,9 @@ SatelliteViewer::SatelliteViewer(QWidget* parent)
 	//m_scene(new QGraphicsScene(this)),
 	//m_pixmapItem(nullptr) {
 {
-	GDALAllRegister();
+	if (!QCoreApplication::applicationFilePath().contains("designer", Qt::CaseInsensitive)) {
+		GDALAllRegister();
+	}
 	//setScene(m_scene);
 	setDragMode(QGraphicsView::ScrollHandDrag);
 	setRenderHint(QPainter::Antialiasing);

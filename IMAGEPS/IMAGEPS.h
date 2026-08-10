@@ -19,16 +19,11 @@
 #include <qtoolbox.h>
 #include <QDir>
 #include <QDirIterator>
-#include "gdal.h"
-#include "gdal_priv.h"
-#include "gdal_alg.h"
-#include "cpl_conv.h"
-#include "gdal_mdreader.h"
-#include <gdal_utils.h>
 #include <QVector>
-#include <ogr_spatialref.h>
-#include <gdalwarper.h>
 #include <QDebug>
+
+// GDAL classes - forward declarations to avoid Qt Designer crash
+class GDALDataset;
 #include <QFileInfo>
 #include <QGuiApplication>
 #include <QScreen>
@@ -55,6 +50,7 @@
 #include "NonEditableModel.h"
 #include "logger.h"
 #include "QgsMapCanvasWidget.h"
+#include "TabbedDockWidget.h"
 
 
 enum ImageCorner {
@@ -133,6 +129,7 @@ public:
 	//static ImageGeoMetadata* getImageMetadata(const QString& filePath);
 
 	QMap<QString, ImageGeoMetadata> s_imageMetadata;
+	QProgressDialog* m_imageLoadingProgressDialog;
 
 	ImageGeoMetadata* getImageMetadata(const QString& filePath);
 	void setupLogToFileWriter(QTextEdit* logEdit, const QString& filePath, int maxLines = 1000, QObject* parent = nullptr);
@@ -150,6 +147,7 @@ public:
 	void connectAllModificationSignals();
 	QMap<QString, bool>  getcolfileValue();
 	void setView(TabbedDockWidget* DockWidget, QTabWidget* tableWidget, int currentindex);
+	void setView_close(TabbedDockWidget* DockWidget, QTabWidget* tableWidget, int currentindex);
 	void displayView(TabbedDockWidget* DockWidget, QTabWidget* tableWidget, int currentindex);
 
 	QDateTime readTimestampFromXml(const QString& nodeName);
@@ -218,6 +216,14 @@ public slots:
 	void translation_actionSlot();//平移
 	void onTabChanged(int index);
 	void closeEvent(QCloseEvent *event);
+	// Layer switch functions
+	void onRasterOnTop();
+	void onVectorOnTop();
+	void onLayerSwitchComboChanged(int index);
+	void onToggleLayerVisibility();
+	void updateLayerSwitchCombo();
+	QString extractLayerName(const QString& displayText);
+	QString getFullLayerName(const QString& displayText);
 	bool buildPSIntersectObjCmdFile();
 	bool buildPSIntersectObjCmdFile(QString filePath, QStringList tieFilePattern);
 	void onSelectionChanged(const QItemSelection &selected, const QItemSelection &deselected);
@@ -250,6 +256,7 @@ public slots:
 	void ProTransformationDataList_TabWContextSlot(const QPoint &pos);//投影转换数据列表右键
 	void FormatConversionDataList_TabWContextSlot(const QPoint &pos);//格式转换数据列表右键
 	void SARImageFilteringDataList_TabWContextSlot(const QPoint &pos);//SAR影像滤波数据列表右键
+	void ShpFilteringDataList_TabWContextSlot(const QPoint &pos);//Shp数据列表右键
 	void imageHandleBus_TreWContextSlot(const QPoint &pos);//影像处理业务右键
 	void imageHandleBus_TreWSlot(QTreeWidgetItem *item, int column);//影像处理业务左键
 	void pointsInfoList_DockWContextSlot(const QPoint &pos);//点信息列表右键
@@ -264,6 +271,9 @@ public slots:
 	void on_pushButton_2_clicked();
 	void onComboBoxIndexChanged(int index);
 	void onComboBox_2IndexChanged(int index);
+
+	// 完整关闭影像显示
+	void onImageCloseRequested();
 
 private:
 	QIcon createScaledIcon(const QString& path, const QSize& size = QSize(24, 24));
@@ -282,6 +292,7 @@ private:
     void on_actionOpenImage(QStringList filenames, const QString flag);
 	void on_actionOpenImage(const QStringList& existingFiles, const QStringList& newFiles, const QString flag);
     void on_actionOpenImageShow(QString filenamePATH);
+    void on_actionOpenVectorShow(QString filenamePATH);
     bool setGeoreferenceFromXMLAndRPC(const QStringList filenamePATH);
 	bool setGeoreferenceFromXMLAndRPC(const QStringList& existingFiles, const QStringList& newFiles);
     bool copyAndRenameRpcFiles(QStringList filenamesPath);
@@ -367,6 +378,7 @@ private:
 	void loadOriginalImagesFromFolder(QTableWidget* tableWidget, QStringList& filePathList);
 	void unloadImages(QTableWidget* tableWidget, QStringList& filePathList);
 	void viewImages(QTableWidget* tableWidget, const QStringList& filePathList);
+	void clearImageDisplayIfNeeded(const QSet<QString>& imageNames, bool isVector = false);
 	bool checkFileExistsInTable(QTableWidget* tableWidget, const QString& fileName);
 	void addFileToTable(QTableWidget* tableWidget, const QFileInfo& fileInfo);
 	void highlightSelectedBoundaries(QTableWidget* tableWidget);
@@ -430,6 +442,8 @@ private:
     QStringList ProTransformationFilePath;//投影转换文件路径
     QStringList FormatConversionFilePath;//格式转换文件路径
     QStringList SARImageFilteringFilePath;//SAR影像滤波数据文件路径
+    QStringList ShpFilteringFilePath;//Shp滤波数据文件路径
+    QStringList VectorDataFilePath;//矢量数据文件路径
 
 	QStringList TmpDataModelPath;//模型创建文件路径|卫星参考数据文件路径
 	//QStringList TmpDOMFilePath;//DOM文件路径

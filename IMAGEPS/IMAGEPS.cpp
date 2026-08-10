@@ -1,13 +1,27 @@
-﻿#include "IMAGEPS.h"
+﻿//GDAL headers - moved from header to avoid Qt Designer crash
+// #include "gdal.h"
+#include "gdal_priv.h"
+#include "gdal_alg.h"
+#include "cpl_conv.h"
+#include "gdal_mdreader.h"
+#include <gdal_utils.h>
+#include <ogr_spatialref.h>
+#include <gdalwarper.h>
+
+// QGIS headers
+#include <qgsvectorlayer.h>
+
+#include "IMAGEPS.h"
 
 //IMAGEPS* this = nullptr;
 //QMap<QString, ImageGeoMetadata> IMAGEPS::s_imageMetadata;
 
 IMAGEPS::IMAGEPS(QWidget* parent)
 	: QMainWindow(parent)
+	, m_imageLoadingProgressDialog(nullptr)
 {
 	ui.setupUi(this);
-	setWindowTitle(u8"IMAGEPS DESKTOP多源遥感影像智能处理系统 2026V2.6[*]");
+	setWindowTitle(u8"IMAGEPS DESKTOP多源遥感影像智能处理系统 2026V3.0[*]");
 
 	// 设置主窗口初始大小为屏幕的80%
 	QScreen* screen = QGuiApplication::primaryScreen();
@@ -199,7 +213,8 @@ void IMAGEPS::initWidget()
 			else if (iter == "view_menu")
 			{
 				List_tempMenuActions << "satelliteImageView_action" << "referenceDataView_action" << "TestAreaDisplayView_action" << "encryptionPointsView_action" << "pointInforView_action"
-					<< "controlPointsView_action" << "attributeView_action" << "logView_action" << "statusBar_action" << "imageProcessTool_action";
+					<< "controlPointsView_action" << "attributeView_action" << "logView_action" << "statusBar_action" << "imageProcessTool_action"
+					<< "vectorDataView_action";
 			}
 			else if (iter == "dataPre_menu")
 			{
@@ -463,6 +478,7 @@ void IMAGEPS::initWidget()
 	Map_mainToolBarAction["satelliteImageView_action"]->setIcon(QIcon(QString::fromLocal8Bit(":/resource/menu/视图/卫星影像列表视图.png")));
 	Map_mainToolBarAction["imageProcessTool_action"]->setIcon(QIcon(QString::fromLocal8Bit(":/resource/menu/子菜单/影像处理业务工具箱.png")));
 	Map_mainToolBarAction["TestAreaDisplayView_action"]->setIcon(QIcon(QString::fromLocal8Bit(":/resource/menu/yjjc2.png")));
+	Map_mainToolBarAction["vectorDataView_action"]->setIcon(QIcon(QString::fromLocal8Bit(":/resource/menu/工具/影像范围生产.png")));
 
 	//数据预处理
 	//Map_mainToolBarAction["RDModelRadarDataIn_action"]->setIcon(QIcon(QString::fromLocal8Bit(":/resource/menu/drgj-icon.png")));
@@ -545,6 +561,7 @@ void IMAGEPS::initWidget()
 	ui.QuickMosaicDataList_TableW->setSelectionBehavior(QAbstractItemView::SelectRows);
 	ui.ImagecropDataList_TableW->setSelectionBehavior(QAbstractItemView::SelectRows);
 	ui.VectorfileDataList_TableW->setSelectionBehavior(QAbstractItemView::SelectRows);
+	ui.ShpDataList_TableW->setSelectionBehavior(QAbstractItemView::SelectRows);
 	ui.CloudDetectionList_TableW->setSelectionBehavior(QAbstractItemView::SelectRows);
 	ui.objectPosPoints_TableW->setSelectionBehavior(QAbstractItemView::SelectRows);
 	ui.objectPos_TableW->setSelectionBehavior(QAbstractItemView::SelectRows);
@@ -632,6 +649,7 @@ void IMAGEPS::initWidget()
 	ui.CloudDetectionDataList_TableW->setEditTriggers(QAbstractItemView::NoEditTriggers);
 	ui.ImagecropDataList_TableW->setEditTriggers(QAbstractItemView::NoEditTriggers);
 	ui.VectorfileDataList_TableW->setEditTriggers(QAbstractItemView::NoEditTriggers);
+	ui.ShpDataList_TableW->setEditTriggers(QAbstractItemView::NoEditTriggers);
 	ui.objectPosPoints_TableW->setEditTriggers(QAbstractItemView::NoEditTriggers);
 	ui.objectPos_TableW->setEditTriggers(QAbstractItemView::NoEditTriggers);
 
@@ -650,6 +668,7 @@ void IMAGEPS::initWidget()
 	ui.QuickMosaicDataList_TableW->setSelectionMode(QAbstractItemView::ExtendedSelection);
 	ui.ImagecropDataList_TableW->setSelectionMode(QAbstractItemView::ExtendedSelection);
 	ui.VectorfileDataList_TableW->setSelectionMode(QAbstractItemView::ExtendedSelection);
+	ui.ShpDataList_TableW->setSelectionMode(QAbstractItemView::ExtendedSelection);
 	ui.AbsPositPrecCheckDataList_TableW->setSelectionMode(QAbstractItemView::ExtendedSelection);
 
 	ui.refereDataList_TableW->horizontalHeader()->setStretchLastSection(true);
@@ -674,6 +693,7 @@ void IMAGEPS::initWidget()
 	ui.QuickMosaicDataList_TableW->horizontalHeader()->setStretchLastSection(true);
 	ui.ImagecropDataList_TableW->horizontalHeader()->setStretchLastSection(true);
 	ui.VectorfileDataList_TableW->horizontalHeader()->setStretchLastSection(true);
+	ui.ShpDataList_TableW->horizontalHeader()->setStretchLastSection(true);
 	ui.CloudDetectionList_TableW->horizontalHeader()->setStretchLastSection(true);
 	ui.encryptPointsList_TableW->horizontalHeader()->setStretchLastSection(true);
 	ui.controlPointsLIst_TableW->horizontalHeader()->setStretchLastSection(true);
@@ -947,6 +967,11 @@ void IMAGEPS::connects()
 			setView(ui.dockWidget_2, ui.tabWidget_2, 0);
 		});
 
+	connect(Map_mainToolBarAction["vectorDataView_action"], &QAction::triggered, this, [=]
+		{
+			setView(ui.dockWidget_2, ui.tabWidget_2, 20);
+		});
+
 	connect(Map_mainToolBarAction["encryptionPointsView_action"], &QAction::triggered, this, [=]
 		{
 			setView(ui.dockWidget_10, ui.tabWidget_3, 0);
@@ -975,6 +1000,7 @@ void IMAGEPS::connects()
 	connect(Map_mainToolBarAction["TestAreaDisplayView_action"], &QAction::triggered, this, [=]
 		{
 			setView(ui.dockWidget_9, ui.tabWidget, 0);
+			//setView(ui.dockWidget_9, ui.tabWidget, 1);
 		});
 
 	connect(Map_mainToolBarAction["attributeView_action"], &QAction::triggered, this, [=]
@@ -1579,6 +1605,7 @@ void IMAGEPS::connects()
 	connect(ui.QuickMosaicDataList_TableW, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(QuickMosaicDataList_TabWContextSlot(QPoint)));
 	connect(ui.ImagecropDataList_TableW, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(ImagecropDataList_TabWContextSlot(QPoint)));
 	connect(ui.VectorfileDataList_TableW, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(VectorfileDataList_TabWContextSlot(QPoint)));
+	connect(ui.ShpDataList_TableW, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(ShpFilteringDataList_TabWContextSlot(QPoint)));
 	connect(ui.tabWidget_2, &QTabWidget::currentChanged, this, [this](int index) {
 		if (index >= 0) {  // 确保索引有效
 			QString tabName = ui.tabWidget_2->tabText(index);
@@ -1639,6 +1666,12 @@ void IMAGEPS::connects()
 	connect(Map_mainToolBarAction["oneButtonDataProcessAuto1_action"], &QAction::triggered, this, &IMAGEPS::OrthoRectificationFusion_actionSlot);
 
 	connect(ui.tabWidget, &QTabWidget::currentChanged, this, &IMAGEPS::onTabChanged);
+	
+	// 图层切换功能信号连接
+	connect(ui.btnRasterOnTop, &QPushButton::clicked, this, &IMAGEPS::onRasterOnTop);
+	connect(ui.btnVectorOnTop, &QPushButton::clicked, this, &IMAGEPS::onVectorOnTop);
+	connect(ui.layerSwitchCombo, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &IMAGEPS::onLayerSwitchComboChanged);
+	connect(ui.btnToggleLayer, &QPushButton::clicked, this, &IMAGEPS::onToggleLayerVisibility);
 	//connect(ui.runLog_Edit, &QWidget::customContextMenuRequested, this, [=](QPoint)
 	//{
 	//	QMenu* menu = new QMenu;
@@ -1716,6 +1749,11 @@ void IMAGEPS::connects()
 	connectSortFunction(ui.DodgingDataList_TableW);
 	connectSortFunction(ui.objectPos_TableW);
 	connectSortFunction(ui.objectPosPoints_TableW);
+
+	// 影像关闭信号连接
+	if (ui.dockWidget_9) {
+		connect(ui.dockWidget_9, &TabbedDockWidget::imageCloseRequested, this, &IMAGEPS::onImageCloseRequested);
+	}
 
 	auto connectSort_ViewFunction = [this](QTableView* tableView, const QSet<int>& excludedColumns = {}) {
 		connect(tableView->horizontalHeader(), &QHeaderView::sectionClicked,
@@ -2458,6 +2496,25 @@ void IMAGEPS::closeWorldShow()
 	ui.centralWidget->show();
 }
 
+void IMAGEPS::onImageCloseRequested()
+{
+	// 释放影像资源
+	if (ui.openGLWidget) {
+		ui.openGLWidget->clearImage();
+	}
+
+	// 清除相关缓存数据
+	clearImage();
+
+	//// 重置影像显示状态
+	//ui.tabWidget->setCurrentIndex(0);
+	
+	// 6. 更新TabbedDockWidget状态
+	if (ui.dockWidget_9) {
+		ui.dockWidget_9->setImageDisplayMode(false);
+	}
+}
+
 //void IMAGEPS::showWorld()
 //{
 //	cv::Mat image = cv::imread("../bin/resource/mainWindowBackgroundImage/world.png");
@@ -2698,7 +2755,7 @@ bool IMAGEPS::newProActionSlot()
 		<< "DemMosaicImage" << "DodgingImage" << "DodgingMosaicImage" << "DomCorrection" << "FilterImage" << "FusionImage" << "TmpOutPath" << "ImageCrop" << "ImageCropVer" << "ImageFormatTransformImage"
 		<< "ImagePoint" << "ImageRange" << "ImageReprojectImage" << "ImageStretchImage" << "MatchModel" << "MCImage" << "MosaicImage" << "ObjPoint" << "OrthoTargetShpList"
 		<< "OutByteImage" << "PrecisionCheckImage" << "PSTimestamp" << "RadCalibration" << "RefImagePoint" << "RegisterFusionImage" << "RegisterRectifyImage" << "RelPrecisionCheckImage"
-		<< "SarFilterImage" << "SatImage" << "SmartMosaicImage" << "StereoModelPrecisionCheckImage" << "StereoRelPrecisionCheckImage";
+		<< "SarFilterImage" << "SatImage" << "SmartMosaicImage" << "StereoModelPrecisionCheckImage" << "StereoRelPrecisionCheckImage" << "ShpDataList";
 
 	QFile file;
 	for (auto data : List_files)
@@ -2958,6 +3015,7 @@ bool IMAGEPS::openProActionSlot()
 	loadImageData(ui.ImagecropDataList_TableW, ImagecropFilePath, "ImageCrop.xml");
 	loadImageData(ui.VectorfileDataList_TableW, VectorfileFilePath, "ImageCropVer.xml");
 	loadImageData(ui.SARImageFilteringDataList_TableW, SARImageFilteringFilePath, "SarFilterImage.xml");
+	loadImageData(ui.ShpDataList_TableW, ShpFilteringFilePath, "ShpDataList.xml");
 	// 加载RegisterRectifyImage.xml 数据 
 	if (!loadRegisterRectifyImageData(this->projectdir)) {
 		qDebug() << u8"加载RegisterRectifyImage.xml 数据失败";
@@ -3057,6 +3115,7 @@ bool IMAGEPS::saveProActionSlot()
 	writeImageXml(ui.ImagecropDataList_TableW, ImagecropFilePath, "ImageCrop.xml");
 	writeImageXml(ui.VectorfileDataList_TableW, VectorfileFilePath, "ImageCropVer.xml");
 	writeImageXml(ui.SARImageFilteringDataList_TableW, SARImageFilteringFilePath, "SarFilterImage.xml");
+	writeImageXml(ui.ShpDataList_TableW, ShpFilteringFilePath, "ShpDataList.xml");
 
 	// 保存RegisterRectifyImage.xml  
 	if (!writeRegisterRectifyImageXml(projectFolder)) {
@@ -3447,6 +3506,7 @@ bool IMAGEPS::openRecentProject(const QString& projectPath_Recent)
 	loadImageData(ui.ImagecropDataList_TableW, ImagecropFilePath, "ImageCrop.xml");
 	loadImageData(ui.VectorfileDataList_TableW, VectorfileFilePath, "ImageCropVer.xml");
 	loadImageData(ui.SARImageFilteringDataList_TableW, SARImageFilteringFilePath, "SarFilterImage.xml");
+	loadImageData(ui.ShpDataList_TableW, ShpFilteringFilePath, "ShpDataList.xml");
 	// 加载RegisterRectifyImage.xml 数据 
 	if (!loadRegisterRectifyImageData(this->projectdir)) {
 		qDebug() << u8"加载RegisterRectifyImage.xml 数据失败";
@@ -7451,6 +7511,46 @@ void IMAGEPS::SmartMosaicactionSlot()
 		//}
 		SmartMosaicFilePath = syncFileOrderWithTable(SmartMosaicFilePath,
 			ui.SmartMosaicDataList_TableW);
+
+		// 检查文件是否存在，如果不存在则查找同名的tif/img文件
+		for (int i = 0; i < SmartMosaicFilePath.size(); ++i)
+		{
+			QString& filePath = SmartMosaicFilePath[i];
+			QFileInfo fileInfo(filePath);
+
+			if (!fileInfo.exists())
+			{
+				QString dirPath = fileInfo.absolutePath();
+				QString baseName = fileInfo.completeBaseName();
+				QDir dir(dirPath);
+
+				// 查找同名的tif/img文件
+				QStringList filters;
+				filters << baseName + ".tif" << baseName + ".TIF"
+				        << baseName + ".tiff" << baseName + ".TIFF"
+				        << baseName + ".img" << baseName + ".IMG";
+
+				QStringList foundFiles = dir.entryList(filters, QDir::Files | QDir::NoDotAndDotDot);
+
+				if (!foundFiles.isEmpty())
+				{
+					// 找到同名文件，替换路径
+					QString newPath = dir.absoluteFilePath(foundFiles.first());
+					SmartMosaicFilePath[i] = newPath;
+					PROJECT_LOG_INFO(this->CurrentConfig,
+						QString::fromLocal8Bit("智能镶嵌: 文件不存在，已替换为同名文件: %1 -> %2")
+						.arg(filePath).arg(newPath));
+				}
+				else
+				{
+					// 未找到同名文件，记录警告
+					PROJECT_LOG_WARNING(this->CurrentConfig,
+						QString::fromLocal8Bit("智能镶嵌: 文件不存在且未找到同名tif/img文件: %1")
+						.arg(filePath));
+				}
+			}
+		}
+
 		QStringList MosaicCropFilePath;
 		if (!systemConfig->ui.lineEdit_37->text().trimmed().isEmpty()) {
 			MosaicCropFilePath.append(systemConfig->ui.lineEdit_37->text());
@@ -8030,8 +8130,8 @@ void IMAGEPS::referDataList_TabWContextSlot(const QPoint& pos)
 			if (referedItems.isEmpty()) {
 				return; // 如果没有选中任何行，不显示菜单
 			}
-			QStringList firstColumnDOM;
-			QStringList firstColumnDEM;
+			QSet<QString> firstColumnDOM;
+			QSet<QString> firstColumnDEM;
 			// 提取所有选中的行号（避免重复）
 			QSet<int> rowsToDelete;
 			for (QTableWidgetItem* item : referedItems) {
@@ -8040,9 +8140,9 @@ void IMAGEPS::referDataList_TabWContextSlot(const QPoint& pos)
 				QTableWidgetItem* firstColumnType = ui.refereDataList_TableW->item(item->row(), 2);
 				if (firstColumnItem) {
 					if (firstColumnType->text() == QString::fromLocal8Bit("DOM"))
-						firstColumnDOM.append(firstColumnItem->text());
+						firstColumnDOM.insert(firstColumnItem->text());
 					else if (firstColumnType->text() == QString::fromLocal8Bit("DEM"))
-						firstColumnDEM.append(firstColumnItem->text());
+						firstColumnDEM.insert(firstColumnItem->text());
 				}
 			}
 			// 按从大到小的顺序删除（防止索引错乱）
@@ -8092,8 +8192,8 @@ void IMAGEPS::referDataList_TabWContextSlot(const QPoint& pos)
 			if (referedItems.isEmpty()) {
 				return; // 如果没有选中任何行，不显示菜单
 			}
-			QStringList firstColumnDOM;
-			QStringList firstColumnDEM;
+			QSet<QString> firstColumnDOM;
+			QSet<QString> firstColumnDEM;
 			// 提取所有选中的行号（避免重复）
 			QSet<int> rowsToDelete;
 			for (QTableWidgetItem* item : referedItems) {
@@ -8102,9 +8202,9 @@ void IMAGEPS::referDataList_TabWContextSlot(const QPoint& pos)
 				QTableWidgetItem* firstColumnType = ui.refereDataList_TableW->item(item->row(), 2);
 				if (firstColumnItem) {
 					if (firstColumnType->text() == QString::fromLocal8Bit("DOM"))
-						firstColumnDOM.append(firstColumnItem->text());
+						firstColumnDOM.insert(firstColumnItem->text());
 					else if (firstColumnType->text() == QString::fromLocal8Bit("DEM"))
-						firstColumnDEM.append(firstColumnItem->text());
+						firstColumnDEM.insert(firstColumnItem->text());
 				}
 			}
 			// 按从大到小的顺序删除（防止索引错乱）
@@ -8562,7 +8662,7 @@ void IMAGEPS::sateImageDataList_TabWContextSlot(const QPoint& pos)
 
 	connect(actionMap[QString::fromLocal8Bit("卸载影像")], &QAction::triggered, this, [=]
 		{
-			QStringList firstColumnValues;
+			QSet<QString> firstColumnValues;
 			// 获取选中的所有行（避免重复）
 			QList<QTableWidgetItem*> selectedItems = ui.sateImageDataList_TableW->selectedItems();
 			if (selectedItems.isEmpty()) {
@@ -8575,7 +8675,7 @@ void IMAGEPS::sateImageDataList_TabWContextSlot(const QPoint& pos)
 
 				QTableWidgetItem* firstColumnItem = ui.sateImageDataList_TableW->item(item->row(), 1);
 				if (firstColumnItem) {
-					firstColumnValues.append(firstColumnItem->text());  // 存储第一列的值
+					firstColumnValues.insert(firstColumnItem->text());  // 存储第一列的值（自动去重）
 				}
 			}
 			// 按从大到小的顺序删除（防止索引错乱）
@@ -8633,11 +8733,14 @@ void IMAGEPS::sateImageDataList_TabWContextSlot(const QPoint& pos)
 				}
 			}
 			ui.sateImageDataList_num->setText(QString::fromLocal8Bit("卫星影像列表数量: %1").arg(ui.sateImageDataList_TableW->rowCount()));
+
+			// 如果当前查看影像界面正在显示被卸载的影像，则清除显示
+			clearImageDisplayIfNeeded(firstColumnValues);
 		});
 
 	connect(actionMap[QString::fromLocal8Bit("查看影像")], &QAction::triggered, this, [=]
 		{
-			QStringList firstColumnValues;
+			QSet<QString> firstColumnValues;
 			// 获取选中的所有行（避免重复）
 			QList<QTableWidgetItem*> selectedItems = ui.sateImageDataList_TableW->selectedItems();
 			if (selectedItems.isEmpty()) {
@@ -8650,7 +8753,7 @@ void IMAGEPS::sateImageDataList_TabWContextSlot(const QPoint& pos)
 
 				QTableWidgetItem* firstColumnItem = ui.sateImageDataList_TableW->item(item->row(), 1);
 				if (firstColumnItem) {
-					firstColumnValues.append(firstColumnItem->text());  // 存储第一列的值
+					firstColumnValues.insert(firstColumnItem->text());  // 存储第一列的值（自动去重）
 				}
 			}
 			// 按从大到小的顺序删除（防止索引错乱）
@@ -8674,7 +8777,7 @@ void IMAGEPS::sateImageDataList_TabWContextSlot(const QPoint& pos)
 
 	connect(actionMap[QString::fromLocal8Bit("设置纠正成果属性信息")], &QAction::triggered, this, [=]
 		{
-			QStringList firstColumnValues;
+			QSet<QString> firstColumnValues;
 			QStringList filePath;
 
 			// 获取选中的所有行（避免重复）
@@ -8693,7 +8796,7 @@ void IMAGEPS::sateImageDataList_TabWContextSlot(const QPoint& pos)
 			for (int row : selectedRows) {
 				QTableWidgetItem* firstColumnItem = ui.sateImageDataList_TableW->item(row, 1);
 				if (firstColumnItem) {
-					firstColumnValues.append(firstColumnItem->text());    // 存储第一列的值 
+					firstColumnValues.insert(firstColumnItem->text());    // 存储第一列的值（自动去重）
 				}
 			}
 
@@ -8947,7 +9050,7 @@ void IMAGEPS::PyramidDataList_TabWContextSlot(const QPoint& pos)
 
 	connect(actionMap[QString::fromLocal8Bit("卸载影像")], &QAction::triggered, this, [=]
 		{
-			QStringList firstColumnValues;
+			QSet<QString> firstColumnValues;
 			// 获取选中的所有行（避免重复）
 			QList<QTableWidgetItem*> referedItems = ui.PyramidDataList_TableW->selectedItems();
 			if (referedItems.isEmpty()) {
@@ -8959,7 +9062,7 @@ void IMAGEPS::PyramidDataList_TabWContextSlot(const QPoint& pos)
 				rowsToDelete.insert(item->row());
 				QTableWidgetItem* firstColumnItem = ui.PyramidDataList_TableW->item(item->row(), 1);
 				if (firstColumnItem) {
-					firstColumnValues.append(firstColumnItem->text());  // 存储第一列的值
+					firstColumnValues.insert(firstColumnItem->text());  // 存储第一列的值（自动去重）
 				}
 			}
 			// 按从大到小的顺序删除（防止索引错乱）
@@ -8980,6 +9083,9 @@ void IMAGEPS::PyramidDataList_TabWContextSlot(const QPoint& pos)
 					}
 				}
 			}
+
+			// 如果当前查看影像界面正在显示被卸载的影像，则清除显示
+			clearImageDisplayIfNeeded(firstColumnValues);
 		});
 
 	menu->exec(cursor().pos());
@@ -9133,7 +9239,7 @@ void IMAGEPS::ImageInterList_TabWContextSlot(const QPoint& pos)
 
 	connect(actionMap[QString::fromLocal8Bit("卸载影像")], &QAction::triggered, this, [=]
 		{
-			QStringList firstColumnValues;
+			QSet<QString> firstColumnValues;
 			// 获取选中的所有行（避免重复）
 			QList<QTableWidgetItem*> referedItems = ui.imageInterList_TableW->selectedItems();
 			if (referedItems.isEmpty()) {
@@ -9145,7 +9251,7 @@ void IMAGEPS::ImageInterList_TabWContextSlot(const QPoint& pos)
 				rowsToDelete.insert(item->row());
 				QTableWidgetItem* firstColumnItem = ui.imageInterList_TableW->item(item->row(), 1);
 				if (firstColumnItem) {
-					firstColumnValues.append(firstColumnItem->text());  // 存储第一列的值
+					firstColumnValues.insert(firstColumnItem->text());  // 存储第一列的值（自动去重）
 				}
 			}
 			// 按从大到小的顺序删除（防止索引错乱）
@@ -9166,11 +9272,14 @@ void IMAGEPS::ImageInterList_TabWContextSlot(const QPoint& pos)
 					}
 				}
 			}
+
+			// 如果当前查看影像界面正在显示被卸载的影像，则清除显示
+			clearImageDisplayIfNeeded(firstColumnValues);
 		});
 
 	connect(actionMap[QString::fromLocal8Bit("查看影像")], &QAction::triggered, this, [=]
 		{
-			QStringList firstColumnValues;
+			QSet<QString> firstColumnValues;
 			// 获取选中的所有行（避免重复）
 			QList<QTableWidgetItem*> referedItems = ui.imageInterList_TableW->selectedItems();
 			if (referedItems.isEmpty()) {
@@ -9182,7 +9291,7 @@ void IMAGEPS::ImageInterList_TabWContextSlot(const QPoint& pos)
 				rowsToDelete.insert(item->row());
 				QTableWidgetItem* firstColumnItem = ui.imageInterList_TableW->item(item->row(), 1);
 				if (firstColumnItem) {
-					firstColumnValues.append(firstColumnItem->text());  // 存储第一列的值
+					firstColumnValues.insert(firstColumnItem->text());  // 存储第一列的值（自动去重）
 				}
 			}
 			// 按从大到小的顺序删除（防止索引错乱）
@@ -9355,7 +9464,7 @@ void IMAGEPS::DodgingList_TabWContextSlot(const QPoint& pos)
 
 	connect(actionMap[QString::fromLocal8Bit("卸载影像")], &QAction::triggered, this, [=]
 		{
-			QStringList firstColumnValues;
+			QSet<QString> firstColumnValues;
 			// 获取选中的所有行（避免重复）
 			QList<QTableWidgetItem*> referedItems = ui.DodgingDataList_TableW->selectedItems();
 			if (referedItems.isEmpty()) {
@@ -9367,7 +9476,7 @@ void IMAGEPS::DodgingList_TabWContextSlot(const QPoint& pos)
 				rowsToDelete.insert(item->row());
 				QTableWidgetItem* firstColumnItem = ui.DodgingDataList_TableW->item(item->row(), 1);
 				if (firstColumnItem) {
-					firstColumnValues.append(firstColumnItem->text());  // 存储第一列的值
+					firstColumnValues.insert(firstColumnItem->text());  // 存储第一列的值（自动去重）
 				}
 			}
 			// 按从大到小的顺序删除（防止索引错乱）
@@ -9388,11 +9497,14 @@ void IMAGEPS::DodgingList_TabWContextSlot(const QPoint& pos)
 					}
 				}
 			}
+
+			// 如果当前查看影像界面正在显示被卸载的影像，则清除显示
+			clearImageDisplayIfNeeded(firstColumnValues);
 		});
 
 	connect(actionMap[QString::fromLocal8Bit("查看影像")], &QAction::triggered, this, [=]
 		{
-			QStringList firstColumnValues;
+			QSet<QString> firstColumnValues;
 			// 获取选中的所有行（避免重复）
 			QList<QTableWidgetItem*> referedItems = ui.DodgingDataList_TableW->selectedItems();
 			if (referedItems.isEmpty()) {
@@ -9404,7 +9516,7 @@ void IMAGEPS::DodgingList_TabWContextSlot(const QPoint& pos)
 				rowsToDelete.insert(item->row());
 				QTableWidgetItem* firstColumnItem = ui.DodgingDataList_TableW->item(item->row(), 1);
 				if (firstColumnItem) {
-					firstColumnValues.append(firstColumnItem->text());  // 存储第一列的值
+					firstColumnValues.insert(firstColumnItem->text());  // 存储第一列的值（自动去重）
 				}
 			}
 			// 按从大到小的顺序删除（防止索引错乱）
@@ -9577,7 +9689,7 @@ void IMAGEPS::ImageMosaicList_TabWContextSlot(const QPoint& pos)
 
 	connect(actionMap[QString::fromLocal8Bit("卸载影像")], &QAction::triggered, this, [=]
 		{
-			QStringList firstColumnValues;
+			QSet<QString> firstColumnValues;
 			// 获取选中的所有行（避免重复）
 			QList<QTableWidgetItem*> referedItems = ui.ImageMosaicDataList_TableW->selectedItems();
 			if (referedItems.isEmpty()) {
@@ -9589,7 +9701,7 @@ void IMAGEPS::ImageMosaicList_TabWContextSlot(const QPoint& pos)
 				rowsToDelete.insert(item->row());
 				QTableWidgetItem* firstColumnItem = ui.ImageMosaicDataList_TableW->item(item->row(), 1);
 				if (firstColumnItem) {
-					firstColumnValues.append(firstColumnItem->text());  // 存储第一列的值
+					firstColumnValues.insert(firstColumnItem->text());  // 存储第一列的值（自动去重）
 				}
 			}
 			// 按从大到小的顺序删除（防止索引错乱）
@@ -9610,11 +9722,14 @@ void IMAGEPS::ImageMosaicList_TabWContextSlot(const QPoint& pos)
 					}
 				}
 			}
+
+			// 如果当前查看影像界面正在显示被卸载的影像，则清除显示
+			clearImageDisplayIfNeeded(firstColumnValues);
 		});
 
 	connect(actionMap[QString::fromLocal8Bit("查看影像")], &QAction::triggered, this, [=]
 		{
-			QStringList firstColumnValues;
+			QSet<QString> firstColumnValues;
 			// 获取选中的所有行（避免重复）
 			QList<QTableWidgetItem*> referedItems = ui.ImageMosaicDataList_TableW->selectedItems();
 			if (referedItems.isEmpty()) {
@@ -9626,7 +9741,7 @@ void IMAGEPS::ImageMosaicList_TabWContextSlot(const QPoint& pos)
 				rowsToDelete.insert(item->row());
 				QTableWidgetItem* firstColumnItem = ui.ImageMosaicDataList_TableW->item(item->row(), 1);
 				if (firstColumnItem) {
-					firstColumnValues.append(firstColumnItem->text());  // 存储第一列的值
+					firstColumnValues.insert(firstColumnItem->text());  // 存储第一列的值（自动去重）
 				}
 			}
 			// 按从大到小的顺序删除（防止索引错乱）
@@ -9834,7 +9949,7 @@ void IMAGEPS::AlignmentAdjustmentList_TabWContextSlot(const QPoint& pos)
 
 	connect(actionMap[QString::fromLocal8Bit("卸载影像")], &QAction::triggered, this, [=]
 		{
-			QStringList firstColumnValues;
+			QSet<QString> firstColumnValues;
 			// 获取选中的所有行（避免重复）
 			QList<QTableWidgetItem*> referedItems = ui.AlignmentAdjustmentList_TableW->selectedItems();
 			if (referedItems.isEmpty()) {
@@ -9846,7 +9961,7 @@ void IMAGEPS::AlignmentAdjustmentList_TabWContextSlot(const QPoint& pos)
 				rowsToDelete.insert(item->row());
 				QTableWidgetItem* firstColumnItem = ui.AlignmentAdjustmentList_TableW->item(item->row(), 1);
 				if (firstColumnItem) {
-					firstColumnValues.append(firstColumnItem->text());  // 存储第一列的值
+					firstColumnValues.insert(firstColumnItem->text());  // 存储第一列的值（自动去重）
 				}
 			}
 			// 按从大到小的顺序删除（防止索引错乱）
@@ -9867,11 +9982,14 @@ void IMAGEPS::AlignmentAdjustmentList_TabWContextSlot(const QPoint& pos)
 					}
 				}
 			}
+
+			// 如果当前查看影像界面正在显示被卸载的影像，则清除显示
+			clearImageDisplayIfNeeded(firstColumnValues);
 		});
 
 	connect(actionMap[QString::fromLocal8Bit("查看影像")], &QAction::triggered, this, [=]
 		{
-			QStringList firstColumnValues;
+			QSet<QString> firstColumnValues;
 			// 获取选中的所有行（避免重复）
 			QList<QTableWidgetItem*> referedItems = ui.AlignmentAdjustmentList_TableW->selectedItems();
 			if (referedItems.isEmpty()) {
@@ -9883,7 +10001,7 @@ void IMAGEPS::AlignmentAdjustmentList_TabWContextSlot(const QPoint& pos)
 				rowsToDelete.insert(item->row());
 				QTableWidgetItem* firstColumnItem = ui.AlignmentAdjustmentList_TableW->item(item->row(), 1);
 				if (firstColumnItem) {
-					firstColumnValues.append(firstColumnItem->text());  // 存储第一列的值
+					firstColumnValues.insert(firstColumnItem->text());  // 存储第一列的值（自动去重）
 				}
 			}
 			// 按从大到小的顺序删除（防止索引错乱）
@@ -10334,7 +10452,7 @@ void IMAGEPS::FusionmodelsrcList_TabWContextSlot(const QPoint& pos)
 
 	connect(actionMap[QString::fromLocal8Bit("卸载影像")], &QAction::triggered, this, [=]
 		{
-			QStringList firstColumnValues;
+			QSet<QString> firstColumnValues;
 			// 获取选中的所有行（避免重复）
 			QList<QTableWidgetItem*> referedItems = ui.dataList_TableW->selectedItems();
 			if (referedItems.isEmpty()) {
@@ -10346,7 +10464,7 @@ void IMAGEPS::FusionmodelsrcList_TabWContextSlot(const QPoint& pos)
 				rowsToDelete.insert(item->row());
 				QTableWidgetItem* firstColumnItem = ui.dataList_TableW->item(item->row(), 1);
 				if (firstColumnItem) {
-					firstColumnValues.append(firstColumnItem->text());  // 存储第一列的值
+					firstColumnValues.insert(firstColumnItem->text());  // 存储第一列的值（自动去重）
 				}
 			}
 			// 按从大到小的顺序删除（防止索引错乱）
@@ -10367,11 +10485,14 @@ void IMAGEPS::FusionmodelsrcList_TabWContextSlot(const QPoint& pos)
 					}
 				}
 			}
+
+			// 如果当前查看影像界面正在显示被卸载的影像，则清除显示
+			clearImageDisplayIfNeeded(firstColumnValues);
 		});
 
 	connect(actionMap[QString::fromLocal8Bit("模型配对")], &QAction::triggered, this, [=]
 		{
-			QStringList firstColumnValues;
+			QSet<QString> firstColumnValues;
 			QStringList Buildfilenames;
 			// 获取选中的所有单元格
 			QList<QTableWidgetItem*> referedItems = ui.dataList_TableW->selectedItems();
@@ -10392,7 +10513,7 @@ void IMAGEPS::FusionmodelsrcList_TabWContextSlot(const QPoint& pos)
 			for (int row : rows) {
 				QTableWidgetItem* firstColumnItem = ui.dataList_TableW->item(row, 1);
 				if (firstColumnItem) {
-					firstColumnValues.append(firstColumnItem->text()); // 每行只添加一次
+					firstColumnValues.insert(firstColumnItem->text()); // 每行只添加一次（自动去重）
 				}
 			}
 
@@ -10411,7 +10532,7 @@ void IMAGEPS::FusionmodelsrcList_TabWContextSlot(const QPoint& pos)
 
 	connect(actionMap[QString::fromLocal8Bit("查看影像")], &QAction::triggered, this, [=]
 		{
-			QStringList firstColumnValues;
+			QSet<QString> firstColumnValues;
 			// 获取选中的所有行（避免重复）
 			QList<QTableWidgetItem*> referedItems = ui.dataList_TableW->selectedItems();
 			if (referedItems.isEmpty()) {
@@ -10423,7 +10544,7 @@ void IMAGEPS::FusionmodelsrcList_TabWContextSlot(const QPoint& pos)
 				rowsToDelete.insert(item->row());
 				QTableWidgetItem* firstColumnItem = ui.dataList_TableW->item(item->row(), 1);
 				if (firstColumnItem) {
-					firstColumnValues.append(firstColumnItem->text());  // 存储第一列的值
+					firstColumnValues.insert(firstColumnItem->text());  // 存储第一列的值（自动去重）
 				}
 			}
 			// 按从大到小的顺序删除（防止索引错乱）
@@ -10641,7 +10762,7 @@ void IMAGEPS::AlignmentIntsrcList_TabWContextSlot(const QPoint& pos)
 
 	connect(actionMap[QString::fromLocal8Bit("卸载影像")], &QAction::triggered, this, [=]
 		{
-			QStringList firstColumnValues;
+			QSet<QString> firstColumnValues;
 			// 获取选中的所有行（避免重复）
 			QList<QTableWidgetItem*> referedItems = ui.AlignmentIntegrationList_TableW->selectedItems();
 			if (referedItems.isEmpty()) {
@@ -10653,7 +10774,7 @@ void IMAGEPS::AlignmentIntsrcList_TabWContextSlot(const QPoint& pos)
 				rowsToDelete.insert(item->row());
 				QTableWidgetItem* firstColumnItem = ui.AlignmentIntegrationList_TableW->item(item->row(), 1);
 				if (firstColumnItem) {
-					firstColumnValues.append(firstColumnItem->text());  // 存储第一列的值
+					firstColumnValues.insert(firstColumnItem->text());  // 存储第一列的值（自动去重）
 				}
 			}
 			// 按从大到小的顺序删除（防止索引错乱）
@@ -10674,11 +10795,14 @@ void IMAGEPS::AlignmentIntsrcList_TabWContextSlot(const QPoint& pos)
 					}
 				}
 			}
+
+			// 如果当前查看影像界面正在显示被卸载的影像，则清除显示
+			clearImageDisplayIfNeeded(firstColumnValues);
 		});
 
 	connect(actionMap[QString::fromLocal8Bit("模型配对")], &QAction::triggered, this, [=]
 		{
-			QStringList firstColumnValues;
+			QSet<QString> firstColumnValues;
 			QStringList Buildfilenames;
 			// 获取选中的所有行（避免重复）
 			QList<QTableWidgetItem*> referedItems = ui.AlignmentIntegrationList_TableW->selectedItems();
@@ -10695,22 +10819,13 @@ void IMAGEPS::AlignmentIntsrcList_TabWContextSlot(const QPoint& pos)
 				return;
 			}
 
-			// 提取所有选中的行号（避免重复）
-			QSet<int> rowsToDelete;
-			for (QTableWidgetItem* item : referedItems) {
-				rowsToDelete.insert(item->row());
-				QTableWidgetItem* firstColumnItem = ui.AlignmentIntegrationList_TableW->item(item->row(), 1);
+			// 基于唯一行号提取第一列的值（避免重复）
+			for (int row : rows) {
+				QTableWidgetItem* firstColumnItem = ui.AlignmentIntegrationList_TableW->item(row, 1);
 				if (firstColumnItem) {
-					firstColumnValues.append(firstColumnItem->text());  // 存储第一列的值
+					firstColumnValues.insert(firstColumnItem->text());  // 存储第一列的值（自动去重）
 				}
 			}
-			// 按从大到小的顺序删除（防止索引错乱）
-			QList<int> referedRows = rowsToDelete.values();
-			std::sort(referedRows.begin(), referedRows.end(), std::greater<int>());
-			//// 删除所有选中的行
-			//for (int row : referedRows) {
-			//	ui.AlignmentIntegrationList_TableW->removeRow(row);
-			//}
 			for (auto filename : firstColumnValues)
 			{
 				for (auto filenamePATH : AlignmentIntFilePath)
@@ -10729,7 +10844,7 @@ void IMAGEPS::AlignmentIntsrcList_TabWContextSlot(const QPoint& pos)
 
 	connect(actionMap[QString::fromLocal8Bit("查看影像")], &QAction::triggered, this, [=]
 		{
-			QStringList firstColumnValues;
+			QSet<QString> firstColumnValues;
 			// 获取选中的所有行（避免重复）
 			QList<QTableWidgetItem*> referedItems = ui.AlignmentIntegrationList_TableW->selectedItems();
 			if (referedItems.isEmpty()) {
@@ -10741,7 +10856,7 @@ void IMAGEPS::AlignmentIntsrcList_TabWContextSlot(const QPoint& pos)
 				rowsToDelete.insert(item->row());
 				QTableWidgetItem* firstColumnItem = ui.AlignmentIntegrationList_TableW->item(item->row(), 1);
 				if (firstColumnItem) {
-					firstColumnValues.append(firstColumnItem->text());  // 存储第一列的值
+					firstColumnValues.insert(firstColumnItem->text());  // 存储第一列的值（自动去重）
 				}
 			}
 			// 按从大到小的顺序删除（防止索引错乱）
@@ -11040,7 +11155,7 @@ void IMAGEPS::SmartMosaicDataList_TabWContextSlot(const QPoint& pos)
 
 	connect(actionMap[QString::fromLocal8Bit("卸载影像")], &QAction::triggered, this, [=]
 		{
-			QStringList firstColumnValues;
+			QSet<QString> firstColumnValues;
 			// 获取选中的所有行（避免重复）
 			QList<QTableWidgetItem*> referedItems = ui.SmartMosaicDataList_TableW->selectedItems();
 			if (referedItems.isEmpty()) {
@@ -11052,7 +11167,7 @@ void IMAGEPS::SmartMosaicDataList_TabWContextSlot(const QPoint& pos)
 				rowsToDelete.insert(item->row());
 				QTableWidgetItem* firstColumnItem = ui.SmartMosaicDataList_TableW->item(item->row(), 1);
 				if (firstColumnItem) {
-					firstColumnValues.append(firstColumnItem->text());  // 存储第一列的值
+					firstColumnValues.insert(firstColumnItem->text());  // 存储第一列的值（自动去重）
 				}
 			}
 			// 按从大到小的顺序删除（防止索引错乱）
@@ -11073,11 +11188,14 @@ void IMAGEPS::SmartMosaicDataList_TabWContextSlot(const QPoint& pos)
 					}
 				}
 			}
+
+			// 如果当前查看影像界面正在显示被卸载的影像，则清除显示
+			clearImageDisplayIfNeeded(firstColumnValues);
 		});
 
 	connect(actionMap[QString::fromLocal8Bit("查看影像")], &QAction::triggered, this, [=]
 		{
-			QStringList firstColumnValues;
+			QSet<QString> firstColumnValues;
 			// 获取选中的所有行（避免重复）
 			QList<QTableWidgetItem*> referedItems = ui.SmartMosaicDataList_TableW->selectedItems();
 			if (referedItems.isEmpty()) {
@@ -11089,7 +11207,7 @@ void IMAGEPS::SmartMosaicDataList_TabWContextSlot(const QPoint& pos)
 				rowsToDelete.insert(item->row());
 				QTableWidgetItem* firstColumnItem = ui.SmartMosaicDataList_TableW->item(item->row(), 1);
 				if (firstColumnItem) {
-					firstColumnValues.append(firstColumnItem->text());  // 存储第一列的值
+					firstColumnValues.insert(firstColumnItem->text());  // 存储第一列的值（自动去重）
 				}
 			}
 			// 按从大到小的顺序删除（防止索引错乱）
@@ -11250,7 +11368,7 @@ void IMAGEPS::MosaicCropDataList_TabWContextSlot(const QPoint& pos)
 
 	connect(actionMap[QString::fromLocal8Bit("卸载裁切范围")], &QAction::triggered, this, [=]
 		{
-			QStringList firstColumnValues;
+			QSet<QString> firstColumnValues;
 			// 获取选中的所有行（避免重复）
 			QList<QTableWidgetItem*> referedItems = ui.MosaicCropDataList_TableW->selectedItems();
 			if (referedItems.isEmpty()) {
@@ -11262,7 +11380,7 @@ void IMAGEPS::MosaicCropDataList_TabWContextSlot(const QPoint& pos)
 				rowsToDelete.insert(item->row());
 				QTableWidgetItem* firstColumnItem = ui.MosaicCropDataList_TableW->item(item->row(), 1);
 				if (firstColumnItem) {
-					firstColumnValues.append(firstColumnItem->text());  // 存储第一列的值
+					firstColumnValues.insert(firstColumnItem->text());  // 存储第一列的值（自动去重）
 				}
 			}
 			// 按从大到小的顺序删除（防止索引错乱）
@@ -11450,7 +11568,7 @@ void IMAGEPS::VectorfileDataList_TabWContextSlot(const QPoint& pos)
 		});
 
 	connect(actionMap[QString::fromLocal8Bit("卸载矢量")], &QAction::triggered, this, [=] {
-		QStringList firstColumnValues;
+		QSet<QString> firstColumnValues;
 		// 获取选中的所有行（避免重复）
 		QList<QTableWidgetItem*> referedItems = ui.VectorfileDataList_TableW->selectedItems();
 		if (referedItems.isEmpty()) {
@@ -11462,7 +11580,7 @@ void IMAGEPS::VectorfileDataList_TabWContextSlot(const QPoint& pos)
 			rowsToDelete.insert(item->row());
 			QTableWidgetItem* firstColumnItem = ui.VectorfileDataList_TableW->item(item->row(), 1);
 			if (firstColumnItem) {
-				firstColumnValues.append(firstColumnItem->text());  // 存储第一列的值
+				firstColumnValues.insert(firstColumnItem->text());  // 存储第一列的值（自动去重）
 			}
 		}
 		// 按从大到小的顺序删除（防止索引错乱）
@@ -11480,6 +11598,213 @@ void IMAGEPS::VectorfileDataList_TabWContextSlot(const QPoint& pos)
 				if (fileInfo.completeBaseName() == filename)
 				{
 					VectorfileFilePath.removeAll(filenamePATH);
+				}
+			}
+		}
+
+		// 如果当前查看影像界面正在显示被卸载的矢量，则清除显示
+		clearImageDisplayIfNeeded(firstColumnValues, true);
+		});
+
+	menu->exec(cursor().pos());
+
+	foreach(QAction * pAction, menu->actions()) delete pAction;
+	delete menu;
+}
+
+
+/**
+ * @brief Shp数据列表右键菜单
+ */
+void IMAGEPS::ShpFilteringDataList_TabWContextSlot(const QPoint& pos)
+{
+	QMap<QString, QAction*> actionMap;
+	QMenu* menu = new QMenu;
+	QList<QStringList> config = PublicFunctions::loadFile(QString::fromLocal8Bit("../bin/config/mainWindowConfig/contextMenu/Shp数据列表.csv"), ",");
+	for (auto data : config)
+	{
+		if (data[1] == "TRUE")
+			actionMap[data[0]] = menu->addAction(data[0]);
+	}
+
+
+	connect(actionMap[QString::fromLocal8Bit("加载矢量(文件)")], &QAction::triggered, this, [=] {
+		QStringList originImagePaths = QFileDialog::getOpenFileNames(this, QString::fromLocal8Bit("选择加载矢量文件"), m_lastPath, tr("shapeFile(*.shp)"));
+
+		if (!originImagePaths.isEmpty()) {
+			m_lastPath = QFileInfo(originImagePaths.first()).path();  // 更新最后路径 
+		}
+
+		for (const QString& originImagePath : originImagePaths) {
+			QFileInfo fileInfo(originImagePath);
+
+			bool alreadyExists = false;
+			for (int i = 0; i < ui.ShpDataList_TableW->rowCount(); i++)
+			{
+				if (fileInfo.fileName().contains(ui.ShpDataList_TableW->item(i, 1)->text())) {
+					alreadyExists = true;
+					break;
+				}
+			}
+			if (!originImagePath.isEmpty() && !alreadyExists)
+			{
+				ShpFilteringFilePath.push_back(originImagePath);
+				// 插入新行
+				int newRowIndex = ui.ShpDataList_TableW->rowCount();
+				ui.ShpDataList_TableW->insertRow(newRowIndex);
+
+				// 确保所有单元格都有 QTableWidgetItem
+				for (int col = 0; col < ui.ShpDataList_TableW->columnCount(); col++)
+				{
+					if (!ui.ShpDataList_TableW->item(newRowIndex, col))
+					{
+						QTableWidgetItem* item = new QTableWidgetItem;
+						item->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
+						ui.ShpDataList_TableW->setItem(newRowIndex, col, item);
+					}
+				}
+				// 设置序号（当前行号 + 1）
+				ui.ShpDataList_TableW->item(newRowIndex, 0)->setText(QString::number(newRowIndex + 1));
+
+				// 设置文件名（去掉扩展名）
+				ui.ShpDataList_TableW->item(newRowIndex, 1)->setText(fileInfo.completeBaseName());
+				ui.ShpDataList_TableW->resizeColumnsToContents();
+			}
+		}
+		});
+
+	connect(actionMap[QString::fromLocal8Bit("加载矢量(文件夹)")], &QAction::triggered, this, [=] {
+		QString folderPath = QFileDialog::getExistingDirectory(
+			this,
+			QString::fromLocal8Bit("选择加载矢量(文件夹)"),
+			m_lastPath,
+			QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks
+		);
+		if (folderPath.isEmpty()) {
+			return; // 用户取消选择
+		}
+		m_lastPath = folderPath;
+		// 设置文件过滤器
+		QStringList filters;
+		filters << "*.shp";
+		// 使用 QDirIterator 递归遍历所有子目录
+		QDirIterator dirIterator(
+			folderPath,
+			filters,
+			QDir::Files | QDir::NoDotAndDotDot,
+			QDirIterator::Subdirectories // 递归遍历子目录
+		);
+		QStringList filePaths;
+		while (dirIterator.hasNext()) {
+			filePaths.append(dirIterator.next());
+		}
+
+		for (const QString& originImagePath : filePaths) {
+			bool containsexit = true;
+			QFileInfo fileInfo(originImagePath);
+			for (int i = 0; i < ui.ShpDataList_TableW->rowCount(); i++)
+			{
+				if (fileInfo.fileName().contains(ui.ShpDataList_TableW->item(i, 1)->text()))
+				{
+					containsexit = false;
+					break;
+				}
+			}
+
+			if (!originImagePath.isEmpty() && containsexit)
+			{
+				ShpFilteringFilePath.push_back(originImagePath);
+				// 插入新行
+				int newRowIndex = ui.ShpDataList_TableW->rowCount();
+				ui.ShpDataList_TableW->insertRow(newRowIndex);
+
+				// 确保所有单元格都有 QTableWidgetItem
+				for (int col = 0; col < ui.ShpDataList_TableW->columnCount(); col++)
+				{
+					if (!ui.ShpDataList_TableW->item(newRowIndex, col))
+					{
+						QTableWidgetItem* item = new QTableWidgetItem;
+						item->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
+						ui.ShpDataList_TableW->setItem(newRowIndex, col, item);
+					}
+				}
+				// 设置序号（当前行号 + 1）
+				ui.ShpDataList_TableW->item(newRowIndex, 0)->setText(QString::number(newRowIndex + 1));
+
+				// 设置文件名（去掉扩展名）
+				ui.ShpDataList_TableW->item(newRowIndex, 1)->setText(fileInfo.completeBaseName());
+				ui.ShpDataList_TableW->resizeColumnsToContents();
+			}
+		}
+		});
+
+	connect(actionMap[QString::fromLocal8Bit("卸载矢量")], &QAction::triggered, this, [=] {
+		QSet<QString> firstColumnValues;
+		// 获取选中的所有行（避免重复）
+		QList<QTableWidgetItem*> referedItems = ui.ShpDataList_TableW->selectedItems();
+		if (referedItems.isEmpty()) {
+			return; // 如果没有选中任何行，不显示菜单
+		}
+		// 提取所有选中的行号（避免重复）
+		QSet<int> rowsToDelete;
+		for (QTableWidgetItem* item : referedItems) {
+			rowsToDelete.insert(item->row());
+			QTableWidgetItem* firstColumnItem = ui.ShpDataList_TableW->item(item->row(), 1);
+			if (firstColumnItem) {
+				firstColumnValues.insert(firstColumnItem->text());  // 存储第一列的值（自动去重）
+			}
+		}
+		// 按从大到小的顺序删除（防止索引错乱）
+		QList<int> referedRows = rowsToDelete.values();
+		std::sort(referedRows.begin(), referedRows.end(), std::greater<int>());
+		// 删除所有选中的行
+		for (int row : referedRows) {
+			ui.ShpDataList_TableW->removeRow(row);
+		}
+		for (auto filename : firstColumnValues)
+		{
+			for (auto filenamePATH : ShpFilteringFilePath)
+			{
+				QFileInfo fileInfo(filenamePATH);
+				if (fileInfo.completeBaseName() == filename)
+				{
+					ShpFilteringFilePath.removeAll(filenamePATH);
+				}
+			}
+		}
+
+		// 如果当前查看影像界面正在显示被卸载的矢量，则清除显示
+		clearImageDisplayIfNeeded(firstColumnValues, true);
+		});
+
+	connect(actionMap[QString::fromLocal8Bit("查看矢量")], &QAction::triggered, this, [=] {
+		QSet<QString> firstColumnValues;
+		// 获取选中的所有行（避免重复）
+		QList<QTableWidgetItem*> referedItems = ui.ShpDataList_TableW->selectedItems();
+		if (referedItems.isEmpty()) {
+			return;
+		}
+		// 提取所有选中的行号（避免重复）
+		QSet<int> rowsToView;
+		for (QTableWidgetItem* item : referedItems) {
+			rowsToView.insert(item->row());
+			QTableWidgetItem* firstColumnItem = ui.ShpDataList_TableW->item(item->row(), 1);
+			if (firstColumnItem) {
+				firstColumnValues.insert(firstColumnItem->text());  // 存储第一列的值（自动去重）
+			}
+		}
+		displayView(ui.dockWidget_9, ui.tabWidget, 1);
+		// 查看矢量逻辑 - 调用与查看影像相同的逻辑
+		for (auto filename : firstColumnValues)
+		{
+			for (auto filenamePATH : ShpFilteringFilePath)
+			{
+				QFileInfo fileInfo(filenamePATH);
+				if (fileInfo.completeBaseName() == filename)
+				{
+					// 调用on_actionOpenVectorShow，与查看影像保持一致的用户体验
+					on_actionOpenVectorShow(filenamePATH);
+					break;
 				}
 			}
 		}
@@ -11638,7 +11963,7 @@ void IMAGEPS::AbsPositPrecCheckList_TabWContextSlot(const QPoint& pos)
 
 	connect(actionMap[QString::fromLocal8Bit("卸载影像")], &QAction::triggered, this, [=]
 		{
-			QStringList firstColumnValues;
+			QSet<QString> firstColumnValues;
 			// 获取选中的所有行（避免重复）
 			QList<QTableWidgetItem*> referedItems = ui.AbsPositPrecCheckDataList_TableW->selectedItems();
 			if (referedItems.isEmpty()) {
@@ -11650,7 +11975,7 @@ void IMAGEPS::AbsPositPrecCheckList_TabWContextSlot(const QPoint& pos)
 				rowsToDelete.insert(item->row());
 				QTableWidgetItem* firstColumnItem = ui.AbsPositPrecCheckDataList_TableW->item(item->row(), 1);
 				if (firstColumnItem) {
-					firstColumnValues.append(firstColumnItem->text());  // 存储第一列的值
+					firstColumnValues.insert(firstColumnItem->text());  // 存储第一列的值（自动去重）
 				}
 			}
 			// 按从大到小的顺序删除（防止索引错乱）
@@ -11671,11 +11996,14 @@ void IMAGEPS::AbsPositPrecCheckList_TabWContextSlot(const QPoint& pos)
 					}
 				}
 			}
+
+			// 如果当前查看影像界面正在显示被卸载的影像，则清除显示
+			clearImageDisplayIfNeeded(firstColumnValues);
 		});
 
 	connect(actionMap[QString::fromLocal8Bit("查看影像")], &QAction::triggered, this, [=]
 		{
-			QStringList firstColumnValues;
+			QSet<QString> firstColumnValues;
 			// 获取选中的所有行（避免重复）
 			QList<QTableWidgetItem*> referedItems = ui.AbsPositPrecCheckDataList_TableW->selectedItems();
 			if (referedItems.isEmpty()) {
@@ -11687,7 +12015,7 @@ void IMAGEPS::AbsPositPrecCheckList_TabWContextSlot(const QPoint& pos)
 				rowsToDelete.insert(item->row());
 				QTableWidgetItem* firstColumnItem = ui.AbsPositPrecCheckDataList_TableW->item(item->row(), 1);
 				if (firstColumnItem) {
-					firstColumnValues.append(firstColumnItem->text());  // 存储第一列的值
+					firstColumnValues.insert(firstColumnItem->text());  // 存储第一列的值（自动去重）
 				}
 			}
 			// 按从大到小的顺序删除（防止索引错乱）
@@ -11771,7 +12099,7 @@ void IMAGEPS::RelPositPrecCheckList_TabWContextSlot(const QPoint& pos)
 
 	connect(actionMap[QString::fromLocal8Bit("质检模型删除")], &QAction::triggered, this, [=]
 		{
-			QStringList firstColumnValues;
+			QSet<QString> firstColumnValues;
 			// 获取选中的所有行（避免重复）
 			QList<QTableWidgetItem*> referedItems = ui.AbsPositPrecCheckDataList_TableW->selectedItems();
 			if (referedItems.isEmpty()) {
@@ -11783,7 +12111,7 @@ void IMAGEPS::RelPositPrecCheckList_TabWContextSlot(const QPoint& pos)
 				rowsToDelete.insert(item->row());
 				QTableWidgetItem* firstColumnItem = ui.AbsPositPrecCheckDataList_TableW->item(item->row(), 1);
 				if (firstColumnItem) {
-					firstColumnValues.append(firstColumnItem->text());  // 存储第一列的值
+					firstColumnValues.insert(firstColumnItem->text());  // 存储第一列的值（自动去重）
 				}
 			}
 			// 按从大到小的顺序删除（防止索引错乱）
@@ -11808,7 +12136,7 @@ void IMAGEPS::RelPositPrecCheckList_TabWContextSlot(const QPoint& pos)
 
 	connect(actionMap[QString::fromLocal8Bit("查看影像")], &QAction::triggered, this, [=]
 		{
-			QStringList firstColumnValues;
+			QSet<QString> firstColumnValues;
 			// 获取选中的所有行（避免重复）
 			QList<QTableWidgetItem*> referedItems = ui.AbsPositPrecCheckDataList_TableW->selectedItems();
 			if (referedItems.isEmpty()) {
@@ -11820,7 +12148,7 @@ void IMAGEPS::RelPositPrecCheckList_TabWContextSlot(const QPoint& pos)
 				rowsToDelete.insert(item->row());
 				QTableWidgetItem* firstColumnItem = ui.AbsPositPrecCheckDataList_TableW->item(item->row(), 1);
 				if (firstColumnItem) {
-					firstColumnValues.append(firstColumnItem->text());  // 存储第一列的值
+					firstColumnValues.insert(firstColumnItem->text());  // 存储第一列的值（自动去重）
 				}
 			}
 			// 按从大到小的顺序删除（防止索引错乱）
@@ -12424,7 +12752,7 @@ void IMAGEPS::CloudDetectionDataList_TabWContextSlot(const QPoint& pos)
 
 	connect(actionMap[QString::fromLocal8Bit("卸载影像")], &QAction::triggered, this, [=]
 		{
-			QStringList firstColumnValues;
+			QSet<QString> firstColumnValues;
 			// 获取选中的所有行（避免重复）
 			QList<QTableWidgetItem*> selectedItems = ui.CloudDetectionDataList_TableW->selectedItems();
 			if (selectedItems.isEmpty()) {
@@ -12437,7 +12765,7 @@ void IMAGEPS::CloudDetectionDataList_TabWContextSlot(const QPoint& pos)
 
 				QTableWidgetItem* firstColumnItem = ui.CloudDetectionDataList_TableW->item(item->row(), 1);
 				if (firstColumnItem) {
-					firstColumnValues.append(firstColumnItem->text());  // 存储第一列的值
+					firstColumnValues.insert(firstColumnItem->text());  // 存储第一列的值（自动去重）
 				}
 			}
 			// 按从大到小的顺序删除（防止索引错乱）
@@ -12458,11 +12786,14 @@ void IMAGEPS::CloudDetectionDataList_TabWContextSlot(const QPoint& pos)
 					}
 				}
 			}
+
+			// 如果当前查看影像界面正在显示被卸载的影像，则清除显示
+			clearImageDisplayIfNeeded(firstColumnValues);
 		});
 
 	connect(actionMap[QString::fromLocal8Bit("查看影像")], &QAction::triggered, this, [=]
 		{
-			QStringList firstColumnValues;
+			QSet<QString> firstColumnValues;
 			// 获取选中的所有行（避免重复）
 			QList<QTableWidgetItem*> selectedItems = ui.CloudDetectionDataList_TableW->selectedItems();
 			if (selectedItems.isEmpty()) {
@@ -12475,7 +12806,7 @@ void IMAGEPS::CloudDetectionDataList_TabWContextSlot(const QPoint& pos)
 
 				QTableWidgetItem* firstColumnItem = ui.CloudDetectionDataList_TableW->item(item->row(), 1);
 				if (firstColumnItem) {
-					firstColumnValues.append(firstColumnItem->text());  // 存储第一列的值
+					firstColumnValues.insert(firstColumnItem->text());  // 存储第一列的值（自动去重）
 				}
 			}
 			// 按从大到小的顺序删除（防止索引错乱）
@@ -13019,6 +13350,46 @@ void IMAGEPS::imageHandleBus_TreWSlot(QTreeWidgetItem* treeItem, int column)
 
 			SmartMosaicFilePath = syncFileOrderWithTable(SmartMosaicFilePath,
 				ui.SmartMosaicDataList_TableW);
+
+			// 检查文件是否存在，如果不存在则查找同名的tif/img文件
+			for (int i = 0; i < SmartMosaicFilePath.size(); ++i)
+			{
+				QString& filePath = SmartMosaicFilePath[i];
+				QFileInfo fileInfo(filePath);
+
+				if (!fileInfo.exists())
+				{
+					QString dirPath = fileInfo.absolutePath();
+					QString baseName = fileInfo.completeBaseName();
+					QDir dir(dirPath);
+
+					// 查找同名的tif/img文件
+					QStringList filters;
+					filters << baseName + ".tif" << baseName + ".TIF"
+					        << baseName + ".tiff" << baseName + ".TIFF"
+					        << baseName + ".img" << baseName + ".IMG";
+
+					QStringList foundFiles = dir.entryList(filters, QDir::Files | QDir::NoDotAndDotDot);
+
+					if (!foundFiles.isEmpty())
+					{
+						// 找到同名文件，替换路径
+						QString newPath = dir.absoluteFilePath(foundFiles.first());
+						SmartMosaicFilePath[i] = newPath;
+						PROJECT_LOG_INFO(this->CurrentConfig,
+							QString::fromLocal8Bit("智能镶嵌: 文件不存在，已替换为同名文件: %1 -> %2")
+							.arg(filePath).arg(newPath));
+					}
+					else
+					{
+						// 未找到同名文件，记录警告
+						PROJECT_LOG_WARNING(this->CurrentConfig,
+							QString::fromLocal8Bit("智能镶嵌: 文件不存在且未找到同名tif/img文件: %1")
+							.arg(filePath));
+					}
+				}
+			}
+
 			systemConfig->SmartMosaic(SmartMosaicFilePath, MosaicCropFilePath);
 		}
 		else if (treeItem->text(0) == QString::fromLocal8Bit("快速镶嵌")) {
@@ -13248,7 +13619,7 @@ void IMAGEPS::loadOriginalImagesFromFolder(QTableWidget* tableWidget, QStringLis
 // 3. 卸载影像 
 void IMAGEPS::unloadImages(QTableWidget* tableWidget, QStringList& filePathList)
 {
-	QStringList firstColumnValues;
+	QSet<QString> firstColumnValues;
 	// 获取选中的所有行（避免重复）
 	QList<QTableWidgetItem*> selectedItems = tableWidget->selectedItems();
 	if (selectedItems.isEmpty()) {
@@ -13262,7 +13633,7 @@ void IMAGEPS::unloadImages(QTableWidget* tableWidget, QStringList& filePathList)
 
 		QTableWidgetItem* firstColumnItem = tableWidget->item(item->row(), 1);
 		if (firstColumnItem) {
-			firstColumnValues.append(firstColumnItem->text());   // 存储第一列的值
+			firstColumnValues.insert(firstColumnItem->text());   // 存储第一列的值（自动去重）
 		}
 	}
 
@@ -13284,12 +13655,15 @@ void IMAGEPS::unloadImages(QTableWidget* tableWidget, QStringList& filePathList)
 			}
 		}
 	}
+
+	// 如果当前查看影像界面正在显示被卸载的影像，则清除显示
+	clearImageDisplayIfNeeded(firstColumnValues);
 }
 
 // 4. 查看影像
 void IMAGEPS::viewImages(QTableWidget* tableWidget, const QStringList& filePathList)
 {
-	QStringList firstColumnValues;
+	QSet<QString> firstColumnValues;
 	// 获取选中的所有行（避免重复）
 	QList<QTableWidgetItem*> selectedItems = tableWidget->selectedItems();
 	if (selectedItems.isEmpty()) {
@@ -13303,7 +13677,7 @@ void IMAGEPS::viewImages(QTableWidget* tableWidget, const QStringList& filePathL
 
 		QTableWidgetItem* firstColumnItem = tableWidget->item(item->row(), 1);
 		if (firstColumnItem) {
-			firstColumnValues.append(firstColumnItem->text());   // 存储第一列的值 
+			firstColumnValues.insert(firstColumnItem->text());   // 存储第一列的值（自动去重）
 		}
 	}
 	displayView(ui.dockWidget_9, ui.tabWidget, 1);
@@ -13315,6 +13689,54 @@ void IMAGEPS::viewImages(QTableWidget* tableWidget, const QStringList& filePathL
 				break;
 			}
 		}
+	}
+}
+
+void IMAGEPS::clearImageDisplayIfNeeded(const QSet<QString>& imageNames, bool isVector /*= false*/)
+{
+	if (!ui.openGLWidget) {
+		return;
+	}
+
+	if (!isVector) {
+		if (ui.openGLWidget->hasImageLoaded()) {
+			QString currentImagePath = ui.openGLWidget->currentImagePath();
+			QFileInfo currentFileInfo(currentImagePath);
+			QString currentBaseName = currentFileInfo.completeBaseName();
+
+			for (const QString& filename : imageNames) {
+				if (currentBaseName == filename) {
+					ui.openGLWidget->clearImage();
+					if (ui.dockWidget_9) {
+						ui.dockWidget_9->setImageDisplayMode(false);
+					}
+					break;
+				}
+			}
+		}
+	} else {
+		if (ui.openGLWidget->hasVectorLayers()) {
+			QStringList vectorLayerNames = ui.openGLWidget->getVectorLayerNames();
+			for (const QString& filename : imageNames) {
+				if (vectorLayerNames.contains(filename)) {
+					QList<QgsVectorLayer*> layers = ui.openGLWidget->vectorLayers();
+					QgsVectorLayer* layerToRemove = nullptr;
+					for (QgsVectorLayer* layer : layers) {
+						if (layer->name() == filename) {
+							layerToRemove = layer;
+							break;
+						}
+					}
+					if (layerToRemove) {
+						ui.openGLWidget->removeVectorLayer(layerToRemove);
+					}
+				}
+			}
+		}
+	}
+
+	if (!ui.openGLWidget->hasImageLoaded() && !ui.openGLWidget->hasVectorLayers()) {
+		setView_close(ui.dockWidget_9, ui.tabWidget, 1);
 	}
 }
 
@@ -17538,14 +17960,90 @@ void IMAGEPS::on_actionOpenImageShow(QString filenamePATH)
 		QFileInfo fileInfo(filenamePATH);
 		QString baseName = fileInfo.completeBaseName();
 
-		ui.tabWidget->setTabText(1, baseName);
+		// 在打开新影像前，先清除之前的影像
+		if (ui.openGLWidget) {
+			ui.openGLWidget->clearImage();
+		}
 
-		if (ui.openGLWidget->loadImageWithOverviewCheck(filenamePATH)) {
-			ui.tabWidget->setCurrentIndex(1);
+		// 设置影像显示模式
+		if (ui.dockWidget_9) {
+			ui.dockWidget_9->setImageDisplayMode(true);
+		}
+
+		ui.tabWidget->setTabText(1, baseName);
+		ui.tabWidget->setCurrentIndex(1);
+
+		if (m_imageLoadingProgressDialog) {
+			QProgressDialog* oldDialog = m_imageLoadingProgressDialog;
+			m_imageLoadingProgressDialog = nullptr;
+			disconnect(ui.openGLWidget, nullptr, this, nullptr);
+			oldDialog->setParent(nullptr);
+			oldDialog->deleteLater();
+		}
+
+		m_imageLoadingProgressDialog = new QProgressDialog(QStringLiteral("正在加载影像..."), QStringLiteral("取消"), 0, 100);
+		m_imageLoadingProgressDialog->setWindowModality(Qt::WindowModal);
+		m_imageLoadingProgressDialog->setMinimumDuration(0);
+		m_imageLoadingProgressDialog->show();
+
+		QObject::connect(ui.openGLWidget, &QgsMapCanvasWidget::loadingProgress, this, [this](int percent, const QString& message) {
+			if (m_imageLoadingProgressDialog) {
+				m_imageLoadingProgressDialog->setValue(percent);
+				m_imageLoadingProgressDialog->setLabelText(message);
+			}
+			QCoreApplication::processEvents();
+		}, Qt::UniqueConnection);
+
+		QObject::connect(ui.openGLWidget, &QgsMapCanvasWidget::loadingFinished, this, [this](bool success, const QString& message) {
+			if (m_imageLoadingProgressDialog) {
+				m_imageLoadingProgressDialog->deleteLater();
+				m_imageLoadingProgressDialog = nullptr;
+			}
+			disconnect(ui.openGLWidget, nullptr, this, nullptr);
+			if (!success) {
+				QMessageBox::warning(nullptr, QStringLiteral("警告"), message);
+			}
+			else {
+				// 影像加载成功后更新图层切换下拉框
+				updateLayerSwitchCombo();
+			}
+		}, Qt::UniqueConnection);
+
+		if (!ui.openGLWidget->loadImageWithOverviewCheck(filenamePATH)) {
+			if (m_imageLoadingProgressDialog) {
+				m_imageLoadingProgressDialog->deleteLater();
+				m_imageLoadingProgressDialog = nullptr;
+			}
+			disconnect(ui.openGLWidget, nullptr, this, nullptr);
+			return;
 		}
 	}
 	else {
 		QMessageBox::warning(this, QStringLiteral("警告"), QStringLiteral("未选择有效图像文件"));
+	}
+}
+
+void IMAGEPS::on_actionOpenVectorShow(QString filenamePATH)
+{
+	if (!filenamePATH.isEmpty()) {
+		QFileInfo fileInfo(filenamePATH);
+		QString baseName = fileInfo.completeBaseName();
+
+		// 设置影像显示模式（与查看影像一致）
+		if (ui.dockWidget_9) {
+			ui.dockWidget_9->setImageDisplayMode(true);
+		}
+
+		ui.tabWidget->setTabText(1, baseName);
+		ui.tabWidget->setCurrentIndex(1);
+
+		if (!ui.openGLWidget->addVectorLayer(filenamePATH)) {
+			QMessageBox::warning(this, QStringLiteral("警告"), QStringLiteral("加载矢量文件失败: ") + baseName);
+			return;
+		}
+	}
+	else {
+		QMessageBox::warning(this, QStringLiteral("警告"), QStringLiteral("未选择有效矢量文件"));
 	}
 }
 
@@ -17583,6 +18081,121 @@ void IMAGEPS::onTabChanged(int index)
 	}
 	else if (index == 1) { // 图像显示标签页
 		ui.openGLWidget->update();
+	}
+}
+
+// 图层切换功能实现
+void IMAGEPS::onRasterOnTop()
+{
+	ui.openGLWidget->setLayerOrder(false);  // 修复：false 才是影像在上
+	updateLayerSwitchCombo();
+}
+
+void IMAGEPS::onVectorOnTop()
+{
+	ui.openGLWidget->setLayerOrder(true);  // 修复：true 才是矢量在上
+	updateLayerSwitchCombo();
+}
+
+QString IMAGEPS::extractLayerName(const QString& displayText)
+{
+	QString name = displayText;
+	// 移除前缀 "[影像] " 或 "[矢量] "
+	if (name.startsWith(QStringLiteral("[影像] "))) {
+		name = name.mid(5);
+	} else if (name.startsWith(QStringLiteral("[矢量] "))) {
+		name = name.mid(5);
+	}
+	// 移除后缀 " (隐藏)"
+	if (name.endsWith(QStringLiteral(" (隐藏)"))) {
+		name = name.left(name.length() - 5);
+	}
+	return name;
+}
+
+QString IMAGEPS::getFullLayerName(const QString& displayText)
+{
+	// 从显示文本中提取带类型前缀的完整名称
+	// 如 "[影像] xxx (隐藏)" -> "[影像] xxx"
+	// 如 "[矢量] xxx" -> "[矢量] xxx"
+	QString name = displayText;
+	
+	// 移除后缀 " (隐藏)"
+	if (name.endsWith(QStringLiteral(" (隐藏)"))) {
+		name = name.left(name.length() - 5);
+	}
+	
+	return name;
+}
+
+void IMAGEPS::onLayerSwitchComboChanged(int index)
+{
+	if (index < 0) return;
+	
+	QString displayText = ui.layerSwitchCombo->currentText();
+	if (displayText.isEmpty()) return;
+	
+	// 获取带类型前缀的完整名称（如 "[影像] xxx" 或 "[矢量] xxx"）
+	QString fullLayerName = getFullLayerName(displayText);
+	ui.openGLWidget->switchToLayer(fullLayerName);
+}
+
+void IMAGEPS::onToggleLayerVisibility()
+{
+	int index = ui.layerSwitchCombo->currentIndex();
+	if (index < 0) return;
+	
+	QString displayText = ui.layerSwitchCombo->currentText();
+	if (displayText.isEmpty()) return;
+	
+	// 获取带类型前缀的完整名称
+	QString fullLayerName = getFullLayerName(displayText);
+	ui.openGLWidget->toggleLayerVisibility(fullLayerName);
+	updateLayerSwitchCombo();
+}
+
+void IMAGEPS::updateLayerSwitchCombo()
+{
+	// 保存当前选中的完整图层标识（带类型前缀，如 "[影像] xxx" 或 "[矢量] xxx"）
+	QString currentFullLayerName;
+	if (ui.layerSwitchCombo->currentIndex() >= 0) {
+		currentFullLayerName = getFullLayerName(ui.layerSwitchCombo->currentText());
+	}
+	
+	ui.layerSwitchCombo->clear();
+	
+	QList<QPair<QString, bool>> layers = ui.openGLWidget->getAllLayerStatus();
+	
+	// 使用集合避免重复
+	QSet<QString> addedLayers;
+	
+	for (const auto& layer : layers) {
+		QString displayText = layer.first;
+		QString originalName = layer.first;  // 原始名称，用于 tooltip
+		if (!layer.second) {
+			displayText += QStringLiteral(" (隐藏)");
+		}
+		
+		// 避免添加重复的图层
+		if (!addedLayers.contains(displayText)) {
+			ui.layerSwitchCombo->addItem(displayText);
+			// 设置 tooltip，鼠标悬停时显示全名
+			int itemIndex = ui.layerSwitchCombo->count() - 1;
+			ui.layerSwitchCombo->setItemData(itemIndex, originalName, Qt::ToolTipRole);
+			addedLayers.insert(displayText);
+		}
+	}
+	
+	// 恢复之前选中的项（基于完整图层标识匹配，包括类型前缀）
+	if (!currentFullLayerName.isEmpty()) {
+		for (int i = 0; i < ui.layerSwitchCombo->count(); ++i) {
+			QString itemText = ui.layerSwitchCombo->itemText(i);
+			QString itemFullLayerName = getFullLayerName(itemText);
+			if (itemFullLayerName == currentFullLayerName) {
+				ui.layerSwitchCombo->setCurrentIndex(i);
+				break;
+			}
+		}
 	}
 }
 
@@ -17659,7 +18272,12 @@ bool IMAGEPS::buildPSIntersectObjCmdFile()
 			QDir dir(exeDir);
 			QString tmpPath = dir.absolutePath();
 
+#ifdef Q_OS_LINUX 
+			QDomText DEMText = doc.createTextNode(tmpPath + "/linux64/etc/globaldem/globaldem.tif");
+#else
 			QDomText DEMText = doc.createTextNode(tmpPath + "/Software/etc/globaldem/globaldem.tif");
+#endif
+			//QDomText DEMText = doc.createTextNode(tmpPath + "/Software/etc/globaldem/globaldem.tif");
 			DEM.appendChild(DEMText);
 			root.appendChild(DEM);
 		}
@@ -17671,7 +18289,12 @@ bool IMAGEPS::buildPSIntersectObjCmdFile()
 		QDir dir(exeDir);
 		QString tmpPath = dir.absolutePath();
 
+#ifdef Q_OS_LINUX 
+		QDomText DEMText = doc.createTextNode(tmpPath + "/linux64/etc/globaldem/globaldem.tif");
+#else
 		QDomText DEMText = doc.createTextNode(tmpPath + "/Software/etc/globaldem/globaldem.tif");
+#endif
+		//QDomText DEMText = doc.createTextNode(tmpPath + "/Software/etc/globaldem/globaldem.tif");
 		DEM.appendChild(DEMText);
 		root.appendChild(DEM);
 	}
@@ -17929,8 +18552,12 @@ bool IMAGEPS::buildPSIntersectObjCmdFile(QString filePath, QStringList tieFilePa
 			QString exeDir = QCoreApplication::applicationDirPath();
 			QDir dir(exeDir);
 			QString tmpPath = dir.absolutePath();
-
+#ifdef Q_OS_LINUX 
+			QDomText DEMText = doc.createTextNode(tmpPath + "/linux64/etc/globaldem/globaldem.tif");
+#else
 			QDomText DEMText = doc.createTextNode(tmpPath + "/Software/etc/globaldem/globaldem.tif");
+#endif
+			//QDomText DEMText = doc.createTextNode(tmpPath + "/Software/etc/globaldem/globaldem.tif");
 			DEM.appendChild(DEMText);
 			root.appendChild(DEM);
 		}
@@ -17941,8 +18568,12 @@ bool IMAGEPS::buildPSIntersectObjCmdFile(QString filePath, QStringList tieFilePa
 		QString exeDir = QCoreApplication::applicationDirPath();
 		QDir dir(exeDir);
 		QString tmpPath = dir.absolutePath();
-
+#ifdef Q_OS_LINUX 
+		QDomText DEMText = doc.createTextNode(tmpPath + "/linux64/etc/globaldem/globaldem.tif");
+#else
 		QDomText DEMText = doc.createTextNode(tmpPath + "/Software/etc/globaldem/globaldem.tif");
+#endif
+		//QDomText DEMText = doc.createTextNode(tmpPath + "/Software/etc/globaldem/globaldem.tif");
 		DEM.appendChild(DEMText);
 		root.appendChild(DEM);
 	}
@@ -18010,6 +18641,15 @@ bool IMAGEPS::buildPSIntersectObjCmdFile(QString filePath, QStringList tieFilePa
 		// 添加说明注释   
 		QDomComment comment2 = docsatM.createComment(QString::fromLocal8Bit("多光谱作为独立模型,也就是不和全色配对"));
 		Parameters.appendChild(comment2);
+
+		QDomElement PanImageKeyWord = doc.createElement("PanImageKeyWord");
+		PanImageKeyWord.appendChild(doc.createTextNode("PAN"));
+		Parameters.appendChild(PanImageKeyWord);
+
+		QDomElement MuxImageKeyWord = doc.createElement("MuxImageKeyWord");
+		MuxImageKeyWord.appendChild(doc.createTextNode("MSS"));
+		Parameters.appendChild(MuxImageKeyWord);
+
 		rootsatM.appendChild(Parameters);
 
 		docsatM.appendChild(rootsatM);
@@ -19129,6 +19769,56 @@ void IMAGEPS::setView(TabbedDockWidget* DockWidget, QTabWidget* tableWidget, int
 		tableWidget->tabBar()->adjustSize();
 		tableWidget->repaint();
 		QApplication::processEvents();
+	}
+}
+
+void IMAGEPS::setView_close(TabbedDockWidget* DockWidget, QTabWidget* tableWidget, int currentindex) {
+	tableWidget->setCurrentIndex(currentindex);
+	QWidget* page = tableWidget->widget(currentindex);
+	//if (tableWidget->isTabEnabled(currentindex) && page->isVisible() &&
+	//	(tableWidget->currentIndex() == currentindex))
+	{
+		tableWidget->setTabEnabled(currentindex, false);
+		tableWidget->setStyleSheet(
+			"QTabBar::tab:disabled { width: 0; color: transparent; }"
+			"QTabBar::scroller { width: 0; }"
+			"QTabBar::tab:selected {background: #00a99d; color: white;border - bottom: 2px solid #008080;}"
+		);
+		//tableWidget->setCurrentIndex(currentindex);
+
+		bool allDisabled = true;
+		for (int i = 0; i < tableWidget->count(); ++i) {
+			if (tableWidget->isTabEnabled(i)) {
+				allDisabled = false;
+				break;
+			}
+		}
+
+		if (allDisabled) {
+			DockWidget->hide(); // 全部禁用则隐藏DockWidget 
+		}
+		else {
+			// 查找并切换到下一个可用标签页
+			int nextIndex = -1;
+			for (int i = currentindex + 1; i < tableWidget->count(); ++i) {
+				if (tableWidget->isTabEnabled(i)) {
+					nextIndex = i;
+					break;
+				}
+			}
+			if (nextIndex == -1) {
+				for (int i = 0; i < currentindex; ++i) {
+					if (tableWidget->isTabEnabled(i)) {
+						nextIndex = i;
+						break;
+					}
+				}
+			}
+			if (nextIndex >= 0) {
+				tableWidget->setCurrentIndex(nextIndex);
+			}
+		}
+		return;
 	}
 }
 

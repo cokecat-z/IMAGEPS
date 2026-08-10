@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>SystemConfig</class>
  <widget class="QDialog" name="SystemConfig">
@@ -162,7 +162,7 @@ QCheckBox::indicator:disabled {
           <string notr="true">background-color: rgb(255, 255, 255);</string>
          </property>
          <property name="currentIndex">
-          <number>7</number>
+          <number>10</number>
          </property>
          <widget class="QWidget" name="page"/>
          <widget class="QWidget" name="runEnviron_Page">
@@ -333,6 +333,9 @@ QGroupBox::title {
                       <bold>false</bold>
                      </font>
                     </property>
+                    <property name="maxCount">
+                     <number>32</number>
+                    </property>
                    </widget>
                   </item>
                  </layout>
@@ -444,7 +447,7 @@ QGroupBox::title {
                 <x>0</x>
                 <y>0</y>
                 <width>828</width>
-                <height>796</height>
+                <height>797</height>
                </rect>
               </property>
               <property name="styleSheet">
@@ -1851,7 +1854,7 @@ QToolButton:pressed {
                 <x>0</x>
                 <y>0</y>
                 <width>828</width>
-                <height>796</height>
+                <height>797</height>
                </rect>
               </property>
               <layout class="QFormLayout" name="formLayout_5">
@@ -2489,7 +2492,7 @@ QGroupBox::title {
                 <x>0</x>
                 <y>0</y>
                 <width>828</width>
-                <height>796</height>
+                <height>797</height>
                </rect>
               </property>
               <property name="styleSheet">
@@ -3049,7 +3052,7 @@ QGroupBox::title {
                 <x>0</x>
                 <y>0</y>
                 <width>828</width>
-                <height>796</height>
+                <height>797</height>
                </rect>
               </property>
               <layout class="QFormLayout" name="formLayout_14">
@@ -3395,8 +3398,8 @@ QGroupBox::title {
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>459</width>
-                <height>756</height>
+                <width>828</width>
+                <height>797</height>
                </rect>
               </property>
               <property name="styleSheet">
@@ -4809,8 +4812,8 @@ QToolBox::title {
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>390</width>
-                <height>527</height>
+                <width>663</width>
+                <height>691</height>
                </rect>
               </property>
               <attribute name="label">
@@ -5045,7 +5048,7 @@ QToolButton:pressed {
                <item row="6" column="0">
                 <widget class="QLabel" name="Label_9">
                  <property name="text">
-                  <string>镶嵌线生成类型</string>
+                  <string>镶嵌线生成算法</string>
                  </property>
                 </widget>
                </item>
@@ -6046,7 +6049,7 @@ QGroupBox::title {
                 <x>0</x>
                 <y>0</y>
                 <width>378</width>
-                <height>215</height>
+                <height>214</height>
                </rect>
               </property>
               <property name="styleSheet">
@@ -6308,7 +6311,7 @@ QGroupBox::title {
                 <x>0</x>
                 <y>0</y>
                 <width>238</width>
-                <height>307</height>
+                <height>305</height>
                </rect>
               </property>
               <layout class="QGridLayout" name="gridLayout_51" columnstretch="6,1">
@@ -7012,8 +7015,8 @@ QGroupBox::title {
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>531</width>
-                <height>860</height>
+                <width>532</width>
+                <height>900</height>
                </rect>
               </property>
               <layout class="QGridLayout" name="gridLayout_52" rowstretch="6,1" columnstretch="6,1">
@@ -7865,6 +7868,74 @@ QGroupBox::title {
                      </layout>
                     </item>
                     <item>
+                     <layout class="QHBoxLayout" name="horizontalLayout_118">
+                      <item>
+                       <widget class="QLabel" name="label_115">
+                        <property name="font">
+                         <font>
+                          <family>Source Han Sans SC Medium</family>
+                          <pointsize>9</pointsize>
+                          <weight>7</weight>
+                          <italic>false</italic>
+                          <bold>false</bold>
+                         </font>
+                        </property>
+                        <property name="text">
+                         <string>亮度均衡:</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QLineEdit" name="lineEdit_61">
+                        <property name="font">
+                         <font>
+                          <family>Source Han Sans SC Medium</family>
+                          <pointsize>9</pointsize>
+                          <weight>7</weight>
+                          <italic>false</italic>
+                          <bold>false</bold>
+                         </font>
+                        </property>
+                        <property name="text">
+                         <string>100</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QLabel" name="label_117">
+                        <property name="enabled">
+                         <bool>false</bool>
+                        </property>
+                        <property name="font">
+                         <font>
+                          <family>Source Han Sans SC Medium</family>
+                          <pointsize>9</pointsize>
+                          <weight>7</weight>
+                          <italic>false</italic>
+                          <bold>false</bold>
+                         </font>
+                        </property>
+                        <property name="text">
+                         <string>*值域[10:250]*</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <spacer name="horizontalSpacer_95">
+                        <property name="orientation">
+                         <enum>Qt::Horizontal</enum>
+                        </property>
+                        <property name="sizeHint" stdset="0">
+                         <size>
+                          <width>40</width>
+                          <height>20</height>
+                         </size>
+                        </property>
+                       </spacer>
+                      </item>
+                     </layout>
+                    </item>
+                    <item>
                      <layout class="QHBoxLayout" name="horizontalLayout_97" stretch="1,1,2">
                       <item>
                        <widget class="QCheckBox" name="AdjustClearness_check">
@@ -8389,7 +8460,7 @@ QToolBox::title {
                 <x>0</x>
                 <y>0</y>
                 <width>216</width>
-                <height>254</height>
+                <height>251</height>
                </rect>
               </property>
               <attribute name="label">
@@ -8531,8 +8602,8 @@ QGroupBox::title {
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>391</width>
-                <height>306</height>
+                <width>392</width>
+                <height>307</height>
                </rect>
               </property>
               <property name="maximumSize">

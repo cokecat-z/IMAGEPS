@@ -19,8 +19,6 @@
 #include <QLockFile>
 #include <QUuid>
 #include <QtConcurrent>
-#include <gdal_priv.h>   
-#include <ogr_spatialref.h>   
 #include <QQueue>
 #include <QRadioButton>
 #include <QClipboard>

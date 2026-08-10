@@ -86,6 +86,12 @@
     <QtMoc Include="QgsMapCanvasWidget.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="imagesuperresolution.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="WebBrowserDialog.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ProjectSetting.cpp">
@@ -148,6 +154,12 @@
     <ClCompile Include="QgsMapCanvasWidget.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="imagesuperresolution.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WebBrowserDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="ProjectSetting.ui">
@@ -168,9 +180,6 @@
     <QtUic Include="SetOrthoInfo.ui">
       <Filter>Form Files\SystemConfig</Filter>
     </QtUic>
-    <QtUic Include="IMAGEPS_InfoWindow.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
     <QtUic Include="ImageCloudSnowProcessing.ui">
       <Filter>Form Files</Filter>
     </QtUic>
@@ -178,6 +187,12 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="InvalidValueHandling.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="IMAGEPS_InfoWindow.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="imagesuperresolution.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>

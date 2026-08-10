@@ -1,26 +1,38 @@
-﻿#include "ImageInfoShow.h"
-#include "IMAGEPS.h"  
-#include <QPainter>
+﻿#include <QPainter>
 #include <QDebug>
 #include <cmath>
 #include <sstream>
 #include <iomanip>
 #include <algorithm>
 
+// GDAL headers - moved from header to avoid Qt Designer crash
+#include <proj.h>
+#include "gdal.h"
+#include "gdal_priv.h"
+#include "gdal_alg.h"
+#include "cpl_conv.h"
+#include "gdal_mdreader.h"
+#include "ogr_spatialref.h"
+#include "gdalwarper.h"
+
+#include "ImageInfoShow.h"
+#include "IMAGEPS.h"
+
 ImageInfoShow::ImageInfoShow( QWidget* parent)
 	: QCustomPlot(parent)
 {
-	// 初始化GDAL 
-	GDALAllRegister();
 	m_imagePS = nullptr;
-	// 检查PROJ是否可用 
-	PJ_CONTEXT* ctx = proj_context_create();
-	if (!ctx) {
-		qWarning() << "Failed to create PROJ context";
-	}
-	else {
-		qDebug() << "PROJ initialized successfully";
-		proj_context_destroy(ctx);
+
+	if (!QCoreApplication::applicationFilePath().contains("designer", Qt::CaseInsensitive)) {
+		GDALAllRegister();
+		PJ_CONTEXT* ctx = proj_context_create();
+		if (!ctx) {
+			qWarning() << "Failed to create PROJ context";
+		}
+		else {
+			qDebug() << "PROJ initialized successfully";
+			proj_context_destroy(ctx);
+		}
 	}
 
 	// 设置QCustomPlot的基本属性 

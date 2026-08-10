@@ -6,7 +6,7 @@ IMAGEPS_InfoWindow::IMAGEPS_InfoWindow(QWidget *parent)
     : QMainWindow(parent)
 {
     ui.setupUi(this);
-	setWindowTitle(u8"IMAGEPS DESKTOP多源遥感影像智能处理系统 2026V2.6[*]");
+    setWindowTitle(u8"IMAGEPS DESKTOP多源遥感影像智能处理系统 2026V2.7[*]");
 
 	instance = this;
 	QString exeDir = QCoreApplication::applicationDirPath();
@@ -34,6 +34,21 @@ IMAGEPS_InfoWindow::IMAGEPS_InfoWindow(QWidget *parent)
 
 		InvalidValueHandl->resize(700, 180);
 	}
+
+    if (!imagesuper)
+    {
+        imagesuper = new ImageSuperResolution;
+
+        imagesuper->resize(600, 600);
+    }
+
+    if (!FileDec)
+    {
+		FileDec = new FileDecompression;
+
+		FileDec->resize(300, 150);
+    }
+
 
 	//if (!RPCTRPB)
 	//{
@@ -264,7 +279,7 @@ void IMAGEPS_InfoWindow::initWidget()
 
 	buttonGroup_model = {
 		ui.Satellitedataprocessing_btn,ui.CloudReplaceTools_btn,ui.RDModelRadarDataIn_btn,
-		ui.DSMImageProduction_btn, ui.QualityInspection_btn,ui.remotePermissionUpgradeHaspDog_btn , ui.useManual_btn
+        ui.DSMImageProduction_btn, ui.QualityInspection_btn,ui.remotePermissionUpgradeHaspDog_btn , ui.useManual_btn, ui.ImageSuperResolution_btn, ui.Imageprocessing_btn
 	};
 
 	// 定义图片路径列表（按按钮顺序匹配）
@@ -303,7 +318,9 @@ void IMAGEPS_InfoWindow::initWidget()
 	QString::fromLocal8Bit(":/resource/menu/15DSM成果精化.png"),
 	QString::fromLocal8Bit(":/resource/menu/工具/影像匀色软件.png"),
 	QString::fromLocal8Bit(":/resource/menu/gjj2.png"),
-	QString::fromLocal8Bit(":/resource/menu/子菜单/使用手册.png")
+    QString::fromLocal8Bit(":/resource/menu/子菜单/使用手册.png"),
+    QString::fromLocal8Bit(":/resource/menu/数据预处理/影像赋投影.png"),
+    QString::fromLocal8Bit(":/resource/menu/数据预处理/影像云检测.png")
 	};
 
 	// 为每个按钮设置图标
@@ -313,6 +330,8 @@ void IMAGEPS_InfoWindow::initWidget()
 	}
 	ui.remotePermissionUpgradeHaspDog_btn->setIconSize(QSize(48, 48));
 	ui.useManual_btn->setIconSize(QSize(48, 48));
+	ui.ImageSuperResolution_btnf->setVisible(false);
+	ui.ImageSuperResolution_btn->setVisible(false);
 	//ui.FieldstoShpfile_btnf->setVisible(false);
 	//ui.FieldstoShpfile_btn->setVisible(false);
 
@@ -329,7 +348,8 @@ void IMAGEPS_InfoWindow::connects()
 		}
 		ImageCloudSnowShow->close();
 		HeightAnomaly->close();
-		InvalidValueHandl->close();
+        InvalidValueHandl->close();
+        imagesuper->close();
 		//RPCTRPB->close();
 	});
 
@@ -377,7 +397,7 @@ void IMAGEPS_InfoWindow::connects()
 			QListWidgetItem *item = ui.listWidget->itemAt(pos);
 			if (!item) return;
 
-			// 获取完整项目信息（假设您存储了完整路径在item的data中）
+            // 获取完整项目信息
 			QString fullProjectPath = item->data(Qt::UserRole).toString();
 			QString projectId = item->text();
 
@@ -445,7 +465,62 @@ void IMAGEPS_InfoWindow::connects()
 		if (!PublicFunctions::validateDogLicense()) {
 			return 0;
 		}
-		InvalidValueHandl->show();
+        InvalidValueHandl->show();
+	});
+
+    connect(ui.ImageSuperResolution_btn, &QPushButton::clicked, this, [this]() {
+        // 验证许可证
+        if (!PublicFunctions::validateDogLicense()) {
+            return 0;
+        }
+        imagesuper->show();
+    });
+    connect(ui.ImageSuperResolution_btnf, &QPushButton::clicked, this, [this]() {
+        // 验证许可证
+        if (!PublicFunctions::validateDogLicense()) {
+            return 0;
+        }
+        imagesuper->show();
+    });
+
+	connect(ui.RemoteSensingImageDecompression_btn, &QPushButton::clicked, this, [this]() {
+		// 验证许可证
+		if (!PublicFunctions::validateDogLicense()) {
+			return 0;
+		}
+		FileDec->show();
+		});
+	connect(ui.RemoteSensingImageDecompression_btnf, &QPushButton::clicked, this, [this]() {
+		// 验证许可证
+		if (!PublicFunctions::validateDogLicense()) {
+			return 0;
+		}
+		FileDec->show();
+		});
+
+	connect(ui.Imageprocessing_btn, &QPushButton::clicked, this, [this]() {
+		if (!PublicFunctions::validateDogLicense()) {
+			return 0;
+		}
+		bool ok;
+		QString ip = QInputDialog::getText(this, u8"输入服务器IP", u8"请输入Web服务IP地址:", QLineEdit::Normal, "192.168.0.104", &ok);
+		if (ok && !ip.isEmpty()) {
+			QString urlStr = QString("http://%1:8888/web/IMAGEPS/#/login").arg(ip);
+			WebBrowserDialog* webDialog = new WebBrowserDialog(QUrl::fromUserInput(urlStr), this);
+			webDialog->show();
+		}
+	});
+	connect(ui.Imageprocessing_btnf, &QPushButton::clicked, this, [this]() {
+		if (!PublicFunctions::validateDogLicense()) {
+			return 0;
+		}
+		bool ok;
+		QString ip = QInputDialog::getText(this, u8"输入服务器IP", u8"请输入Web服务IP地址:", QLineEdit::Normal, "192.168.0.104", &ok);
+		if (ok && !ip.isEmpty()) {
+			QString urlStr = QString("http://%1:8888/web/IMAGEPS/#/login").arg(ip);
+			WebBrowserDialog* webDialog = new WebBrowserDialog(QUrl::fromUserInput(urlStr), this);
+			webDialog->show();
+		}
 	});
 
 	//connect(ui.Rpb2Rpc_btn, &QPushButton::clicked, this, [this]() {
@@ -510,7 +585,7 @@ void IMAGEPS_InfoWindow::connects()
 		window->showMaximized();
 	});
 
-	connect(ui.useManual_btn, &QPushButton::clicked, this, [this]() {
+    connect(ui.useManual_btn, &QPushButton::clicked, this, []() {
 		// 验证许可证
 		if (!PublicFunctions::validateDogLicense()) {
 			return 0;
@@ -706,12 +781,12 @@ void IMAGEPS_InfoWindow::connects()
 		//	ui.ImageResampling_btnf
 		//}},
 		
-		//遥感影像解压缩
-		{"PSUnzipTool.exe", {
-			Map_mainToolBarAction.value("RemoteSensingImageDecompression_action",  nullptr),
-			ui.RemoteSensingImageDecompression_btn,
-			ui.RemoteSensingImageDecompression_btnf
-		}},
+		////遥感影像解压缩
+		//{"PSUnzipTool.exe", {
+		//	Map_mainToolBarAction.value("RemoteSensingImageDecompression_action",  nullptr),
+		//	ui.RemoteSensingImageDecompression_btn,
+		//	ui.RemoteSensingImageDecompression_btnf
+		//}},
 
    //     //影像常规裁切
    //     {"PSImageCropTool.exe", {
@@ -1153,9 +1228,16 @@ void IMAGEPS_InfoWindow::startToolProcess(const QString& toolName)
 	if (!PublicFunctions::validateDogLicense()) {
 		return;
 	}
+#ifdef Q_OS_LINUX 
+	// 构建完整的工具路径 
+	QString toolPath = IMAGEPS_InfoWindow::instance->appDirPath +
+		QString::fromLocal8Bit("/linux64/") + toolName;
+#else
 	// 构建完整的工具路径 
 	QString toolPath = IMAGEPS_InfoWindow::instance->appDirPath +
 		QString::fromLocal8Bit("/Software/") + toolName;
+#endif
+
 	QProcess* process = new QProcess(this);
 	process->start(toolPath);
 }
@@ -1198,8 +1280,17 @@ void IMAGEPS_InfoWindow::connectActionToTool(const QString& toolName, QAction* a
 			if (!PublicFunctions::validateDogLicense()) {
 				return 0;
 			}
+			//QString fullToolPath = IMAGEPS_InfoWindow::instance->appDirPath +
+			//	QString::fromLocal8Bit("/Software/") + toolName;
+#ifdef Q_OS_LINUX 
+			// 构建完整的工具路径 
+			QString fullToolPath = IMAGEPS_InfoWindow::instance->appDirPath +
+				QString::fromLocal8Bit("/linux64/") + toolName;
+#else
+			// 构建完整的工具路径 
 			QString fullToolPath = IMAGEPS_InfoWindow::instance->appDirPath +
 				QString::fromLocal8Bit("/Software/") + toolName;
+#endif
 			QProcess* process = new QProcess(this);
 			process->start(fullToolPath);
 		});
@@ -1214,8 +1305,17 @@ void IMAGEPS_InfoWindow::connectButtonToTool(const QString& toolName, QPushButto
 			if (!PublicFunctions::validateDogLicense()) {
 				return 0;
 			}
+			//QString fullToolPath = IMAGEPS_InfoWindow::instance->appDirPath +
+			//	QString::fromLocal8Bit("/Software/") + toolName;
+#ifdef Q_OS_LINUX 
+			// 构建完整的工具路径 
+			QString fullToolPath = IMAGEPS_InfoWindow::instance->appDirPath +
+				QString::fromLocal8Bit("/linux64/") + toolName;
+#else
+			// 构建完整的工具路径 
 			QString fullToolPath = IMAGEPS_InfoWindow::instance->appDirPath +
 				QString::fromLocal8Bit("/Software/") + toolName;
+#endif
 			QProcess* process = new QProcess(this);
 			process->start(fullToolPath);
 		});

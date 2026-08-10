@@ -14,14 +14,9 @@
 #include <iomanip>  
 #include <QXmlStreamReader>
 #include <QThread>
-#include <proj.h>
-#include "gdal.h"   
-#include "gdal_priv.h"  
-#include "gdal_alg.h"
-#include "cpl_conv.h"
-#include "gdal_mdreader.h"
-#include "ogr_spatialref.h"
-#include "gdalwarper.h"
+// GDAL classes - forward declarations to avoid Qt Designer crash
+class GDALDataset;
+class OGRSpatialReference;
 #include <QRect>
 #include <QSet>
 

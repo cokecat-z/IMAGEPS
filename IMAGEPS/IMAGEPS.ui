@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>IMAGEPSClass</class>
  <widget class="QMainWindow" name="IMAGEPSClass">
@@ -14,7 +14,7 @@
    <font>
     <family>Source Han Sans SC Medium</family>
     <pointsize>9</pointsize>
-    <weight>62</weight>
+    <weight>63</weight>
     <italic>false</italic>
     <bold>true</bold>
    </font>
@@ -35,7 +35,7 @@ TabbedDockWidget {
 QTableWidget {
     background-color: #f2f2f2;
     border: none;
-    gridline-color: transparent;
+    gridline-color: #d0d0d0;
 }
  
 /* 表头样式 - 带省略号效果 */
@@ -89,8 +89,9 @@ QHeaderView::section:!selected {
 
 /* 单元格设置 */
 QTableWidget::item {
-    border: none;
+    border: 1px solid #d0d0d0;
     margin: 0;
+    padding: 2px;
 }
  
 /* 选中单元格效果 */
@@ -186,7 +187,7 @@ QMessageBox QPushButton:pressed {
          </property>
          <property name="minimumSize">
           <size>
-           <width>48</width>
+           <width>57</width>
            <height>28</height>
           </size>
          </property>
@@ -331,7 +332,7 @@ TabbedDockWidget &gt; QWidget {
 QTableWidget {
     background-color: #f2f2f2;
     border: none;
-    gridline-color: transparent;
+    gridline-color: #d0d0d0;
 }</string>
          </property>
          <property name="features">
@@ -2252,6 +2253,68 @@ QTableWidget {
                </item>
               </layout>
              </widget>
+             <widget class="QWidget" name="tab_31">
+              <attribute name="title">
+               <string>矢量数据列表</string>
+              </attribute>
+              <layout class="QGridLayout" name="gridLayout_40">
+               <property name="leftMargin">
+                <number>0</number>
+               </property>
+               <property name="topMargin">
+                <number>0</number>
+               </property>
+               <property name="rightMargin">
+                <number>0</number>
+               </property>
+               <property name="bottomMargin">
+                <number>0</number>
+               </property>
+               <property name="spacing">
+                <number>0</number>
+               </property>
+               <item row="0" column="0">
+                <widget class="QTableWidget" name="ShpDataList_TableW">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="minimumSize">
+                  <size>
+                   <width>1</width>
+                   <height>1</height>
+                  </size>
+                 </property>
+                 <property name="contextMenuPolicy">
+                  <enum>Qt::CustomContextMenu</enum>
+                 </property>
+                 <attribute name="horizontalHeaderDefaultSectionSize">
+                  <number>93</number>
+                 </attribute>
+                 <attribute name="verticalHeaderDefaultSectionSize">
+                  <number>25</number>
+                 </attribute>
+                 <column>
+                  <property name="text">
+                   <string>序号</string>
+                  </property>
+                 </column>
+                 <column>
+                  <property name="text">
+                   <string>矢量名</string>
+                  </property>
+                 </column>
+                 <column>
+                  <property name="text">
+                   <string/>
+                  </property>
+                 </column>
+                </widget>
+               </item>
+              </layout>
+             </widget>
             </widget>
            </item>
           </layout>
@@ -2266,7 +2329,7 @@ QTableWidget {
          </property>
          <property name="minimumSize">
           <size>
-           <width>44</width>
+           <width>57</width>
            <height>43</height>
           </size>
          </property>
@@ -2345,7 +2408,7 @@ QDockWidget &gt; QWidget {
 QTableWidget {
     background-color: #f2f2f2;
     border: none;
-    gridline-color: transparent;
+    gridline-color: #d0d0d0;
 }</string>
          </property>
          <property name="features">
@@ -2378,7 +2441,7 @@ QTableWidget {
         </property>
         <property name="minimumSize">
          <size>
-          <width>44</width>
+          <width>57</width>
           <height>43</height>
          </size>
         </property>
@@ -2512,7 +2575,7 @@ TabbedDockWidget &gt; QWidget {
 QTableWidget {
     background-color: #f2f2f2;
     border: none;
-    gridline-color: transparent;
+    gridline-color: #d0d0d0;
 }</string>
         </property>
         <property name="features">
@@ -2797,9 +2860,115 @@ QTableWidget {
              <attribute name="title">
               <string/>
              </attribute>
-             <layout class="QGridLayout" name="gridLayout_20">
-              <item row="0" column="0">
-               <widget class="QgsMapCanvasWidget" name="openGLWidget">
+             <layout class="QVBoxLayout" name="verticalLayout_tab16">
+              <property name="spacing">
+               <number>0</number>
+              </property>
+              <property name="leftMargin">
+               <number>0</number>
+              </property>
+              <property name="topMargin">
+               <number>0</number>
+              </property>
+              <property name="rightMargin">
+               <number>0</number>
+              </property>
+              <property name="bottomMargin">
+               <number>0</number>
+              </property>
+              <item>
+               <widget class="QFrame" name="layerToolBar">
+                <property name="frameShape">
+                 <enum>QFrame::StyledPanel</enum>
+                </property>
+                <property name="frameShadow">
+                 <enum>QFrame::Raised</enum>
+                </property>
+                <layout class="QHBoxLayout" name="horizontalLayout_layerTools">
+                 <property name="leftMargin">
+                  <number>5</number>
+                 </property>
+                 <property name="topMargin">
+                  <number>3</number>
+                 </property>
+                 <property name="rightMargin">
+                  <number>5</number>
+                 </property>
+                 <property name="bottomMargin">
+                  <number>3</number>
+                 </property>
+                 <item>
+                  <widget class="QLabel" name="layerToolLabel">
+                   <property name="text">
+                    <string>图层切换：</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QPushButton" name="btnRasterOnTop">
+                   <property name="toolTip">
+                    <string>影像在上层</string>
+                   </property>
+                   <property name="text">
+                    <string>影像在上</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QPushButton" name="btnVectorOnTop">
+                   <property name="toolTip">
+                    <string>矢量在上层</string>
+                   </property>
+                   <property name="text">
+                    <string>矢量在上</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="Line" name="line_layerSeparator">
+                   <property name="orientation">
+                    <enum>Qt::Vertical</enum>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QComboBox" name="layerSwitchCombo">
+                   <property name="toolTip">
+                    <string>选择要显示的图层</string>
+                   </property>
+                   <property name="placeholderText">
+                    <string>选择图层...</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QPushButton" name="btnToggleLayer">
+                   <property name="toolTip">
+                    <string>切换图层可见性</string>
+                   </property>
+                   <property name="text">
+                    <string>显示/隐藏</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <spacer name="horizontalSpacer_layerTools">
+                   <property name="orientation">
+                    <enum>Qt::Horizontal</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>40</width>
+                     <height>20</height>
+                    </size>
+                   </property>
+                  </spacer>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+              <item>
+               <widget class="QgsMapCanvasWidget" name="openGLWidget" native="true">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
                   <horstretch>0</horstretch>
@@ -3033,16 +3202,24 @@ TabbedDockWidget::close-button:hover {
     background: rgba(255, 255, 255, 0.2);
 }
  
-QTableWidget {
-    background-color: #f2f2f2;
-    border: none;
-    gridline-color: transparent;
-}
 TabbedDockWidget &gt; QWidget {
     border: 1px solid #000000;
     border-top: none;
     border-radius: 0 0 4px 4px;
     padding: 4px;
+}
+
+QTableWidget {
+    background-color: #f2f2f2;
+    border: none;
+    gridline-color: #d0d0d0;
+}
+
+/* 单元格设置 */
+QTableWidget::item {
+    border: 1px solid #d0d0d0;
+    margin: 0;
+    padding: 2px;
 }
 
 /* 应用于所有输入控件 */
@@ -3110,6 +3287,9 @@ QLineEdit {
              </property>
              <property name="contextMenuPolicy">
               <enum>Qt::CustomContextMenu</enum>
+             </property>
+             <property name="styleSheet">
+              <string notr="true"/>
              </property>
              <property name="tabPosition">
               <enum>QTabWidget::South</enum>
@@ -3261,7 +3441,7 @@ QLineEdit {
 QTableView {
     background-color: #f2f2f2;
     border: none;
-    gridline-color: transparent;
+    gridline-color: #d0d0d0;
 }
  
 /* 表头样式 - 带省略号效果 */
@@ -3315,8 +3495,9 @@ QHeaderView::section:!selected {
 
 /* 单元格设置 */
 QTableView::item {
-    border: none;
+    border: 1px solid #d0d0d0;
     margin: 0;
+    padding: 2px;
 }
  
 /* 选中单元格效果 */
@@ -3445,7 +3626,7 @@ QTableView::item:alternate {
 QTableView {
     background-color: #f2f2f2;
     border: none;
-    gridline-color: transparent;
+    gridline-color: #d0d0d0;
 }
  
 /* 表头样式 - 带省略号效果 */
@@ -3499,8 +3680,9 @@ QHeaderView::section:!selected {
 
 /* 单元格设置 */
 QTableView::item {
-    border: none;
+    border: 1px solid #d0d0d0;
     margin: 0;
+    padding: 2px;
 }
  
 /* 选中单元格效果 */
@@ -3705,7 +3887,7 @@ QTreeWidget::item:selected {
         <widget class="QDockWidget" name="pointsInfoList_DockW">
          <property name="minimumSize">
           <size>
-           <width>44</width>
+           <width>57</width>
            <height>28</height>
           </size>
          </property>
@@ -3777,7 +3959,7 @@ QDockWidget &gt; QWidget {
 QTableWidget {
     background-color: #f2f2f2;
     border: none;
-    gridline-color: transparent;
+    gridline-color: #d0d0d0;
 }</string>
          </property>
          <property name="floating">
@@ -4023,7 +4205,7 @@ QGroupBox::title {
        </property>
        <property name="minimumSize">
         <size>
-         <width>44</width>
+         <width>57</width>
          <height>32</height>
         </size>
        </property>
@@ -4160,7 +4342,7 @@ TabbedDockWidget &gt; QWidget {
 QTableWidget {
     background-color: #f2f2f2;
     border: none;
-    gridline-color: transparent;
+    gridline-color: #d0d0d0;
 }</string>
        </property>
        <property name="features">
@@ -4410,7 +4592,7 @@ QTableWidget {
              <font>
               <family>Source Han Sans SC Medium</family>
               <pointsize>9</pointsize>
-              <weight>62</weight>
+              <weight>63</weight>
               <italic>false</italic>
               <bold>true</bold>
              </font>
@@ -4471,7 +4653,7 @@ QTableWidget {
              <font>
               <family>Source Han Sans SC Medium</family>
               <pointsize>9</pointsize>
-              <weight>62</weight>
+              <weight>63</weight>
               <italic>false</italic>
               <bold>true</bold>
              </font>
@@ -4493,7 +4675,7 @@ QTableWidget {
              <font>
               <family>Source Han Sans SC Medium</family>
               <pointsize>9</pointsize>
-              <weight>62</weight>
+              <weight>63</weight>
               <italic>false</italic>
               <bold>true</bold>
              </font>
@@ -4524,7 +4706,7 @@ QTableWidget {
            <font>
             <family>Source Han Sans SC Medium</family>
             <pointsize>9</pointsize>
-            <weight>62</weight>
+            <weight>63</weight>
             <italic>false</italic>
             <bold>true</bold>
            </font>
@@ -4546,7 +4728,7 @@ QTableWidget {
      <x>0</x>
      <y>0</y>
      <width>1209</width>
-     <height>43</height>
+     <height>41</height>
     </rect>
    </property>
    <property name="sizePolicy">
@@ -4632,11 +4814,6 @@ QMenu::separator {
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
   <customwidget>
-   <class>GLDisplayWidget</class>
-   <extends>QOpenGLWidget</extends>
-   <header>GLDisplayWidget.h</header>
-  </customwidget>
-  <customwidget>
    <class>QgsMapCanvasWidget</class>
    <extends>QWidget</extends>
    <header>QgsMapCanvasWidget.h</header>
@@ -4654,8 +4831,6 @@ QMenu::separator {
    <container>1</container>
   </customwidget>
  </customwidgets>
- <resources>
-  <include location="../bin/resource/imageps.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

@@ -1,7 +1,18 @@
-﻿#include "MeasurementareaShow.h"   
-#include "IMAGEPS.h"  
-#include <QDebug>   
+﻿#include <QDebug>
 #include <cmath>
+
+// GDAL headers - moved from header to avoid Qt Designer crash
+#include <proj.h>
+#include "gdal.h"
+#include "gdal_priv.h"
+#include "gdal_alg.h"
+#include "cpl_conv.h"
+#include "gdal_mdreader.h"
+#include "ogr_spatialref.h"
+#include "gdalwarper.h"
+
+#include "MeasurementareaShow.h"   
+#include "IMAGEPS.h"
 
 //MeasurementareaShow* MeasurementareaShow::Measurementareainstance = nullptr;
 
@@ -17,17 +28,16 @@ MeasurementareaShow::MeasurementareaShow(IMAGEPS* parentImagePS, QWidget* parent
 	}
 	//Measurementareainstance = this;
 
-	// 初始化GDAL
-	GDALAllRegister();
-
-	// 检查PROJ是否可用 
-	PJ_CONTEXT* ctx = proj_context_create();
-	if (!ctx) {
-		qWarning() << "Failed to create PROJ context";
-	}
-	else {
-		qDebug() << "PROJ initialized successfully";
-		proj_context_destroy(ctx);
+	if (!QCoreApplication::applicationFilePath().contains("designer", Qt::CaseInsensitive)) {
+		GDALAllRegister();
+		PJ_CONTEXT* ctx = proj_context_create();
+		if (!ctx) {
+			qWarning() << "Failed to create PROJ context";
+		}
+		else {
+			qDebug() << "PROJ initialized successfully";
+			proj_context_destroy(ctx);
+		}
 	}
 
 	m_currentImageTypeFilter = QString::fromLocal8Bit("所有类型");

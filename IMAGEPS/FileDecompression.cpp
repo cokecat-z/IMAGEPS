@@ -1,13 +1,12 @@
-﻿#include "InvalidValueHandling.h"
+﻿#include "FileDecompression.h"
 
-//InvalidValueHandling* InvalidValueHandling::instance = nullptr;
 
-InvalidValueHandling::InvalidValueHandling(QWidget *parent)
+FileDecompression::FileDecompression(QWidget *parent)
 	: QDialog(parent)
 {
 	ui.setupUi(this);
-	setWindowTitle(QString::fromLocal8Bit("无效值处理"));
-	setWindowIcon(QIcon(u8":/resource/menu/工具/无效值处理.png"));
+	setWindowTitle(QString::fromLocal8Bit("文件解压缩"));
+	setWindowIcon(QIcon(u8":/resource/menu/工具/遥感影像解压缩.png"));
 
 	QString exeDir = QCoreApplication::applicationDirPath();
 	QDir dir(exeDir);
@@ -17,23 +16,21 @@ InvalidValueHandling::InvalidValueHandling(QWidget *parent)
 	connects();
 }
 
-InvalidValueHandling::~InvalidValueHandling()
+FileDecompression::~FileDecompression()
 {}
 
-void InvalidValueHandling::initWidget()
+void FileDecompression::initWidget()
 {
 	//setWindowFlags(Qt::Dialog | Qt::MSWindowsFixedSizeDialogHint);
 	setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint); // 移除帮助按钮
 
 	buttonGroup_model = {
-		ui.Invalidvaluereplacement_btn, ui.ImageZeroValueProcessing_btn , ui.Invalidvaluelookup_btn
+		ui.FileDecompressionTool_btn, ui.DataScheduledDecompression_btn 
 	};
 
 	QStringList iconPaths = {
-		QString::fromLocal8Bit(":/resource/menu/工具/无效值替换.png"),
-		QString::fromLocal8Bit(":/resource/menu/子菜单/影像零值处理.png"),
-		/*QString::fromLocal8Bit(":/resource/menu/工具/影像零值处理(白点)并行版.png"),*/
-		QString::fromLocal8Bit(":/resource/menu/工具/无效值查找.png")
+		QString::fromLocal8Bit(":/resource/menu/工具/DEM镶嵌.png"),
+		QString::fromLocal8Bit(":/resource/menu/工具/遥感影像解压缩.png")
 	};
 
 	// 为每个按钮设置图标
@@ -43,14 +40,14 @@ void InvalidValueHandling::initWidget()
 	}
 }
 
-void InvalidValueHandling::connects() {
+void FileDecompression::connects() {
 
 	m_toolConnections = {
-		////无效值替换
-		//{"PSImageValueRelaceTool.exe", {
-		//	ui.Invalidvaluereplacement_btn,
-		//	ui.Invalidvaluereplacement_btnf
-		//}},
+		//无效值替换
+		{"FileDecompressionTool.exe", {
+			ui.FileDecompressionTool_btn,
+			ui.FileDecompressionTool_btnf
+		}},
 
 		////影像零值处理(白点)
 		//{"PSWhiteDotEraseTool.exe", {
@@ -72,17 +69,10 @@ void InvalidValueHandling::connects() {
 	};
 
 	m_moduleConnections = {
-		//无效值查找
-		{"PSHoleCheckTool.exe", {
-			ui.Invalidvaluereplacement_btn,
-			ui.Invalidvaluereplacement_btnf
-		}},
-
 		//影像零值处理(白点)
-		//{"PSWhiteDotEraseTool.exe", {
-		{"PSWhiteDotErase.exe", {
-			ui.ImageZeroValueProcessing_btn,
-			ui.ImageZeroValueProcessing_btnf
+		{"DataScheduledDecompression.exe", {
+			ui.DataScheduledDecompression_btn,
+			ui.DataScheduledDecompression_btnf
 		}}
 	};
 
@@ -99,7 +89,7 @@ void InvalidValueHandling::connects() {
 				if (button) {
 					connect(button, &QPushButton::clicked, this, [=]() {
 						QString fullToolPath = this->appDirPath +
-							QString::fromLocal8Bit("/Software/") + it.key();
+							QString::fromLocal8Bit("/FileDecompression/standalone/") + it.key();
 						QProcess* process = new QProcess(this);
 						process->start(fullToolPath);
 					});
@@ -125,7 +115,7 @@ void InvalidValueHandling::connects() {
 							return 0;
 						}
 						QString fullToolPath = this->appDirPath +
-							"/" + it.key();
+							"/FileDecompression/timer/" + it.key();
 						QProcess* process = new QProcess(this);
 						process->start(fullToolPath);
 					});
@@ -139,7 +129,7 @@ void InvalidValueHandling::connects() {
 							return 0;
 						}
 						QString fullToolPath = this->appDirPath +
-							"/" + it.key();
+							"/FileDecompression/timer/" + it.key();
 						QProcess* process = new QProcess(this);
 						process->start(fullToolPath);
 					});

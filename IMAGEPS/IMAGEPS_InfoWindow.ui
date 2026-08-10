@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>IMAGEPS_InfoWindowClass</class>
  <widget class="QMainWindow" name="IMAGEPS_InfoWindowClass">
@@ -27,7 +27,6 @@
        <font>
         <family>思源黑体 Medium</family>
         <pointsize>48</pointsize>
-        <weight>7</weight>
         <italic>false</italic>
         <bold>false</bold>
        </font>
@@ -97,27 +96,8 @@
            <layout class="QFormLayout" name="formLayout">
             <item row="0" column="0">
              <layout class="QGridLayout" name="gridLayout_6">
-              <item row="0" column="1" alignment="Qt::AlignHCenter">
-               <widget class="QPushButton" name="RDModelRadarDataIn_btn">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="minimumSize">
-                 <size>
-                  <width>80</width>
-                  <height>81</height>
-                 </size>
-                </property>
-                <property name="text">
-                 <string/>
-                </property>
-               </widget>
-              </item>
-              <item row="0" column="2" alignment="Qt::AlignHCenter">
-               <widget class="QPushButton" name="CloudReplaceTools_btn">
+              <item row="0" column="5">
+               <widget class="QPushButton" name="ImageSuperResolution_btn">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                   <horstretch>0</horstretch>
@@ -138,16 +118,6 @@
                 </property>
                 <property name="text">
                  <string/>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="0">
-               <widget class="QPushButton" name="Satellitedataprocessing_btnf">
-                <property name="text">
-                 <string>卫星数据处理</string>
-                </property>
-                <property name="flat">
-                 <bool>true</bool>
                 </property>
                </widget>
               </item>
@@ -173,6 +143,16 @@
                 </property>
                 <property name="text">
                  <string/>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="3">
+               <widget class="QPushButton" name="DSMImageProduction_btnf">
+                <property name="text">
+                 <string>立体数据处理</string>
+                </property>
+                <property name="flat">
+                 <bool>true</bool>
                 </property>
                </widget>
               </item>
@@ -211,6 +191,51 @@
                 </property>
                </widget>
               </item>
+              <item row="1" column="2">
+               <widget class="QPushButton" name="CloudReplaceTools_btnf">
+                <property name="text">
+                 <string>影像编辑处理</string>
+                </property>
+                <property name="flat">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="2" alignment="Qt::AlignHCenter">
+               <widget class="QPushButton" name="CloudReplaceTools_btn">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>80</width>
+                  <height>81</height>
+                 </size>
+                </property>
+                <property name="sizeIncrement">
+                 <size>
+                  <width>80</width>
+                  <height>80</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string/>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="5">
+               <widget class="QPushButton" name="ImageSuperResolution_btnf">
+                <property name="text">
+                 <string>影像重建</string>
+                </property>
+                <property name="flat">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
               <item row="1" column="1">
                <widget class="QPushButton" name="RDModelRadarDataIn_btnf">
                 <property name="sizePolicy">
@@ -227,26 +252,6 @@
                 </property>
                 <property name="text">
                  <string>SAR数据预处理</string>
-                </property>
-                <property name="flat">
-                 <bool>true</bool>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="3">
-               <widget class="QPushButton" name="DSMImageProduction_btnf">
-                <property name="text">
-                 <string>立体数据处理</string>
-                </property>
-                <property name="flat">
-                 <bool>true</bool>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="2">
-               <widget class="QPushButton" name="CloudReplaceTools_btnf">
-                <property name="text">
-                 <string>影像编辑处理</string>
                 </property>
                 <property name="flat">
                  <bool>true</bool>
@@ -275,6 +280,64 @@
                 </property>
                 <property name="text">
                  <string/>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="0">
+               <widget class="QPushButton" name="Satellitedataprocessing_btnf">
+                <property name="text">
+                 <string>卫星数据处理</string>
+                </property>
+                <property name="flat">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="1" alignment="Qt::AlignHCenter">
+               <widget class="QPushButton" name="RDModelRadarDataIn_btn">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>80</width>
+                  <height>81</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string/>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="6">
+               <widget class="QPushButton" name="Imageprocessing_btn">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>80</width>
+                  <height>81</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string/>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="6">
+               <widget class="QPushButton" name="Imageprocessing_btnf">
+                <property name="text">
+                 <string>影像处理</string>
+                </property>
+                <property name="flat">
+                 <bool>true</bool>
                 </property>
                </widget>
               </item>
@@ -1222,7 +1285,7 @@
      <x>0</x>
      <y>0</y>
      <width>1777</width>
-     <height>24</height>
+     <height>23</height>
     </rect>
    </property>
    <property name="styleSheet">
@@ -1253,8 +1316,6 @@
   <tabstop>Satellitedataprocessing_btn</tabstop>
   <tabstop>QualityInspection_btn</tabstop>
  </tabstops>
- <resources>
-  <include location="../bin/resource/imageps.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

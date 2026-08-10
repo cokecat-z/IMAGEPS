@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|x64">
@@ -31,7 +31,7 @@
   </ImportGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'" Label="QtSettings">
     <QtInstall>5.15.13_msvc2022_64</QtInstall>
-    <QtModules>core;xml;gui;widgets;printsupport;concurrent;network;svg</QtModules>
+    <QtModules>core;xml;network;gui;svg;widgets;printsupport;concurrent;webengine;webenginewidgets</QtModules>
     <QtBuildConfig>release</QtBuildConfig>
     <QtQMLDebugEnable>false</QtQMLDebugEnable>
     <Qt5qmake>D:/test/OSGeo4W/apps/Qt5/bin/qmake.exe</Qt5qmake>
@@ -40,7 +40,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="QtSettings">
     <QtInstall>5.15.13_msvc2022_64</QtInstall>
-    <QtModules>core;xml;gui;widgets;printsupport;concurrent;network;svg</QtModules>
+    <QtModules>core;xml;network;gui;svg;widgets;printsupport;concurrent;webengine;webenginewidgets</QtModules>
     <QtBuildConfig>release</QtBuildConfig>
     <QtQMLDebugEnable>false</QtQMLDebugEnable>
     <Qt5qmake>D:/test/OSGeo4W/apps/Qt5/bin/qmake.exe</Qt5qmake>
@@ -128,7 +128,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="DataModelConfig.cpp" />
+    <ClCompile Include="FileDecompression.cpp" />
     <ClCompile Include="GLDisplayWidget.cpp" />
+    <ClCompile Include="imagesuperresolution.cpp" />
     <ClCompile Include="QgsMapCanvasWidget.cpp" />
     <ClCompile Include="HeightAnomalyProcessing.cpp" />
     <ClCompile Include="ImageCloudSnowProcessing.cpp" />
@@ -146,7 +148,9 @@
     <ClCompile Include="SimpleToolS.cpp" />
     <ClCompile Include="SystemConfig.cpp" />
     <ClCompile Include="TabbedDockWidget.cpp" />
+    <ClCompile Include="WebBrowserDialog.cpp" />
     <QtUic Include="DataModelConfig.ui" />
+    <QtUic Include="FileDecompression.ui" />
     <QtUic Include="HeightAnomalyProcessing.ui" />
     <QtUic Include="ImageCloudSnowProcessing.ui" />
     <QtUic Include="IMAGEPS.ui" />
@@ -159,6 +163,7 @@
       <QtMocFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(Filename).moc</QtMocFileName>
     </ClCompile>
     <QtUic Include="IMAGEPS_InfoWindow.ui" />
+    <QtUic Include="imagesuperresolution.ui" />
     <QtUic Include="InvalidValueHandling.ui" />
     <QtUic Include="ProjectSetting.ui" />
     <QtUic Include="SetOrthoInfo.ui" />
@@ -172,11 +177,14 @@
     <QtMoc Include="SystemConfig.h" />
   </ItemGroup>
   <ItemGroup>
+    <QtMoc Include="WebBrowserDialog.h" />
     <QtMoc Include="NonEditableModel.h" />
     <QtMoc Include="IMAGEPS_InfoWindow.h" />
     <QtMoc Include="ImageCloudSnowProcessing.h" />
     <QtMoc Include="HeightAnomalyProcessing.h" />
     <QtMoc Include="InvalidValueHandling.h" />
+    <QtMoc Include="imagesuperresolution.h" />
+    <QtMoc Include="FileDecompression.h" />
     <ClInclude Include="Logger.h" />
     <ClInclude Include="PublicStruct.h" />
     <QtMoc Include="qcustomplot.h" />

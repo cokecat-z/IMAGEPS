@@ -4,7 +4,6 @@
 #include <QGraphicsView>
 #include <QGraphicsScene>
 #include <QGraphicsPixmapItem>
-#include "gdal_priv.h"
 
 //struct ImageData {
 //	QPixmap pixmap;

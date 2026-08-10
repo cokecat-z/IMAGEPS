@@ -6,24 +6,39 @@
 #include <QFutureWatcher>
 #include <QHBoxLayout>
 #include <QMessageBox>
+#include <QList>
 #include <limits>
 
-// QGIS headers
-#include <qgis.h>
-#include <qgsmapcanvas.h>
-#include <qgsrasterlayer.h>
-#include <qgsmaptoolpan.h>
-#include <qgsmaptoolzoom.h>
-#include <qgsrasterdataprovider.h>
-#include <qgsrasterrenderer.h>
-#include <qgssinglebandgrayrenderer.h>
-#include <qgsmultibandcolorrenderer.h>
-#include <qgscontrastenhancement.h>
-#include <qgsrastertransparency.h>
+// QGIS classes - forward declarations to avoid Qt Designer crash
+class QgsMapCanvas;
+class QgsMapToolPan;
+class QgsMapToolZoom;
+class QgsRasterLayer;
+class QgsRasterDataProvider;
+class QgsRasterRenderer;
+class QgsSingleBandGrayRenderer;
+class QgsMultiBandColorRenderer;
+class QgsContrastEnhancement;
+class QgsRasterTransparency;
+class QgsRectangle;
+class QgsVectorLayer;
+class QgsFeature;
+class QgsGeometry;
+class QgsSymbol;
+class QgsRenderer;
+class QgsLayerTree;
+class QgsLayerTreeModel;
+class QgsLayerTreeLayer;
+class QgsProject;
+class QgsCoordinateReferenceSystem;
+class QgsCoordinateTransform;
+class QgsMarkerSymbol;
+class QgsLineSymbol;
+class QgsFillSymbol;
+class QgsSingleSymbolRenderer;
+class QgsMapLayer;
 
-// GDAL headers
-#include "gdal_priv.h"
-#include "cpl_progress.h"
+
 
 class QgsMapCanvasWidget : public QWidget
 {
@@ -39,12 +54,37 @@ public:
     bool hasImageLoaded() const { return m_currentRasterLayer != nullptr; }
     QString currentImagePath() const { return m_currentImagePath; }
 
+    // Vector layer functions
+    bool addVectorLayer(const QString& filePath);
+    bool removeVectorLayer(QgsVectorLayer* layer);
+    void clearVectorLayers();
+    QList<QgsVectorLayer*> vectorLayers() const { return m_vectorLayers; }
+    bool hasVectorLayers() const { return !m_vectorLayers.isEmpty(); }
+    void setVectorLayerVisibility(QgsVectorLayer* layer, bool visible);
+    void setVectorLayerOpacity(QgsVectorLayer* layer, double opacity);
+    void setLayerOrder(bool rasterOnTop);
+    bool checkSpatialReferenceMatch(QgsVectorLayer* vectorLayer) const;
+
+    // Layer switch functions
+    bool hasRasterLayer() const;
+    QString getRasterLayerName() const;
+    QStringList getVectorLayerNames() const;
+    bool switchToLayer(const QString& layerName);
+    bool toggleLayerVisibility(const QString& layerName);
+    QList<QPair<QString, bool>> getAllLayerStatus() const;
+
 signals:
     void imageLoaded(bool success, const QString& message);
     void overviewBuildFinished(bool success);
+    void loadingProgress(int percent, const QString& message);
+    void loadingStarted(const QString& message);
+    void loadingFinished(bool success, const QString& message);
+    void vectorLayerAdded(QgsVectorLayer* layer, bool success);
+    void vectorLayerRemoved(int count);
 
 private slots:
     void onOverviewBuildFinished();
+    void onVectorLayerVisibilityChanged(bool visible);
 
 private:
     // QGIS components
@@ -52,10 +92,18 @@ private:
     QgsMapToolPan* m_panTool;
     QgsMapToolZoom* m_zoomInTool;
     QgsMapToolZoom* m_zoomOutTool;
+    QgsLayerTree* m_layerTree;
+    QgsLayerTreeModel* m_layerTreeModel;
 
     // Current raster layer
     QgsRasterLayer* m_currentRasterLayer;
     QString m_currentImagePath;
+    bool m_rasterLayerVisible;  // 影像图层可见性
+
+    // Vector layers list
+    QList<QgsVectorLayer*> m_vectorLayers;
+    QMap<QString, bool> m_vectorLayerVisibility;
+    int m_vectorLayerColorIndex;  // 用于循环分配不同颜色
 
     // Progress dialog for overview building
     QProgressDialog* m_progressDialog;
@@ -67,6 +115,9 @@ private:
 
     // Loading state
     bool m_loadingImage;
+
+    // Layer order flag (true = raster on top, false = vector on top)
+    bool m_rasterOnTop;
 
     // Helper functions
     void initCanvas();
@@ -84,6 +135,12 @@ private:
     QgsContrastEnhancement* createContrastEnhancement(QgsRasterDataProvider* provider, int band);
     QgsRasterTransparency* createRasterTransparency(QgsRasterDataProvider* provider, int bandCount);
     Q_INVOKABLE void loadImageAsync(const QString& filePath);
+
+    // Vector layer helper functions
+    void configureVectorRenderer(QgsVectorLayer* layer);
+    void updateMapCanvasLayers();
+    QString analyzeCrsCompatibility(const QgsCoordinateReferenceSystem& rasterCrs, const QgsCoordinateReferenceSystem& vectorCrs) const;
+    bool transformVectorLayer(QgsVectorLayer* vectorLayer, const QgsCoordinateReferenceSystem& sourceCrs, const QgsCoordinateReferenceSystem& targetCrs);
 };
 
 #endif // QGSMAPCANVASWIDGET_H

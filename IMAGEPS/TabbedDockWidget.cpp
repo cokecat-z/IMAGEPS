@@ -1,10 +1,14 @@
 ﻿#include "TabbedDockWidget.h"
 
 TabbedDockWidget::TabbedDockWidget(QWidget* parent)
-	: TabbedDockWidget("Untitled", parent) {}
+	: TabbedDockWidget("Untitled", parent) 
+{
+	m_isImageDisplayMode = false;
+}
 
 TabbedDockWidget::TabbedDockWidget(const QString& title, QWidget* parent)
-	: QDockWidget(title, parent)
+	: QDockWidget(title, parent),
+	m_isImageDisplayMode(false)
 {
 	// 初始化 StackedWidget
 	stackedWidget = new QStackedWidget(this);
@@ -22,13 +26,21 @@ TabbedDockWidget::TabbedDockWidget(const QString& title, QWidget* parent)
 	});
 }
 
+void TabbedDockWidget::setImageDisplayMode(bool isImageDisplay) {
+	m_isImageDisplayMode = isImageDisplay;
+}
+
 void TabbedDockWidget::closeEvent(QCloseEvent* event) {
 	closeCurrentPage();
 	event->ignore(); // 阻止 DockWidget 关闭
 }
 
 void TabbedDockWidget::closeCurrentPage() {
-	
+	// 如果处于影像显示模式，发出完整关闭请求信号
+	if (m_isImageDisplayMode) {
+		emit imageCloseRequested();
+	}
+
 	QWidget* mainWidget = this->widget();
 	if (!mainWidget) return;
 

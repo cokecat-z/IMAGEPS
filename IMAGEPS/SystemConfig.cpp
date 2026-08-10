@@ -1,4 +1,8 @@
-﻿#include "SystemConfig.h"
+﻿//GDAL headers - moved from header to avoid Qt Designer crash
+#include "gdal_priv.h"
+#include "ogr_spatialref.h"
+
+#include "SystemConfig.h"
 #include "IMAGEPS.h"
 
 SystemConfig::SystemConfig(IMAGEPS* parentImagePS, QWidget* parent)
@@ -503,10 +507,6 @@ void SystemConfig::connects()
 			ui.checkBox_67->setEnabled(false);
 			ui.checkBox_68->setEnabled(false);
 		}
-
-		// 原有的其他控件状态设置保持不变 
-		ui.LineEdit_3->setEnabled(checked);
-		ui.Label_13->setEnabled(checked);
 	});
 
 	// 连接checkBox_66的状态变化信号
@@ -517,11 +517,11 @@ void SystemConfig::connects()
 		ui.checkBox_67->setEnabled(isChecked);
 		ui.checkBox_68->setEnabled(isChecked);
 
-		// 如果取消勾选，确保子复选框也被取消勾选（可选）
-		if (!isChecked) {
-			ui.checkBox_67->setChecked(false);
-			ui.checkBox_68->setChecked(false);
-		}
+		//// 如果取消勾选，确保子复选框也被取消勾选（可选）
+		//if (!isChecked) {
+		//	ui.checkBox_67->setChecked(false);
+		//	ui.checkBox_68->setChecked(false);
+		//}
 	});
 
 	//影像融合
@@ -1684,6 +1684,7 @@ void SystemConfig::saveSettings()
 	settings.setValue("lineEdit43", ui.lineEdit_43->text());
 	settings.setValue("lineEdit44", ui.lineEdit_44->text());
 	settings.setValue("lineEdit57", ui.lineEdit_57->text());
+	settings.setValue("lineEdit61", ui.lineEdit_61->text());
 	settings.setValue("checkBox39", ui.checkBox_39->isChecked());
 	settings.setValue("checkBox38", ui.checkBox_38->isChecked());
 	settings.setValue("checkBox41", ui.checkBox_41->isChecked());
@@ -1956,6 +1957,7 @@ void SystemConfig::loadSettings()
 	ui.lineEdit_43->setText(settings.value("lineEdit43", "").toString());
 	ui.lineEdit_44->setText(settings.value("lineEdit44", "").toString());
 	ui.lineEdit_57->setText(settings.value("lineEdit57", "").toString());
+	ui.lineEdit_61->setText(settings.value("lineEdit61", "").toString());
 	ui.checkBox_39->setChecked(settings.value("checkBox39", false).toBool());
 	ui.checkBox_38->setChecked(settings.value("checkBox38", false).toBool());
 	ui.checkBox_41->setChecked(settings.value("checkBox41", false).toBool());
@@ -2906,8 +2908,12 @@ void SystemConfig::connectPointsMatch(QStringList DEMReferencefilename, QStringL
 				QString exeDir = QCoreApplication::applicationDirPath();
 				QDir dir(exeDir);
 				QString tmpPath = dir.absolutePath();
-
+#ifdef Q_OS_LINUX 
+				QDomText DEMText = doc.createTextNode(tmpPath + "/linux64/etc/globaldem/globaldem.tif");
+#else
 				QDomText DEMText = doc.createTextNode(tmpPath + "/Software/etc/globaldem/globaldem.tif");
+#endif
+				//QDomText DEMText = doc.createTextNode(tmpPath + "/Software/etc/globaldem/globaldem.tif");
 				DEM.appendChild(DEMText);
 				Parameters.appendChild(DEM);
 			}
@@ -2919,8 +2925,12 @@ void SystemConfig::connectPointsMatch(QStringList DEMReferencefilename, QStringL
 			QString exeDir = QCoreApplication::applicationDirPath();
 			QDir dir(exeDir);
 			QString tmpPath = dir.absolutePath();
-
+#ifdef Q_OS_LINUX 
+			QDomText DEMText = doc.createTextNode(tmpPath + "/linux64/etc/globaldem/globaldem.tif");
+#else
 			QDomText DEMText = doc.createTextNode(tmpPath + "/Software/etc/globaldem/globaldem.tif");
+#endif
+			//QDomText DEMText = doc.createTextNode(tmpPath + "/Software/etc/globaldem/globaldem.tif");
 			DEM.appendChild(DEMText);
 			Parameters.appendChild(DEM);
 		}
@@ -5451,7 +5461,8 @@ void SystemConfig::FreeNetworkAdjust(QStringList DEMReferencefilename)
 		root.appendChild(tieFile);
 
 		QDomElement gcpFile = doc.createElement("GCPfile");
-		gcpFile.appendChild(doc.createTextNode(projectdir + "SatBA" + "/" + "PSBundle.gcp"));
+		//gcpFile.appendChild(doc.createTextNode(projectdir + "SatBA" + "/" + "PSBundle.gcp"));
+		gcpFile.appendChild(doc.createTextNode("NULL"));
 		root.appendChild(gcpFile);
 
 		for (auto data : DEMReferencefilename)
@@ -5520,7 +5531,12 @@ void SystemConfig::FreeNetworkAdjust(QStringList DEMReferencefilename)
 		QString exeDir = QCoreApplication::applicationDirPath();
 		QDir dir(exeDir);
 		QString globaldemPath = dir.absolutePath();
+#ifdef Q_OS_LINUX 
+		globalDemPath.appendChild(doc.createTextNode(globaldemPath + QString::fromLocal8Bit("/linux64/etc/globaldem/globaldem.jp2")));
+#else
 		globalDemPath.appendChild(doc.createTextNode(globaldemPath + QString::fromLocal8Bit("/Software/etc/globaldem/globaldem.jp2")));
+#endif
+
 		root.appendChild(globalDemPath);
 
 		//QDateTime timestamp = PublicFunctions::readTimestampFromXml("SatTiePointMatch");
@@ -6137,7 +6153,11 @@ void SystemConfig::controlNetAdjust(QStringList DEMReferencefilename)
 		QString exeDir = QCoreApplication::applicationDirPath();
 		QDir dir(exeDir);
 		QString globaldemPath = dir.absolutePath();
+#ifdef Q_OS_LINUX 
+		globalDemPath.appendChild(doc.createTextNode(globaldemPath + QString::fromLocal8Bit("/linux64/etc/globaldem/globaldem.jp2")));
+#else
 		globalDemPath.appendChild(doc.createTextNode(globaldemPath + QString::fromLocal8Bit("/Software/etc/globaldem/globaldem.jp2")));
+#endif
 		root.appendChild(globalDemPath);
 
 		//QDateTime timestamp = PublicFunctions::readTimestampFromXml("CtlPointMatch");
@@ -7672,7 +7692,7 @@ void SystemConfig::imageInterAction()
 			if (!mulImageName.isNull()) {
 				QString mulImagePath = mulImageName.text();
 				QFileInfo filenameout(mulImagePath);
-				QString outputfile = projectdir + QString::fromLocal8Bit("Fusion") + "/" + filenameout.completeBaseName() + QString::number(modelIndex) + ResultImageFileType;
+				QString outputfile = projectdir + QString::fromLocal8Bit("Fusion") + "/" + filenameout.completeBaseName() + ResultImageFileType;
 
 				//// 检查逻辑：同时检查文件存在性和imageInterPath中的值 
 				//bool shouldSkip = QFile::exists(outputfile) &&
@@ -7932,6 +7952,7 @@ void SystemConfig::TrueColorConversion(QStringList imagePath)
 	double SaturationCoefnum = ui.lineEdit_44->text().toDouble();
 	double Numbernum = ui.lineEdit_41->text().toDouble();
 	double Radiusnum = ui.lineEdit_57->text().toDouble();
+	int Lightnum = ui.lineEdit_61->text().toInt();
 	bool CreatePydP = ui.checkBox_38->isChecked();
 	bool AdjustBandP = ui.checkBox_41->isChecked();
 	bool ExposureSuppressP = ui.checkBox_45->isChecked();
@@ -8105,6 +8126,7 @@ void SystemConfig::TrueColorConversion(QStringList imagePath)
 			addChildNode("BrightnessCoef", QString::number(BrightnessCoefnum, 'f', 6));
 			addChildNode("Number", QString::number(Numbernum, 'f', 6));
 			addChildNode("Radius", QString::number(Radiusnum, 'f', 6));
+			addChildNode("Light", QString::number(Lightnum));
 			addChildNode("FineStatistical", QVariant(FineStatisticalP).toString());
 
 			// 保存XML文件
@@ -8266,6 +8288,38 @@ void SystemConfig::ImageColorCorrection(QStringList imagePath)
 
 	QString DodgingTemplateLibDir;
 	int imageEventColor_useModuleDBBox = ui.imageEventColor_useModuleDBBox->currentIndex();
+
+#ifdef Q_OS_LINUX 
+	switch (imageEventColor_useModuleDBBox)
+	{
+	case 0:
+		DodgingTemplateLibDir = tmpPath + "/linux64/etc/dodgingTemplate/china16_1/";
+		break;
+	case 1:
+		DodgingTemplateLibDir = tmpPath + "/linux64/etc/dodgingTemplate/china16_2/";
+		break;
+	case 2:
+		DodgingTemplateLibDir = tmpPath + "/linux64/etc/dodgingTemplate/china16_3/";
+		break;
+	case 3:
+		DodgingTemplateLibDir = tmpPath + "/linux64/etc/dodgingTemplate/china150/";
+		break;
+	case 4:
+		DodgingTemplateLibDir = tmpPath + "/linux64/etc/dodgingTemplate/global600/";
+		break;
+	case 5:
+		DodgingTemplateLibDir = ui.lineEdit_21->text();
+		break;
+	default:
+		logEdit->append(QString::fromLocal8Bit("****请完成影像匀色模板库文件配置!!!"));
+		ModelMutex.unlock();
+		PROJECT_LOG_ERROR(m_imagePS->CurrentConfig, QString::fromLocal8Bit("请完成影像匀色模板库文件配置 "));
+
+		emit FunctionAbnormalExit(QString::fromLocal8Bit("请完成影像匀色模板库文件配置  "));
+		return;
+	}
+
+#else
 	switch (imageEventColor_useModuleDBBox)
 	{
 	case 0:
@@ -8294,6 +8348,8 @@ void SystemConfig::ImageColorCorrection(QStringList imagePath)
 		emit FunctionAbnormalExit(QString::fromLocal8Bit("请完成影像匀色模板库文件配置  "));
 		return;
 	}
+
+#endif
 
 	QStringList xmlPath;
 	QStringList NumOfTasks;
@@ -12018,7 +12074,7 @@ bool SystemConfig::readMapFromXml(QMap<QString, bool>& mapData, const QString& m
 	QString errorMsg;
 	int errorLine, errorColumn;
 	if (!doc.setContent(&file, &errorMsg, &errorLine, &errorColumn)) {
-		PROJECT_LOG_ERROR(m_imagePS->CurrentConfig, QString::fromLocal8Bit("TmpOutPath.xml文件解析失败") + QString::number(errorLine) + "column" + QString::number(errorColumn) + ":" + errorMsg);
+        PROJECT_LOG_WARNING(m_imagePS->CurrentConfig, QString::fromLocal8Bit("TmpOutPath.xml文件解析失败") + QString::number(errorLine) + "column" + QString::number(errorColumn) + ":" + errorMsg);
 
 		//qWarning() << "XML parse error at line" << errorLine << "column" << errorColumn
 		//	<< ":" << errorMsg;
@@ -12030,7 +12086,7 @@ bool SystemConfig::readMapFromXml(QMap<QString, bool>& mapData, const QString& m
 	// 获取根节点 
 	QDomElement root = doc.documentElement();
 	if (root.isNull() || root.tagName() != "TmpPath") {
-		PROJECT_LOG_ERROR(m_imagePS->CurrentConfig, QString::fromLocal8Bit("TmpOutPath.xml文件解析失败"));
+        PROJECT_LOG_WARNING(m_imagePS->CurrentConfig, QString::fromLocal8Bit("TmpOutPath.xml文件解析失败"));
 
 		//qWarning() << "Invalid root node or missing TmpPath tag";
 		return false;
@@ -12869,8 +12925,8 @@ QStringList SystemConfig::createMaskDodgingFile(
 		addParameter("BrightnessCoef", "float64", QString::number(BrightnessCoef));
 		addParameter("AdjustContrast", "int32", QString::number(0));
 		addParameter("ContrastCoef", "float64", QString::number(0.10000));
-		addParameter("AdjustClearness", "float64", QString::number(AdjustClearness));
-		addParameter("AdjustClearnessType", "float64", QString::number(AdjustClearnessType));
+		addParameter("AdjustClearness", "int32", QString::number(AdjustClearness));
+		addParameter("AdjustClearnessType", "int32", QString::number(AdjustClearnessType));
 		addParameter("MaskMethod", "int32", QString::number(MaskMethod));
 		addParameter("Tasks", "int32", "4");
 
@@ -13044,8 +13100,8 @@ QStringList SystemConfig::createFreeNetworkDodgingFile(
 		addParameter("BrightnessCoef", "float64", QString::number(BrightnessCoef));
 		addParameter("AdjustContrast", "int32", QString::number(0));
 		addParameter("ContrastCoef", "float64", QString::number(0.10000));
-		addParameter("AdjustClearness", "float64", QString::number(AdjustClearness));
-		addParameter("AdjustClearnessType", "float64", QString::number(AdjustClearnessType));
+		addParameter("AdjustClearness", "int32", QString::number(AdjustClearness));
+		addParameter("AdjustClearnessType", "int32", QString::number(AdjustClearnessType));
 		addParameter("MaskMethod", "int32", QString::number(MaskMethod));
 		addParameter("Tasks", "int32", "4");
 
@@ -13141,11 +13197,11 @@ QString SystemConfig::createCalDodgingCoefFile(
 	//QString outputPath = tmp;
 	outDir.appendChild(doc.createTextNode(path + "/"));
 	root.appendChild(outDir);
-
+	bool CreateOverViewFilebool = ui.checkBox_36->isChecked();
 	// 3. 添加CreateOverViewFile节点 
 	QDomElement createOverViewFile = doc.createElement("CreateOverViewFile");
 	createOverViewFile.setAttribute("type", "int32");
-	createOverViewFile.appendChild(doc.createTextNode(QString::number(0)));
+	createOverViewFile.appendChild(doc.createTextNode(QString::number(CreateOverViewFilebool)));
 	root.appendChild(createOverViewFile);
 
 	//// 4. 添加AddSaturation节点 
@@ -13925,7 +13981,7 @@ void SystemConfig::terminateAllProcesses()
 	else {
 		// 如果tryLock成功，说明锁未被占用，需要立即释放 
 		//qDebug() << "Mutex was not locked";
-		PROJECT_LOG_ERROR(m_imagePS->CurrentConfig, QString::fromLocal8Bit("Mutex was not locked"));
+        PROJECT_LOG_WARNING(m_imagePS->CurrentConfig, QString::fromLocal8Bit("Mutex was not locked"));
 		ModelMutex.unlock();
 	}
 	if (m_systemProcessesFlag)
@@ -14201,8 +14257,8 @@ void SystemConfig::onExportTrueColorSettings()
 	addXmlElement(doc, root, "End", QString::number(ui.lineEdit_33->text().toDouble()), "float64");
 
 	addXmlElement(doc, root, "USMSharpen", ui.checkBox_48->isChecked() ? "true" : "false");
-	addXmlElement(doc, root, "Number", QString::number(ui.lineEdit->text().toDouble()), "float64");
-	addXmlElement(doc, root, "Radius", QString::number(ui.lineEdit_2->text().toDouble()), "float64");
+	addXmlElement(doc, root, "Number", QString::number(ui.lineEdit_41->text().toDouble()), "float64");
+	addXmlElement(doc, root, "Radius", QString::number(ui.lineEdit_57->text().toDouble()), "float64");
 
 	addXmlElement(doc, root, "VegEnhance", ui.checkBox_40->isChecked() ? "true" : "false");
 	addXmlElement(doc, root, "R_Veg", QString::number(ui.lineEdit_35->text().toDouble()), "float64");
@@ -14214,9 +14270,11 @@ void SystemConfig::onExportTrueColorSettings()
 	addXmlElement(doc, root, "G_Water", QString::number(ui.lineEdit_38->text().toDouble()), "float64");
 	addXmlElement(doc, root, "B_Water", QString::number(ui.lineEdit_40->text().toDouble()), "float64");
 
-	addXmlElement(doc, root, "AdaptiveStretch", ui.checkBox_48->isChecked() ? "true" : "false");
+	addXmlElement(doc, root, "AdaptiveStretch", ui.checkBox_43->isChecked() ? "true" : "false");
 	addXmlElement(doc, root, "AdaptiveStretchMethod", QString::number(ui.trueColorConver_colorAdjustWayBox->currentIndex()), "int32");
-	addXmlElement(doc, root, "FineStatistical", ui.checkBox_2->isChecked() ? "true" : "false");
+	addXmlElement(doc, root, "FineStatistical", ui.checkBox_28->isChecked() ? "true" : "false");
+	addXmlElement(doc, root, "B_Water", QString::number(ui.lineEdit_56->text().toInt()), "int32");
+
 
 	// 写入文件 
 	QFile file(filePath);
@@ -14285,8 +14343,8 @@ void SystemConfig::onImportTrueColorSettings()
 	ui.lineEdit_33->setText(getXmlValue(root, "End"));
 
 	ui.checkBox_48->setChecked(getXmlValue(root, "USMSharpen") == "true");
-	ui.lineEdit->setText(getXmlValue(root, "Number"));
-	ui.lineEdit_2->setText(getXmlValue(root, "Radius"));
+	ui.lineEdit_41->setText(getXmlValue(root, "Number"));
+	ui.lineEdit_57->setText(getXmlValue(root, "Radius"));
 
 	ui.checkBox_40->setChecked(getXmlValue(root, "VegEnhance") == "true");
 	ui.lineEdit_35->setText(getXmlValue(root, "R_Veg"));
@@ -14298,9 +14356,11 @@ void SystemConfig::onImportTrueColorSettings()
 	ui.lineEdit_38->setText(getXmlValue(root, "G_Water"));
 	ui.lineEdit_40->setText(getXmlValue(root, "B_Water"));
 
-	ui.checkBox_48->setChecked(getXmlValue(root, "AdaptiveStretch") == "true");
+	ui.checkBox_43->setChecked(getXmlValue(root, "AdaptiveStretch") == "true");
 	ui.trueColorConver_colorAdjustWayBox->setCurrentIndex(getXmlValue(root, "AdaptiveStretchMethod").toInt());
-	ui.checkBox_2->setChecked(getXmlValue(root, "FineStatistical") == "true");
+	ui.checkBox_28->setChecked(getXmlValue(root, "FineStatistical") == "true");
+	ui.lineEdit_56->setText(getXmlValue(root, "Light"));
+
 
 	QMessageBox::information(this, tr(u8"成功"), tr(u8"真彩色模板参数已从文件导入: %1").arg(filePath));
 }
